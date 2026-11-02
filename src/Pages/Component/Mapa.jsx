@@ -6,6 +6,7 @@ const Mapa = memo(function Mapa({
   isIcon,
   onCatalogoLoaded, // Recibe edificios y lugares juntos desde Unity
   onUnityReady,
+  onCameraTelemetry, // Recibe la posición y rotación real de la cámara WebGL
 }) {
   const {
     unityProvider,
@@ -54,14 +55,40 @@ const Mapa = memo(function Mapa({
     [onCatalogoLoaded],
   );
 
+  // Manejador de telemetría de cámara en tiempo real
+  const handleTelemetriaCamara = useCallback(
+    (telemetriaRaw) => {
+      try {
+        const data =
+          typeof telemetriaRaw === "string"
+            ? JSON.parse(telemetriaRaw)
+            : telemetriaRaw;
+        if (onCameraTelemetry) {
+          onCameraTelemetry(data);
+        }
+      } catch (err) {
+        // Ignorar silenciosamente
+      }
+    },
+    [onCameraTelemetry]
+  );
+
   useEffect(() => {
-    // Escuchar el catálogo que emite Unity al iniciar
+    // Escuchar catálogo y telemetría emitidos por Unity WebGL
     addEventListener("EnviarCatalogo", handleRecibirCatalogo);
+    addEventListener("EnviarTelemetriaCamara", handleTelemetriaCamara);
+
+    const handleCustomEvent = (e) => {
+      handleTelemetriaCamara(e.detail);
+    };
+    window.addEventListener("UniMapTelemetriaCamara", handleCustomEvent);
 
     return () => {
       removeEventListener("EnviarCatalogo", handleRecibirCatalogo);
+      removeEventListener("EnviarTelemetriaCamara", handleTelemetriaCamara);
+      window.removeEventListener("UniMapTelemetriaCamara", handleCustomEvent);
     };
-  }, [addEventListener, removeEventListener, handleRecibirCatalogo]);
+  }, [addEventListener, removeEventListener, handleRecibirCatalogo, handleTelemetriaCamara]);
 
   // Cuando Unity termina de cargar, compartimos las funciones de navegación 3D y GPS
   useEffect(() => {

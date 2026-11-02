@@ -2687,3 +2687,415 @@
     font-size: 10.5px;
   }
 }
+
+/* ========================================================
+   ESTILOS: COMPARADOR Y GRABADOR DE RUTAS GPS VS CÁMARA 3D
+   ======================================================== */
+.btnAbrirRutasTester {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.25) 0%, rgba(249, 115, 22, 0.4) 100%);
+  border: 1px solid #f97316;
+  color: #ffedd5;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.btnAbrirRutasTester:hover {
+  background: #ea580c;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+}
+
+.overlayModalRutas {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 15, 0.82);
+  backdrop-filter: blur(8px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeInModal 0.25s ease-out;
+}
+
+.cardModalRutas {
+  background: linear-gradient(145deg, #0f172a 0%, #090d16 100%);
+  border: 2px solid #ea580c;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(234, 88, 12, 0.2);
+}
+
+.headerModalRutas {
+  background: linear-gradient(90deg, #1e293b, #271d18);
+  border-bottom: 1px solid rgba(249, 115, 22, 0.3);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tituloModalRutas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tituloModalRutas h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffedd5;
+}
+
+.tituloModalRutas small {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.iconoRutas {
+  font-size: 24px;
+}
+
+.btnCerrarRutas {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btnCerrarRutas:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.pestanasRutas {
+  display: flex;
+  border-bottom: 1px solid #1e293b;
+  background: #090e18;
+}
+
+.btnPestanaRuta {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #94a3b8;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnPestanaRuta.activa {
+  color: #f97316;
+  border-bottom-color: #f97316;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.contenidoMapaRutas,
+.contenidoHistorialRutas {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.barraControlesGrabacion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #111827;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+}
+
+.btnIniciarGrabacion {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btnIniciarGrabacion:hover {
+  background: #ef4444;
+}
+
+.btnPausarGrabacion {
+  background: #d97706;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btnDetenerGrabacion {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btnLimpiarTrazado {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid #475569;
+  color: #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.indicadorTiempoGrabacion {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+.badgeGrabandoPill {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
+.badgeGrabandoPill.grabando {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid #ef4444;
+  animation: pulse 1s infinite alternate;
+}
+
+.badgeGrabandoPill.pausado {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+}
+
+.contenedorCanvasMapa {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.canvasSuperficieCampus {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+.leyendaMapaRutas {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid #334155;
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.itemLeyenda {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.dotLeyenda {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.gridTelemetriaRutas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.cardTelemetriaRuta {
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cardTelemetriaRuta small {
+  color: #94a3b8;
+  font-size: 10.5px;
+  text-transform: uppercase;
+}
+
+.cardTelemetriaRuta b {
+  color: #f1f5f9;
+  font-size: 12px;
+}
+
+.cardTelemetriaRuta span {
+  font-size: 11px;
+  color: #38bdf8;
+}
+
+/* HISTORIAL */
+.estadoVacioHistorial {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.estadoVacioHistorial p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.listaRutasGuardadas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemRutaGuardada {
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.itemRutaGuardada.seleccionada {
+  border-color: #f97316;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.infoRutaGuardada h4 {
+  margin: 0 0 4px 0;
+  font-size: 13.5px;
+  color: #f8fafc;
+}
+
+.infoRutaGuardada p {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.metricasRutaPill {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: #38bdf8;
+}
+
+.accionesRutaGuardada {
+  display: flex;
+  gap: 6px;
+}
+
+.btnAccionRuta {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btnAccionRuta.cargar {
+  background: #0284c7;
+  color: white;
+}
+
+.btnAccionRuta.exportar {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.btnAccionRuta.eliminar {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid #ef4444;
+}
+
+@media (max-width: 640px) {
+  .cardModalRutas {
+    max-height: 98vh;
+    border-radius: 10px;
+  }
+  .barraControlesGrabacion {
+    gap: 6px;
+  }
+  .indicadorTiempoGrabacion {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .gridTelemetriaRutas {
+    grid-template-columns: 1fr;
+  }
+  .btnAbrirRutasTester {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}

@@ -5,6 +5,7 @@ import DatosUsuarios from "./Component/DatosUsuarios";
 import ModalReporteBug from "./Component/ModalReporteBug";
 import ModalNotificaciones from "./Component/ModalNotificaciones";
 import MinimapaGPSTest from "./Component/MinimapaGPSTest";
+import PanelRutasGPS from "./Component/PanelRutasGPS";
 import "../CSS/interfaz.css";
 import "../CSS/global.css";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +58,8 @@ function InterfazPruebas() {
   const [mostrarDatos, setMostrarDatos] = useState(false);
   const [mostrarGPS, setMostrarGPS] = useState(true); // En entorno de pruebas se abre por defecto para facilitar calibración
   const [mapaExpandido, setMapaExpandido] = useState(false);
+  const [mostrarPanelRutas, setMostrarPanelRutas] = useState(false);
+  const [telemetriaCamara, setTelemetriaCamara] = useState(null);
 
   // Estados de modales
   const [modalReporteAbierto, setModalReporteAbierto] = useState(false);
@@ -136,6 +139,14 @@ function InterfazPruebas() {
           <span className="usuarioTesterLabel">
             👤 <b>{testerSesion ? testerSesion.username : "tester@Unimap"}</b>
           </span>
+          <button
+            type="button"
+            className="btnAbrirRutasTester"
+            onClick={() => setMostrarPanelRutas(true)}
+            title="Comparador y Grabador de Rutas GPS vs Cámara 3D"
+          >
+            🗺️ Rutas GPS vs 3D
+          </button>
           <button
             type="button"
             className="btnSalirTester"
@@ -258,7 +269,19 @@ function InterfazPruebas() {
               📍
             </button>
 
-            {/* 3. BOTÓN NOTIFICACIONES */}
+            {/* 3. BOTÓN COMPARADOR Y GRABADOR DE RUTAS GPS VS 3D */}
+            <button
+              type="button"
+              className={`btnFlotanteCircular btnRutasFlotante ${mostrarPanelRutas ? "activo" : ""}`}
+              onClick={() => setMostrarPanelRutas((prev) => !prev)}
+              title={mostrarPanelRutas ? "Ocultar panel de rutas" : "Abrir Comparador y Grabador de Rutas GPS vs Cámara 3D"}
+              aria-label="Comparador de Rutas"
+              style={{ background: mostrarPanelRutas ? "#ea580c" : undefined }}
+            >
+              🗺️
+            </button>
+
+            {/* 4. BOTÓN NOTIFICACIONES */}
             <button
               type="button"
               className={`btnFlotanteCircular btnNotificacionesFlotante ${modalNotificacionesAbierto ? "activo" : ""}`}
@@ -272,7 +295,7 @@ function InterfazPruebas() {
               )}
             </button>
 
-            {/* 4. BOTÓN REPORTAR BUGS / PROBLEMAS CON TAG [TESTER] */}
+            {/* 5. BOTÓN REPORTAR BUGS / PROBLEMAS CON TAG [TESTER] */}
             <button
               type="button"
               className="btnFlotanteCircular btnReportarBug"
@@ -346,6 +369,7 @@ function InterfazPruebas() {
               setLugares(lugs);
             }}
             onUnityReady={setUnityController}
+            onCameraTelemetry={setTelemetriaCamara}
           />
 
           {/* BARRA INFERIOR DE EDIFICIOS */}
@@ -378,6 +402,13 @@ function InterfazPruebas() {
             visible={mostrarGPS}
             onClose={() => setMostrarGPS(false)}
             unityController={unityController}
+          />
+
+          {/* PANEL COMPARADOR Y GRABADOR DE RUTAS GPS VS CÁMARA 3D */}
+          <PanelRutasGPS
+            visible={mostrarPanelRutas}
+            onClose={() => setMostrarPanelRutas(false)}
+            telemetriaCamara={telemetriaCamara}
           />
         </div>
       </div>

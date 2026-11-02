@@ -53,9 +53,22 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Coordenadas reales del dispositivo del tester
   const [coordsDispositivo, setCoordsDispositivo] = useState(null);
 
-  // Punto de anclaje relativo cuando se usa GPS Libre
-  const [anclaGPS, setAnclaGPS] = useState(null);
+  // Desplazamiento relativo respecto al ancla
   const [deltaMetros, setDeltaMetros] = useState({ dx: 0, dz: 0, total: 0 });
+
+  // Estabilizador anti-ruido satelital y de brújula (evita que la cámara se mueva sola con celular quieto)
+  const [filtroAntiRuido, setFiltroAntiRuido] = useState(true);
+  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(1.8);
+  const [enMovimiento, setEnMovimiento] = useState(false);
+
+  const anclaGPSRef = useRef(null);
+  const filtroAntiRuidoRef = useRef(true);
+  filtroAntiRuidoRef.current = filtroAntiRuido;
+  const umbralRuidoRef = useRef(1.8);
+  umbralRuidoRef.current = umbralRuidoMetros;
+
+  const ultimoHeadingRef = useRef(0);
+  const ultimaPosDespachadaRef = useRef({ x: puntoInicio.x, z: puntoInicio.z });
 
   const [indiceSimulacion, setIndiceSimulacion] = useState(0);
   const [estadoConexion, setEstadoConexion] = useState("GPS Libre Activo");
@@ -126,14 +139,17 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         const h = Math.round(heading);
         setBrujulaHeading(h);
 
-        // Transmitir inmediatamente el giro a la cámara 3D de Unity WebGL (limitado a 50ms para fluidez)
         const ahora = Date.now();
-        if (visible && ahora - ultimoEnvio > 45) {
+        // Si el filtro anti-ruido está activo, descartar oscilaciones espurias menores a 2.5 grados
+        const diffHeading = Math.abs(h - ultimoHeadingRef.current);
+        const cambioSignificativo = !filtroAntiRuidoRef.current || diffHeading >= 2.5;
+
+        if (visible && cambioSignificativo && ahora - ultimoEnvio > 45) {
           ultimoEnvio = ahora;
+          ultimoHeadingRef.current = h;
           if (modoTester === "gps_libre") {
-            const xActual = puntoInicio.x + deltaMetros.dx;
-            const zActual = puntoInicio.z + deltaMetros.dz;
-            despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, xActual, zActual);
+            const posActual = ultimaPosDespachadaRef.current || { x: puntoInicio.x, z: puntoInicio.z };
+            despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, posActual.x, posActual.z);
           } else if (modoTester === "fijo_uniespinal") {
             despacharAUnity(puntoInicio.lat, puntoInicio.lng, h, 0, 1, puntoInicio.x, puntoInicio.z);
           }
@@ -148,7 +164,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation, true);
     };
-  }, [visible, modoTester, coords, puntoInicio, deltaMetros, despacharAUnity]);
+  }, [visible, modoTester, coords, puntoInicio, despacharAUnity]);
 
   // 2. Control del Modo 1: Fijo en UniEspinal
   useEffect(() => {
@@ -190,10 +206,11 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         });
 
         // Si no hay ancla previa, fijar la posición actual como punto cero del tester
-        let anclaActual = anclaGPS;
+        let anclaActual = anclaGPSRef.current;
         if (!anclaActual) {
           anclaActual = { lat: latitude, lng: longitude };
-          setAnclaGPS(anclaActual);
+          anclaGPSRef.current = anclaActual;
+          ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
         }
 
         // Calcular desplazamiento relativo en metros (delta Este/Oeste y Norte/Sur)
@@ -203,30 +220,70 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         const dz = dLat * RADIO_TIERRA_METROS;
         const distTotal = Math.sqrt(dx * dx + dz * dz);
 
-        setDeltaMetros({
-          dx: Number(dx.toFixed(1)),
-          dz: Number(dz.toFixed(1)),
-          total: Number(distTotal.toFixed(1)),
-        });
+        const xCalculado = puntoInicio.x + dx;
+        const zCalculado = puntoInicio.z + dz;
 
-        // Aplicar el desplazamiento relativo a partir del punto de inicio seleccionado en el campus
-        const xFinalUnity = puntoInicio.x + dx;
-        const zFinalUnity = puntoInicio.z + dz;
+        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO):
+        let debeMover = true;
+        if (filtroAntiRuidoRef.current && ultimaPosDespachadaRef.current) {
+          const dXUltimo = xCalculado - ultimaPosDespachadaRef.current.x;
+          const dZUltimo = zCalculado - ultimaPosDespachadaRef.current.z;
+          const saltoMetros = Math.sqrt(dXUltimo * dXUltimo + dZUltimo * dZUltimo);
 
-        // Coordenada geográfica virtual sobre UniEspinal para Google Maps
-        const latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
-        const lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
+          // Si el salto es menor al umbral configurado (1.8m) y la velocidad del dispositivo es baja (< 0.4 m/s), es ruido GPS en reposo
+          if (saltoMetros < umbralRuidoRef.current && (speed === null || speed < 0.4)) {
+            debeMover = false;
+            setEnMovimiento(false);
+          } else {
+            setEnMovimiento(true);
+          }
+        } else {
+          setEnMovimiento(true);
+        }
 
-        setCoords({
-          lat: latVirtual,
-          lng: lngVirtual,
-          accuracy: Math.round(accuracy || 0),
-          speed: speed ? Math.round(speed * 3.6) : 0,
-          heading: Math.round(nuevoHeading || 0),
-        });
+        if (debeMover) {
+          ultimaPosDespachadaRef.current = { x: xCalculado, z: zCalculado };
 
-        // Despachar a Unity: la cámara se posiciona exactamente a 1m sobre el punto
-        despacharAUnity(latVirtual, lngVirtual, nuevoHeading, speed, accuracy, xFinalUnity, zFinalUnity);
+          setDeltaMetros({
+            dx: Number(dx.toFixed(1)),
+            dz: Number(dz.toFixed(1)),
+            total: Number(distTotal.toFixed(1)),
+          });
+
+          // Coordenada geográfica virtual sobre UniEspinal para Google Maps
+          const latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
+          const lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
+
+          setCoords({
+            lat: latVirtual,
+            lng: lngVirtual,
+            accuracy: Math.round(accuracy || 0),
+            speed: speed ? Math.round(speed * 3.6) : 0,
+            heading: Math.round(nuevoHeading || 0),
+          });
+
+          // Despachar a Unity: la cámara se posiciona exactamente a 1m sobre el punto
+          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, speed, accuracy, xCalculado, zCalculado);
+
+          // Emitir evento global para el Grabador y Comparador de Rutas
+          if (typeof window.dispatchEvent === "function") {
+            window.dispatchEvent(
+              new CustomEvent("UniMapGPSUpdate", {
+                detail: {
+                  x: Number(xCalculado.toFixed(2)),
+                  z: Number(zCalculado.toFixed(2)),
+                  lat: latVirtual,
+                  lng: lngVirtual,
+                  heading: Math.round(nuevoHeading || 0),
+                  speed: speed ? Math.round(speed * 3.6) : 0,
+                  accuracy: Math.round(accuracy || 0),
+                  enMovimiento: true,
+                  timestamp: Date.now(),
+                },
+              })
+            );
+          }
+        }
       },
       (err) => {
         console.warn("Aviso GPS Tester:", err.message);
@@ -248,7 +305,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [modoTester, visible, anclaGPS, puntoInicio, despacharAUnity, brujulaHeading]);
+  }, [modoTester, visible, puntoInicio, despacharAUnity, brujulaHeading]);
 
   // 4. Control del Modo 3: Simulador de Caminata dentro del ITFIP
   useEffect(() => {
@@ -285,7 +342,9 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Re-calibrar: fijar la posición actual como origen en el campus
   const recalibrarPosicionActual = () => {
     if (coordsDispositivo) {
-      setAnclaGPS({ lat: coordsDispositivo.lat, lng: coordsDispositivo.lng });
+      const nuevaAncla = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
+      anclaGPSRef.current = nuevaAncla;
+      ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
       setDeltaMetros({ dx: 0, dz: 0, total: 0 });
       despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
     }
@@ -354,7 +413,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
               onClick={() => {
                 setModoTester("gps_libre");
                 if (coordsDispositivo) {
-                  setAnclaGPS({ lat: coordsDispositivo.lat, lng: coordsDispositivo.lng });
+                  anclaGPSRef.current = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
                 }
               }}
               title="Caminar y girar en cualquier lugar mueve la cámara a 1m en el campus 3D"
@@ -388,7 +447,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
               onChange={(e) => {
                 const punto = PUNTOS_CAMPUS.find((p) => p.id === e.target.value) || PUNTOS_CAMPUS[0];
                 setPuntoInicio(punto);
-                setAnclaGPS(null);
+                anclaGPSRef.current = null;
                 setDeltaMetros({ dx: 0, dz: 0, total: 0 });
                 despacharAUnity(punto.lat, punto.lng, brujulaHeading, 0, 1, punto.x, punto.z);
               }}
@@ -405,12 +464,59 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           {modoTester === "gps_libre" && (
             <div className="bannerGpsLibreInfo">
               <div className="infoGpsLibreTexto">
-                <strong>🚶 Movimiento Real Sincronizado:</strong>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                  <strong>🚶 Movimiento Peatonal:</strong>
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      padding: "2px 8px",
+                      borderRadius: "10px",
+                      background: enMovimiento ? "rgba(16, 185, 129, 0.2)" : "rgba(245, 158, 11, 0.2)",
+                      color: enMovimiento ? "#34d399" : "#fbbf24",
+                      border: `1px solid ${enMovimiento ? "#10b981" : "#f59e0b"}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {enMovimiento ? "🟢 Caminando" : "🟡 Celular Quieto (En reposo)"}
+                  </span>
+                </div>
                 <p>
                   Gira o camina con tu teléfono. La cámara se ubica a 1m de altura y gira hacia tu rumbo.
                   {deltaMetros.total > 0 && ` Recorrido: ${deltaMetros.total}m.`}
                 </p>
               </div>
+
+              {/* Control del Estabilizador Anti-Ruido */}
+              <div className="filaFiltroAntiRuido" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "6px 0", fontSize: "11px", color: "#94a3b8" }}>
+                <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer", gap: "6px" }}>
+                  <input
+                    type="checkbox"
+                    checked={filtroAntiRuido}
+                    onChange={(e) => setFiltroAntiRuido(e.target.checked)}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <span>🛡️ Filtro Anti-Ruido GPS</span>
+                </label>
+                <select
+                  value={umbralRuidoMetros}
+                  onChange={(e) => setUmbralRuidoMetros(Number(e.target.value))}
+                  style={{
+                    background: "#0f172a",
+                    color: "#38bdf8",
+                    border: "1px solid #334155",
+                    borderRadius: "4px",
+                    padding: "2px 6px",
+                    fontSize: "10.5px",
+                  }}
+                  title="Sensibilidad del filtro de reposo"
+                >
+                  <option value={1.0}>1.0m (Sensible)</option>
+                  <option value={1.8}>1.8m (Estándar)</option>
+                  <option value={2.5}>2.5m (Filtro Alto)</option>
+                  <option value={4.0}>4.0m (Máx Estabilidad)</option>
+                </select>
+              </div>
+
               <div className="accionesGpsLibre">
                 <button
                   type="button"
