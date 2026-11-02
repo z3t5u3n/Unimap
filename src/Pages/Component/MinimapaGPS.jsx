@@ -1,40 +1,66 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas base de anclaje del Campus (Punto origen 0,0 en Unity)
+// Coordenadas fijas de anclaje de UniEspinal (ITFIP en El Espinal, Tolima)
 const CAMPUS_ORIGEN = {
-  lat: 4.0743,
-  lng: -73.5828,
+  lat: 4.15638,
+  lng: -74.89748,
 };
-const RADIO_TIERRA_METROS = 6371000;
 
-// Ruta de simulación para pruebas en PC sin salir a caminar
+// Offset calibrado de la maqueta 3D en Unity WebGL
+const OFFSET_UNITY = {
+  x: -146.5,
+  z: 372.3,
+};
+
+const RADIO_TIERRA_METROS = 6371000;
+const RADIO_GEOFENCE_METROS = 800; // Radio del campus UniEspinal (~800m)
+
+// Calcular distancia geográfica exacta en metros (Fórmula de Haversine)
+const calcularDistanciaMetros = (lat1, lon1, lat2, lon2) => {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+    Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c);
+};
+
+// Ruta de simulación dentro de las instalaciones de UniEspinal (ITFIP)
 const RUTA_SIMULADA = [
-  { lugar: "Entrada Principal", lat: 4.0743, lng: -73.5828, heading: 40 },
-  { lugar: "Plazoleta Central", lat: 4.07455, lng: -73.58255, heading: 65 },
-  { lugar: "Camino a Bloque A", lat: 4.07475, lng: -73.58235, heading: 85 },
-  { lugar: "Frente a Bloque A", lat: 4.07485, lng: -73.5821, heading: 90 },
-  { lugar: "Paso Bloque D", lat: 4.07498, lng: -73.5818, heading: 110 },
-  { lugar: "Llegada a Bloque E", lat: 4.07515, lng: -73.5815, heading: 75 },
-  { lugar: "Cafetería Universitaria", lat: 4.07465, lng: -73.5813, heading: 195 },
-  { lugar: "Zona Deportiva / Coliseo", lat: 4.07425, lng: -73.5817, heading: 260 },
+  { lugar: "Entrada Principal ITFIP", lat: 4.15638, lng: -74.89748, heading: 45 },
+  { lugar: "Plazoleta Central", lat: 4.15655, lng: -74.89730, heading: 60 },
+  { lugar: "Paso Frente a Bloque A-B-C", lat: 4.15672, lng: -74.89712, heading: 85 },
+  { lugar: "Entrada Bloque D", lat: 4.15690, lng: -74.89695, heading: 90 },
+  { lugar: "Pasillo hacia Bloque E", lat: 4.15705, lng: -74.89675, heading: 75 },
+  { lugar: "Cafetería Universitaria", lat: 4.15665, lng: -74.89660, heading: 180 },
+  { lugar: "Coliseo y Canchas", lat: 4.15625, lng: -74.89680, heading: 250 },
+  { lugar: "Gimnasio Universitario (GYM)", lat: 4.15610, lng: -74.89715, heading: 290 },
 ];
 
 function MinimapaGPS({ visible, onClose, unityController }) {
-  // Estados de localización
+  // Estados de localización: Punto inicial fijado en UniEspinal
   const [coords, setCoords] = useState({
     lat: CAMPUS_ORIGEN.lat,
     lng: CAMPUS_ORIGEN.lng,
-    accuracy: 5,
+    accuracy: 3,
     speed: 0,
     heading: 0,
   });
 
   const [modoSimulador, setModoSimulador] = useState(false);
   const [indiceSimulacion, setIndiceSimulacion] = useState(0);
-  const [estadoConexion, setEstadoConexion] = useState("Iniciando GPS...");
+  const [estadoConexion, setEstadoConexion] = useState("Iniciando GPS UniEspinal...");
   const [minimizado, setMinimizado] = useState(false);
   const [brujulaHeading, setBrujulaHeading] = useState(0);
+
+  // Estados de validación física en UniEspinal (Geofence)
+  const [errorGeofence, setErrorGeofence] = useState(null);
+  const [distanciaAlCampus, setDistanciaAlCampus] = useState(0);
 
   // Ref para controlar el intervalo de simulación
   const simulacionRef = useRef(null);
@@ -44,9 +70,9 @@ function MinimapaGPS({ visible, onClose, unityController }) {
     const dLat = (lat - CAMPUS_ORIGEN.lat) * (Math.PI / 180);
     const dLng = (lng - CAMPUS_ORIGEN.lng) * (Math.PI / 180);
 
-    // X = Este/Oeste, Z = Norte/Sur en Unity
-    const x = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN.lat * (Math.PI / 180));
-    const z = dLat * RADIO_TIERRA_METROS;
+    // X = Este/Oeste, Z = Norte/Sur en Unity con el offset calibrado
+    const x = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN.lat * (Math.PI / 180)) + OFFSET_UNITY.x;
+    const z = dLat * RADIO_TIERRA_METROS + OFFSET_UNITY.z;
 
     return {
       x: Number(x.toFixed(2)),
@@ -118,16 +144,38 @@ function MinimapaGPS({ visible, onClose, unityController }) {
       (pos) => {
         const { latitude, longitude, heading, speed, accuracy } = pos.coords;
         const nuevoHeading = heading !== null && heading !== undefined ? heading : brujulaHeading;
+        const distancia = calcularDistanciaMetros(latitude, longitude, CAMPUS_ORIGEN.lat, CAMPUS_ORIGEN.lng);
+        setDistanciaAlCampus(distancia);
 
-        setCoords({
-          lat: latitude,
-          lng: longitude,
-          accuracy: Math.round(accuracy || 0),
-          speed: speed ? Math.round(speed * 3.6) : 0, // Convertir m/s a km/h
-          heading: Math.round(nuevoHeading || 0),
-        });
+        if (distancia > RADIO_GEOFENCE_METROS) {
+          // El usuario NO está físicamente en UniEspinal
+          setErrorGeofence("Lo sentimos, esta función solo está activa si estás en UniEspinal físicamente.");
+          setEstadoConexion("⚠️ Fuera del campus UniEspinal");
 
-        despacharAUnity(latitude, longitude, nuevoHeading, speed, accuracy);
+          // Mantener fijo en UniEspinal
+          setCoords({
+            lat: CAMPUS_ORIGEN.lat,
+            lng: CAMPUS_ORIGEN.lng,
+            accuracy: Math.round(accuracy || 0),
+            speed: 0,
+            heading: Math.round(nuevoHeading || 0),
+          });
+
+          // Mantener punto fijo en UniEspinal en Unity para no desubicar la cámara
+          despacharAUnity(CAMPUS_ORIGEN.lat, CAMPUS_ORIGEN.lng, nuevoHeading, 0, accuracy);
+        } else {
+          // El usuario SÍ está físicamente dentro de UniEspinal
+          setErrorGeofence(null);
+          setCoords({
+            lat: latitude,
+            lng: longitude,
+            accuracy: Math.round(accuracy || 0),
+            speed: speed ? Math.round(speed * 3.6) : 0, // Convertir m/s a km/h
+            heading: Math.round(nuevoHeading || 0),
+          });
+
+          despacharAUnity(latitude, longitude, nuevoHeading, speed, accuracy);
+        }
       },
       (err) => {
         console.warn("Aviso GPS:", err.message);
@@ -160,6 +208,8 @@ function MinimapaGPS({ visible, onClose, unityController }) {
       return;
     }
 
+    // Al activar el simulador limpiamos la alerta de geofence porque la ruta es interna de UniEspinal
+    setErrorGeofence(null);
     setEstadoConexion("🚶 Simulador de movimiento activo");
 
     simulacionRef.current = setInterval(() => {
@@ -202,11 +252,13 @@ function MinimapaGPS({ visible, onClose, unityController }) {
       <div className="headerMinimapaGPS">
         <div className="tituloMinimapa">
           <div>
-            <h4>GPS Google Maps</h4>
-            <span className="estadoSubtitulo">
-              {modoSimulador && RUTA_SIMULADA[indiceSimulacion]
-                ? RUTA_SIMULADA[indiceSimulacion].lugar
-                : estadoConexion}
+            <h4>GPS UniEspinal (ITFIP)</h4>
+            <span className={`estadoSubtitulo ${errorGeofence ? "estadoError" : ""}`}>
+              {errorGeofence
+                ? "⚠️ Fuera de UniEspinal"
+                : (modoSimulador && RUTA_SIMULADA[indiceSimulacion]
+                    ? RUTA_SIMULADA[indiceSimulacion].lugar
+                    : estadoConexion)}
             </span>
           </div>
         </div>
@@ -233,6 +285,21 @@ function MinimapaGPS({ visible, onClose, unityController }) {
 
       {!minimizado && (
         <div className="cuerpoMinimapaGPS">
+          {/* Banner de alerta Geofence si el usuario no está en UniEspinal */}
+          {errorGeofence && (
+            <div className="alertaGeofenceGPS">
+              <span className="iconoAlertaGPS">⚠️</span>
+              <div className="textoAlertaGPS">
+                <p className="mensajeErrorGeofence">{errorGeofence}</p>
+                {distanciaAlCampus > 0 && (
+                  <small className="distanciaDetalle">
+                    (Estás a {distanciaAlCampus > 1000 ? `${(distanciaAlCampus / 1000).toFixed(1)} km` : `${distanciaAlCampus} m`} del campus UniEspinal)
+                  </small>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Contenedor del Mapa de Google Embebido */}
           <div className="frameMapaContainer">
             <iframe

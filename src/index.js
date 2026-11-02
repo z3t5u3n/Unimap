@@ -11,6 +11,7 @@ import Interfaz from './Pages/Interfaz';
 const Registro = lazy(() => import('./Pages/Registro'));
 const Admin = lazy(() => import('./Pages/Admin'));
 const VerificarRol = lazy(() => import('./Pages/VerificarRol'));
+const InterfazPruebas = lazy(() => import('./Pages/InterfazPruebas'));
 
 // Protección global para que Unity WebGL nunca capture ni bloquee el teclado en campos de texto
 const liberarTecladoGlobal = (e) => {
@@ -56,6 +57,7 @@ root.render(
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/Interfaz" element={<Interfaz />} />
+          <Route path="/InterfazPruebas" element={<InterfazPruebas />} />
           <Route path="/Registro" element={<Registro />} />
           <Route path="/Admin" element={<Admin />} />
           <Route path="/VerificarRol" element={<VerificarRol />} />

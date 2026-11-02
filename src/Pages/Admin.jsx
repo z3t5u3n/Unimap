@@ -85,6 +85,17 @@ function Admin() {
   });
   const [encuestaCargando, setEncuestaCargando] = useState(false);
 
+  // Estados de Testers (Entorno de Pruebas Aislado)
+  const [modalNuevoTester, setModalNuevoTester] = useState(false);
+  const [formNuevoTester, setFormNuevoTester] = useState({
+    username: "",
+    nombre: "",
+    password: "",
+    dispositivo: "",
+    observaciones: "",
+  });
+  const [nuevoTesterCargando, setNuevoTesterCargando] = useState(false);
+
   // Estados principales de datos
   const [data, setData] = useState({
     usuarios: [],
@@ -98,6 +109,7 @@ function Admin() {
     ranking_lugares: [],
     notificaciones: [],
     encuestas: [],
+    testers: [],
     encuestas_stats: {
       total_respuestas: 0,
       promedio_general: 0,
@@ -120,6 +132,8 @@ function Admin() {
       total_notificaciones_activas: 0,
       total_encuestas_respuestas: 0,
       satisfaccion_promedio: 0,
+      total_testers: 0,
+      testers_activos: 0,
       mes_top: null,
       dia_top: null,
       bloque_top: null,
@@ -248,6 +262,7 @@ function Admin() {
     admins: "Administradores",
     auditorias: "Auditoria_Cambios",
     admin_sesiones: "Sesiones_Admin",
+    testers: "Testers_Entorno_Pruebas",
   };
 
   const etiquetasTab = {
@@ -260,6 +275,7 @@ function Admin() {
     admins: "Admins",
     auditorias: "Auditoría",
     admin_sesiones: "Sesiones Admin",
+    testers: "Testers",
   };
 
   // Referencias a los componentes de gráficas para exportación/descarga
@@ -356,6 +372,13 @@ function Admin() {
           { label: "Sesiones Totales", valor: data.admin_sesiones?.length || 0 },
           { label: "Activas en Curso", valor: data.admin_sesiones?.filter((s) => s.estado === "activa").length || 0 },
           { label: "Sesiones Cerradas", valor: data.admin_sesiones?.filter((s) => s.estado === "cerrada").length || 0 },
+        ];
+      case "testers":
+        return [
+          { label: "Total Testers", valor: data.testers?.length || 0 },
+          { label: "Testers Activos", valor: data.testers?.filter((t) => t.activo).length || 0 },
+          { label: "Testers Inactivos", valor: data.testers?.filter((t) => !t.activo).length || 0 },
+          { label: "Con Acceso Registrado", valor: data.testers?.filter((t) => t.ultimo_acceso).length || 0 },
         ];
       default:
         return [];
@@ -671,6 +694,97 @@ function Admin() {
     }
   };
 
+  // Registrar nuevo Tester para el entorno de pruebas
+  const handleCrearTester = async (e) => {
+    e.preventDefault();
+    setNuevoTesterCargando(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/testers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          ...formNuevoTester,
+          admin_username: adminSesion?.username || "admin@Unimap",
+        }),
+      });
+      const res = await response.json();
+      if (response.ok) {
+        alert("¡Tester registrado exitosamente! Ya puede ingresar con sus credenciales.");
+        setModalNuevoTester(false);
+        setFormNuevoTester({
+          username: "",
+          nombre: "",
+          password: "",
+          dispositivo: "",
+          observaciones: "",
+        });
+        cargarDashboard();
+      } else {
+        alert(res.message || "Error al crear tester.");
+      }
+    } catch (err) {
+      alert("Error de conexión al registrar tester.");
+    } finally {
+      setNuevoTesterCargando(false);
+    }
+  };
+
+  // Alternar estado activo/inactivo de tester
+  const handleToggleTester = async (idTester) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/testers/${idTester}/toggle`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          admin_username: adminSesion?.username || "admin@Unimap",
+        }),
+      });
+      const res = await response.json();
+      if (response.ok) {
+        setData((prev) => ({
+          ...prev,
+          testers: (prev.testers || []).map((t) =>
+            t.id_tester === idTester ? { ...t, activo: res.tester.activo } : t
+          ),
+        }));
+      } else {
+        alert(res.message || "No se pudo cambiar el estado del tester.");
+      }
+    } catch (err) {
+      alert("Error al actualizar estado del tester.");
+    }
+  };
+
+  // Eliminar cuenta de tester
+  const handleEliminarTester = async (idTester, username) => {
+    if (!window.confirm(`¿Estás seguro de eliminar al tester '${username}'?`)) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/testers/${idTester}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          admin_username: adminSesion?.username || "admin@Unimap",
+        }),
+      });
+      const res = await response.json();
+      if (response.ok) {
+        setData((prev) => ({
+          ...prev,
+          testers: (prev.testers || []).map((t) => t.id_tester !== idTester),
+          metricas: {
+            ...prev.metricas,
+            total_testers: Math.max(0, (prev.metricas?.total_testers || 1) - 1),
+          },
+        }));
+        alert(res.message);
+      } else {
+        alert(res.message || "No se pudo eliminar el tester.");
+      }
+    } catch (err) {
+      alert("Error al eliminar tester.");
+    }
+  };
+
   // Actualizar estado de reporte con AUDITORÍA AUTOMÁTICA
   const handleCambiarEstado = async (idReporte, nuevoEstado) => {
     let notaAdmin = "";
@@ -882,6 +996,20 @@ function Admin() {
         (c.apellidos && c.apellidos.toLowerCase().includes(q))
     );
   }, [busqueda, data.encuestas_stats]);
+
+  // Filtrado de testers
+  const testersFiltrados = useMemo(() => {
+    const list = data.testers || [];
+    if (!busqueda.trim()) return list;
+    const q = busqueda.toLowerCase();
+    return list.filter(
+      (t) =>
+        (t.username && t.username.toLowerCase().includes(q)) ||
+        (t.nombre && t.nombre.toLowerCase().includes(q)) ||
+        (t.dispositivo && t.dispositivo.toLowerCase().includes(q)) ||
+        (t.observaciones && t.observaciones.toLowerCase().includes(q))
+    );
+  }, [busqueda, data.testers]);
 
   // ==========================================
   // CONFIGURACIÓN DE TEMA Y ESTADÍSTICAS GRÁFICAS
@@ -1307,6 +1435,15 @@ function Admin() {
             <button
               type="button"
               className="btnAdminNav"
+              style={{ background: "linear-gradient(135deg, #0891b2, #06b6d4)", color: "#ffffff", border: "none" }}
+              onClick={() => window.open("/InterfazPruebas", "_blank")}
+              title="Abrir entorno de pruebas aislado en una pestaña separada"
+            >
+              🧪 Entorno Pruebas
+            </button>
+            <button
+              type="button"
+              className="btnAdminNav"
               onClick={cargarDashboard}
               title="Recargar datos"
             >
@@ -1424,6 +1561,17 @@ function Admin() {
                 }}
               >
                 ⭐ Encuestas ({data.encuestas_stats?.total_respuestas || 0})
+              </button>
+
+              <button
+                type="button"
+                className={`btnTab ${tabActiva === "testers" ? "activo" : ""}`}
+                onClick={() => {
+                  setTabActiva("testers");
+                  setBusqueda("");
+                }}
+              >
+                🧪 Testers ({data.testers?.length || 0})
               </button>
             </div>
 
@@ -2586,6 +2734,217 @@ function Admin() {
                 </div>
               </>
             )}
+
+            {/* ============================================================== */}
+            {/* TAB: TESTERS Y ENTORNO DE PRUEBAS AISLADO                      */}
+            {/* ============================================================== */}
+            {tabActiva === "testers" && (
+              <>
+                <div className="adminSeccionHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+                  <div>
+                    <h3 style={{ color: "#38bdf8", display: "flex", alignItems: "center", gap: "8px" }}>
+                      🧪 Gestión de Testers y Entorno de Pruebas Aislado
+                    </h3>
+                    <p className="adminSeccionDesc">
+                      Cuentas dedicadas para probar nuevas funciones, calibración de GPS y navegación WebGL sin que los estudiantes ni usuarios generales se vean afectados.
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                    <button
+                      type="button"
+                      className="btnAdminNav"
+                      style={{ background: "linear-gradient(135deg, #0891b2, #06b6d4)", color: "#ffffff", border: "none" }}
+                      onClick={() => window.open("/InterfazPruebas", "_blank")}
+                      title="Abrir la interfaz de pruebas en una pestaña separada"
+                    >
+                      🚀 Abrir /InterfazPruebas
+                    </button>
+                    <button
+                      type="button"
+                      className="btnAdminPrimary"
+                      onClick={() => setModalNuevoTester(true)}
+                    >
+                      ➕ Crear Tester
+                    </button>
+                  </div>
+                </div>
+
+                {/* Métricas Resumen de Testers */}
+                <div className="gridMetricasAdmin" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", marginBottom: "20px" }}>
+                  <div className="tarjetaMetricaAdmin" style={{ borderLeft: "4px solid #0891b2" }}>
+                    <span className="labelMetrica">Total Testers Registrados</span>
+                    <strong className="valorMetrica">{data.testers?.length || 0}</strong>
+                  </div>
+                  <div className="tarjetaMetricaAdmin" style={{ borderLeft: "4px solid #10b981" }}>
+                    <span className="labelMetrica">Testers Activos</span>
+                    <strong className="valorMetrica" style={{ color: "#10b981" }}>
+                      {data.testers?.filter((t) => t.activo).length || 0}
+                    </strong>
+                  </div>
+                  <div className="tarjetaMetricaAdmin" style={{ borderLeft: "4px solid #ef4444" }}>
+                    <span className="labelMetrica">Testers Inactivos</span>
+                    <strong className="valorMetrica" style={{ color: "#ef4444" }}>
+                      {data.testers?.filter((t) => !t.activo).length || 0}
+                    </strong>
+                  </div>
+                  <div className="tarjetaMetricaAdmin" style={{ borderLeft: "4px solid #8b5cf6" }}>
+                    <span className="labelMetrica">Con Acceso al Sistema</span>
+                    <strong className="valorMetrica" style={{ color: "#8b5cf6" }}>
+                      {data.testers?.filter((t) => t.ultimo_acceso).length || 0}
+                    </strong>
+                  </div>
+                </div>
+
+                {/* Banner Informativo de Aislamiento */}
+                <div
+                  style={{
+                    background: "rgba(8, 145, 178, 0.1)",
+                    border: "1px solid rgba(8, 145, 178, 0.3)",
+                    borderRadius: "10px",
+                    padding: "14px 18px",
+                    marginBottom: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "14px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div>
+                    <h4 style={{ margin: "0 0 4px 0", color: "#38bdf8", fontSize: "14px" }}>
+                      🛡️ Aislamiento Activo de Errores y Calibraciones
+                    </h4>
+                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: "12.5px" }}>
+                      Los usuarios de esta tabla ingresan a través de la pestaña <b>"🧪 Acceso Tester"</b> en el login y son dirigidos exclusivamente a <code style={{ color: "#38bdf8" }}>/InterfazPruebas</code>. Los usuarios normales siguen usando <code style={{ color: "#10b981" }}>/Interfaz</code> de forma 100% estable.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tabla de Testers */}
+                <div className="tablaAdminWrapper">
+                  <table className="tablaAdmin">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Usuario (Login)</th>
+                        <th>Nombre del Tester</th>
+                        <th>Dispositivo Asignado</th>
+                        <th>Observaciones / Notas</th>
+                        <th>Estado</th>
+                        <th>Último Acceso</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {testersFiltrados.length > 0 ? (
+                        testersFiltrados.map((t) => (
+                          <tr key={t.id_tester}>
+                            <td>
+                              <span className="badgeIdUsuario">#{t.id_tester}</span>
+                            </td>
+                            <td>
+                              <strong style={{ color: "#38bdf8" }}>{t.username}</strong>
+                            </td>
+                            <td>{t.nombre}</td>
+                            <td>
+                              <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                                📱 {t.dispositivo || "Dispositivo Web"}
+                              </span>
+                            </td>
+                            <td style={{ maxWidth: "260px", whiteSpace: "normal" }}>
+                              {t.observaciones || "-"}
+                            </td>
+                            <td>
+                              <span
+                                className={`badgeEstadoReporte ${
+                                  t.activo ? "resuelto" : "pendiente"
+                                }`}
+                              >
+                                {t.activo ? "ACTIVO" : "INACTIVO"}
+                              </span>
+                            </td>
+                            <td style={{ whiteSpace: "nowrap" }}>
+                              {t.ultimo_acceso
+                                ? new Date(t.ultimo_acceso).toLocaleString()
+                                : <span style={{ color: "var(--text-secondary)", fontStyle: "italic" }}>Sin acceso aún</span>}
+                            </td>
+                            <td>
+                              <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                                <button
+                                  type="button"
+                                  onClick={() => handleToggleTester(t.id_tester)}
+                                  className="btnAccionReporte"
+                                  style={{
+                                    background: t.activo ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)",
+                                    color: t.activo ? "#ef4444" : "#10b981",
+                                    border: `1px solid ${t.activo ? "#ef4444" : "#10b981"}`,
+                                    padding: "4px 8px",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontSize: "11px",
+                                    fontWeight: 600,
+                                  }}
+                                  title={t.activo ? "Desactivar tester" : "Activar tester"}
+                                >
+                                  {t.activo ? "Desactivar" : "Activar"}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    navigator.clipboard?.writeText(
+                                      `Usuario: ${t.username} | Entorno: /InterfazPruebas`
+                                    );
+                                    alert(`¡Credencial copiada!\nUsuario: ${t.username}`);
+                                  }}
+                                  className="btnAccionReporte"
+                                  style={{
+                                    background: "rgba(59, 130, 246, 0.15)",
+                                    color: "#3b82f6",
+                                    border: "1px solid #3b82f6",
+                                    padding: "4px 8px",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontSize: "11px",
+                                  }}
+                                  title="Copiar datos de acceso del tester"
+                                >
+                                  📋 Copiar
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleEliminarTester(t.id_tester, t.username)}
+                                  className="btnAccionReporte"
+                                  style={{
+                                    background: "rgba(239, 68, 68, 0.1)",
+                                    color: "#fca5a5",
+                                    border: "1px solid rgba(239, 68, 68, 0.4)",
+                                    padding: "4px 8px",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontSize: "11px",
+                                  }}
+                                  title="Eliminar tester permanentemente"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="8" className="sinDatosTabla">
+                            {busqueda.trim()
+                              ? "No se encontraron testers que coincidan con la búsqueda."
+                              : "No hay testers registrados aún. Haz clic en '+ Crear Tester' para registrar uno."}
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
             </>
           )}
         </div>
@@ -2874,6 +3233,124 @@ function Admin() {
                   disabled={encuestaCargando}
                 >
                   {encuestaCargando ? "Creando..." : "Crear y Guardar Encuesta"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Registrar Nuevo Tester */}
+      {modalNuevoTester && (
+        <div className="modalAdminOverlay" onClick={() => setModalNuevoTester(false)}>
+          <div className="modalAdminContent" onClick={(e) => e.stopPropagation()}>
+            <div className="modalAdminHeader">
+              <h3 style={{ color: "#38bdf8" }}>🧪 Registrar Nuevo Tester</h3>
+              <button
+                type="button"
+                className="btnCerrarModalAdmin"
+                onClick={() => setModalNuevoTester(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleCrearTester} className="adminLoginForm">
+              <div className="adminFormGroup">
+                <label>Nombre Completo del Tester:</label>
+                <input
+                  type="text"
+                  placeholder="ej. Juan Pérez (Validador GPS)"
+                  value={formNuevoTester.nombre}
+                  onChange={(e) =>
+                    setFormNuevoTester({ ...formNuevoTester, nombre: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="adminFormGroup">
+                <label>Usuario (Username para Login en /):</label>
+                <input
+                  type="text"
+                  placeholder="ej. juan_tester@Unimap"
+                  value={formNuevoTester.username}
+                  onChange={(e) =>
+                    setFormNuevoTester({ ...formNuevoTester, username: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="adminFormGroup">
+                <label>Contraseña de Acceso:</label>
+                <input
+                  type="password"
+                  placeholder="Mínimo 4 caracteres"
+                  value={formNuevoTester.password}
+                  onChange={(e) =>
+                    setFormNuevoTester({ ...formNuevoTester, password: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="adminFormGroup">
+                <label>Dispositivo Asignado (opcional):</label>
+                <input
+                  type="text"
+                  placeholder="ej. Xiaomi 13 Pro (Chrome Android)"
+                  value={formNuevoTester.dispositivo}
+                  onChange={(e) =>
+                    setFormNuevoTester({ ...formNuevoTester, dispositivo: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="adminFormGroup">
+                <label>Observaciones / Misión de Prueba (opcional):</label>
+                <textarea
+                  rows={2}
+                  placeholder="ej. Validar coordenadas de Bloque E y Coliseo en terreno real"
+                  value={formNuevoTester.observaciones}
+                  onChange={(e) =>
+                    setFormNuevoTester({ ...formNuevoTester, observaciones: e.target.value })
+                  }
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "8px",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--input-bg, transparent)",
+                    color: "var(--text-primary)",
+                    resize: "vertical",
+                  }}
+                />
+              </div>
+
+              <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
+                <button
+                  type="button"
+                  onClick={() => setModalNuevoTester(false)}
+                  style={{
+                    flex: 1,
+                    padding: "10px",
+                    borderRadius: "10px",
+                    border: "1px solid var(--border-color)",
+                    background: "transparent",
+                    color: "var(--text-secondary)",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="btnAdminLoginSubmit"
+                  style={{ flex: 1, background: "linear-gradient(135deg, #0891b2, #06b6d4)" }}
+                  disabled={nuevoTesterCargando}
+                >
+                  {nuevoTesterCargando ? "Guardando..." : "Crear Tester y Activar"}
                 </button>
               </div>
             </form>
