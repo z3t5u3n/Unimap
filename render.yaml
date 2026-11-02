@@ -1,0 +1,39 @@
+# Especificación de Infraestructura para Render (Blueprint)
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Opción A: Despliegue como Static Site (Recomendado y gratuito en Render)
+  - type: web
+    name: unimap-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /UniMapBuild/Build/*.data.unityweb
+        name: Content-Encoding
+        value: gzip
+      - path: /UniMapBuild/Build/*.data.unityweb
+        name: Content-Type
+        value: application/octet-stream
+      - path: /UniMapBuild/Build/*.wasm.unityweb
+        name: Content-Encoding
+        value: gzip
+      - path: /UniMapBuild/Build/*.wasm.unityweb
+        name: Content-Type
+        value: application/wasm
+      - path: /UniMapBuild/Build/*.framework.js.unityweb
+        name: Content-Encoding
+        value: gzip
+      - path: /UniMapBuild/Build/*.framework.js.unityweb
+        name: Content-Type
+        value: application/javascript
+      - path: /UniMapBuild/Build/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false

@@ -1,0 +1,189 @@
+/* ==============================================================
+   ESTILOS DE LA PÁGINA DE REGISTRO (MODERNO, SIMPLE Y LIMPIO)
+   ============================================================== */
+
+.RegistroPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-body);
+  color: var(--text-primary);
+  overflow-y: auto;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.RegistroContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+}
+
+.RegistroCard {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 32px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: scaleUpRegistro 0.25s ease-out;
+}
+
+.RegistroHeader {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.RegistroHeader h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.RegistroHeader p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.RegistroForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.inputGroup input,
+.inputGroup select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--input-text);
+  transition: all 0.2s ease;
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.inputGroup select option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+#btn_registro_submit {
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent-primary);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+#btn_registro_submit:hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+}
+
+#btn_registro_submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.div_login_redirect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.btn_login_link {
+  background: transparent;
+  border: none;
+  color: var(--accent-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.btn_login_link:hover {
+  color: var(--accent-primary-hover);
+}
+
+@keyframes scaleUpRegistro {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsividad para móviles */
+@media (max-width: 480px) {
+  .RegistroContainer {
+    padding: 16px 12px;
+  }
+  .RegistroCard {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+  .RegistroHeader h2 {
+    font-size: 20px;
+  }
+}

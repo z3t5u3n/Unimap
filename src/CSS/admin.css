@@ -1,0 +1,1058 @@
+/* ==============================================================
+   ESTILOS DEL PANEL DE ADMINISTRADOR (ADMIN DASHBOARD)
+   MODERNO, MINIMALISTA Y COMPATIBLE CON MODO CLARO / OSCURO
+   ============================================================== */
+
+.AdminPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-body);
+  color: var(--text-primary);
+  overflow-y: auto;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.AdminContainer {
+  flex: 1;
+  max-width: 1280px;
+  width: 94%;
+  margin: 24px auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Barra superior del panel */
+.AdminTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.AdminTitulo h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.AdminTitulo p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.AdminAcciones {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btnAdminNav {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid var(--accent-primary);
+  background: var(--accent-primary);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btnAdminNav:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ==============================================================
+   TARJETAS DE MÉTRICAS (KPIs)
+   ============================================================== */
+.AdminMetricasGrid,
+.AdminTabStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.valorMetrica.valorMetricaTexto {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.cardMetrica {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardMetrica:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.labelMetrica {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.valorMetrica {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 6px 0 0 0;
+}
+
+.badgePendientesMetricas {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d97706;
+  margin-left: 8px;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  vertical-align: middle;
+}
+
+/* Fila de Estadísticas Rápidas */
+.AdminEstadisticasCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.cardMiniEstadistica {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  box-shadow: var(--shadow-sm);
+}
+
+.labelMiniEstadistica {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.cardMiniEstadistica strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ==============================================================
+   PANEL PRINCIPAL CON PESTAÑAS (TABS) Y BUSCADOR
+   ============================================================== */
+.AdminCardMain {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.AdminMainHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+}
+
+.AdminTabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btnTab {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btnTab:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btnTab.activo {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.inputSearchAdmin {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-size: 13px;
+  outline: none;
+  width: 240px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputSearchAdmin:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.inputSearchAdmin::placeholder {
+  color: var(--input-placeholder);
+}
+
+/* ==============================================================
+   TABLAS DE DATOS ESTILIZADAS
+   ============================================================== */
+.tableResponsive {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--table-border);
+}
+
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.adminTable th {
+  background: var(--table-head-bg);
+  color: var(--table-head-text);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--table-border);
+  white-space: nowrap;
+}
+
+.adminTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--table-border);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.adminTable tr:hover td {
+  background: var(--table-row-hover);
+}
+
+/* Badges / Etiquetas */
+.badgeIdUsuario {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  color: var(--accent-primary);
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.badgeRolAdmin {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badgeRolAdmin.general,
+.badgeRolAdmin.rolGeneral {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+.badgeRolAdmin.estudiante,
+.badgeRolAdmin.rolDocente {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.badgeRolAdmin.profesor,
+.badgeRolAdmin.rolAdmin {
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #a855f7;
+}
+
+.badgeMesh {
+  background: rgba(255, 51, 102, 0.1);
+  border: 1px solid rgba(255, 51, 102, 0.25);
+  color: var(--primary-uni);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.badgeOrigen {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.sinDatosTabla {
+  text-align: center !important;
+  padding: 36px !important;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.cargandoDashboard {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Badges y selects para Reportes de Bugs */
+.badgeTipoError {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #d97706;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.selectEstadoTabla {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  transition: all 0.2s ease;
+}
+
+.selectEstadoTabla.pendiente {
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #d97706;
+}
+
+.selectEstadoTabla.en_revision {
+  border-color: rgba(37, 99, 235, 0.5);
+  color: #2563eb;
+}
+
+.selectEstadoTabla.resuelto {
+  border-color: rgba(34, 197, 94, 0.5);
+  color: #16a34a;
+}
+
+.selectEstadoTabla option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   GRILLA DE ESTADÍSTICAS GRÁFICAS POR SECCIÓN
+   ========================================== */
+.AdminGraficasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cardGraficaAdmin {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cardGraficaAdmin:hover {
+  border-color: var(--border-hover, #3b82f6);
+  box-shadow: var(--shadow-md);
+}
+
+.cardGraficaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cardGraficaTitulo {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.cardGraficaBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.cardGraficaAcciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnDescargarGraficaPng {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnDescargarGraficaPng:hover {
+  background: var(--bg-card-hover);
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.cardGraficaCanvas {
+  position: relative;
+  height: 250px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsividad para móviles */
+@media (max-width: 768px) {
+  .AdminContainer {
+    width: 95%;
+    margin: 16px auto;
+    gap: 16px;
+  }
+  .AdminTopBar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  .AdminTitulo h1 {
+    font-size: 19px;
+  }
+  .AdminAcciones {
+    width: 100%;
+  }
+  .btnAdminNav {
+    width: 100%;
+    justify-content: center;
+  }
+  .AdminMetricasGrid {
+    grid-template-columns: 1fr;
+  }
+  .AdminGraficasGrid {
+    grid-template-columns: 1fr;
+  }
+  .AdminTabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .inputSearchAdmin {
+    width: 100%;
+  }
+}
+
+/* ==============================================================
+   NUEVOS ESTILOS: LOGIN ADMIN, AUDITORÍA, SESIONES Y REPORTE PDF
+   ============================================================== */
+
+/* Pantalla de Login de Administrador */
+.adminLoginWrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.adminLoginCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.adminLoginHeader {
+  text-align: center;
+}
+
+.adminLoginIcon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.adminLoginHeader h2 {
+  font-size: 22px;
+  color: var(--text-primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+.adminLoginHeader p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 6px 0 0 0;
+}
+
+.adminLoginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.adminFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adminFormGroup label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.adminFormGroup input,
+.adminFormGroup select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-body);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  transition: border-color 0.2s ease;
+}
+
+.adminFormGroup input:focus,
+.adminFormGroup select:focus {
+  border-color: #2563eb;
+}
+
+.btnAdminLoginSubmit {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnAdminLoginSubmit:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.btnVolverMapa {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
+  margin-top: 4px;
+}
+
+.adminErrorAlert {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Badge de Administrador en el Header */
+.adminUserBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.adminUserBadge .adminName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.adminUserBadge .adminRoleBadge {
+  background: rgba(37, 99, 235, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Botón de Descarga de PDF */
+.btnAdminPdf {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid #10b981;
+  background: #10b981;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btnAdminPdf:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Botón Logout */
+.btnAdminLogout {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnAdminLogout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Badges de Auditoría */
+.badgeAccion {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.badgeAccion-bug {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badgeAccion-estado {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badgeAccion-admin {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badgeAccion-sesion {
+  background: rgba(100, 116, 139, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* Modal Nuevo Administrador */
+.modalAdminOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+
+.modalAdminContent {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modalAdminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalAdminHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.btnCerrarModalAdmin {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+/* Botón Crear Administrador */
+.btnCrearAdmin {
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btnCrearAdmin:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Filtros de Auditoría */
+.auditFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.auditFiltersLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-right: 4px;
+}
+
+.btnFiltroAuditoria {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnFiltroAuditoria:hover {
+  border-color: #2563eb;
+  color: var(--text-primary);
+}
+
+.btnFiltroAuditoria.activo {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+/* Badges de Roles y Estado de Sesión */
+.badgeRol {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badgeRol-superadmin {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badgeRol-administrador {
+  background: rgba(37, 99, 235, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.badgeSesionEstado {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.badgeSesion-activa {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badgeSesion-cerrada {
+  background: rgba(100, 116, 139, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.jsonDetallesPre {
+  margin: 0;
+  padding: 6px 10px;
+  background: var(--bg-body);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 320px;
+  max-height: 120px;
+  overflow-y: auto;
+  color: var(--text-primary);
+}
+
+/* ==============================================================
+   ESTILOS DE NOTIFICACIONES Y ENCUESTAS ADMINISTRATIVAS
+   ============================================================== */
+
+.adminSeccionHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0 14px 0;
+  flex-wrap: wrap;
+}
+
+.adminSeccionTitulo {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.adminSeccionDesc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.btnNuevoRegistroAdmin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnNuevoRegistroAdmin:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.badgeTipoNoti {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.badgeNoti-mantenimiento {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.badgeNoti-urgente {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.badgeNoti-actualizacion {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.badgeNoti-aviso {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.btnToggleActivo {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btnToggleActivo.activo {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.btnToggleActivo.activo:hover {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.btnToggleActivo.inactivo {
+  background: rgba(100, 116, 139, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.btnToggleActivo.inactivo:hover {
+  background: rgba(100, 116, 139, 0.25);
+}
+
+.btnAccionEliminar {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnAccionEliminar:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+
+
+
