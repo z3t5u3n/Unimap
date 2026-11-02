@@ -2509,3 +2509,181 @@
   background: rgba(51, 65, 85, 0.9);
   color: #ffffff;
 }
+
+/* ==========================================================================
+   BANNER TESTER RESPONSIVE Y SELECTOR DE PUNTOS DE INICIO
+   ========================================================================== */
+.bannerTesterHeader {
+  background: linear-gradient(90deg, #090d16 0%, #164e63 50%, #090d16 100%);
+  border-bottom: 2px solid #06b6d4;
+  color: #e2e8f0;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 50;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+}
+
+.bloqueIzquierdoTester {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.badgeTesterPill {
+  background: #0891b2;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.textoLargoTester {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #cbd5e1;
+}
+
+.bloqueDerechoTester {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.usuarioTesterLabel {
+  color: #38bdf8;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.btnSalirTester {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 3px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btnSalirTester:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Selector de ubicación en el campus */
+.selectorPuntoInicioTester {
+  padding: 6px 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.etiquetaSelectPunto {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.selectCampusUbicacion {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #0f172a;
+  color: #38bdf8;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+}
+
+.selectCampusUbicacion:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
+}
+
+/* ==========================================================================
+   ADAPTACIÓN MOBILE (PANTALLAS < 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .bannerTesterHeader {
+    padding: 5px 10px;
+    font-size: 10.5px;
+  }
+
+  .textoLargoTester {
+    display: none; /* Ahorrar espacio en móvil */
+  }
+
+  .usuarioTesterLabel b {
+    display: inline-block;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+
+  .widgetMinimapaGPS {
+    width: calc(100vw - 20px) !important;
+    max-width: 340px !important;
+    left: auto !important;
+    right: 10px !important;
+    bottom: 65px !important;
+    border-radius: 14px !important;
+  }
+
+  .widgetMinimapaGPS.minimizado {
+    width: 200px !important;
+  }
+
+  .selectorModosTester {
+    padding: 4px 6px;
+  }
+
+  .btnTabTester {
+    font-size: 9.5px;
+    padding: 5px 2px;
+  }
+
+  .telemetriaGPS {
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .filaTelemetria {
+    font-size: 10.5px;
+  }
+
+  .gridTelemetriaDatos {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .itemMiniDato {
+    padding: 4px 2px;
+  }
+
+  .itemMiniDato small {
+    font-size: 8.5px;
+  }
+
+  .itemMiniDato b {
+    font-size: 10.5px;
+  }
+}

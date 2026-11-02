@@ -66,6 +66,13 @@ function InterfazPruebas() {
   // Controlador de comandos WebGL
   const [unityController, setUnityController] = useState(null);
 
+  // Sincronizar Modo GPS con WebGL cuando cambie mostrarGPS
+  useEffect(() => {
+    if (unityController && typeof unityController.setModoGPS === "function") {
+      unityController.setModoGPS(mostrarGPS);
+    }
+  }, [mostrarGPS, unityController]);
+
   // Consultar notificaciones del sistema
   useEffect(() => {
     const consultarNotificaciones = async () => {
@@ -118,59 +125,23 @@ function InterfazPruebas() {
 
   return (
     <div className={`Interfaz ${mapaExpandido ? "modoExpandido" : ""}`}>
-      {/* 1. BANNER FLOTANTE DE ENTORNO DE PRUEBAS */}
-      <div
-        style={{
-          background: "linear-gradient(90deg, #090d16 0%, #164e63 50%, #090d16 100%)",
-          borderBottom: "2px solid #06b6d4",
-          color: "#e2e8f0",
-          padding: "6px 16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          fontSize: "12px",
-          fontWeight: 600,
-          zIndex: 9999,
-          position: "relative",
-          boxShadow: "0 4px 15px rgba(6, 182, 212, 0.2)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span
-            style={{
-              background: "#0891b2",
-              color: "#ffffff",
-              padding: "2px 8px",
-              borderRadius: "12px",
-              fontSize: "11px",
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-            }}
-          >
-            🧪 MODO PRUEBAS / TESTER
-          </span>
-          <span>UniMap 3D ITFIP — Entorno Aislado de Validación Técnica y GPS</span>
+      {/* 1. BANNER FLOTANTE DE ENTORNO DE PRUEBAS RESPONSIVE */}
+      <div className="bannerTesterHeader">
+        <div className="bloqueIzquierdoTester">
+          <span className="badgeTesterPill">🧪 MODO TESTER</span>
+          <span className="textoLargoTester">UniMap 3D ITFIP — Entorno de Validación Técnica y GPS</span>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <span style={{ color: "#38bdf8", fontSize: "11px" }}>
-            👤 Tester: <b>{testerSesion ? testerSesion.username : "tester@Unimap"}</b>
+        <div className="bloqueDerechoTester">
+          <span className="usuarioTesterLabel">
+            👤 <b>{testerSesion ? testerSesion.username : "tester@Unimap"}</b>
           </span>
           <button
             type="button"
+            className="btnSalirTester"
             onClick={handleCerrarSesionTester}
-            style={{
-              background: "rgba(239, 68, 68, 0.2)",
-              border: "1px solid #ef4444",
-              color: "#fca5a5",
-              padding: "3px 10px",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "11px",
-              fontWeight: "bold",
-            }}
           >
-            Salir de Pruebas
+            Salir
           </button>
         </div>
       </div>

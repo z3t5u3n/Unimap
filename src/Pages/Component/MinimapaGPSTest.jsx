@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas reales de anclaje del Campus ITFIP en El Espinal, Tolima
+// Coordenadas base del Campus ITFIP en El Espinal, Tolima
 const CAMPUS_ORIGEN_ITFIP = {
   lat: 4.15638,
   lng: -74.89748,
 };
 
-// Offset calibrado de la maqueta 3D en Unity WebGL
-const OFFSET_UNITY = {
-  x: -146.5,
-  z: 372.3,
-};
+// Puntos de inicio configurables en la maqueta 3D del campus
+const PUNTOS_CAMPUS = [
+  { id: "porteria", nombre: "🚪 Portería Principal", x: -99.6, z: 363.6, lat: 4.15638, lng: -74.89748 },
+  { id: "bloqueD", nombre: "🏢 Bloque D (Canchas)", x: -146.5, z: 372.3, lat: 4.15645, lng: -74.89720 },
+  { id: "bloqueE", nombre: "🏫 Bloque E", x: -160.0, z: 420.0, lat: 4.15680, lng: -74.89700 },
+  { id: "coliseo", nombre: "⚽ Coliseo y Canchas", x: -200.0, z: 340.0, lat: 4.15610, lng: -74.89760 },
+  { id: "plazoleta", nombre: "🏛️ Plazoleta Central", x: -120.0, z: 380.0, lat: 4.15655, lng: -74.89730 },
+];
 
 const RADIO_TIERRA_METROS = 6371000;
 
@@ -30,10 +33,13 @@ const RUTA_SIMULADA_ITFIP = [
 function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Modos de operación para pruebas:
   // 'fijo_uniespinal' | 'gps_libre' | 'simulador'
-  const [modoTester, setModoTester] = useState("fijo_uniespinal");
+  const [modoTester, setModoTester] = useState("gps_libre");
 
-  // Opción para alternar visualización en Google Maps ('uniespinal' o 'dispositivo_real')
-  const [vistaMapa, setVistaMapa] = useState("uniespinal");
+  // Punto de inicio seleccionado en el campus 3D
+  const [puntoInicio, setPuntoInicio] = useState(PUNTOS_CAMPUS[0]); // Por defecto: Portería Principal
+
+  // Control para mostrar u ocultar el iframe 2D (por defecto minimizado en móvil para ver el 3D)
+  const [mostrarMapa2D, setMostrarMapa2D] = useState(window.innerWidth > 768);
 
   // Coordenadas reflejadas en la maqueta 3D
   const [coords, setCoords] = useState({
@@ -52,7 +58,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   const [deltaMetros, setDeltaMetros] = useState({ dx: 0, dz: 0, total: 0 });
 
   const [indiceSimulacion, setIndiceSimulacion] = useState(0);
-  const [estadoConexion, setEstadoConexion] = useState("Punto fijo en UniEspinal");
+  const [estadoConexion, setEstadoConexion] = useState("GPS Libre Activo");
   const [minimizado, setMinimizado] = useState(false);
   const [brujulaHeading, setBrujulaHeading] = useState(0);
 
@@ -63,14 +69,14 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     const dLat = (lat - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
     const dLng = (lng - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
 
-    const x = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180)) + OFFSET_UNITY.x;
-    const z = dLat * RADIO_TIERRA_METROS + OFFSET_UNITY.z;
+    const x = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180)) + puntoInicio.x;
+    const z = dLat * RADIO_TIERRA_METROS + puntoInicio.z;
 
     return {
       x: Number(x.toFixed(2)),
       z: Number(z.toFixed(2)),
     };
-  }, []);
+  }, [puntoInicio]);
 
   // Enviar paquete GPS a Unity WebGL
   const despacharAUnity = useCallback(
@@ -108,15 +114,30 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     [calcularCoordenadasUnity, unityController, brujulaHeading]
   );
 
-  // 1. Escuchar sensor de brújula o giroscopio del móvil
+  // 1. Giro en tiempo real: sensor de brújula o giroscopio del móvil
   useEffect(() => {
+    let ultimoEnvio = 0;
     const handleOrientation = (e) => {
       const heading = e.webkitCompassHeading !== undefined
         ? e.webkitCompassHeading
         : (e.alpha !== null ? (360 - e.alpha) % 360 : null);
 
       if (heading !== null && heading !== undefined) {
-        setBrujulaHeading(Math.round(heading));
+        const h = Math.round(heading);
+        setBrujulaHeading(h);
+
+        // Transmitir inmediatamente el giro a la cámara 3D de Unity WebGL (limitado a 50ms para fluidez)
+        const ahora = Date.now();
+        if (visible && ahora - ultimoEnvio > 45) {
+          ultimoEnvio = ahora;
+          if (modoTester === "gps_libre") {
+            const xActual = puntoInicio.x + deltaMetros.dx;
+            const zActual = puntoInicio.z + deltaMetros.dz;
+            despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, xActual, zActual);
+          } else if (modoTester === "fijo_uniespinal") {
+            despacharAUnity(puntoInicio.lat, puntoInicio.lng, h, 0, 1, puntoInicio.x, puntoInicio.z);
+          }
+        }
       }
     };
 
@@ -127,33 +148,33 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation, true);
     };
-  }, []);
+  }, [visible, modoTester, coords, puntoInicio, deltaMetros, despacharAUnity]);
 
   // 2. Control del Modo 1: Fijo en UniEspinal
   useEffect(() => {
     if (modoTester !== "fijo_uniespinal" || !visible) return;
 
     setCoords({
-      lat: CAMPUS_ORIGEN_ITFIP.lat,
-      lng: CAMPUS_ORIGEN_ITFIP.lng,
+      lat: puntoInicio.lat,
+      lng: puntoInicio.lng,
       accuracy: 1,
       speed: 0,
-      heading: 0,
+      heading: brujulaHeading,
     });
-    setEstadoConexion("📍 Marcador fijado en UniEspinal");
-    despacharAUnity(CAMPUS_ORIGEN_ITFIP.lat, CAMPUS_ORIGEN_ITFIP.lng, 0, 0, 1, OFFSET_UNITY.x, OFFSET_UNITY.z);
-  }, [modoTester, visible, despacharAUnity]);
+    setEstadoConexion(`📍 Fijo en ${puntoInicio.nombre}`);
+    despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
+  }, [modoTester, puntoInicio, visible, brujulaHeading, despacharAUnity]);
 
   // 3. Control del Modo 2: GPS Libre (Posición Actual del Dispositivo para probar en cualquier lugar)
   useEffect(() => {
     if (modoTester !== "gps_libre" || !visible) return;
 
     if (!("geolocation" in navigator)) {
-      setEstadoConexion("⚠️ Geolocalización no disponible en este navegador");
+      setEstadoConexion("⚠️ Geolocalización no disponible");
       return;
     }
 
-    setEstadoConexion("📡 Rastreando posición actual del tester...");
+    setEstadoConexion("📡 Rastreando posición y giroscopio...");
 
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
@@ -168,7 +189,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           heading: Math.round(nuevoHeading || 0),
         });
 
-        // Si no hay punto de anclaje inicial, tomar la primera posición como origen del tester
+        // Si no hay ancla previa, fijar la posición actual como punto cero del tester
         let anclaActual = anclaGPS;
         if (!anclaActual) {
           anclaActual = { lat: latitude, lng: longitude };
@@ -188,13 +209,13 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           total: Number(distTotal.toFixed(1)),
         });
 
-        // Aplicar el desplazamiento relativo a la maqueta 3D en Unity WebGL
-        const xFinalUnity = OFFSET_UNITY.x + dx;
-        const zFinalUnity = OFFSET_UNITY.z + dz;
+        // Aplicar el desplazamiento relativo a partir del punto de inicio seleccionado en el campus
+        const xFinalUnity = puntoInicio.x + dx;
+        const zFinalUnity = puntoInicio.z + dz;
 
-        // Calcular coordenada geográfica virtual sobre UniEspinal para Google Maps
-        const latVirtual = CAMPUS_ORIGEN_ITFIP.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
-        const lngVirtual = CAMPUS_ORIGEN_ITFIP.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180)))) * (180 / Math.PI);
+        // Coordenada geográfica virtual sobre UniEspinal para Google Maps
+        const latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
+        const lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
 
         setCoords({
           lat: latVirtual,
@@ -204,7 +225,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           heading: Math.round(nuevoHeading || 0),
         });
 
-        // Despachar a Unity las coordenadas relativas calculadas
+        // Despachar a Unity: la cámara se posiciona exactamente a 1m sobre el punto
         despacharAUnity(latVirtual, lngVirtual, nuevoHeading, speed, accuracy, xFinalUnity, zFinalUnity);
       },
       (err) => {
@@ -227,7 +248,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [modoTester, visible, anclaGPS, despacharAUnity, brujulaHeading]);
+  }, [modoTester, visible, anclaGPS, puntoInicio, despacharAUnity, brujulaHeading]);
 
   // 4. Control del Modo 3: Simulador de Caminata dentro del ITFIP
   useEffect(() => {
@@ -261,12 +282,12 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     };
   }, [modoTester, visible, despacharAUnity]);
 
-  // Función para re-anclar la posición actual del dispositivo como centro del campus
+  // Re-calibrar: fijar la posición actual como origen en el campus
   const recalibrarPosicionActual = () => {
     if (coordsDispositivo) {
       setAnclaGPS({ lat: coordsDispositivo.lat, lng: coordsDispositivo.lng });
       setDeltaMetros({ dx: 0, dz: 0, total: 0 });
-      despacharAUnity(CAMPUS_ORIGEN_ITFIP.lat, CAMPUS_ORIGEN_ITFIP.lng, brujulaHeading, 0, 1, OFFSET_UNITY.x, OFFSET_UNITY.z);
+      despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
     }
   };
 
@@ -280,17 +301,12 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Coordenadas calculadas para Unity
   const unityCoord = modoTester === "gps_libre"
-    ? { x: Number((OFFSET_UNITY.x + deltaMetros.dx).toFixed(2)), z: Number((OFFSET_UNITY.z + deltaMetros.dz).toFixed(2)) }
+    ? { x: Number((puntoInicio.x + deltaMetros.dx).toFixed(2)), z: Number((puntoInicio.z + deltaMetros.dz).toFixed(2)) }
     : calcularCoordenadasUnity(coords.lat, coords.lng);
 
-  // Determinar qué coordenadas mostrar en el iframe de Google Maps
-  const mapaLat = modoTester === "gps_libre" && vistaMapa === "dispositivo_real" && coordsDispositivo
-    ? coordsDispositivo.lat
-    : coords.lat;
-
-  const mapaLng = modoTester === "gps_libre" && vistaMapa === "dispositivo_real" && coordsDispositivo
-    ? coordsDispositivo.lng
-    : coords.lng;
+  // Coordenadas para Google Maps
+  const mapaLat = coords.lat;
+  const mapaLng = coords.lng;
 
   return (
     <div className={`widgetMinimapaGPS ${minimizado ? "minimizado" : ""}`} style={{ border: "2px solid #06b6d4" }}>
@@ -299,7 +315,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         <div className="tituloHeaderMinimapa">
           <span className="iconoHeaderGPS">🧪</span>
           <div>
-            <h4 style={{ color: "#38bdf8" }}>GPS Tester Multientorno</h4>
+            <h4 style={{ color: "#38bdf8" }}>GPS Tester (Cámara a 1m)</h4>
             <span className="estadoSubtitulo">
               {modoTester === "simulador" && RUTA_SIMULADA_ITFIP[indiceSimulacion]
                 ? RUTA_SIMULADA_ITFIP[indiceSimulacion].lugar
@@ -313,7 +329,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             type="button"
             className="btnMinimizarMinimapa"
             onClick={() => setMinimizado((prev) => !prev)}
-            title={minimizado ? "Expandir mapa GPS" : "Minimizar"}
+            title={minimizado ? "Expandir panel GPS" : "Minimizar panel GPS"}
           >
             {minimizado ? "🔼" : "🔽"}
           </button>
@@ -334,14 +350,6 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           <div className="selectorModosTester">
             <button
               type="button"
-              className={`btnTabTester ${modoTester === "fijo_uniespinal" ? "activo" : ""}`}
-              onClick={() => setModoTester("fijo_uniespinal")}
-              title="Fija el GPS en el punto exacto de UniEspinal"
-            >
-              📍 Fijo UniEspinal
-            </button>
-            <button
-              type="button"
               className={`btnTabTester ${modoTester === "gps_libre" ? "activo" : ""}`}
               onClick={() => {
                 setModoTester("gps_libre");
@@ -349,28 +357,58 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   setAnclaGPS({ lat: coordsDispositivo.lat, lng: coordsDispositivo.lng });
                 }
               }}
-              title="Toma tu ubicación real en cualquier lugar y proyecta tu movimiento al campus 3D"
+              title="Caminar y girar en cualquier lugar mueve la cámara a 1m en el campus 3D"
             >
               🌍 GPS Libre (Tu Ubicación)
             </button>
             <button
               type="button"
+              className={`btnTabTester ${modoTester === "fijo_uniespinal" ? "activo" : ""}`}
+              onClick={() => setModoTester("fijo_uniespinal")}
+              title="Fija la cámara en un punto exacto del campus"
+            >
+              📍 Punto Fijo
+            </button>
+            <button
+              type="button"
               className={`btnTabTester ${modoTester === "simulador" ? "activo" : ""}`}
               onClick={() => setModoTester("simulador")}
-              title="Simula una caminata automática por las instalaciones"
+              title="Simula un recorrido automático a pie"
             >
               🚶 Simulador
             </button>
           </div>
 
-          {/* Banner explicativo del modo GPS Libre */}
+          {/* Selector de Punto de Partida en el Campus (Portería, Bloque D, Bloque E, Coliseo, etc.) */}
+          <div className="selectorPuntoInicioTester">
+            <label className="etiquetaSelectPunto">📍 Punto de inicio en el Campus 3D:</label>
+            <select
+              className="selectCampusUbicacion"
+              value={puntoInicio.id}
+              onChange={(e) => {
+                const punto = PUNTOS_CAMPUS.find((p) => p.id === e.target.value) || PUNTOS_CAMPUS[0];
+                setPuntoInicio(punto);
+                setAnclaGPS(null);
+                setDeltaMetros({ dx: 0, dz: 0, total: 0 });
+                despacharAUnity(punto.lat, punto.lng, brujulaHeading, 0, 1, punto.x, punto.z);
+              }}
+            >
+              {PUNTOS_CAMPUS.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.nombre} (X: {p.x}, Z: {p.z})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Banner y Acciones del modo GPS Libre */}
           {modoTester === "gps_libre" && (
             <div className="bannerGpsLibreInfo">
               <div className="infoGpsLibreTexto">
-                <strong>🌍 Modo Pruebas en Cualquier Lugar:</strong>
+                <strong>🚶 Movimiento Real Sincronizado:</strong>
                 <p>
-                  Tu movimiento real en la calle o casa moverá el punto en el campus 3D.
-                  {deltaMetros.total > 0 && ` Has caminado ${deltaMetros.total}m.`}
+                  Gira o camina con tu teléfono. La cámara se ubica a 1m de altura y gira hacia tu rumbo.
+                  {deltaMetros.total > 0 && ` Recorrido: ${deltaMetros.total}m.`}
                 </p>
               </div>
               <div className="accionesGpsLibre">
@@ -378,86 +416,75 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   type="button"
                   className="btnRecalibrarTester"
                   onClick={recalibrarPosicionActual}
-                  title="Establece tu posición actual como el punto cero de partida"
+                  title="Fija tu posición actual como el centro de partida"
                 >
                   🎯 Re-anclar Origen
                 </button>
                 <button
                   type="button"
                   className="btnToggleVistaMapa"
-                  onClick={() => setVistaMapa((prev) => (prev === "uniespinal" ? "dispositivo_real" : "uniespinal"))}
-                  title="Cambia el mapa entre UniEspinal y tu ubicación real"
+                  onClick={() => setMostrarMapa2D((prev) => !prev)}
+                  title="Muestra u oculta el mapa 2D para dejar visible el campus 3D en el móvil"
                 >
-                  🗺️ {vistaMapa === "uniespinal" ? "Ver Mi Calle Real" : "Ver UniEspinal"}
+                  {mostrarMapa2D ? "🔼 Ocultar Mapa 2D" : "🗺️ Ver Mapa 2D"}
                 </button>
               </div>
             </div>
           )}
 
-          {/* Contenedor del Mapa de Google Embebido */}
-          <div className="frameMapaContainer">
-            <iframe
-              title="Google Maps GPS Tester"
-              src={`https://maps.google.com/maps?q=${mapaLat},${mapaLng}&z=17&output=embed`}
-              className="iframeGoogleMaps"
-              loading="lazy"
-            />
+          {/* Contenedor del Mapa 2D de Google (Opcional en móvil para dar 100% visibilidad al 3D) */}
+          {mostrarMapa2D && (
+            <div className="frameMapaContainer">
+              <iframe
+                title="Google Maps GPS Tester"
+                src={`https://maps.google.com/maps?q=${mapaLat},${mapaLng}&z=17&output=embed`}
+                className="iframeGoogleMaps"
+                loading="lazy"
+              />
 
-            {/* Marcador Radar GPS sobre el mapa */}
-            <div className="radarPuntoUsuario">
-              <div
-                className="conoOrientacionHeading"
-                style={{ transform: `rotate(${coords.heading || brujulaHeading || 0}deg)` }}
-                title={`Rumbo: ${coords.heading || brujulaHeading || 0}°`}
-              >
-                ▲
+              {/* Marcador Radar GPS sobre el mapa */}
+              <div className="radarPuntoUsuario">
+                <div
+                  className="conoOrientacionHeading"
+                  style={{ transform: `rotate(${coords.heading || brujulaHeading || 0}deg)` }}
+                  title={`Rumbo: ${coords.heading || brujulaHeading || 0}°`}
+                >
+                  ▲
+                </div>
+                <div className="circuloPulsoAzul" style={{ borderColor: "#06b6d4" }} />
+                <div className="puntoAzulCentro" style={{ background: "#06b6d4" }} />
               </div>
-              <div className="circuloPulsoAzul" style={{ borderColor: "#06b6d4" }} />
-              <div className="puntoAzulCentro" style={{ background: "#06b6d4" }} />
-            </div>
 
-            {/* Brújula flotante */}
-            <div
-              className="brujulaFlotante"
-              style={{ transform: `rotate(-${coords.heading || brujulaHeading || 0}deg)` }}
-              title="Brújula Norte"
-            >
-              <span>N</span>
+              {/* Brújula flotante */}
+              <div
+                className="brujulaFlotante"
+                style={{ transform: `rotate(-${coords.heading || brujulaHeading || 0}deg)` }}
+                title="Brújula Norte"
+              >
+                <span>N</span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Telemetría y Coordenadas para Testers */}
           <div className="telemetriaGPS">
             <div className="filaTelemetria">
-              <span className="etiquetaTelemetria">
-                {modoTester === "gps_libre" && vistaMapa === "dispositivo_real"
-                  ? "Ubicación Real del Tester:"
-                  : "Coordenadas Campus UniEspinal:"}
-              </span>
-              <span className="valorTelemetria">
-                {modoTester === "gps_libre" && vistaMapa === "dispositivo_real" && coordsDispositivo
-                  ? `${coordsDispositivo.lat.toFixed(5)}, ${coordsDispositivo.lng.toFixed(5)}`
-                  : `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`}
-              </span>
-            </div>
-
-            <div className="filaTelemetria">
-              <span className="etiquetaTelemetria">Posición 3D Unity (X, Z):</span>
+              <span className="etiquetaTelemetria">Posición 3D (X, Z):</span>
               <span className="valorTelemetria resaltaVerde">
-                X: {unityCoord.x}m | Z: {unityCoord.z}m
+                X: {unityCoord.x}m | Z: {unityCoord.z}m (Cámara: +1.0m)
               </span>
             </div>
 
             {modoTester === "gps_libre" && (
               <div className="filaTelemetria" style={{ fontSize: "11px", color: "#38bdf8" }}>
-                <span>Desplazamiento Relativo:</span>
+                <span>Avance Físico:</span>
                 <span>ΔX: {deltaMetros.dx}m | ΔZ: {deltaMetros.dz}m (Total: {deltaMetros.total}m)</span>
               </div>
             )}
 
             <div className="gridTelemetriaDatos">
               <div className="itemMiniDato">
-                <small>Rumbo</small>
+                <small>Rumbo Brújula</small>
                 <b>{coords.heading || brujulaHeading}° ({getPuntoCardinal(coords.heading || brujulaHeading)})</b>
               </div>
               <div className="itemMiniDato">
