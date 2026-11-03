@@ -122,9 +122,15 @@ function Interfaz() {
         const resp = await fetch(`${API_BASE_URL}/configuracion/modulos`);
         if (resp.ok) {
           const data = await resp.json();
-          if (data && data.configuracion) {
-            setConfigModulos(data.configuracion);
-            localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(data.configuracion));
+          const cfg = data.configuracion || data;
+          if (cfg && typeof cfg.mostrarBotonMapa !== "undefined") {
+            const normalizada = {
+              mostrarBotonMapa: cfg.mostrarBotonMapa !== false,
+              mostrarBotonGPS: cfg.mostrarBotonGPS !== false,
+              mostrarBotonRecorridos: cfg.mostrarBotonRecorridos !== false,
+            };
+            setConfigModulos(normalizada);
+            localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(normalizada));
           }
         }
       } catch (err) {
@@ -133,8 +139,12 @@ function Interfaz() {
     };
 
     consultarConfigModulos();
-    // Polling cada 20s para reflejar cambios del administrador en tiempo real en todos los celulares
-    const interval = setInterval(consultarConfigModulos, 20000);
+    // Sondeo cada 8s para sincronizar en vivo con los celulares sin recargar
+    const interval = setInterval(consultarConfigModulos, 8000);
+
+    const handleFocus = () => consultarConfigModulos();
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleFocus);
 
     const handleConfigActualizada = (e) => {
       if (e.detail) {
@@ -148,8 +158,11 @@ function Interfaz() {
     };
     window.addEventListener("UniMapConfigUpdated", handleConfigActualizada);
     window.addEventListener("storage", handleConfigActualizada);
+
     return () => {
       clearInterval(interval);
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleFocus);
       window.removeEventListener("UniMapConfigUpdated", handleConfigActualizada);
       window.removeEventListener("storage", handleConfigActualizada);
     };

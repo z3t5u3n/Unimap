@@ -1,6 +1,70 @@
 import React, { useEffect, useCallback, useRef, memo } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import "../../CSS/interfaz.css";
+import { API_BASE_URL } from "../../config";
+
+// Detección del tipo de conexión (WiFi vs Datos Móviles)
+const detectarTipoConexion = () => {
+  try {
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn) {
+      const type = conn.type;
+      const effectiveType = conn.effectiveType;
+      if (type === "cellular") {
+        return `Datos Móviles (${(effectiveType || "4G").toUpperCase()})`;
+      } else if (type === "wifi") {
+        return "WiFi";
+      } else if (type === "ethernet") {
+        return "Red Cableada / Ethernet";
+      } else if (effectiveType) {
+        return effectiveType === "4g" || effectiveType === "3g" || effectiveType === "2g"
+          ? `Datos Móviles (${effectiveType.toUpperCase()})`
+          : "WiFi";
+      }
+    }
+  } catch (e) {}
+  return /Mobi|Android/i.test(navigator.userAgent) ? "Datos Móviles (SIM)" : "WiFi";
+};
+
+// Detección precisa de marca y modelo del celular o dispositivo
+const detectarModeloDispositivo = () => {
+  const ua = navigator.userAgent || "";
+  const samsungMatch = ua.match(/SM-([A-Za-z0-9]+)/i);
+  if (samsungMatch) {
+    const code = samsungMatch[1];
+    if (code.startsWith("A55")) return `Samsung Galaxy A55 5G (SM-${code})`;
+    if (code.startsWith("A54")) return `Samsung Galaxy A54 5G (SM-${code})`;
+    if (code.startsWith("A34")) return `Samsung Galaxy A34 (SM-${code})`;
+    if (code.startsWith("A14")) return `Samsung Galaxy A14 (SM-${code})`;
+    if (code.startsWith("A15")) return `Samsung Galaxy A15 (SM-${code})`;
+    if (code.startsWith("S23")) return `Samsung Galaxy S23 (SM-${code})`;
+    if (code.startsWith("S24")) return `Samsung Galaxy S24 (SM-${code})`;
+    return `Samsung Galaxy SM-${code}`;
+  }
+
+  const xiaomiMatch = ua.match(/(Redmi[^;)]+|POCO[^;)]+|Xiaomi[^;)]+)/i);
+  if (xiaomiMatch) return xiaomiMatch[0].trim();
+
+  const motoMatch = ua.match(/(moto [^;)]+|motorola [^;)]+)/i);
+  if (motoMatch) return motoMatch[0].trim();
+
+  if (/iPhone/i.test(ua)) return "Apple iPhone (iOS)";
+  if (/iPad/i.test(ua)) return "Apple iPad (iPadOS)";
+
+  const huaweiMatch = ua.match(/(Huawei[^;)]+|Honor[^;)]+)/i);
+  if (huaweiMatch) return huaweiMatch[0].trim();
+
+  const genericAndroid = ua.match(/Android[^;]+;\s*([^;)]+)\s*Build/i);
+  if (genericAndroid && genericAndroid[1]) {
+    return genericAndroid[1].trim();
+  }
+
+  if (/Windows/i.test(ua)) return "PC / Windows";
+  if (/Macintosh/i.test(ua)) return "Mac / macOS";
+  if (/Linux/i.test(ua)) return "Linux / PC";
+
+  return /Mobi|Android/i.test(ua) ? "Dispositivo Móvil Android" : "Navegador Web / PC";
+};
 
 const Mapa = memo(function Mapa({
   isIcon,
@@ -101,6 +165,52 @@ const Mapa = memo(function Mapa({
         notifiedLoadRef.current = true;
         const tiempoSegundos = Math.round(((performance.now() - mountTimeRef.current) / 1000) * 100) / 100;
         console.log(`⏱️ Unity WebGL cargado en: ${tiempoSegundos}s`);
+
+        // Registrar telemetría de carga directamente al backend
+        (async () => {
+          try {
+            let userObj = null;
+            try {
+              const u = localStorage.getItem("usuario");
+              if (u) userObj = JSON.parse(u);
+            } catch (e) {}
+
+            let testerObj = null;
+            try {
+              const t = localStorage.getItem("tester_sesion");
+              if (t) testerObj = JSON.parse(t);
+            } catch (e) {}
+
+            const nombre =
+              userObj?.nombre_completo ||
+              userObj?.nombre ||
+              userObj?.username ||
+              (testerObj ? `Tester (${testerObj.nombre || testerObj.username})` : "Usuario General");
+
+            const idUsuario = userObj?.id_usuario
+              ? String(userObj.id_usuario)
+              : (testerObj?.id_tester ? `TEST-${testerObj.id_tester}` : null);
+
+            const payload = {
+              tiempo_carga_segundos: tiempoSegundos,
+              id_usuario: idUsuario,
+              nombre_usuario: nombre,
+              tipo_conexion: detectarTipoConexion(),
+              operador: null,
+              modelo_dispositivo: detectarModeloDispositivo(),
+            };
+
+            await fetch(`${API_BASE_URL}/telemetria/carga-unity`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            console.log("⚡ Telemetría de carga registrada en backend:", payload);
+          } catch (errTelemetria) {
+            console.debug("Error al registrar telemetría de carga:", errTelemetria);
+          }
+        })();
+
         if (onUnityLoaded) {
           onUnityLoaded(tiempoSegundos);
         }

@@ -228,9 +228,15 @@ function Admin() {
       const resp = await fetch(`${API_BASE_URL}/configuracion/modulos`);
       if (resp.ok) {
         const json = await resp.json();
-        if (json && json.configuracion) {
-          setConfigModulos(json.configuracion);
-          localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(json.configuracion));
+        const cfg = json.configuracion || json;
+        if (cfg && typeof cfg.mostrarBotonMapa !== "undefined") {
+          const normalizada = {
+            mostrarBotonMapa: cfg.mostrarBotonMapa !== false,
+            mostrarBotonGPS: cfg.mostrarBotonGPS !== false,
+            mostrarBotonRecorridos: cfg.mostrarBotonRecorridos !== false,
+          };
+          setConfigModulos(normalizada);
+          localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(normalizada));
         }
       }
     } catch (err) {
@@ -253,16 +259,23 @@ function Admin() {
           ...(token ? { "Authorization": `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
+          mostrarBotonMapa: nuevaConfig.mostrarBotonMapa !== false,
+          mostrarBotonGPS: nuevaConfig.mostrarBotonGPS !== false,
+          mostrarBotonRecorridos: nuevaConfig.mostrarBotonRecorridos !== false,
           mostrar_mapa: nuevaConfig.mostrarBotonMapa !== false,
+          mostrar_mapa_3d: nuevaConfig.mostrarBotonMapa !== false,
           mostrar_mapa_gps: nuevaConfig.mostrarBotonGPS !== false,
           mostrar_recorridos: nuevaConfig.mostrarBotonRecorridos !== false,
+          id_admin: adminSesion?.id_admin || 1,
+          username: adminSesion?.username || "Admin",
         }),
       });
 
       if (resp.ok) {
         setMensajeGuardadoModulos("✅ Configuración guardada en la base de datos y sincronizada con todos los celulares.");
       } else {
-        setMensajeGuardadoModulos("⚠️ Guardado localmente (no se pudo sincronizar con el servidor).");
+        const errorData = await resp.json().catch(() => ({}));
+        setMensajeGuardadoModulos("⚠️ Error del servidor: " + (errorData.message || "No se pudo sincronizar"));
       }
       setTimeout(() => setMensajeGuardadoModulos(""), 4500);
     } catch (e) {
