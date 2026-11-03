@@ -60,14 +60,17 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Estabilizador anti-ruido satelital y de brújula (evita que la cámara se mueva sola con celular quieto)
   const [filtroAntiRuido, setFiltroAntiRuido] = useState(true);
-  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(1.8);
+  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(0.8); // 0.8m: Detección rápida de pasos sin zona muerta excesiva
+  const [factorZancada, setFactorZancada] = useState(1.25); // 1.25x: Calibración peatonal para que 5 pasos reales = 4 a 5 en 3D
   const [enMovimiento, setEnMovimiento] = useState(false);
 
   const anclaGPSRef = useRef(null);
   const filtroAntiRuidoRef = useRef(true);
   filtroAntiRuidoRef.current = filtroAntiRuido;
-  const umbralRuidoRef = useRef(1.8);
+  const umbralRuidoRef = useRef(0.8);
   umbralRuidoRef.current = umbralRuidoMetros;
+  const factorZancadaRef = useRef(1.25);
+  factorZancadaRef.current = factorZancada;
 
   const ultimoHeadingRef = useRef(0);
   const ultimaPosDespachadaRef = useRef({ x: puntoInicio.x, z: puntoInicio.z });
@@ -225,8 +228,13 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           // Desplazamiento relativo en metros respecto al ancla del celular
           const dLat = (latitude - anclaActual.lat) * (Math.PI / 180);
           const dLng = (longitude - anclaActual.lng) * (Math.PI / 180);
-          dx = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
-          dz = dLat * RADIO_TIERRA_METROS;
+          const factorAvance = factorZancadaRef.current || 1.25;
+          const dxMetros = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
+          const dzMetros = dLat * RADIO_TIERRA_METROS;
+
+          // Calibración de zancada (5 pasos físicos = 4 a 5 pasos virtuales en maqueta 3D)
+          dx = dxMetros * factorAvance;
+          dz = dzMetros * factorAvance;
           distTotal = Math.sqrt(dx * dx + dz * dz);
 
           xCalculado = puntoInicio.x + dx;
@@ -251,15 +259,15 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           lngVirtual = longitude;
         }
 
-        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO):
+        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO CALIBRADA):
         let debeMover = true;
         if (filtroAntiRuidoRef.current && ultimaPosDespachadaRef.current) {
           const dXUltimo = xCalculado - ultimaPosDespachadaRef.current.x;
           const dZUltimo = zCalculado - ultimaPosDespachadaRef.current.z;
           const saltoMetros = Math.sqrt(dXUltimo * dXUltimo + dZUltimo * dZUltimo);
 
-          // Si el salto es menor al umbral configurado (1.8m) y la velocidad del dispositivo es baja (< 0.4 m/s), es ruido GPS en reposo
-          if (saltoMetros < umbralRuidoRef.current && (speed === null || speed < 0.4)) {
+          // Detección rápida de pasos: umbral de 0.8m y umbral de velocidad de 0.25 m/s
+          if (saltoMetros < umbralRuidoRef.current && (speed === null || speed < 0.25)) {
             debeMover = false;
             setEnMovimiento(false);
           } else {
@@ -321,8 +329,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
       },
       {
         enableHighAccuracy: true,
-        maximumAge: 500,
-        timeout: 10000,
+        maximumAge: 0,
+        timeout: 5000,
       }
     );
 
@@ -546,7 +554,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                 </p>
               </div>
 
-              {/* Control del Estabilizador Anti-Ruido */}
+              {/* Control del Estabilizador Anti-Ruido y Factor de Zancada */}
               <div className="filaFiltroAntiRuido" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "6px 0", fontSize: "11px", color: "#94a3b8" }}>
                 <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer", gap: "6px" }}>
                   <input
@@ -555,26 +563,45 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                     onChange={(e) => setFiltroAntiRuido(e.target.checked)}
                     style={{ cursor: "pointer" }}
                   />
-                  <span>🛡️ Filtro Anti-Ruido GPS</span>
+                  <span>🛡️ Filtro Reposo</span>
                 </label>
-                <select
-                  value={umbralRuidoMetros}
-                  onChange={(e) => setUmbralRuidoMetros(Number(e.target.value))}
-                  style={{
-                    background: "#0f172a",
-                    color: "#38bdf8",
-                    border: "1px solid #334155",
-                    borderRadius: "4px",
-                    padding: "2px 6px",
-                    fontSize: "10.5px",
-                  }}
-                  title="Sensibilidad del filtro de reposo"
-                >
-                  <option value={1.0}>1.0m (Sensible)</option>
-                  <option value={1.8}>1.8m (Estándar)</option>
-                  <option value={2.5}>2.5m (Filtro Alto)</option>
-                  <option value={4.0}>4.0m (Máx Estabilidad)</option>
-                </select>
+                <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                  <select
+                    value={umbralRuidoMetros}
+                    onChange={(e) => setUmbralRuidoMetros(Number(e.target.value))}
+                    style={{
+                      background: "#0f172a",
+                      color: "#38bdf8",
+                      border: "1px solid #334155",
+                      borderRadius: "4px",
+                      padding: "2px 4px",
+                      fontSize: "10.5px",
+                    }}
+                    title="Umbral de reposo: menor valor = detecta pasos al instante"
+                  >
+                    <option value={0.5}>0.5m (Ultra Rápido)</option>
+                    <option value={0.8}>0.8m (Recomendado)</option>
+                    <option value={1.2}>1.2m (Equilibrado)</option>
+                    <option value={1.8}>1.8m (Filtro Alto)</option>
+                  </select>
+                  <select
+                    value={factorZancada}
+                    onChange={(e) => setFactorZancada(Number(e.target.value))}
+                    style={{
+                      background: "#0f172a",
+                      color: "#10b981",
+                      border: "1px solid #334155",
+                      borderRadius: "4px",
+                      padding: "2px 4px",
+                      fontSize: "10.5px",
+                    }}
+                    title="Multiplicador de zancada: 5 pasos reales = 4-5 en maqueta 3D"
+                  >
+                    <option value={1.0}>1.0x (Estricto)</option>
+                    <option value={1.25}>1.25x (Rápido 5:4)</option>
+                    <option value={1.4}>1.4x (Zancada ágil)</option>
+                  </select>
+                </div>
               </div>
 
               <div className="accionesGpsLibre">

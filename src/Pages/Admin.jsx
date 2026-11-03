@@ -35,6 +35,26 @@ ChartJS.register(
   Filler
 );
 
+// Coordenadas de Referencia de Edificios para el Visor 2D de Rutas GPS en Admin
+const EDIFICIOS_MAPA_ADMIN = [
+  { id: "pivote", nombre: "⭐ Pivote Central (0, 0)", x: 0.0, z: 0.0, radio: 8, color: "#eab308", tipo: "circ" },
+  { id: "biblioteca", nombre: "Biblioteca Central", x: 30.0, z: -40.0, ancho: 28, alto: 20, color: "#38bdf8", tipo: "rect" },
+  { id: "porteria", nombre: "Portería Principal", x: 45.0, z: -10.0, ancho: 20, alto: 14, color: "#818cf8", tipo: "rect" },
+  { id: "bloque_d", nombre: "Bloque D", x: -20.0, z: 25.0, ancho: 30, alto: 22, color: "#34d399", tipo: "rect" },
+  { id: "coliseo", nombre: "Coliseo ITFIP", x: -50.0, z: -35.0, ancho: 34, alto: 28, color: "#fb923c", tipo: "rect" },
+];
+
+const EDIFICIOS_CAMPUS_LEGACY_ADMIN = [
+  { id: "porteria", nombre: "Portería Principal", x: -99.6, z: 363.6, ancho: 18, alto: 12, color: "#38bdf8", tipo: "rect" },
+  { id: "bloque_abc", nombre: "Bloque A-B-C", x: -110.0, z: 360.0, ancho: 32, alto: 22, color: "#818cf8", tipo: "rect" },
+  { id: "plazoleta", nombre: "Plazoleta Central", x: -120.0, z: 380.0, radio: 14, color: "#fbbf24", tipo: "circ" },
+  { id: "bloque_d", nombre: "Bloque D (Salones)", x: -146.5, z: 372.3, ancho: 30, alto: 24, color: "#34d399", tipo: "rect" },
+  { id: "cafeteria", nombre: "Cafetería Nueva", x: -121.1, z: 328.9, ancho: 22, alto: 18, color: "#f472b6", tipo: "rect" },
+  { id: "bloque_e", nombre: "Bloque E (Ingeniería)", x: -140.0, z: 430.0, ancho: 36, alto: 26, color: "#a78bfa", tipo: "rect" },
+  { id: "coliseo", nombre: "Coliseo ITFIP", x: -195.0, z: 335.0, ancho: 34, alto: 30, color: "#fb923c", tipo: "rect" },
+  { id: "gym", nombre: "Gimnasio", x: -210.0, z: 320.0, ancho: 20, alto: 18, color: "#f87171", tipo: "rect" },
+];
+
 function Admin() {
   const navigate = useNavigate();
 
@@ -147,6 +167,266 @@ function Admin() {
   const [cargando, setCargando] = useState(true);
   const [tabActiva, setTabActiva] = useState("usuarios");
   const [busqueda, setBusqueda] = useState("");
+
+  // Rutas compartidas por Testers para auditoría del Administrador
+  const [rutasGPSAdmin, setRutasGPSAdmin] = useState(() => {
+    try {
+      const comp = JSON.parse(localStorage.getItem("unimap_rutas_compartidas_admin") || "[]");
+      const guard = JSON.parse(localStorage.getItem("unimap_rutas_guardadas") || "[]");
+      const ids = new Set();
+      const unificadas = [];
+      [...comp, ...guard].forEach((r) => {
+        if (!ids.has(r.id)) {
+          ids.add(r.id);
+          unificadas.push(r);
+        }
+      });
+      return unificadas;
+    } catch (e) {
+      return [];
+    }
+  });
+  const [rutaSeleccionadaAdmin, setRutaSeleccionadaAdmin] = useState(null);
+  const [modoEncuadreAdmin, setModoEncuadreAdmin] = useState("auto");
+  const canvasAdminRef = useRef(null);
+
+  // Configuración de visibilidad de módulos para usuarios finales
+  const [configModulos, setConfigModulos] = useState(() => {
+    try {
+      const cfg = localStorage.getItem("unimap_config_modulos_usuario");
+      return cfg
+        ? JSON.parse(cfg)
+        : { mostrarBotonMapa: true, mostrarBotonGPS: true, mostrarBotonRecorridos: true };
+    } catch (e) {
+      return { mostrarBotonMapa: true, mostrarBotonGPS: true, mostrarBotonRecorridos: true };
+    }
+  });
+  const [mensajeGuardadoModulos, setMensajeGuardadoModulos] = useState("");
+
+  const guardarConfigModulos = (nuevaConfig) => {
+    setConfigModulos(nuevaConfig);
+    try {
+      localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(nuevaConfig));
+      window.dispatchEvent(new CustomEvent("UniMapConfigUpdated", { detail: nuevaConfig }));
+      setMensajeGuardadoModulos("✅ Configuración de módulos actualizada correctamente.");
+      setTimeout(() => setMensajeGuardadoModulos(""), 4000);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const recargarRutasAdmin = useCallback(() => {
+    try {
+      const comp = JSON.parse(localStorage.getItem("unimap_rutas_compartidas_admin") || "[]");
+      const guard = JSON.parse(localStorage.getItem("unimap_rutas_guardadas") || "[]");
+      const ids = new Set();
+      const unificadas = [];
+      [...comp, ...guard].forEach((r) => {
+        if (!ids.has(r.id)) {
+          ids.add(r.id);
+          unificadas.push(r);
+        }
+      });
+      setRutasGPSAdmin(unificadas);
+      if (unificadas.length > 0 && !rutaSeleccionadaAdmin) {
+        setRutaSeleccionadaAdmin(unificadas[0]);
+      }
+    } catch (e) {}
+  }, [rutaSeleccionadaAdmin]);
+
+  useEffect(() => {
+    const handleRutaCompartida = () => {
+      recargarRutasAdmin();
+    };
+    window.addEventListener("UniMapRutaCompartidaAdmin", handleRutaCompartida);
+    return () => window.removeEventListener("UniMapRutaCompartidaAdmin", handleRutaCompartida);
+  }, [recargarRutasAdmin]);
+
+  const dibujarRutaAdmin = useCallback(() => {
+    const canvas = canvasAdminRef.current;
+    if (!canvas || !rutaSeleccionadaAdmin) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const rutaGPS = rutaSeleccionadaAdmin.puntosGPS || [];
+    const rutaCam = rutaSeleccionadaAdmin.puntosCamara || [];
+    const puntos = [...rutaGPS, ...rutaCam];
+    if (puntos.length === 0) return;
+
+    const usaPivoteCero = puntos.some((p) => Math.abs(p.x) < 80 && Math.abs(p.z) < 80);
+
+    let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+    puntos.forEach((p) => {
+      if (p.x < minX) minX = p.x;
+      if (p.x > maxX) maxX = p.x;
+      if (p.z < minZ) minZ = p.z;
+      if (p.z > maxZ) maxZ = p.z;
+    });
+
+    const spanX = Math.max(maxX - minX, 15);
+    const spanZ = Math.max(maxZ - minZ, 15);
+    const margen = Math.max(15, Math.max(spanX, spanZ) * 0.25);
+    const centroX = (minX + maxX) / 2;
+    const centroZ = (minZ + maxZ) / 2;
+    const mitadDim = Math.max(spanX, spanZ) / 2 + margen;
+
+    const bounds = modoEncuadreAdmin === "auto"
+      ? {
+          minX: Math.round(centroX - mitadDim),
+          maxX: Math.round(centroX + mitadDim),
+          minZ: Math.round(centroZ - mitadDim),
+          maxZ: Math.round(centroZ + mitadDim),
+          esPivoteCero: usaPivoteCero,
+          paso: Math.max(5, Math.round((mitadDim * 2) / 6)),
+          edificios: usaPivoteCero ? EDIFICIOS_MAPA_ADMIN : EDIFICIOS_CAMPUS_LEGACY_ADMIN,
+        }
+      : (usaPivoteCero
+          ? { minX: -100, maxX: 100, minZ: -100, maxZ: 100, esPivoteCero: true, paso: 20, edificios: EDIFICIOS_MAPA_ADMIN }
+          : { minX: -240, maxX: -60, minZ: 270, maxZ: 460, esPivoteCero: false, paso: 20, edificios: EDIFICIOS_CAMPUS_LEGACY_ADMIN });
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const displayWidth = canvas.clientWidth || 550;
+    const displayHeight = 420;
+
+    if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
+      canvas.width = displayWidth * dpr;
+      canvas.height = displayHeight * dpr;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    const width = displayWidth;
+    const height = displayHeight;
+
+    ctx.clearRect(0, 0, width, height);
+    const grad = ctx.createLinearGradient(0, 0, 0, height);
+    grad.addColorStop(0, "#0b1324");
+    grad.addColorStop(1, "#070c18");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    const aPix = (x, z) => {
+      const pad = 25;
+      const wEf = width - pad * 2;
+      const hEf = height - pad * 2;
+      const px = pad + ((x - bounds.minX) / (bounds.maxX - bounds.minX)) * wEf;
+      const py = pad + (1 - (z - bounds.minZ) / (bounds.maxZ - bounds.minZ)) * hEf;
+      return { px, py };
+    };
+
+    // Rejilla
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.08)";
+    ctx.lineWidth = 1;
+    ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
+    ctx.font = "8px monospace";
+    for (let x = bounds.minX; x <= bounds.maxX; x += bounds.paso) {
+      const p1 = aPix(x, bounds.minZ);
+      const p2 = aPix(x, bounds.maxZ);
+      ctx.beginPath();
+      ctx.moveTo(p1.px, p1.py);
+      ctx.lineTo(p2.px, p2.py);
+      ctx.stroke();
+      ctx.fillText(`${x}m`, p2.px + 2, height - 6);
+    }
+    for (let z = bounds.minZ; z <= bounds.maxZ; z += bounds.paso) {
+      const p1 = aPix(bounds.minX, z);
+      const p2 = aPix(bounds.maxX, z);
+      ctx.beginPath();
+      ctx.moveTo(p1.px, p1.py);
+      ctx.lineTo(p2.px, p2.py);
+      ctx.stroke();
+      ctx.fillText(`${z}m`, 4, p1.py - 2);
+    }
+
+    // Edificios
+    bounds.edificios.forEach((ed) => {
+      if (ed.x < bounds.minX - 40 || ed.x > bounds.maxX + 40 || ed.z < bounds.minZ - 40 || ed.z > bounds.maxZ + 40) return;
+      const c = aPix(ed.x, ed.z);
+      const escH = (width - 50) / (bounds.maxX - bounds.minX);
+      const escV = (height - 50) / (bounds.maxZ - bounds.minZ);
+      if (ed.tipo === "circ") {
+        ctx.beginPath();
+        ctx.arc(c.px, c.py, Math.max(6, ed.radio * escH), 0, Math.PI * 2);
+        ctx.fillStyle = `${ed.color}25`;
+        ctx.fill();
+        ctx.strokeStyle = ed.color;
+        ctx.stroke();
+      } else {
+        const wPix = Math.max(12, ed.ancho * escH);
+        const hPix = Math.max(10, ed.alto * escV);
+        ctx.fillStyle = `${ed.color}22`;
+        ctx.fillRect(c.px - wPix / 2, c.py - hPix / 2, wPix, hPix);
+        ctx.strokeStyle = ed.color;
+        ctx.strokeRect(c.px - wPix / 2, c.py - hPix / 2, wPix, hPix);
+      }
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "bold 9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(ed.nombre, c.px, c.py);
+    });
+
+    // Ruta GPS (Cian brillante)
+    if (rutaGPS.length > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.strokeStyle = "#00e5ff";
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(0, 229, 255, 0.4)";
+      ctx.shadowBlur = 6;
+      ctx.setLineDash([6, 3]);
+      rutaGPS.forEach((p, i) => {
+        const pos = aPix(p.x, p.z);
+        if (i === 0) ctx.moveTo(pos.px, pos.py);
+        else ctx.lineTo(pos.px, pos.py);
+      });
+      ctx.stroke();
+      ctx.restore();
+
+      const pIni = aPix(rutaGPS[0].x, rutaGPS[0].z);
+      ctx.beginPath();
+      ctx.arc(pIni.px, pIni.py, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#10b981";
+      ctx.fill();
+      ctx.fillText("🟢 INICIO", pIni.px, pIni.py - 10);
+
+      const pFin = aPix(rutaGPS[rutaGPS.length - 1].x, rutaGPS[rutaGPS.length - 1].z);
+      ctx.beginPath();
+      ctx.arc(pFin.px, pFin.py, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#ef4444";
+      ctx.fill();
+      ctx.fillText("🏁 FIN", pFin.px, pFin.py - 10);
+    }
+
+    // Ruta Cámara 3D (Naranja brillante)
+    if (rutaCam.length > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.strokeStyle = "#ff9100";
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(255, 145, 0, 0.4)";
+      ctx.shadowBlur = 6;
+      rutaCam.forEach((p, i) => {
+        const pos = aPix(p.x, p.z);
+        if (i === 0) ctx.moveTo(pos.px, pos.py);
+        else ctx.lineTo(pos.px, pos.py);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }, [rutaSeleccionadaAdmin, modoEncuadreAdmin]);
+
+  useEffect(() => {
+    if (tabActiva === "rutas_gps" && rutaSeleccionadaAdmin) {
+      dibujarRutaAdmin();
+    }
+  }, [tabActiva, rutaSeleccionadaAdmin, dibujarRutaAdmin]);
 
   // Iniciar sesión administrativa
   const handleAdminLogin = async (e) => {
@@ -1573,6 +1853,29 @@ function Admin() {
               >
                 🧪 Testers ({data.testers?.length || 0})
               </button>
+
+              <button
+                type="button"
+                className={`btnTab ${tabActiva === "rutas_gps" ? "activo" : ""}`}
+                onClick={() => {
+                  setTabActiva("rutas_gps");
+                  setBusqueda("");
+                  recargarRutasAdmin();
+                }}
+              >
+                🗺️ Rutas GPS ({rutasGPSAdmin.length})
+              </button>
+
+              <button
+                type="button"
+                className={`btnTab ${tabActiva === "config_modulos" ? "activo" : ""}`}
+                onClick={() => {
+                  setTabActiva("config_modulos");
+                  setBusqueda("");
+                }}
+              >
+                ⚙️ Visibilidad Módulos
+              </button>
             </div>
 
             <input
@@ -2942,6 +3245,401 @@ function Admin() {
                       )}
                     </tbody>
                   </table>
+                </div>
+              </>
+            )}
+
+            {/* ============================================================== */}
+            {/* PESTAÑA: AUDITORÍA DE RUTAS GPS TESTERS                       */}
+            {/* ============================================================== */}
+            {tabActiva === "rutas_gps" && (
+              <>
+                <div className="adminSeccionHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+                  <div>
+                    <h3 style={{ color: "#38bdf8", display: "flex", alignItems: "center", gap: "8px" }}>
+                      🗺️ Auditoría de Rutas GPS y Validación de Desplazamiento
+                    </h3>
+                    <p className="adminSeccionDesc">
+                      Inspecciona las rutas enviadas por los testers desde dispositivos móviles para diagnosticar la velocidad de pasos, suavidad y discrepancia con la cámara 3D.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="btnAdminNav"
+                    onClick={recargarRutasAdmin}
+                    style={{ background: "#0284c7", color: "#ffffff", border: "none" }}
+                    title="Recargar rutas compartidas"
+                  >
+                    🔄 Recargar Rutas ({rutasGPSAdmin.length})
+                  </button>
+                </div>
+
+                {rutasGPSAdmin.length === 0 ? (
+                  <div style={{ padding: "40px 20px", textAlign: "center", background: "var(--bg-card)", borderRadius: "12px", border: "1px solid var(--border-color)" }}>
+                    <div style={{ fontSize: "36px", marginBottom: "10px" }}>🗺️</div>
+                    <h4 style={{ margin: "0 0 6px 0", color: "var(--text-primary)" }}>No hay rutas compartidas aún</h4>
+                    <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: "13px" }}>
+                      Los testers pueden usar el botón <b>"📤 Enviar al Admin"</b> desde el comparador de rutas en <code style={{ color: "#38bdf8" }}>/InterfazPruebas</code> para registrar sus pruebas aquí.
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px" }}>
+                    {/* Lista / Tabla de Rutas Enviadas */}
+                    <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <h4 style={{ margin: 0, color: "var(--text-primary)", fontSize: "15px" }}>
+                        📋 Rutas Registradas ({rutasGPSAdmin.length})
+                      </h4>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "560px", overflowY: "auto" }}>
+                        {rutasGPSAdmin.map((r) => {
+                          const esSeleccionada = rutaSeleccionadaAdmin?.id === r.id;
+                          return (
+                            <div
+                              key={r.id}
+                              onClick={() => setRutaSeleccionadaAdmin(r)}
+                              style={{
+                                padding: "12px 14px",
+                                borderRadius: "10px",
+                                border: `1.5px solid ${esSeleccionada ? "#38bdf8" : "var(--border-color)"}`,
+                                background: esSeleccionada ? "rgba(56, 189, 248, 0.08)" : "transparent",
+                                cursor: "pointer",
+                                transition: "all 0.2s ease",
+                              }}
+                            >
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
+                                <strong style={{ color: esSeleccionada ? "#38bdf8" : "var(--text-primary)", fontSize: "14px" }}>
+                                  {r.nombre}
+                                </strong>
+                                <span style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+                                  ⏱️ {Math.floor((r.duracionSegundos || 0) / 60)}:{(r.duracionSegundos || 0) % 60 < 10 ? "0" : ""}{(r.duracionSegundos || 0) % 60}
+                                </span>
+                              </div>
+                              <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "8px" }}>
+                                👤 <b>{r.testerNombre || "Tester"}</b> • 📅 {r.fecha || "Reciente"}
+                              </div>
+                              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", fontSize: "11.5px", marginBottom: "10px" }}>
+                                <span style={{ background: "rgba(6, 182, 212, 0.15)", color: "#06b6d4", padding: "2px 8px", borderRadius: "12px" }}>
+                                  🛰️ GPS: {r.distanciaGPS || 0}m
+                                </span>
+                                <span style={{ background: "rgba(249, 115, 22, 0.15)", color: "#f97316", padding: "2px 8px", borderRadius: "12px" }}>
+                                  🎥 3D: {r.distanciaCamara || 0}m
+                                </span>
+                                <span style={{ background: (r.discrepanciaFinal || 0) < 2 ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)", color: (r.discrepanciaFinal || 0) < 2 ? "#10b981" : "#ef4444", padding: "2px 8px", borderRadius: "12px" }}>
+                                  ⚖️ Disc: {r.discrepanciaFinal || 0}m
+                                </span>
+                              </div>
+                              <div style={{ display: "flex", gap: "6px", justifyContent: "flex-end" }}>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(r, null, 2));
+                                    const a = document.createElement("a");
+                                    a.setAttribute("href", dataStr);
+                                    a.setAttribute("download", `${(r.nombre || "ruta").replace(/\s+/g, "_")}.json`);
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    a.remove();
+                                  }}
+                                  style={{ padding: "3px 8px", fontSize: "11px", borderRadius: "6px", background: "#334155", color: "#f8fafc", border: "none", cursor: "pointer" }}
+                                  title="Exportar archivo JSON"
+                                >
+                                  💾 JSON
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (window.confirm("¿Eliminar esta ruta del registro del administrador?")) {
+                                      const filtradas = rutasGPSAdmin.filter((item) => item.id !== r.id);
+                                      setRutasGPSAdmin(filtradas);
+                                      localStorage.setItem("unimap_rutas_compartidas_admin", JSON.stringify(filtradas));
+                                      if (rutaSeleccionadaAdmin?.id === r.id) {
+                                        setRutaSeleccionadaAdmin(filtradas[0] || null);
+                                      }
+                                    }
+                                  }}
+                                  style={{ padding: "3px 8px", fontSize: "11px", borderRadius: "6px", background: "rgba(239, 68, 68, 0.2)", color: "#ef4444", border: "none", cursor: "pointer" }}
+                                  title="Eliminar ruta"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Visor Cartográfico 2D Nítido */}
+                    <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                        <h4 style={{ margin: 0, color: "var(--text-primary)", fontSize: "15px" }}>
+                          🗺️ Visor Gráfico: {rutaSeleccionadaAdmin ? rutaSeleccionadaAdmin.nombre : "Selecciona una ruta"}
+                        </h4>
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          <button
+                            type="button"
+                            onClick={() => setModoEncuadreAdmin((prev) => (prev === "auto" ? "campus" : "auto"))}
+                            style={{
+                              padding: "4px 10px",
+                              fontSize: "11.5px",
+                              borderRadius: "6px",
+                              background: modoEncuadreAdmin === "auto" ? "#0284c7" : "#334155",
+                              color: "#ffffff",
+                              border: "none",
+                              cursor: "pointer",
+                            }}
+                            title="Alternar entre auto-zoom centrado en la ruta y vista global"
+                          >
+                            {modoEncuadreAdmin === "auto" ? "🔍 Zoom Ruta (Nítido)" : "🏛️ Ver Campus Completo"}
+                          </button>
+                        </div>
+                      </div>
+
+                      {rutaSeleccionadaAdmin ? (
+                        <>
+                          <div style={{ position: "relative", width: "100%", height: "420px", background: "#0b1324", borderRadius: "10px", overflow: "hidden" }}>
+                            <canvas
+                              ref={canvasAdminRef}
+                              style={{ width: "100%", height: "100%", display: "block" }}
+                            />
+                            {/* Leyenda flotante */}
+                            <div style={{ position: "absolute", bottom: "10px", right: "10px", background: "rgba(15, 23, 42, 0.85)", padding: "6px 12px", borderRadius: "8px", fontSize: "11px", display: "flex", gap: "12px", color: "#f8fafc", pointerEvents: "none" }}>
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                <span style={{ width: "10px", height: "3px", background: "#00e5ff", borderRadius: "2px" }} />
+                                Ruta GPS
+                              </span>
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                <span style={{ width: "10px", height: "3px", background: "#ff9100", borderRadius: "2px" }} />
+                                Cámara 3D
+                              </span>
+                            </div>
+                          </div>
+
+                          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "8px", marginTop: "4px" }}>
+                            <div style={{ background: "rgba(6, 182, 212, 0.08)", border: "1px solid rgba(6, 182, 212, 0.25)", padding: "8px", borderRadius: "8px", textAlign: "center" }}>
+                              <small style={{ color: "#06b6d4", fontSize: "11px" }}>Recorrido GPS</small>
+                              <div style={{ fontSize: "15px", fontWeight: "bold", color: "var(--text-primary)" }}>{rutaSeleccionadaAdmin.distanciaGPS || 0} m</div>
+                            </div>
+                            <div style={{ background: "rgba(249, 115, 22, 0.08)", border: "1px solid rgba(249, 115, 22, 0.25)", padding: "8px", borderRadius: "8px", textAlign: "center" }}>
+                              <small style={{ color: "#f97316", fontSize: "11px" }}>Recorrido Cámara</small>
+                              <div style={{ fontSize: "15px", fontWeight: "bold", color: "var(--text-primary)" }}>{rutaSeleccionadaAdmin.distanciaCamara || 0} m</div>
+                            </div>
+                            <div style={{ background: (rutaSeleccionadaAdmin.discrepanciaFinal || 0) < 2 ? "rgba(16, 185, 129, 0.08)" : "rgba(239, 68, 68, 0.08)", border: `1px solid ${(rutaSeleccionadaAdmin.discrepanciaFinal || 0) < 2 ? "rgba(16, 185, 129, 0.25)" : "rgba(239, 68, 68, 0.25)"}`, padding: "8px", borderRadius: "8px", textAlign: "center" }}>
+                              <small style={{ color: (rutaSeleccionadaAdmin.discrepanciaFinal || 0) < 2 ? "#10b981" : "#ef4444", fontSize: "11px" }}>Discrepancia</small>
+                              <div style={{ fontSize: "15px", fontWeight: "bold", color: "var(--text-primary)" }}>{rutaSeleccionadaAdmin.discrepanciaFinal || 0} m</div>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ padding: "60px 20px", textAlign: "center", color: "var(--text-secondary)" }}>
+                          Selecciona una ruta de la lista para ver su trazado y estadísticas.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* ============================================================== */}
+            {/* PESTAÑA: CONFIGURACIÓN DE VISIBILIDAD DE MÓDULOS              */}
+            {/* ============================================================== */}
+            {tabActiva === "config_modulos" && (
+              <>
+                <div className="adminSeccionHeader" style={{ marginBottom: "20px" }}>
+                  <h3 style={{ color: "#38bdf8", display: "flex", alignItems: "center", gap: "8px" }}>
+                    ⚙️ Control de Visibilidad de Módulos para Usuarios Finales
+                  </h3>
+                  <p className="adminSeccionDesc">
+                    Personaliza los botones visibles en la interfaz principal (<code style={{ color: "#10b981" }}>/Interfaz</code>) para estudiantes y visitantes. Puedes ocultar módulos en mantenimiento o activar solo las funciones que desees publicar.
+                  </p>
+                </div>
+
+                {mensajeGuardadoModulos && (
+                  <div style={{ padding: "12px 18px", background: "rgba(16, 185, 129, 0.15)", border: "1px solid #10b981", borderRadius: "10px", color: "#34d399", fontWeight: 600, fontSize: "13.5px", marginBottom: "20px" }}>
+                    {mensajeGuardadoModulos}
+                  </div>
+                )}
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "24px" }}>
+                  {/* Switch 1: Botón Mapa 3D */}
+                  <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ fontSize: "24px" }}>🗺️</span>
+                        <div>
+                          <strong style={{ fontSize: "15px", color: "var(--text-primary)" }}>Botón "Mapa 3D"</strong>
+                          <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Menú lateral principal</div>
+                        </div>
+                      </div>
+                      <label style={{ position: "relative", display: "inline-block", width: "48px", height: "26px", cursor: "pointer" }}>
+                        <input
+                          type="checkbox"
+                          checked={configModulos.mostrarBotonMapa !== false}
+                          onChange={(e) => guardarConfigModulos({ ...configModulos, mostrarBotonMapa: e.target.checked })}
+                          style={{ opacity: 0, width: 0, height: 0 }}
+                        />
+                        <span
+                          style={{
+                            position: "absolute",
+                            cursor: "pointer",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: configModulos.mostrarBotonMapa !== false ? "#10b981" : "#475569",
+                            borderRadius: "26px",
+                            transition: "0.2s",
+                          }}
+                        >
+                          <span
+                            style={{
+                              position: "absolute",
+                              content: '""',
+                              height: "20px",
+                              width: "20px",
+                              left: configModulos.mostrarBotonMapa !== false ? "24px" : "4px",
+                              bottom: "3px",
+                              backgroundColor: "white",
+                              borderRadius: "50%",
+                              transition: "0.2s",
+                            }}
+                          />
+                        </span>
+                      </label>
+                    </div>
+                    <p style={{ margin: 0, fontSize: "12.5px", color: "var(--text-secondary)", lineHeight: "1.4" }}>
+                      Muestra u oculta el botón "Mapa 3D" en el menú lateral para usuarios finales.
+                    </p>
+                    <span style={{ fontSize: "11.5px", fontWeight: 600, color: configModulos.mostrarBotonMapa !== false ? "#10b981" : "#ef4444" }}>
+                      {configModulos.mostrarBotonMapa !== false ? "🟢 Visible para Usuarios" : "🔴 Oculto para Usuarios"}
+                    </span>
+                  </div>
+
+                  {/* Switch 2: Botón Mapa GPS */}
+                  <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ fontSize: "24px" }}>📍</span>
+                        <div>
+                          <strong style={{ fontSize: "15px", color: "var(--text-primary)" }}>Botón "Mapa GPS"</strong>
+                          <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Menú lateral y botón flotante</div>
+                        </div>
+                      </div>
+                      <label style={{ position: "relative", display: "inline-block", width: "48px", height: "26px", cursor: "pointer" }}>
+                        <input
+                          type="checkbox"
+                          checked={configModulos.mostrarBotonGPS !== false}
+                          onChange={(e) => guardarConfigModulos({ ...configModulos, mostrarBotonGPS: e.target.checked })}
+                          style={{ opacity: 0, width: 0, height: 0 }}
+                        />
+                        <span
+                          style={{
+                            position: "absolute",
+                            cursor: "pointer",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: configModulos.mostrarBotonGPS !== false ? "#10b981" : "#475569",
+                            borderRadius: "26px",
+                            transition: "0.2s",
+                          }}
+                        >
+                          <span
+                            style={{
+                              position: "absolute",
+                              content: '""',
+                              height: "20px",
+                              width: "20px",
+                              left: configModulos.mostrarBotonGPS !== false ? "24px" : "4px",
+                              bottom: "3px",
+                              backgroundColor: "white",
+                              borderRadius: "50%",
+                              transition: "0.2s",
+                            }}
+                          />
+                        </span>
+                      </label>
+                    </div>
+                    <p style={{ margin: 0, fontSize: "12.5px", color: "var(--text-secondary)", lineHeight: "1.4" }}>
+                      Muestra u oculta el botón "Mapa GPS" del menú lateral y el botón circular flotante 📍 de la pantalla.
+                    </p>
+                    <span style={{ fontSize: "11.5px", fontWeight: 600, color: configModulos.mostrarBotonGPS !== false ? "#10b981" : "#ef4444" }}>
+                      {configModulos.mostrarBotonGPS !== false ? "🟢 Visible para Usuarios" : "🔴 Oculto para Usuarios"}
+                    </span>
+                  </div>
+
+                  {/* Switch 3: Botón Recorridos y Trámites */}
+                  <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ fontSize: "24px" }}>📋</span>
+                        <div>
+                          <strong style={{ fontSize: "15px", color: "var(--text-primary)" }}>Botón "Recorridos / Trámites"</strong>
+                          <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Menú lateral principal</div>
+                        </div>
+                      </div>
+                      <label style={{ position: "relative", display: "inline-block", width: "48px", height: "26px", cursor: "pointer" }}>
+                        <input
+                          type="checkbox"
+                          checked={configModulos.mostrarBotonRecorridos !== false}
+                          onChange={(e) => guardarConfigModulos({ ...configModulos, mostrarBotonRecorridos: e.target.checked })}
+                          style={{ opacity: 0, width: 0, height: 0 }}
+                        />
+                        <span
+                          style={{
+                            position: "absolute",
+                            cursor: "pointer",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: configModulos.mostrarBotonRecorridos !== false ? "#10b981" : "#475569",
+                            borderRadius: "26px",
+                            transition: "0.2s",
+                          }}
+                        >
+                          <span
+                            style={{
+                              position: "absolute",
+                              content: '""',
+                              height: "20px",
+                              width: "20px",
+                              left: configModulos.mostrarBotonRecorridos !== false ? "24px" : "4px",
+                              bottom: "3px",
+                              backgroundColor: "white",
+                              borderRadius: "50%",
+                              transition: "0.2s",
+                            }}
+                          />
+                        </span>
+                      </label>
+                    </div>
+                    <p style={{ margin: 0, fontSize: "12.5px", color: "var(--text-secondary)", lineHeight: "1.4" }}>
+                      Muestra u oculta el botón "Trámites y Visita" para filtrar y recorrer dependencias y auditorios.
+                    </p>
+                    <span style={{ fontSize: "11.5px", fontWeight: 600, color: configModulos.mostrarBotonRecorridos !== false ? "#10b981" : "#ef4444" }}>
+                      {configModulos.mostrarBotonRecorridos !== false ? "🟢 Visible para Usuarios" : "🔴 Oculto para Usuarios"}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    className="btnAdminPrimary"
+                    onClick={() => {
+                      guardarConfigModulos({
+                        mostrarBotonMapa: true,
+                        mostrarBotonGPS: true,
+                        mostrarBotonRecorridos: true,
+                      });
+                    }}
+                  >
+                    🔄 Restaurar Todos los Botones Visibles
+                  </button>
                 </div>
               </>
             )}

@@ -17,6 +17,9 @@
   flex: 1;
   max-width: 1280px;
   width: 94%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   margin: 24px auto 40px auto;
   display: flex;
   flex-direction: column;
@@ -36,6 +39,8 @@
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .AdminTitulo h1 {
@@ -54,6 +59,7 @@
 
 .AdminAcciones {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
 }
@@ -410,7 +416,7 @@
    ========================================== */
 .AdminGraficasGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -511,10 +517,21 @@
   }
   .AdminAcciones {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .btnAdminNav {
-    width: 100%;
+  .AdminAcciones > button,
+  .btnAdminNav,
+  .btnAdminLogout,
+  .btnAdminPdf,
+  .btnEntornoTesterTop {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 130px;
     justify-content: center;
+    box-sizing: border-box;
+    font-size: 12px;
+    padding: 8px 10px;
   }
   .AdminMetricasGrid {
     grid-template-columns: 1fr;
@@ -529,6 +546,28 @@
   }
   .inputSearchAdmin {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .AdminContainer {
+    width: 100%;
+    padding: 0 8px;
+    margin: 12px auto;
+  }
+  .AdminAcciones > button,
+  .btnAdminNav,
+  .btnAdminLogout,
+  .btnAdminPdf,
+  .btnEntornoTesterTop {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .AdminTopBar {
+    padding: 12px;
+  }
+  .cardGraficaAdmin {
+    padding: 12px;
   }
 }
 

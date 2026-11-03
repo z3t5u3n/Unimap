@@ -59,6 +59,7 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
 
   const [rutaSeleccionadaId, setRutaSeleccionadaId] = useState(null);
   const [pestanaActiva, setPestanaActiva] = useState("mapa"); // 'mapa' o 'historial'
+  const [modoEncuadre, setModoEncuadre] = useState("auto"); // 'auto' (zoom centrado en la ruta) o 'campus' (vista completa)
 
   // Refs para capturar en listeners sin recrear funciones
   const grabandoRef = useRef(false);
@@ -146,20 +147,62 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const width = canvas.width;
-    const height = canvas.height;
-
     // Detectar si las coordenadas activas están cerca de (0,0) (GPS Libre o Pivote Central Oficial)
     const puntos = [...rutaGPS, ...rutaCamara];
     if (posGPSActual) puntos.push(posGPSActual);
     if (posCamActual) puntos.push(posCamActual);
     const usaPivoteCero = puntos.length > 0 && puntos.some((p) => Math.abs(p.x) < 80 && Math.abs(p.z) < 80);
 
-    const bounds = usaPivoteCero
-      ? { minX: -100, maxX: 100, minZ: -100, maxZ: 100, esPivoteCero: true, paso: 20, edificios: EDIFICIOS_PIVOTE_CENTRAL }
-      : { minX: -240, maxX: -60, minZ: 270, maxZ: 460, esPivoteCero: false, paso: 20, edificios: EDIFICIOS_CAMPUS };
+    let bounds;
+    // Si modoEncuadre es "auto" y tenemos puntos registrados, auto-ajustar zoom centrado en la ruta
+    if (modoEncuadre === "auto" && puntos.length >= 2) {
+      let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+      puntos.forEach((p) => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.z < minZ) minZ = p.z;
+        if (p.z > maxZ) maxZ = p.z;
+      });
+
+      const spanX = Math.max(maxX - minX, 15);
+      const spanZ = Math.max(maxZ - minZ, 15);
+      const margen = Math.max(12, Math.max(spanX, spanZ) * 0.25);
+      const centroX = (minX + maxX) / 2;
+      const centroZ = (minZ + maxZ) / 2;
+      const mitadDim = Math.max(spanX, spanZ) / 2 + margen;
+
+      bounds = {
+        minX: Math.round(centroX - mitadDim),
+        maxX: Math.round(centroX + mitadDim),
+        minZ: Math.round(centroZ - mitadDim),
+        maxZ: Math.round(centroZ + mitadDim),
+        esPivoteCero: usaPivoteCero,
+        paso: Math.max(5, Math.round((mitadDim * 2) / 6)),
+        edificios: usaPivoteCero ? EDIFICIOS_PIVOTE_CENTRAL : EDIFICIOS_CAMPUS,
+      };
+    } else {
+      bounds = usaPivoteCero
+        ? { minX: -100, maxX: 100, minZ: -100, maxZ: 100, esPivoteCero: true, paso: 20, edificios: EDIFICIOS_PIVOTE_CENTRAL }
+        : { minX: -240, maxX: -60, minZ: 270, maxZ: 460, esPivoteCero: false, paso: 20, edificios: EDIFICIOS_CAMPUS };
+    }
 
     boundsRef.current = bounds;
+
+    // Soporte Hi-DPI para nitidez máxima en pantallas retina y móviles
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const displayWidth = 500;
+    const displayHeight = 500;
+
+    if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
+      canvas.width = displayWidth * dpr;
+      canvas.height = displayHeight * dpr;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    const width = displayWidth;
+    const height = displayHeight;
 
     // A. Fondo de la superficie del campus (suelo y gradiente)
     ctx.clearRect(0, 0, width, height);
@@ -170,9 +213,13 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
     ctx.fillStyle = gradFondo;
     ctx.fillRect(0, 0, width, height);
 
-    // B. Rejilla topográfica de calibración (cada 20 metros)
-    ctx.strokeStyle = "rgba(56, 189, 248, 0.08)";
+    // B. Rejilla topográfica de calibración con escala métrica
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.09)";
     ctx.lineWidth = 1;
+    ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
+    ctx.font = "8px monospace";
+    ctx.textAlign = "left";
+
     for (let x = bounds.minX; x <= bounds.maxX; x += bounds.paso) {
       const p1 = aPixeles(x, bounds.minZ, width, height);
       const p2 = aPixeles(x, bounds.maxZ, width, height);
@@ -180,6 +227,7 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
       ctx.stroke();
+      ctx.fillText(`${x}m`, p2.px + 2, height - 6);
     }
     for (let z = bounds.minZ; z <= bounds.maxZ; z += bounds.paso) {
       const p1 = aPixeles(bounds.minX, z, width, height);
@@ -188,11 +236,12 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
       ctx.stroke();
+      ctx.fillText(`${z}m`, 4, p1.py - 2);
     }
 
     // Si es pivote cero, dibujar ejes cartesianos X y Z que cruzan por (0, 0)
     if (bounds.esPivoteCero) {
-      ctx.strokeStyle = "rgba(234, 179, 8, 0.25)";
+      ctx.strokeStyle = "rgba(234, 179, 8, 0.35)";
       ctx.lineWidth = 1.5;
       const ejeZ1 = aPixeles(0, bounds.minZ, width, height);
       const ejeZ2 = aPixeles(0, bounds.maxZ, width, height);
@@ -211,20 +260,27 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
 
     // C. Dibujar siluetas de los Edificios Principales
     bounds.edificios.forEach((ed) => {
+      // Omitir edificios que caigan completamente fuera de la vista
+      if (ed.x < bounds.minX - 40 || ed.x > bounds.maxX + 40 || ed.z < bounds.minZ - 40 || ed.z > bounds.maxZ + 40) {
+        return;
+      }
+
       const centro = aPixeles(ed.x, ed.z, width, height);
+      const escalaH = (width - 50) / (bounds.maxX - bounds.minX);
+      const escalaV = (height - 50) / (bounds.maxZ - bounds.minZ);
 
       if (ed.tipo === "circ") {
         ctx.beginPath();
-        const rPix = (ed.radio / (bounds.maxX - bounds.minX)) * (width - 50);
+        const rPix = Math.max(6, ed.radio * escalaH);
         ctx.arc(centro.px, centro.py, rPix, 0, Math.PI * 2);
         ctx.fillStyle = `${ed.color}25`;
         ctx.fill();
         ctx.strokeStyle = ed.color;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.5;
         ctx.stroke();
       } else {
-        const wPix = (ed.ancho / (bounds.maxX - bounds.minX)) * (width - 50);
-        const hPix = (ed.alto / (bounds.maxZ - bounds.minZ)) * (height - 50);
+        const wPix = Math.max(12, ed.ancho * escalaH);
+        const hPix = Math.max(10, ed.alto * escalaV);
 
         ctx.fillStyle = `${ed.color}22`;
         ctx.fillRect(centro.px - wPix / 2, centro.py - hPix / 2, wPix, hPix);
@@ -234,19 +290,24 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
       }
 
       // Etiqueta del edificio
-      ctx.fillStyle = "#e2e8f0";
+      ctx.fillStyle = "#cbd5e1";
       ctx.font = "bold 9px sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(ed.nombre, centro.px, centro.py);
     });
 
-    // D. Dibujar Ruta del GPS (Cian / Azul)
+    // D. Dibujar Ruta del GPS (Cian brillante, Hi-DPI, suavizado)
     if (rutaGPS.length > 0) {
+      ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = "#06b6d4";
+      ctx.strokeStyle = "#00e5ff";
       ctx.lineWidth = 3;
-      ctx.setLineDash([4, 2]);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(0, 229, 255, 0.4)";
+      ctx.shadowBlur = 6;
+      ctx.setLineDash([6, 3]);
 
       rutaGPS.forEach((p, i) => {
         const pos = aPixeles(p.x, p.z, width, height);
@@ -254,23 +315,60 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
         else ctx.lineTo(pos.px, pos.py);
       });
       ctx.stroke();
-      ctx.setLineDash([]); // Restaurar línea sólida
+      ctx.restore();
 
       // Puntos de muestreo GPS
       rutaGPS.forEach((p) => {
         const pos = aPixeles(p.x, p.z, width, height);
         ctx.beginPath();
-        ctx.arc(pos.px, pos.py, 3, 0, Math.PI * 2);
-        ctx.fillStyle = "#06b6d4";
+        ctx.arc(pos.px, pos.py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#00e5ff";
         ctx.fill();
       });
+
+      // Marcador de INICIO de la ruta (Primer punto)
+      const pInicio = aPixeles(rutaGPS[0].x, rutaGPS[0].z, width, height);
+      ctx.beginPath();
+      ctx.arc(pInicio.px, pInicio.py, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#10b981";
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = "#10b981";
+      ctx.font = "bold 9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("🟢 INICIO", pInicio.px, pInicio.py - 10);
+
+      // Marcador de FIN de la ruta (Último punto si no está grabando)
+      if (!grabandoRef.current && rutaGPS.length > 1) {
+        const pFin = aPixeles(rutaGPS[rutaGPS.length - 1].x, rutaGPS[rutaGPS.length - 1].z, width, height);
+        ctx.beginPath();
+        ctx.arc(pFin.px, pFin.py, 6, 0, Math.PI * 2);
+        ctx.fillStyle = "#ef4444";
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = "#ef4444";
+        ctx.font = "bold 9px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("🏁 FIN", pFin.px, pFin.py - 10);
+      }
     }
 
-    // E. Dibujar Ruta de la Cámara 3D (Naranja / Fucsia)
+    // E. Dibujar Ruta de la Cámara 3D (Naranja brillante, Hi-DPI, suavizado)
     if (rutaCamara.length > 0) {
+      ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = "#f97316";
+      ctx.strokeStyle = "#ff9100";
       ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(255, 145, 0, 0.4)";
+      ctx.shadowBlur = 6;
 
       rutaCamara.forEach((p, i) => {
         const pos = aPixeles(p.x, p.z, width, height);
@@ -278,23 +376,24 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
         else ctx.lineTo(pos.px, pos.py);
       });
       ctx.stroke();
+      ctx.restore();
 
       // Puntos de muestreo de Cámara
       rutaCamara.forEach((p) => {
         const pos = aPixeles(p.x, p.z, width, height);
         ctx.beginPath();
-        ctx.arc(pos.px, pos.py, 3, 0, Math.PI * 2);
-        ctx.fillStyle = "#f97316";
+        ctx.arc(pos.px, pos.py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#ff9100";
         ctx.fill();
       });
     }
 
-    // F. Marcador actual de posición GPS (Círculo azul brillante)
+    // F. Marcador actual de posición GPS (Círculo azul brillante con flecha)
     if (posGPSActual) {
       const pos = aPixeles(posGPSActual.x, posGPSActual.z, width, height);
       ctx.beginPath();
       ctx.arc(pos.px, pos.py, 7, 0, Math.PI * 2);
-      ctx.fillStyle = "#06b6d4";
+      ctx.fillStyle = "#00e5ff";
       ctx.fill();
       ctx.strokeStyle = "#ffffff";
       ctx.lineWidth = 2;
@@ -308,7 +407,7 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
         ctx.beginPath();
         ctx.moveTo(pos.px, pos.py);
         ctx.lineTo(flechaX, flechaY);
-        ctx.strokeStyle = "#06b6d4";
+        ctx.strokeStyle = "#00e5ff";
         ctx.lineWidth = 3;
         ctx.stroke();
       }
@@ -339,7 +438,9 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
       ctx.lineWidth = 2;
       ctx.stroke();
     }
-  }, [aPixeles, rutaGPS, rutaCamara, posGPSActual, posCamActual]);
+
+    ctx.restore();
+  }, [aPixeles, rutaGPS, rutaCamara, posGPSActual, posCamActual, modoEncuadre]);
 
   // Redibujar periódicamente mientras esté visible
   useEffect(() => {
@@ -447,6 +548,38 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
     } catch (e) {}
   };
 
+  // Enviar ruta directamente al Administrador
+  const handleEnviarAlAdmin = (ruta) => {
+    try {
+      const guardadasAdmin = JSON.parse(localStorage.getItem("unimap_rutas_compartidas_admin") || "[]");
+      const existeIdx = guardadasAdmin.findIndex((r) => r.id === ruta.id);
+      let usuarioActual = {};
+      try {
+        usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
+      } catch (e) {}
+
+      const rutaParaAdmin = {
+        ...ruta,
+        enviadoAlAdminEn: new Date().toLocaleString("es-CO"),
+        testerNombre: usuarioActual.nombre || usuarioActual.username || "Tester Móvil",
+        dispositivo: navigator.userAgent.includes("Mobile") ? "Dispositivo Móvil (Smartphone)" : "Navegador de Escritorio (PC)",
+      };
+
+      if (existeIdx >= 0) {
+        guardadasAdmin[existeIdx] = rutaParaAdmin;
+      } else {
+        guardadasAdmin.unshift(rutaParaAdmin);
+      }
+
+      localStorage.setItem("unimap_rutas_compartidas_admin", JSON.stringify(guardadasAdmin));
+      window.dispatchEvent(new CustomEvent("UniMapRutaCompartidaAdmin", { detail: rutaParaAdmin }));
+      alert(`📤 ¡Ruta "${ruta.nombre}" enviada con éxito al panel del Administrador!`);
+    } catch (err) {
+      console.error("Error al enviar al admin:", err);
+      alert("No se pudo enviar la ruta al admin.");
+    }
+  };
+
   // Limpiar trazado en pantalla
   const handleLimpiarTrazado = () => {
     setRutaGPS([]);
@@ -519,6 +652,40 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
               <button type="button" className="btnLimpiarTrazado" onClick={handleLimpiarTrazado}>
                 🧹 Limpiar
               </button>
+
+              {/* Botón de auto-zoom y encuadre nítido */}
+              <button
+                type="button"
+                className={`btnAutoEncuadre ${modoEncuadre === "auto" ? "activo" : ""}`}
+                onClick={() => setModoEncuadre((prev) => (prev === "auto" ? "campus" : "auto"))}
+                title={modoEncuadre === "auto" ? "Ver mapa completo del campus" : "Enfocar y centrar en la ruta grabada"}
+              >
+                {modoEncuadre === "auto" ? "🔍 Zoom Ruta" : "🏛️ Ver Campus"}
+              </button>
+
+              {/* Botón para enviar la ruta actual al Administrador */}
+              {rutaGPS.length > 0 && (
+                <button
+                  type="button"
+                  className="btnEnviarAdminRuta"
+                  onClick={() =>
+                    handleEnviarAlAdmin({
+                      id: rutaSeleccionadaId || Date.now().toString(),
+                      nombre: `Ruta_Test_${new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })}`,
+                      fecha: new Date().toLocaleString("es-CO"),
+                      duracionSegundos: tiempoTranscurrido,
+                      distanciaGPS: distGPS,
+                      distanciaCamara: distCam,
+                      discrepanciaFinal: discrepanciaActual,
+                      puntosGPS: rutaGPS,
+                      puntosCamara: rutaCamara,
+                    })
+                  }
+                  title="Enviar la gráfica y datos de esta ruta al Administrador"
+                >
+                  📤 Enviar al Admin
+                </button>
+              )}
 
               <div className="indicadorTiempoGrabacion">
                 ⏱️ Tiempo: <b>{formatearTiempo(tiempoTranscurrido)}</b>
@@ -604,6 +771,15 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
                         title="Ver en el mapa 2D"
                       >
                         👁️ Ver
+                      </button>
+                      <button
+                        type="button"
+                        className="btnAccionRuta enviarAdmin"
+                        onClick={() => handleEnviarAlAdmin(r)}
+                        title="Enviar esta ruta al Administrador"
+                        style={{ background: "rgba(16, 185, 129, 0.2)", color: "#34d399", border: "1px solid #10b981" }}
+                      >
+                        📤 Admin
                       </button>
                       <button
                         type="button"

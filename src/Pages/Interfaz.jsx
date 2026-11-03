@@ -40,6 +40,37 @@ function Interfaz() {
   const [mostrarGPS, setMostrarGPS] = useState(false); // Minimapa Google Maps GPS en tiempo real
   const [filtroTramites, setFiltroTramites] = useState(false); // Filtro activo para mostrar trámites y visita
 
+  // Control de visibilidad de módulos administrado desde /Admin
+  const [configModulos, setConfigModulos] = useState(() => {
+    try {
+      const cfg = localStorage.getItem("unimap_config_modulos_usuario");
+      return cfg
+        ? JSON.parse(cfg)
+        : { mostrarBotonMapa: true, mostrarBotonGPS: true, mostrarBotonRecorridos: true };
+    } catch (e) {
+      return { mostrarBotonMapa: true, mostrarBotonGPS: true, mostrarBotonRecorridos: true };
+    }
+  });
+
+  useEffect(() => {
+    const handleConfigActualizada = (e) => {
+      if (e.detail) {
+        setConfigModulos(e.detail);
+      } else {
+        try {
+          const cfg = localStorage.getItem("unimap_config_modulos_usuario");
+          if (cfg) setConfigModulos(JSON.parse(cfg));
+        } catch (err) {}
+      }
+    };
+    window.addEventListener("UniMapConfigUpdated", handleConfigActualizada);
+    window.addEventListener("storage", handleConfigActualizada);
+    return () => {
+      window.removeEventListener("UniMapConfigUpdated", handleConfigActualizada);
+      window.removeEventListener("storage", handleConfigActualizada);
+    };
+  }, []);
+
   // 2. Estados de Unity
   const [edificios, setEdificios] = useState([]);
   const [lugares, setLugares] = useState([]);
@@ -224,27 +255,32 @@ function Interfaz() {
           <div className="Menu">
             <h2 className="tituloMenuMapa">Menú Mapa</h2>
 
-            <button
-              type="button"
-              className="btnMenuLateral"
-              onClick={() => {
-                if (window.innerWidth <= 768) setMenuAbierto(false);
-              }}
-            >
-              🗺️ <b>Mapa 3D</b>
-            </button>
+            {/* BOTÓN MAPA 3D */}
+            {configModulos.mostrarBotonMapa !== false && (
+              <button
+                type="button"
+                className="btnMenuLateral"
+                onClick={() => {
+                  if (window.innerWidth <= 768) setMenuAbierto(false);
+                }}
+              >
+                🗺️ <b>Mapa 3D</b>
+              </button>
+            )}
 
             {/* BOTÓN MAPA GPS */}
-            <button
-              type="button"
-              className={`btnMenuLateral ${mostrarGPS ? "activo" : ""}`}
-              onClick={() => {
-                setMostrarGPS((prev) => !prev);
-                if (window.innerWidth <= 768) setMenuAbierto(false);
-              }}
-            >
-              📍 <b>Mapa GPS</b>
-            </button>
+            {configModulos.mostrarBotonGPS !== false && (
+              <button
+                type="button"
+                className={`btnMenuLateral ${mostrarGPS ? "activo" : ""}`}
+                onClick={() => {
+                  setMostrarGPS((prev) => !prev);
+                  if (window.innerWidth <= 768) setMenuAbierto(false);
+                }}
+              >
+                📍 <b>Mapa GPS</b>
+              </button>
+            )}
 
             {/* BOTÓN DATOS: Al hacer clic oculta o vuelve a mostrar los datos sobre el mapa */}
             <button
@@ -259,16 +295,18 @@ function Interfaz() {
             </button>
 
             {/* BOTÓN TRÁMITES Y VISITA */}
-            <button
-              type="button"
-              className={`btnMenuLateral ${filtroTramites ? "activo" : ""}`}
-              onClick={() => {
-                setFiltroTramites((prev) => !prev);
-                if (window.innerWidth <= 768) setMenuAbierto(false);
-              }}
-            >
-              📋 <b>Trámites y Visita</b>
-            </button>
+            {configModulos.mostrarBotonRecorridos !== false && (
+              <button
+                type="button"
+                className={`btnMenuLateral ${filtroTramites ? "activo" : ""}`}
+                onClick={() => {
+                  setFiltroTramites((prev) => !prev);
+                  if (window.innerWidth <= 768) setMenuAbierto(false);
+                }}
+              >
+                📋 <b>Trámites y Visita</b>
+              </button>
+            )}
 
 
             <button
@@ -310,15 +348,17 @@ function Interfaz() {
             </button>
 
             {/* 2. BOTÓN ACTIVAR/DESACTIVAR MINIMAPA GPS */}
-            <button
-              type="button"
-              className={`btnFlotanteCircular btnGpsFlotante ${mostrarGPS ? "activo" : ""}`}
-              onClick={() => setMostrarGPS((prev) => !prev)}
-              title={mostrarGPS ? "Ocultar minimapa GPS de Google" : "Abrir minimapa GPS de Google en vivo"}
-              aria-label="Minimapa GPS"
-            >
-              📍
-            </button>
+            {configModulos.mostrarBotonGPS !== false && (
+              <button
+                type="button"
+                className={`btnFlotanteCircular btnGpsFlotante ${mostrarGPS ? "activo" : ""}`}
+                onClick={() => setMostrarGPS((prev) => !prev)}
+                title={mostrarGPS ? "Ocultar minimapa GPS de Google" : "Abrir minimapa GPS de Google en vivo"}
+                aria-label="Minimapa GPS"
+              >
+                📍
+              </button>
+            )}
 
             {/* 3. BOTÓN NOTIFICACIONES Y ENCUESTA */}
             <button
