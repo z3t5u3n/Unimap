@@ -1728,9 +1728,12 @@
    RESPONSIVIDAD MÓVIL INTEGRAL (SMARTPHONES Y TABLETS)
    ============================================================== */
 @media (max-width: 768px) {
-  /* 1. Ajuste de altura del contenedor principal */
+  /* 1. Ajuste de altura del contenedor principal para evitar scroll vertical en móviles */
   .ContenedorPrimary {
     height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
+    max-height: calc(100dvh - 50px);
+    overflow: hidden;
   }
 
   /* 2. Menú lateral flotante estilo Drawer (Off-Canvas) */
@@ -1739,8 +1742,9 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 260px;
-    min-width: 260px;
+    width: min(85vw, 260px);
+    min-width: unset;
+    max-width: 85vw;
     z-index: 100;
     box-shadow: 10px 0 35px rgba(0, 0, 0, 0.45);
   }
@@ -2440,9 +2444,13 @@
   color: #94a3b8;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  white-space: normal;
+  line-height: 1.25;
+  text-align: center;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btnTabTester:hover {
@@ -2649,25 +2657,35 @@
   }
 
   .widgetMinimapaGPS {
-    width: calc(100vw - 20px) !important;
-    max-width: 340px !important;
-    left: auto !important;
-    right: 10px !important;
-    bottom: 65px !important;
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 60px !important;
     border-radius: 14px !important;
+    box-sizing: border-box !important;
   }
 
   .widgetMinimapaGPS.minimizado {
-    width: 200px !important;
+    width: auto !important;
+    min-width: 170px !important;
+    max-width: calc(100vw - 16px) !important;
+    left: auto !important;
+    right: 8px !important;
   }
 
   .selectorModosTester {
-    padding: 4px 6px;
+    padding: 6px 4px;
+    gap: 4px;
   }
 
   .btnTabTester {
     font-size: 9.5px;
-    padding: 5px 2px;
+    padding: 6px 3px;
+    white-space: normal;
+    line-height: 1.2;
+    min-height: 28px;
+    text-align: center;
   }
 
   .telemetriaGPS {

@@ -203,15 +203,72 @@ function Admin() {
   });
   const [mensajeGuardadoModulos, setMensajeGuardadoModulos] = useState("");
 
-  const guardarConfigModulos = (nuevaConfig) => {
+  // Estados de Telemetría de Carga de Unity WebGL
+  const [telemetriaData, setTelemetriaData] = useState(null);
+  const [cargandoTelemetria, setCargandoTelemetria] = useState(false);
+  const [busquedaTelemetria, setBusquedaTelemetria] = useState("");
+
+  const cargarTelemetria = useCallback(async () => {
+    setCargandoTelemetria(true);
+    try {
+      const resp = await fetch(`${API_BASE_URL}/admin/telemetria/dashboard`);
+      if (resp.ok) {
+        const json = await resp.json();
+        setTelemetriaData(json);
+      }
+    } catch (err) {
+      console.debug("Error cargando telemetría de Unity:", err);
+    } finally {
+      setCargandoTelemetria(false);
+    }
+  }, []);
+
+  const cargarConfigModulos = useCallback(async () => {
+    try {
+      const resp = await fetch(`${API_BASE_URL}/configuracion/modulos`);
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json && json.configuracion) {
+          setConfigModulos(json.configuracion);
+          localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(json.configuracion));
+        }
+      }
+    } catch (err) {
+      console.debug("Error cargando configuración de módulos desde API:", err);
+    }
+  }, []);
+
+  const guardarConfigModulos = async (nuevaConfig) => {
     setConfigModulos(nuevaConfig);
     try {
       localStorage.setItem("unimap_config_modulos_usuario", JSON.stringify(nuevaConfig));
       window.dispatchEvent(new CustomEvent("UniMapConfigUpdated", { detail: nuevaConfig }));
-      setMensajeGuardadoModulos("✅ Configuración de módulos actualizada correctamente.");
-      setTimeout(() => setMensajeGuardadoModulos(""), 4000);
+      setMensajeGuardadoModulos("Guardando en la base de datos...");
+
+      const token = localStorage.getItem("token_admin");
+      const resp = await fetch(`${API_BASE_URL}/admin/configuracion/modulos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          mostrar_mapa: nuevaConfig.mostrarBotonMapa !== false,
+          mostrar_mapa_gps: nuevaConfig.mostrarBotonGPS !== false,
+          mostrar_recorridos: nuevaConfig.mostrarBotonRecorridos !== false,
+        }),
+      });
+
+      if (resp.ok) {
+        setMensajeGuardadoModulos("✅ Configuración guardada en la base de datos y sincronizada con todos los celulares.");
+      } else {
+        setMensajeGuardadoModulos("⚠️ Guardado localmente (no se pudo sincronizar con el servidor).");
+      }
+      setTimeout(() => setMensajeGuardadoModulos(""), 4500);
     } catch (e) {
       console.error(e);
+      setMensajeGuardadoModulos("⚠️ Guardado localmente en este navegador.");
+      setTimeout(() => setMensajeGuardadoModulos(""), 4000);
     }
   };
 
@@ -528,8 +585,10 @@ function Admin() {
   useEffect(() => {
     if (adminSesion) {
       cargarDashboard();
+      cargarTelemetria();
+      cargarConfigModulos();
     }
-  }, [adminSesion, cargarDashboard]);
+  }, [adminSesion, cargarDashboard, cargarTelemetria, cargarConfigModulos]);
 
   // Mapeo de nombres legibles para reportes PDF
   const nombresSeccion = {
@@ -543,6 +602,9 @@ function Admin() {
     auditorias: "Auditoria_Cambios",
     admin_sesiones: "Sesiones_Admin",
     testers: "Testers_Entorno_Pruebas",
+    rutas_gps: "Rutas_GPS_Calibracion",
+    telemetria: "Telemetria_Carga_WebGL",
+    config_modulos: "Configuracion_Modulos",
   };
 
   const etiquetasTab = {
@@ -556,7 +618,24 @@ function Admin() {
     auditorias: "Auditoría",
     admin_sesiones: "Sesiones Admin",
     testers: "Testers",
+    rutas_gps: "Rutas GPS",
+    telemetria: "⚡ Carga WebGL",
+    config_modulos: "⚙️ Módulos",
   };
+
+  // Filtrado reactivo de telemetría de carga de Unity
+  const registrosTelemetriaFiltrados = useMemo(() => {
+    const list = telemetriaData?.registros || [];
+    if (!busquedaTelemetria.trim()) return list;
+    const q = busquedaTelemetria.toLowerCase();
+    return list.filter((r) =>
+      (r.nombre_usuario && r.nombre_usuario.toLowerCase().includes(q)) ||
+      (r.tipo_conexion && r.tipo_conexion.toLowerCase().includes(q)) ||
+      (r.operador && r.operador.toLowerCase().includes(q)) ||
+      (r.modelo_dispositivo && r.modelo_dispositivo.toLowerCase().includes(q)) ||
+      (r.ip_origen && r.ip_origen.toLowerCase().includes(q))
+    );
+  }, [telemetriaData, busquedaTelemetria]);
 
   // Referencias a los componentes de gráficas para exportación/descarga
   const chartUsuariosRolRef = useRef(null);
@@ -1875,6 +1954,18 @@ function Admin() {
                 }}
               >
                 ⚙️ Visibilidad Módulos
+              </button>
+
+              <button
+                type="button"
+                className={`btnTab ${tabActiva === "telemetria" ? "activo" : ""}`}
+                onClick={() => {
+                  setTabActiva("telemetria");
+                  setBusqueda("");
+                  cargarTelemetria();
+                }}
+              >
+                ⚡ Carga WebGL ({telemetriaData?.estadisticas?.total_cargas || 0})
               </button>
             </div>
 
@@ -3640,6 +3731,238 @@ function Admin() {
                   >
                     🔄 Restaurar Todos los Botones Visibles
                   </button>
+                </div>
+              </>
+            )}
+
+            {tabActiva === "telemetria" && (
+              <>
+                <div className="adminSeccionHeader" style={{ marginBottom: "20px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+                    <div>
+                      <h3 style={{ color: "#38bdf8", display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>
+                        ⚡ Rendimiento y Telemetría de Carga de Unity WebGL
+                      </h3>
+                      <p className="adminSeccionDesc" style={{ margin: "4px 0 0 0" }}>
+                        Monitoreo del tiempo real transcurrido hasta inicializar el motor 3D y renderizar la escena en el navegador de los usuarios.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="btnAdminNav"
+                      onClick={cargarTelemetria}
+                      disabled={cargandoTelemetria}
+                    >
+                      {cargandoTelemetria ? "⏳ Actualizando..." : "🔄 Actualizar Datos"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* TARJETAS KPI DE RENDIMIENTO */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "24px" }}>
+                  {/* Tarjeta 1: Mayor / Peor Tiempo de Carga (Más Lento) */}
+                  <div style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.3)", borderRadius: "14px", padding: "18px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "13px", fontWeight: 700, color: "#f87171", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        🔴 Peor Carga (Más Lenta)
+                      </span>
+                      <span style={{ fontSize: "20px" }}>⏱️</span>
+                    </div>
+                    <div style={{ fontSize: "30px", fontWeight: 800, color: "#ef4444", marginBottom: "8px" }}>
+                      {telemetriaData?.estadisticas?.peor_carga
+                        ? `${telemetriaData.estadisticas.peor_carga.tiempo_carga_segundos} s`
+                        : "0.0 s"}
+                    </div>
+                    {telemetriaData?.estadisticas?.peor_carga ? (
+                      <div style={{ fontSize: "12px", color: "var(--text-secondary)", display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <div><b>Usuario:</b> {telemetriaData.estadisticas.peor_carga.nombre_usuario}</div>
+                        <div><b>Dispositivo:</b> {telemetriaData.estadisticas.peor_carga.modelo_dispositivo}</div>
+                        <div><b>Red:</b> {telemetriaData.estadisticas.peor_carga.tipo_conexion} ({telemetriaData.estadisticas.peor_carga.operador || "ISP"})</div>
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>
+                          📅 {new Date(telemetriaData.estadisticas.peor_carga.created_at).toLocaleString()}
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>Sin registros suficientes aún</div>
+                    )}
+                  </div>
+
+                  {/* Tarjeta 2: Menor / Mejor Tiempo de Carga (Más Rápido) */}
+                  <div style={{ background: "rgba(16, 185, 129, 0.08)", border: "1px solid rgba(16, 185, 129, 0.3)", borderRadius: "14px", padding: "18px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "13px", fontWeight: 700, color: "#34d399", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        🟢 Mejor Carga (Más Rápida)
+                      </span>
+                      <span style={{ fontSize: "20px" }}>⚡</span>
+                    </div>
+                    <div style={{ fontSize: "30px", fontWeight: 800, color: "#10b981", marginBottom: "8px" }}>
+                      {telemetriaData?.estadisticas?.mejor_carga
+                        ? `${telemetriaData.estadisticas.mejor_carga.tiempo_carga_segundos} s`
+                        : "0.0 s"}
+                    </div>
+                    {telemetriaData?.estadisticas?.mejor_carga ? (
+                      <div style={{ fontSize: "12px", color: "var(--text-secondary)", display: "flex", flexDirection: "column", gap: "4px" }}>
+                        <div><b>Usuario:</b> {telemetriaData.estadisticas.mejor_carga.nombre_usuario}</div>
+                        <div><b>Dispositivo:</b> {telemetriaData.estadisticas.mejor_carga.modelo_dispositivo}</div>
+                        <div><b>Red:</b> {telemetriaData.estadisticas.mejor_carga.tipo_conexion} ({telemetriaData.estadisticas.mejor_carga.operador || "ISP"})</div>
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>
+                          📅 {new Date(telemetriaData.estadisticas.mejor_carga.created_at).toLocaleString()}
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>Sin registros suficientes aún</div>
+                    )}
+                  </div>
+
+                  {/* Tarjeta 3: Promedio General */}
+                  <div style={{ background: "rgba(56, 189, 248, 0.08)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: "14px", padding: "18px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                      <span style={{ fontSize: "13px", fontWeight: 700, color: "#38bdf8", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        📊 Promedio General
+                      </span>
+                      <span style={{ fontSize: "20px" }}>📈</span>
+                    </div>
+                    <div style={{ fontSize: "30px", fontWeight: 800, color: "#38bdf8", marginBottom: "8px" }}>
+                      {telemetriaData?.estadisticas?.promedio_general || 0} s
+                    </div>
+                    <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                      Calculado sobre un total de <b>{telemetriaData?.estadisticas?.total_cargas || 0}</b> cargas registradas en la plataforma.
+                    </div>
+                    <div style={{ marginTop: "10px", fontSize: "11.5px", color: "var(--text-muted)" }}>
+                      💡 La caché del navegador reduce las cargas posteriores a ~1-2 segundos.
+                    </div>
+                  </div>
+
+                  {/* Tarjeta 4: Desglose por Conexión y Operadores */}
+                  <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "14px", padding: "18px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                      <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        📶 Conexión y Operadores
+                      </span>
+                      <span style={{ fontSize: "20px" }}>🏢</span>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "140px", overflowY: "auto" }}>
+                      {telemetriaData?.estadisticas?.promedios_operador && telemetriaData.estadisticas.promedios_operador.length > 0 ? (
+                        telemetriaData.estadisticas.promedios_operador.map((op, idx) => (
+                          <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", padding: "4px 8px", background: "rgba(255,255,255,0.03)", borderRadius: "6px" }}>
+                            <span><b>{op.operador}</b> ({op.total} {op.total === 1 ? "carga" : "cargas"}):</span>
+                            <span style={{ color: "#38bdf8", fontWeight: 700 }}>{op.promedio_segundos} s</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>No hay datos suficientes de operadores</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* TABLA DE REGISTROS DE CARGA DE UNITY */}
+                <div className="adminTablaCard">
+                  <div className="adminTablaHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px", padding: "16px 20px" }}>
+                    <h4 style={{ margin: 0, fontSize: "16px", color: "var(--text-primary)" }}>
+                      Historial Detallado de Cargas WebGL ({registrosTelemetriaFiltrados.length})
+                    </h4>
+                    <input
+                      type="text"
+                      placeholder="Buscar por usuario, celular, operador o red..."
+                      value={busquedaTelemetria}
+                      onChange={(e) => setBusquedaTelemetria(e.target.value)}
+                      style={{
+                        padding: "8px 14px",
+                        fontSize: "12.5px",
+                        background: "var(--input-bg)",
+                        border: "1px solid var(--input-border)",
+                        borderRadius: "8px",
+                        color: "var(--input-text)",
+                        width: "280px",
+                        maxWidth: "100%",
+                      }}
+                    />
+                  </div>
+
+                  <div className="adminTablaScroll" style={{ overflowX: "auto" }}>
+                    <table className="adminTabla">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Usuario</th>
+                          <th>Tiempo Carga</th>
+                          <th>Tipo Red</th>
+                          <th>Operador Móvil / ISP</th>
+                          <th>Dispositivo / Celular</th>
+                          <th>IP Origen</th>
+                          <th>Fecha y Hora</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {registrosTelemetriaFiltrados.length > 0 ? (
+                          registrosTelemetriaFiltrados.map((item, idx) => {
+                            const tiempo = parseFloat(item.tiempo_carga_segundos);
+                            const badgeColor = tiempo <= 4 ? "#10b981" : tiempo <= 8 ? "#f59e0b" : "#ef4444";
+                            const badgeBg = tiempo <= 4 ? "rgba(16, 185, 129, 0.15)" : tiempo <= 8 ? "rgba(245, 158, 11, 0.15)" : "rgba(239, 68, 68, 0.15)";
+                            return (
+                              <tr key={item.id_telemetria || idx}>
+                                <td style={{ color: "var(--text-muted)", fontSize: "12px" }}>{item.id_telemetria}</td>
+                                <td>
+                                  <strong style={{ color: "var(--text-primary)" }}>{item.nombre_usuario || "Anónimo"}</strong>
+                                  {item.id_usuario && (
+                                    <span style={{ fontSize: "11px", color: "var(--text-muted)", display: "block" }}>
+                                      ID: {item.id_usuario}
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  <span
+                                    style={{
+                                      display: "inline-block",
+                                      padding: "4px 10px",
+                                      borderRadius: "6px",
+                                      fontWeight: 700,
+                                      fontSize: "12.5px",
+                                      color: badgeColor,
+                                      background: badgeBg,
+                                    }}
+                                  >
+                                    ⏱️ {item.tiempo_carga_segundos} s
+                                  </span>
+                                </td>
+                                <td>
+                                  <span style={{ fontSize: "12.5px" }}>
+                                    {item.tipo_conexion?.includes("WiFi") ? "📶 " : "📱 "}
+                                    {item.tipo_conexion || "Desconocido"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span style={{ fontWeight: 600, color: item.operador ? "#38bdf8" : "var(--text-muted)" }}>
+                                    {item.operador || "No identificado"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span style={{ fontSize: "12px" }}>
+                                    {item.modelo_dispositivo || "Navegador Web"}
+                                  </span>
+                                </td>
+                                <td style={{ fontSize: "11.5px", color: "var(--text-muted)", fontFamily: "monospace" }}>
+                                  {item.ip_origen || "-"}
+                                </td>
+                                <td style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                                  {item.created_at ? new Date(item.created_at).toLocaleString() : "-"}
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan="8" style={{ textAlign: "center", padding: "30px", color: "var(--text-muted)" }}>
+                              {cargandoTelemetria
+                                ? "Cargando registros de telemetría..."
+                                : "No se encontraron registros de telemetría de carga."}
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </>
             )}

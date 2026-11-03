@@ -7,7 +7,11 @@ const Mapa = memo(function Mapa({
   onCatalogoLoaded, // Recibe edificios y lugares juntos desde Unity
   onUnityReady,
   onCameraTelemetry, // Recibe la posición y rotación real de la cámara WebGL
+  onUnityLoaded, // Notifica el tiempo exacto que tardó en cargar Unity WebGL
 }) {
+  const mountTimeRef = useRef(performance.now());
+  const notifiedLoadRef = useRef(false);
+
   const {
     unityProvider,
     sendMessage,
@@ -90,9 +94,18 @@ const Mapa = memo(function Mapa({
     };
   }, [addEventListener, removeEventListener, handleRecibirCatalogo, handleTelemetriaCamara]);
 
-  // Cuando Unity termina de cargar, compartimos las funciones de navegación 3D y GPS
+  // Cuando Unity termina de cargar, compartimos las funciones de navegación 3D y GPS y registramos telemetría
   useEffect(() => {
     if (isLoaded) {
+      if (!notifiedLoadRef.current) {
+        notifiedLoadRef.current = true;
+        const tiempoSegundos = Math.round(((performance.now() - mountTimeRef.current) / 1000) * 100) / 100;
+        console.log(`⏱️ Unity WebGL cargado en: ${tiempoSegundos}s`);
+        if (onUnityLoaded) {
+          onUnityLoaded(tiempoSegundos);
+        }
+      }
+
       try {
         sendMessage("[Sistema_Guia_POIs]", "SolicitarCatalogo");
       } catch (err) {
@@ -155,7 +168,7 @@ const Mapa = memo(function Mapa({
         },
       });
     }
-  }, [isLoaded, onUnityReady, sendMessage]);
+  }, [isLoaded, onUnityReady, sendMessage, onUnityLoaded]);
 
   const containerRef = useRef(null);
 
