@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas base del Campus ITFIP en El Espinal, Tolima
+// Coordenadas base del Campus ITFIP en El Espinal, Tolima (Pivote Oficial 0, 0)
 const CAMPUS_ORIGEN_ITFIP = {
-  lat: 4.15638,
-  lng: -74.89748,
+  lat: 4.156310,
+  lng: -74.897399,
 };
 
 // Puntos de inicio configurables en la maqueta 3D del campus
 const PUNTOS_CAMPUS = [
+  { id: "centro_pivote", nombre: "⭐ Centro Campus (Pivote 0, 0)", x: 0.0, z: 0.0, lat: 4.156310, lng: -74.897399 },
+  { id: "biblioteca", nombre: "📚 Biblioteca Central", x: 30.0, z: -40.0, lat: 4.15610, lng: -74.89710 },
   { id: "porteria", nombre: "🚪 Portería Principal", x: -99.6, z: 363.6, lat: 4.15638, lng: -74.89748 },
   { id: "bloqueD", nombre: "🏢 Bloque D (Canchas)", x: -146.5, z: 372.3, lat: 4.15645, lng: -74.89720 },
   { id: "bloqueE", nombre: "🏫 Bloque E", x: -160.0, z: 420.0, lat: 4.15680, lng: -74.89700 },
@@ -147,7 +149,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         if (visible && cambioSignificativo && ahora - ultimoEnvio > 45) {
           ultimoEnvio = ahora;
           ultimoHeadingRef.current = h;
-          if (modoTester === "gps_libre") {
+          if (modoTester === "gps_libre" || modoTester === "gps_uniespinal") {
             const posActual = ultimaPosDespachadaRef.current || { x: puntoInicio.x, z: puntoInicio.z };
             despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, posActual.x, posActual.z);
           } else if (modoTester === "fijo_uniespinal") {
@@ -181,16 +183,20 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
   }, [modoTester, puntoInicio, visible, brujulaHeading, despacharAUnity]);
 
-  // 3. Control del Modo 2: GPS Libre (Posición Actual del Dispositivo para probar en cualquier lugar)
+  // 3. Control de Rastrear GPS Real: GPS Libre (Móvil = 0,0) o GPS UniEspinal (Pivote 4.156310, -74.897399)
   useEffect(() => {
-    if (modoTester !== "gps_libre" || !visible) return;
+    if ((modoTester !== "gps_libre" && modoTester !== "gps_uniespinal") || !visible) return;
 
     if (!("geolocation" in navigator)) {
       setEstadoConexion("⚠️ Geolocalización no disponible");
       return;
     }
 
-    setEstadoConexion("📡 Rastreando posición y giroscopio...");
+    setEstadoConexion(
+      modoTester === "gps_libre"
+        ? "📡 GPS Libre: Rastreando desplazamiento desde tu posición..."
+        : "📍 GPS UniEspinal: Traduciendo respecto a pivote 4.156310, -74.897399..."
+    );
 
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
@@ -205,23 +211,45 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           heading: Math.round(nuevoHeading || 0),
         });
 
-        // Si no hay ancla previa, fijar la posición actual como punto cero del tester
-        let anclaActual = anclaGPSRef.current;
-        if (!anclaActual) {
-          anclaActual = { lat: latitude, lng: longitude };
-          anclaGPSRef.current = anclaActual;
-          ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
+        let xCalculado, zCalculado, latVirtual, lngVirtual, dx, dz, distTotal;
+
+        if (modoTester === "gps_libre") {
+          // Si no hay ancla previa, fijar la posición actual física del celular como punto cero del tester
+          let anclaActual = anclaGPSRef.current;
+          if (!anclaActual) {
+            anclaActual = { lat: latitude, lng: longitude };
+            anclaGPSRef.current = anclaActual;
+            ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
+          }
+
+          // Desplazamiento relativo en metros respecto al ancla del celular
+          const dLat = (latitude - anclaActual.lat) * (Math.PI / 180);
+          const dLng = (longitude - anclaActual.lng) * (Math.PI / 180);
+          dx = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
+          dz = dLat * RADIO_TIERRA_METROS;
+          distTotal = Math.sqrt(dx * dx + dz * dz);
+
+          xCalculado = puntoInicio.x + dx;
+          zCalculado = puntoInicio.z + dz;
+
+          // Coordenada geográfica virtual sobre UniEspinal para Google Maps
+          latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
+          lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
+        } else {
+          // MODO GPS UNIESPINAL: Punto 0,0 es estrictamente CAMPUS_ORIGEN_ITFIP (4.156310, -74.897399)
+          const dLat = (latitude - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
+          const dLng = (longitude - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
+          dx = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180));
+          dz = dLat * RADIO_TIERRA_METROS;
+          distTotal = Math.sqrt(dx * dx + dz * dz);
+
+          // En Unity, al centrar el pivote en (0,0), las coordenadas son directamente (dx, dz)
+          xCalculado = dx;
+          zCalculado = dz;
+
+          latVirtual = latitude;
+          lngVirtual = longitude;
         }
-
-        // Calcular desplazamiento relativo en metros (delta Este/Oeste y Norte/Sur)
-        const dLat = (latitude - anclaActual.lat) * (Math.PI / 180);
-        const dLng = (longitude - anclaActual.lng) * (Math.PI / 180);
-        const dx = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
-        const dz = dLat * RADIO_TIERRA_METROS;
-        const distTotal = Math.sqrt(dx * dx + dz * dz);
-
-        const xCalculado = puntoInicio.x + dx;
-        const zCalculado = puntoInicio.z + dz;
 
         // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO):
         let debeMover = true;
@@ -249,10 +277,6 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             dz: Number(dz.toFixed(1)),
             total: Number(distTotal.toFixed(1)),
           });
-
-          // Coordenada geográfica virtual sobre UniEspinal para Google Maps
-          const latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
-          const lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
 
           setCoords({
             lat: latVirtual,
@@ -342,11 +366,26 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Re-calibrar: fijar la posición actual como origen en el campus
   const recalibrarPosicionActual = () => {
     if (coordsDispositivo) {
-      const nuevaAncla = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
-      anclaGPSRef.current = nuevaAncla;
-      ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
-      setDeltaMetros({ dx: 0, dz: 0, total: 0 });
-      despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
+      if (modoTester === "gps_libre") {
+        const nuevaAncla = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
+        anclaGPSRef.current = nuevaAncla;
+        ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
+        setDeltaMetros({ dx: 0, dz: 0, total: 0 });
+        if (unityController && typeof unityController.setModoGPS === "function") {
+          unityController.setModoGPS(true);
+        }
+        despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
+      } else if (modoTester === "gps_uniespinal") {
+        const dLat = (coordsDispositivo.lat - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
+        const dLng = (coordsDispositivo.lng - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
+        const dx = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180));
+        const dz = dLat * RADIO_TIERRA_METROS;
+        ultimaPosDespachadaRef.current = { x: dx, z: dz };
+        if (unityController && typeof unityController.setModoGPS === "function") {
+          unityController.setModoGPS(true);
+        }
+        despacharAUnity(coordsDispositivo.lat, coordsDispositivo.lng, brujulaHeading, 0, coordsDispositivo.accuracy || 1, dx, dz);
+      }
     }
   };
 
@@ -361,6 +400,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Coordenadas calculadas para Unity
   const unityCoord = modoTester === "gps_libre"
     ? { x: Number((puntoInicio.x + deltaMetros.dx).toFixed(2)), z: Number((puntoInicio.z + deltaMetros.dz).toFixed(2)) }
+    : modoTester === "gps_uniespinal"
+    ? { x: Number(deltaMetros.dx.toFixed(2)), z: Number(deltaMetros.dz.toFixed(2)) }
     : calcularCoordenadasUnity(coords.lat, coords.lng);
 
   // Coordenadas para Google Maps
@@ -415,24 +456,40 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                 if (coordsDispositivo) {
                   anclaGPSRef.current = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
                 }
+                if (unityController && typeof unityController.setModoGPS === "function") {
+                  unityController.setModoGPS(true);
+                }
               }}
-              title="Caminar y girar en cualquier lugar mueve la cámara a 1m en el campus 3D"
+              title="El 0,0 es tu celular. Camina en cualquier lugar del mundo y muévete por el campus 3D"
             >
-              🌍 GPS Libre (Tu Ubicación)
+              🌍 GPS Libre (Móvil 0,0)
+            </button>
+            <button
+              type="button"
+              className={`btnTabTester ${modoTester === "gps_uniespinal" ? "activo" : ""}`}
+              onClick={() => {
+                setModoTester("gps_uniespinal");
+                if (unityController && typeof unityController.setModoGPS === "function") {
+                  unityController.setModoGPS(true);
+                }
+              }}
+              title="El 0,0 es estrictamente el pivote del campus (4.156310, -74.897399). Si estás en la Biblioteca o cualquier edificio de UniEspinal, la cámara te sitúa allí."
+            >
+              📍 GPS UniEspinal (Campus)
             </button>
             <button
               type="button"
               className={`btnTabTester ${modoTester === "fijo_uniespinal" ? "activo" : ""}`}
               onClick={() => setModoTester("fijo_uniespinal")}
-              title="Fija la cámara en un punto exacto del campus"
+              title="Fija la cámara en un edificio seleccionado con giro por brújula"
             >
-              📍 Punto Fijo
+              📌 Punto Fijo
             </button>
             <button
               type="button"
               className={`btnTabTester ${modoTester === "simulador" ? "activo" : ""}`}
               onClick={() => setModoTester("simulador")}
-              title="Simula un recorrido automático a pie"
+              title="Simula un recorrido automático a pie por el campus"
             >
               🚶 Simulador
             </button>
@@ -449,6 +506,9 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                 setPuntoInicio(punto);
                 anclaGPSRef.current = null;
                 setDeltaMetros({ dx: 0, dz: 0, total: 0 });
+                if (unityController && typeof unityController.setModoGPS === "function") {
+                  unityController.setModoGPS(true);
+                }
                 despacharAUnity(punto.lat, punto.lng, brujulaHeading, 0, 1, punto.x, punto.z);
               }}
             >
@@ -465,7 +525,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             <div className="bannerGpsLibreInfo">
               <div className="infoGpsLibreTexto">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                  <strong>🚶 Movimiento Peatonal:</strong>
+                  <strong>🚶 GPS Libre (Móvil = 0,0):</strong>
                   <span
                     style={{
                       fontSize: "11px",
@@ -481,7 +541,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   </span>
                 </div>
                 <p>
-                  Gira o camina con tu teléfono. La cámara se ubica a 1m de altura y gira hacia tu rumbo.
+                  Origen (0, 0) fijado en tu celular. Al caminar y girar en tu entorno, la cámara se mueve a escala 1:1 en el campus 3D a 1m de altura.
                   {deltaMetros.total > 0 && ` Recorrido: ${deltaMetros.total}m.`}
                 </p>
               </div>
@@ -522,7 +582,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   type="button"
                   className="btnRecalibrarTester"
                   onClick={recalibrarPosicionActual}
-                  title="Fija tu posición actual como el centro de partida"
+                  title="Fija tu posición actual como el centro (0, 0) de partida"
                 >
                   🎯 Re-anclar Origen
                 </button>
@@ -531,6 +591,84 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   className="btnToggleVistaMapa"
                   onClick={() => setMostrarMapa2D((prev) => !prev)}
                   title="Muestra u oculta el mapa 2D para dejar visible el campus 3D en el móvil"
+                >
+                  {mostrarMapa2D ? "🔼 Ocultar Mapa 2D" : "🗺️ Ver Mapa 2D"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Banner y Acciones del modo GPS UniEspinal Real */}
+          {modoTester === "gps_uniespinal" && (
+            <div className="bannerGpsLibreInfo" style={{ background: "linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(15, 23, 42, 0.95))", borderColor: "rgba(16, 185, 129, 0.3)" }}>
+              <div className="infoGpsLibreTexto">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                  <strong style={{ color: "#34d399" }}>📍 GPS UniEspinal (Pivote Oficial 0, 0):</strong>
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      padding: "2px 8px",
+                      borderRadius: "10px",
+                      background: enMovimiento ? "rgba(16, 185, 129, 0.2)" : "rgba(245, 158, 11, 0.2)",
+                      color: enMovimiento ? "#34d399" : "#fbbf24",
+                      border: `1px solid ${enMovimiento ? "#10b981" : "#f59e0b"}`,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {enMovimiento ? "🟢 Caminando" : "🟡 Celular Quieto (En reposo)"}
+                  </span>
+                </div>
+                <p>
+                  Pivote cartesiano: (4.156310, -74.897399). Si estás en la Biblioteca o Bloque D, la cámara se posiciona directamente en ese edificio.
+                </p>
+              </div>
+
+              {/* Control del Estabilizador Anti-Ruido */}
+              <div className="filaFiltroAntiRuido" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "6px 0", fontSize: "11px", color: "#94a3b8" }}>
+                <label style={{ display: "inline-flex", alignItems: "center", cursor: "pointer", gap: "6px" }}>
+                  <input
+                    type="checkbox"
+                    checked={filtroAntiRuido}
+                    onChange={(e) => setFiltroAntiRuido(e.target.checked)}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <span>🛡️ Filtro Anti-Ruido GPS</span>
+                </label>
+                <select
+                  value={umbralRuidoMetros}
+                  onChange={(e) => setUmbralRuidoMetros(Number(e.target.value))}
+                  style={{
+                    background: "#0f172a",
+                    color: "#34d399",
+                    border: "1px solid #065f46",
+                    borderRadius: "4px",
+                    padding: "2px 6px",
+                    fontSize: "10.5px",
+                  }}
+                  title="Sensibilidad del filtro de reposo"
+                >
+                  <option value={1.0}>1.0m (Sensible)</option>
+                  <option value={1.8}>1.8m (Estándar)</option>
+                  <option value={2.5}>2.5m (Filtro Alto)</option>
+                  <option value={4.0}>4.0m (Máx Estabilidad)</option>
+                </select>
+              </div>
+
+              <div className="accionesGpsLibre">
+                <button
+                  type="button"
+                  className="btnRecalibrarTester"
+                  style={{ background: "rgba(16, 185, 129, 0.2)", borderColor: "#10b981", color: "#34d399" }}
+                  onClick={recalibrarPosicionActual}
+                  title="Sincronizar cámara con la posición satelital actual"
+                >
+                  🎯 Sincronizar GPS
+                </button>
+                <button
+                  type="button"
+                  className="btnToggleVistaMapa"
+                  onClick={() => setMostrarMapa2D((prev) => !prev)}
+                  title="Muestra u oculta el mapa 2D"
                 >
                   {mostrarMapa2D ? "🔼 Ocultar Mapa 2D" : "🗺️ Ver Mapa 2D"}
                 </button>
@@ -583,8 +721,14 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
             {modoTester === "gps_libre" && (
               <div className="filaTelemetria" style={{ fontSize: "11px", color: "#38bdf8" }}>
-                <span>Avance Físico:</span>
+                <span>Avance desde Celular (0, 0):</span>
                 <span>ΔX: {deltaMetros.dx}m | ΔZ: {deltaMetros.dz}m (Total: {deltaMetros.total}m)</span>
+              </div>
+            )}
+            {modoTester === "gps_uniespinal" && (
+              <div className="filaTelemetria" style={{ fontSize: "11px", color: "#34d399" }}>
+                <span>Offset desde Pivote Oficial (0, 0):</span>
+                <span>X: {deltaMetros.dx}m | Z: {deltaMetros.dz}m (Dist: {deltaMetros.total}m)</span>
               </div>
             )}
 

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas fijas de anclaje de UniEspinal (ITFIP en El Espinal, Tolima)
+// Coordenadas fijas de anclaje de UniEspinal (Pivote Oficial 0, 0 en El Espinal, Tolima)
 const CAMPUS_ORIGEN = {
-  lat: 4.15638,
-  lng: -74.89748,
+  lat: 4.156310,
+  lng: -74.897399,
 };
 
-// Offset calibrado de la maqueta 3D en Unity WebGL
+// Offset de la maqueta 3D en Unity WebGL (Pivote central de Blender GIS en 0, 0)
 const OFFSET_UNITY = {
-  x: -146.5,
-  z: 372.3,
+  x: 0.0,
+  z: 0.0,
 };
 
 const RADIO_TIERRA_METROS = 6371000;
@@ -102,6 +102,25 @@ function MinimapaGPS({ visible, onClose, unityController }) {
         setEstadoConexion("Sincronizado con WebGL");
       } else {
         setEstadoConexion("GPS Activo (Esperando Unity)");
+      }
+
+      // Emitir evento para el panel de rutas
+      if (typeof window.dispatchEvent === "function") {
+        window.dispatchEvent(
+          new CustomEvent("UniMapGPSUpdate", {
+            detail: {
+              x: x,
+              z: z,
+              lat: Number(lat.toFixed(6)),
+              lng: Number(lng.toFixed(6)),
+              heading: rumboFinal,
+              speed: Number((speed || 0).toFixed(2)),
+              accuracy: Math.round(accuracy || 0),
+              enMovimiento: true,
+              timestamp: Date.now(),
+            },
+          })
+        );
       }
     },
     [calcularCoordenadasUnity, unityController, brujulaHeading]

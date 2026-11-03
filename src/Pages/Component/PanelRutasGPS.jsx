@@ -14,7 +14,16 @@ const EDIFICIOS_CAMPUS = [
   { id: "canchas", nombre: "Canchas Deportivas", x: -185.0, z: 295.0, ancho: 38, alto: 26, color: "#4ade80", tipo: "rect" },
 ];
 
-// Límites de la superficie / mesh del campus en Unity
+// Edificios y Puntos de Referencia para el modelo con Pivote Oficial Centrado en (0, 0)
+const EDIFICIOS_PIVOTE_CENTRAL = [
+  { id: "pivote", nombre: "⭐ Pivote Central (0, 0)", x: 0.0, z: 0.0, radio: 8, color: "#eab308", tipo: "circ" },
+  { id: "biblioteca", nombre: "Biblioteca Central", x: 30.0, z: -40.0, ancho: 28, alto: 20, color: "#38bdf8", tipo: "rect" },
+  { id: "porteria", nombre: "Portería Principal", x: 45.0, z: -10.0, ancho: 20, alto: 14, color: "#818cf8", tipo: "rect" },
+  { id: "bloque_d", nombre: "Bloque D", x: -20.0, z: 25.0, ancho: 30, alto: 22, color: "#34d399", tipo: "rect" },
+  { id: "coliseo", nombre: "Coliseo ITFIP", x: -50.0, z: -35.0, ancho: 34, alto: 28, color: "#fb923c", tipo: "rect" },
+];
+
+// Límites de la superficie / mesh del campus en Unity (Modelo Legacy)
 const CAMPUS_BOUNDS = {
   minX: -240,
   maxX: -60,
@@ -56,6 +65,7 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
   grabandoRef.current = grabando;
   const pausadoRef = useRef(false);
   pausadoRef.current = pausado;
+  const boundsRef = useRef(CAMPUS_BOUNDS);
 
   // 1. Escuchar actualizaciones de GPS desde MinimapaGPSTest
   useEffect(() => {
@@ -117,7 +127,7 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
 
   // 4. Conversor de coordenadas Unity (X, Z) a píxeles del Canvas 2D
   const aPixeles = useCallback((x, z, width, height) => {
-    const { minX, maxX, minZ, maxZ } = CAMPUS_BOUNDS;
+    const { minX, maxX, minZ, maxZ } = boundsRef.current || CAMPUS_BOUNDS;
     const padding = 25;
     const wEfectivo = width - padding * 2;
     const hEfectivo = height - padding * 2;
@@ -139,6 +149,18 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
     const width = canvas.width;
     const height = canvas.height;
 
+    // Detectar si las coordenadas activas están cerca de (0,0) (GPS Libre o Pivote Central Oficial)
+    const puntos = [...rutaGPS, ...rutaCamara];
+    if (posGPSActual) puntos.push(posGPSActual);
+    if (posCamActual) puntos.push(posCamActual);
+    const usaPivoteCero = puntos.length > 0 && puntos.some((p) => Math.abs(p.x) < 80 && Math.abs(p.z) < 80);
+
+    const bounds = usaPivoteCero
+      ? { minX: -100, maxX: 100, minZ: -100, maxZ: 100, esPivoteCero: true, paso: 20, edificios: EDIFICIOS_PIVOTE_CENTRAL }
+      : { minX: -240, maxX: -60, minZ: 270, maxZ: 460, esPivoteCero: false, paso: 20, edificios: EDIFICIOS_CAMPUS };
+
+    boundsRef.current = bounds;
+
     // A. Fondo de la superficie del campus (suelo y gradiente)
     ctx.clearRect(0, 0, width, height);
 
@@ -151,39 +173,58 @@ function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
     // B. Rejilla topográfica de calibración (cada 20 metros)
     ctx.strokeStyle = "rgba(56, 189, 248, 0.08)";
     ctx.lineWidth = 1;
-    for (let x = CAMPUS_BOUNDS.minX; x <= CAMPUS_BOUNDS.maxX; x += 20) {
-      const p1 = aPixeles(x, CAMPUS_BOUNDS.minZ, width, height);
-      const p2 = aPixeles(x, CAMPUS_BOUNDS.maxZ, width, height);
+    for (let x = bounds.minX; x <= bounds.maxX; x += bounds.paso) {
+      const p1 = aPixeles(x, bounds.minZ, width, height);
+      const p2 = aPixeles(x, bounds.maxZ, width, height);
       ctx.beginPath();
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
       ctx.stroke();
     }
-    for (let z = CAMPUS_BOUNDS.minZ; z <= CAMPUS_BOUNDS.maxZ; z += 20) {
-      const p1 = aPixeles(CAMPUS_BOUNDS.minX, z, width, height);
-      const p2 = aPixeles(CAMPUS_BOUNDS.maxX, z, width, height);
+    for (let z = bounds.minZ; z <= bounds.maxZ; z += bounds.paso) {
+      const p1 = aPixeles(bounds.minX, z, width, height);
+      const p2 = aPixeles(bounds.maxX, z, width, height);
       ctx.beginPath();
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
+      ctx.stroke();
+    }
+
+    // Si es pivote cero, dibujar ejes cartesianos X y Z que cruzan por (0, 0)
+    if (bounds.esPivoteCero) {
+      ctx.strokeStyle = "rgba(234, 179, 8, 0.25)";
+      ctx.lineWidth = 1.5;
+      const ejeZ1 = aPixeles(0, bounds.minZ, width, height);
+      const ejeZ2 = aPixeles(0, bounds.maxZ, width, height);
+      ctx.beginPath();
+      ctx.moveTo(ejeZ1.px, ejeZ1.py);
+      ctx.lineTo(ejeZ2.px, ejeZ2.py);
+      ctx.stroke();
+
+      const ejeX1 = aPixeles(bounds.minX, 0, width, height);
+      const ejeX2 = aPixeles(bounds.maxX, 0, width, height);
+      ctx.beginPath();
+      ctx.moveTo(ejeX1.px, ejeX1.py);
+      ctx.lineTo(ejeX2.px, ejeX2.py);
       ctx.stroke();
     }
 
     // C. Dibujar siluetas de los Edificios Principales
-    EDIFICIOS_CAMPUS.forEach((ed) => {
+    bounds.edificios.forEach((ed) => {
       const centro = aPixeles(ed.x, ed.z, width, height);
 
       if (ed.tipo === "circ") {
         ctx.beginPath();
-        const rPix = (ed.radio / (CAMPUS_BOUNDS.maxX - CAMPUS_BOUNDS.minX)) * (width - 50);
+        const rPix = (ed.radio / (bounds.maxX - bounds.minX)) * (width - 50);
         ctx.arc(centro.px, centro.py, rPix, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(251, 191, 36, 0.15)";
+        ctx.fillStyle = `${ed.color}25`;
         ctx.fill();
         ctx.strokeStyle = ed.color;
         ctx.lineWidth = 2;
         ctx.stroke();
       } else {
-        const wPix = (ed.ancho / (CAMPUS_BOUNDS.maxX - CAMPUS_BOUNDS.minX)) * (width - 50);
-        const hPix = (ed.alto / (CAMPUS_BOUNDS.maxZ - CAMPUS_BOUNDS.minZ)) * (height - 50);
+        const wPix = (ed.ancho / (bounds.maxX - bounds.minX)) * (width - 50);
+        const hPix = (ed.alto / (bounds.maxZ - bounds.minZ)) * (height - 50);
 
         ctx.fillStyle = `${ed.color}22`;
         ctx.fillRect(centro.px - wPix / 2, centro.py - hPix / 2, wPix, hPix);
