@@ -98,7 +98,12 @@ const Mapa = memo(function Mapa({
       antialias: false,
     },
     // Activa la caché persistente IndexedDB de Unity WebGL para arranques inmediatos en próximas visitas
-    cacheControl: (url) => "must-revalidate",
+    cacheControl: (url) => {
+      if (url.match(/\.data/) || url.match(/\.wasm/)) {
+        return "immutable";
+      }
+      return "must-revalidate";
+    },
   });
 
   // Manejador del catálogo completo emitido por Unity

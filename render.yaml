@@ -15,19 +15,19 @@ services:
     headers:
       - path: /UniMapBuild/Build/*.data.unityweb
         name: Content-Encoding
-        value: gzip
+        value: br
       - path: /UniMapBuild/Build/*.data.unityweb
         name: Content-Type
         value: application/octet-stream
       - path: /UniMapBuild/Build/*.wasm.unityweb
         name: Content-Encoding
-        value: gzip
+        value: br
       - path: /UniMapBuild/Build/*.wasm.unityweb
         name: Content-Type
         value: application/wasm
       - path: /UniMapBuild/Build/*.framework.js.unityweb
         name: Content-Encoding
-        value: gzip
+        value: br
       - path: /UniMapBuild/Build/*.framework.js.unityweb
         name: Content-Type
         value: application/javascript
