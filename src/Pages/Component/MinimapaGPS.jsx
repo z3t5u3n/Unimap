@@ -195,23 +195,32 @@ function MinimapaGPS({ visible, onClose, unityController }) {
       const acc = e.acceleration || e.accelerationIncludingGravity;
       if (!acc) return;
 
-      const ax = acc.x || 0;
-      const ay = acc.y || 0;
-      const az = acc.z || 0;
-      const mag = Math.sqrt(ax * ax + ay * ay + az * az);
+      const hasLinear = e.acceleration && e.acceleration.x !== null && e.acceleration.x !== undefined;
+      let dynamicAcc = 0;
 
-      const dynamicAcc = (e.acceleration && e.acceleration.x !== null)
-        ? mag
-        : Math.abs(mag - 9.81);
+      if (hasLinear) {
+        const ax = e.acceleration.x || 0;
+        const ay = e.acceleration.y || 0;
+        const az = e.acceleration.z || 0;
+        dynamicAcc = Math.sqrt(ax * ax + ay * ay + az * az);
+      } else if (e.accelerationIncludingGravity) {
+        const ax = e.accelerationIncludingGravity.x || 0;
+        const ay = e.accelerationIncludingGravity.y || 0;
+        const az = e.accelerationIncludingGravity.z || 0;
+        const mag = Math.sqrt(ax * ax + ay * ay + az * az);
+        dynamicAcc = Math.abs(mag - 9.81);
+      }
 
       acelerometroDisponibleRef.current = true;
 
       const now = Date.now();
       const deltaT = now - ultimoPasoTimeRef.current;
 
-      // Umbral dinámico de zancada peatonal humana (1.30 m/s²)
-      if (dynamicAcc >= 1.30 && ultimaAceleracionRef.current < 1.30) {
-        if (deltaT >= 300 && deltaT <= 1500) {
+      // Umbral dinámico de zancada humana: 1.10 m/s² (sensible a marcha natural con el celular en mano)
+      const UMBRAL_PASO = 1.10;
+      if (dynamicAcc >= UMBRAL_PASO && ultimaAceleracionRef.current < UMBRAL_PASO) {
+        // Mínimo 280ms entre zancadas para evitar falsos rebotes dentro del mismo impacto de pie
+        if (deltaT >= 280) {
           contadorPasosRef.current += 1;
           setContadorPasos(contadorPasosRef.current);
           ultimoPasoTimeRef.current = now;
@@ -223,9 +232,7 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           timerInactividadPasoRef.current = setTimeout(() => {
             caminandoPorInerciaRef.current = false;
             setCaminandoPorInercia(false);
-          }, 1500);
-        } else if (deltaT > 1500) {
-          ultimoPasoTimeRef.current = now;
+          }, 2200);
         }
       }
 
@@ -295,7 +302,7 @@ function MinimapaGPS({ visible, onClose, unityController }) {
         // Si está dentro del campus o activó modo libre en casa, limpiar alerta
         setErrorGeofence(null);
 
-        let xCalculado, zCalculado, latVirtual, lngVirtual, distDesdeAncla;
+        let xCalculado, zCalculado, latVirtual, lngVirtual;
 
         if (modoLibreCasa) {
           // MODO LIBRE EN CASA: Mapear pasos reales del usuario en su casa al espacio 3D de UniEspinal desde la Portería
@@ -313,7 +320,6 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           // Mapeo afín al espacio 3D (Portería = x: -102.3, z: 237.6)
           const dXUnity = -0.217679 * eastMetros - 0.145650 * northMetros;
           const dZUnity = 0.897218 * eastMetros + 1.530297 * northMetros;
-          distDesdeAncla = Math.sqrt(eastMetros * eastMetros + northMetros * northMetros);
 
           xCalculado = Number((-102.3 + dXUnity).toFixed(2));
           zCalculado = Number((237.6 + dZUnity).toFixed(2));
@@ -329,27 +335,39 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           const coordsU = calcularCoordenadasUnity(latitude, longitude);
           xCalculado = coordsU.x;
           zCalculado = coordsU.z;
-          distDesdeAncla = calcularDistanciaMetros(latitude, longitude, anclaGPSRef.current.lat, anclaGPSRef.current.lng);
 
           latVirtual = latitude;
           lngVirtual = longitude;
         }
 
-        // FUSIÓN SENSORIAL INERCIAL (ACELERÓMETRO + GPS):
-        // Si el teléfono tiene acelerómetro físico (móvil), el movimiento SOLO se permite
-        // si el sensor inercial confirma que el usuario está dando pasos físicos (caminandoPorInerciaRef.current).
-        const velMs = speed ? Math.max(0, speed) : 0;
-        const marchaConfirmada = acelerometroDisponibleRef.current
-          ? caminandoPorInerciaRef.current
-          : (velMs >= 0.45 && distDesdeAncla >= 3.0);
+        // 1. Fijación inicial de posición al enlazar satélites por primera vez
+        if (!ultimoPuntoEstableRef.current) {
+          ultimoPuntoEstableRef.current = { x: xCalculado, z: zCalculado, lat: latVirtual, lng: lngVirtual };
+          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, 0, accuracy, xCalculado, zCalculado);
+          setCoords({
+            lat: latVirtual,
+            lng: lngVirtual,
+            accuracy: Math.round(accuracy || 0),
+            speed: 0,
+            heading: nuevoHeading,
+          });
+          setEstadoConexion("📍 Posición inicial fijada. Da pasos para moverte...");
+          return;
+        }
 
-        if (!marchaConfirmada && velMs < 0.75) {
-          // Usuario en reposo absoluto confirmado por acelerómetro:
-          // Bloqueo total de cámara 3D: cero temblores y cero saltos satelitales.
+        // 2. FUSIÓN SENSORIAL INERCIAL PURA (PODÓMETRO + GPS):
+        // Sin filtros de distancia artificiales: el movimiento está gobernado puramente por los pasos físicos.
+        const velMs = speed ? Math.max(0, speed) : 0;
+        const estaCaminando = acelerometroDisponibleRef.current
+          ? caminandoPorInerciaRef.current
+          : (velMs >= 0.40);
+
+        if (!estaCaminando) {
+          // Reposo absoluto por podómetro: congelamiento total de la cámara 3D (cero derivas satelitales)
           setEstadoConexion(
             acelerometroDisponibleRef.current
               ? `🟡 En reposo (${contadorPasosRef.current} pasos - Cámara fija)`
-              : "🟡 Celular en reposo (Cámara fija)"
+              : "🟡 En reposo (Cámara fija)"
           );
           setCoords((prev) => ({
             ...prev,
@@ -360,7 +378,7 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           return;
         }
 
-        // Si hay pasos físicos confirmados:
+        // 3. Pasos físicos confirmados: actualizar la cámara 3D fluidamente
         haIniciadoMovimientoRef.current = true;
         setEstadoConexion(
           modoLibreCasa
@@ -371,10 +389,10 @@ function MinimapaGPS({ visible, onClose, unityController }) {
         let xFinal = xCalculado;
         let zFinal = zCalculado;
 
-        // Filtro suavizador exponencial (EMA: 35% previo / 65% nuevo)
+        // Suavizado EMA ágil (20% previo / 80% nuevo) para respuesta instantánea a cada paso sin vibración
         if (ultimoPuntoEstableRef.current) {
-          xFinal = Number((ultimoPuntoEstableRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
-          zFinal = Number((ultimoPuntoEstableRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
+          xFinal = Number((ultimoPuntoEstableRef.current.x * 0.20 + xCalculado * 0.80).toFixed(2));
+          zFinal = Number((ultimoPuntoEstableRef.current.z * 0.20 + zCalculado * 0.80).toFixed(2));
         }
 
         ultimoPuntoEstableRef.current = { x: xFinal, z: zFinal, lat: latVirtual, lng: lngVirtual };
