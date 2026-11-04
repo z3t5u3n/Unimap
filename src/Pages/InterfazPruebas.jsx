@@ -56,7 +56,7 @@ function InterfazPruebas() {
   const [edificios, setEdificios] = useState([]);
   const [lugares, setLugares] = useState([]);
   const [mostrarDatos, setMostrarDatos] = useState(false);
-  const [mostrarGPS, setMostrarGPS] = useState(true); // En entorno de pruebas se abre por defecto para facilitar calibración
+  const [mostrarGPS, setMostrarGPS] = useState(false); // Inicia cerrado para ver el mapa 3D limpio y se activa al pulsar el botón 📍
   const [mapaExpandido, setMapaExpandido] = useState(false);
   const [mostrarPanelRutas, setMostrarPanelRutas] = useState(false);
   const [telemetriaCamara, setTelemetriaCamara] = useState(null);

@@ -74,7 +74,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   factorZancadaRef.current = factorZancada;
 
   const ultimoHeadingRef = useRef(0);
-  const ultimaPosDespachadaRef = useRef({ x: puntoInicio.x, z: puntoInicio.z });
+  const ultimaPosDespachadaRef = useRef(null);
+  const haIniciadoMovimientoRef = useRef(false);
 
   const [indiceSimulacion, setIndiceSimulacion] = useState(0);
   const [estadoConexion, setEstadoConexion] = useState("GPS Libre Activo");
@@ -137,9 +138,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     [calcularCoordenadasUnity, unityController, brujulaHeading]
   );
 
-  // 1. Giro en tiempo real: sensor de brújula o giroscopio del móvil con filtro anti-ruido
+  // 1. Giro en tiempo real: sensor de brújula (solo actualiza el rumbo para minimapa 2D, NO mueve la cámara 3D)
   useEffect(() => {
-    let ultimoEnvio = 0;
     const handleOrientation = (e) => {
       const heading = e.webkitCompassHeading !== undefined
         ? e.webkitCompassHeading
@@ -149,23 +149,10 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         const h = Math.round(heading);
 
         // Diferencia angular circular teniendo en cuenta el salto de 0° / 360°
-        const diffHeading = Math.abs((h - ultimoHeadingRef.current + 540) % 360 - 180);
-        const cambioSignificativo = !filtroAntiRuidoRef.current || diffHeading >= 3.0;
-
-        const ahora = Date.now();
-        if (cambioSignificativo && ahora - ultimoEnvio > 75) {
-          ultimoEnvio = ahora;
+        const diffHeading = Math.abs((h - (ultimoHeadingRef.current || 0) + 540) % 360 - 180);
+        if (diffHeading >= 3.0) {
           ultimoHeadingRef.current = h;
           setBrujulaHeading(h);
-
-          if (visible) {
-            if (modoTester === "gps_libre" || modoTester === "gps_uniespinal") {
-              const posActual = ultimaPosDespachadaRef.current || { x: puntoInicio.x, z: puntoInicio.z };
-              despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, posActual.x, posActual.z);
-            } else if (modoTester === "fijo_uniespinal") {
-              despacharAUnity(puntoInicio.lat, puntoInicio.lng, h, 0, 1, puntoInicio.x, puntoInicio.z);
-            }
-          }
         }
       }
     };
@@ -177,7 +164,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation, true);
     };
-  }, [visible, modoTester, coords, puntoInicio, despacharAUnity]);
+  }, []);
 
   // 2. Control del Modo 1: Fijo en UniEspinal
   useEffect(() => {
@@ -267,26 +254,51 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           lngVirtual = longitude;
         }
 
-        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO):
-        let debeMover = true;
+        // CONTROL DE MOVIMIENTO (ESPERA A QUE EL USUARIO CAMINE FÍSICAMENTE):
         const velMs = speed ? Math.max(0, speed) : 0;
+        let debeMover = false;
 
-        if (filtroAntiRuidoRef.current && ultimaPosDespachadaRef.current) {
-          const dXUltimo = xCalculado - ultimaPosDespachadaRef.current.x;
-          const dZUltimo = zCalculado - ultimaPosDespachadaRef.current.z;
-          const saltoMetros = Math.sqrt(dXUltimo * dXUltimo + dZUltimo * dZUltimo);
+        if (filtroAntiRuidoRef.current) {
+          if (!haIniciadoMovimientoRef.current) {
+            // El usuario recién abrió la interfaz: esperar a que dé los primeros pasos
+            const desplazamiento = modoTester === "gps_libre"
+              ? distTotal
+              : (ultimaPosDespachadaRef.current ? Math.hypot(xCalculado - ultimaPosDespachadaRef.current.x, zCalculado - ultimaPosDespachadaRef.current.z) : distTotal);
 
-          // Si el salto es menor al umbral de reposo y la velocidad es baja (< 0.6 m/s = 2.1 km/h), el usuario está detenido
-          if (saltoMetros < umbralRuidoRef.current && velMs < 0.6) {
-            debeMover = false;
-            setEnMovimiento(false);
+            // Requiere desplazarse más del umbral antiruido y llevar velocidad de marcha
+            if (desplazamiento >= umbralRuidoRef.current && velMs >= 0.4) {
+              haIniciadoMovimientoRef.current = true;
+              debeMover = true;
+              setEnMovimiento(true);
+            } else {
+              // DETENIDO: Esperar sin mover la cámara 3D
+              debeMover = false;
+              setEnMovimiento(false);
+              setEstadoConexion("📍 Esperando a que comiences a caminar...");
+            }
           } else {
-            setEnMovimiento(true);
-            // Suavizado EMA durante la marcha (0.35 anterior + 0.65 nueva) para evitar tirones
-            xCalculado = Number((ultimaPosDespachadaRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
-            zCalculado = Number((ultimaPosDespachadaRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
+            // Ya está en marcha activa: aplicar filtro de reposo y EMA
+            const dXUltimo = xCalculado - (ultimaPosDespachadaRef.current?.x ?? xCalculado);
+            const dZUltimo = zCalculado - (ultimaPosDespachadaRef.current?.z ?? zCalculado);
+            const saltoMetros = Math.hypot(dXUltimo, dZUltimo);
+
+            if (saltoMetros < umbralRuidoRef.current && velMs < 0.4) {
+              // El usuario se detuvo: congelar cámara para eliminar cualquier vibración
+              debeMover = false;
+              setEnMovimiento(false);
+              setEstadoConexion("🟡 Celular en reposo (Cámara fija)");
+            } else {
+              debeMover = true;
+              setEnMovimiento(true);
+              setEstadoConexion(modoTester === "gps_libre" ? "🟢 Caminando en GPS Libre" : "🟢 Caminando en Campus");
+              if (ultimaPosDespachadaRef.current) {
+                xCalculado = Number((ultimaPosDespachadaRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
+                zCalculado = Number((ultimaPosDespachadaRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
+              }
+            }
           }
         } else {
+          debeMover = true;
           setEnMovimiento(true);
         }
 
@@ -386,6 +398,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Re-calibrar: fijar la posición actual como origen en el campus
   const recalibrarPosicionActual = () => {
+    haIniciadoMovimientoRef.current = true;
     if (coordsDispositivo) {
       if (modoTester === "gps_libre") {
         const nuevaAncla = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
@@ -471,6 +484,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
               className={`btnTabTester ${modoTester === "gps_libre" ? "activo" : ""}`}
               onClick={() => {
                 setModoTester("gps_libre");
+                haIniciadoMovimientoRef.current = false;
                 if (coordsDispositivo) {
                   anclaGPSRef.current = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
                 }
@@ -487,6 +501,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
               className={`btnTabTester ${modoTester === "gps_uniespinal" ? "activo" : ""}`}
               onClick={() => {
                 setModoTester("gps_uniespinal");
+                haIniciadoMovimientoRef.current = false;
                 if (unityController && typeof unityController.setModoGPS === "function") {
                   unityController.setModoGPS(true);
                 }
@@ -523,11 +538,16 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                 const punto = PUNTOS_CAMPUS.find((p) => p.id === e.target.value) || PUNTOS_CAMPUS[0];
                 setPuntoInicio(punto);
                 anclaGPSRef.current = null;
+                haIniciadoMovimientoRef.current = false;
+                ultimaPosDespachadaRef.current = null;
                 setDeltaMetros({ dx: 0, dz: 0, total: 0 });
-                if (unityController && typeof unityController.setModoGPS === "function") {
-                  unityController.setModoGPS(true);
+
+                if (modoTester === "fijo_uniespinal") {
+                  if (unityController && typeof unityController.setModoGPS === "function") {
+                    unityController.setModoGPS(true);
+                  }
+                  despacharAUnity(punto.lat, punto.lng, brujulaHeading, 0, 1, punto.x, punto.z);
                 }
-                despacharAUnity(punto.lat, punto.lng, brujulaHeading, 0, 1, punto.x, punto.z);
               }}
             >
               {PUNTOS_CAMPUS.map((p) => (
