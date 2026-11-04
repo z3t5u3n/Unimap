@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas base del Campus ITFIP en El Espinal, Tolima (Pivote Oficial 0, 0)
+// Coordenadas base del Campus ITFIP en El Espinal, Tolima (Entrada Principal)
 const CAMPUS_ORIGEN_ITFIP = {
-  lat: 4.156310,
-  lng: -74.897399,
+  lat: 4.156380,
+  lng: -74.897480,
 };
 
-// Puntos de inicio configurables en la maqueta 3D del campus
+// Puntos de inicio configurables en la maqueta 3D del campus con coordenadas reales de Unity
 const PUNTOS_CAMPUS = [
-  { id: "centro_pivote", nombre: "⭐ Centro Campus (Pivote 0, 0)", x: 0.0, z: 0.0, lat: 4.156310, lng: -74.897399 },
-  { id: "biblioteca", nombre: "📚 Biblioteca Central", x: 30.0, z: -40.0, lat: 4.15610, lng: -74.89710 },
-  { id: "porteria", nombre: "🚪 Portería Principal", x: -99.6, z: 363.6, lat: 4.15638, lng: -74.89748 },
-  { id: "bloqueD", nombre: "🏢 Bloque D (Canchas)", x: -146.5, z: 372.3, lat: 4.15645, lng: -74.89720 },
-  { id: "bloqueE", nombre: "🏫 Bloque E", x: -160.0, z: 420.0, lat: 4.15680, lng: -74.89700 },
-  { id: "coliseo", nombre: "⚽ Coliseo y Canchas", x: -200.0, z: 340.0, lat: 4.15610, lng: -74.89760 },
-  { id: "plazoleta", nombre: "🏛️ Plazoleta Central", x: -120.0, z: 380.0, lat: 4.15655, lng: -74.89730 },
+  { id: "porteria", nombre: "🚪 Portería Principal (Entrada)", x: -102.3, z: 237.6, lat: 4.15638, lng: -74.89748 },
+  { id: "bloqueA", nombre: "🏢 Bloque A-B-C", x: -44.6, z: 292.6, lat: 4.15672, lng: -74.89712 },
+  { id: "bloqueD", nombre: "🏢 Bloque D", x: -125.0, z: 367.2, lat: 4.15690, lng: -74.89695 },
+  { id: "bloqueE", nombre: "🏫 Bloque E", x: -124.0, z: 450.6, lat: 4.15705, lng: -74.89675 },
+  { id: "coliseo", nombre: "🏟️ Coliseo y Canchas", x: -119.6, z: 270.9, lat: 4.15625, lng: -74.89680 },
+  { id: "gym", nombre: "💪 Gimnasio (GYM)", x: -97.0, z: 252.2, lat: 4.15610, lng: -74.89715 },
+  { id: "cafeteria", nombre: "☕ Cafetería Universitaria", x: -66.5, z: 296.9, lat: 4.15665, lng: -74.89660 },
+  { id: "plazoleta", nombre: "🏛️ Plazoleta Central", x: -80.0, z: 270.0, lat: 4.15655, lng: -74.89730 },
 ];
 
 const RADIO_TIERRA_METROS = 6371000;
@@ -23,13 +24,13 @@ const RADIO_TIERRA_METROS = 6371000;
 // Ruta de simulación calibrada dentro del perímetro del Campus ITFIP
 const RUTA_SIMULADA_ITFIP = [
   { lugar: "Entrada Principal ITFIP", lat: 4.15638, lng: -74.89748, heading: 45 },
-  { lugar: "Plazoleta Central", lat: 4.15655, lng: -74.89730, heading: 60 },
-  { lugar: "Paso Frente a Bloque A-B-C", lat: 4.15672, lng: -74.89712, heading: 85 },
-  { lugar: "Entrada Bloque D", lat: 4.15690, lng: -74.89695, heading: 90 },
+  { lugar: "Gimnasio Universitario (GYM)", lat: 4.15610, lng: -74.89715, heading: 90 },
+  { lugar: "Coliseo y Canchas", lat: 4.15625, lng: -74.89680, heading: 120 },
+  { lugar: "Paso Frente a Bloque A-B-C", lat: 4.15672, lng: -74.89712, heading: 60 },
+  { lugar: "Entrada Bloque D", lat: 4.15690, lng: -74.89695, heading: 85 },
   { lugar: "Pasillo hacia Bloque E", lat: 4.15705, lng: -74.89675, heading: 75 },
   { lugar: "Cafetería Universitaria", lat: 4.15665, lng: -74.89660, heading: 180 },
-  { lugar: "Coliseo y Canchas", lat: 4.15625, lng: -74.89680, heading: 250 },
-  { lugar: "Gimnasio Universitario (GYM)", lat: 4.15610, lng: -74.89715, heading: 290 },
+  { lugar: "Plazoleta Central", lat: 4.15655, lng: -74.89730, heading: 240 },
 ];
 
 function MinimapaGPSTest({ visible, onClose, unityController }) {
@@ -37,8 +38,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // 'fijo_uniespinal' | 'gps_libre' | 'simulador'
   const [modoTester, setModoTester] = useState("gps_libre");
 
-  // Punto de inicio seleccionado en el campus 3D
-  const [puntoInicio, setPuntoInicio] = useState(PUNTOS_CAMPUS[0]); // Por defecto: Portería Principal
+  // Punto de inicio seleccionado en el campus 3D (por defecto Portería Principal)
+  const [puntoInicio, setPuntoInicio] = useState(PUNTOS_CAMPUS[0]);
 
   // Control para mostrar u ocultar el iframe 2D (por defecto minimizado en móvil para ver el 3D)
   const [mostrarMapa2D, setMostrarMapa2D] = useState(window.innerWidth > 768);
@@ -60,14 +61,14 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Estabilizador anti-ruido satelital y de brújula (evita que la cámara se mueva sola con celular quieto)
   const [filtroAntiRuido, setFiltroAntiRuido] = useState(true);
-  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(0.8); // 0.8m: Detección rápida de pasos sin zona muerta excesiva
+  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(2.2); // 2.2m: Zona muerta antiruido satelital para reposo
   const [factorZancada, setFactorZancada] = useState(1.25); // 1.25x: Calibración peatonal para que 5 pasos reales = 4 a 5 en 3D
   const [enMovimiento, setEnMovimiento] = useState(false);
 
   const anclaGPSRef = useRef(null);
   const filtroAntiRuidoRef = useRef(true);
   filtroAntiRuidoRef.current = filtroAntiRuido;
-  const umbralRuidoRef = useRef(0.8);
+  const umbralRuidoRef = useRef(2.2);
   umbralRuidoRef.current = umbralRuidoMetros;
   const factorZancadaRef = useRef(1.25);
   factorZancadaRef.current = factorZancada;
@@ -82,19 +83,23 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   const simulacionRef = useRef(null);
 
-  // Convertir coordenadas geográficas de UniEspinal a cartesianas Unity (X, Z)
+  // Convertir coordenadas geográficas de UniEspinal a cartesianas calibradas en Unity (X, Z)
   const calcularCoordenadasUnity = useCallback((lat, lng) => {
     const dLat = (lat - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
     const dLng = (lng - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
 
-    const x = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180)) + puntoInicio.x;
-    const z = dLat * RADIO_TIERRA_METROS + puntoInicio.z;
+    const east = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180));
+    const north = dLat * RADIO_TIERRA_METROS;
+
+    // Transformación afín calibrada con los edificios 3D reales de UniEspinal (ITFIP)
+    const x = -0.217679 * east - 0.145650 * north - 100.09;
+    const z = 0.897218 * east + 1.530297 * north + 243.98;
 
     return {
       x: Number(x.toFixed(2)),
       z: Number(z.toFixed(2)),
     };
-  }, [puntoInicio]);
+  }, []);
 
   // Enviar paquete GPS a Unity WebGL
   const despacharAUnity = useCallback(
@@ -132,7 +137,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     [calcularCoordenadasUnity, unityController, brujulaHeading]
   );
 
-  // 1. Giro en tiempo real: sensor de brújula o giroscopio del móvil
+  // 1. Giro en tiempo real: sensor de brújula o giroscopio del móvil con filtro anti-ruido
   useEffect(() => {
     let ultimoEnvio = 0;
     const handleOrientation = (e) => {
@@ -142,21 +147,24 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
       if (heading !== null && heading !== undefined) {
         const h = Math.round(heading);
-        setBrujulaHeading(h);
+
+        // Diferencia angular circular teniendo en cuenta el salto de 0° / 360°
+        const diffHeading = Math.abs((h - ultimoHeadingRef.current + 540) % 360 - 180);
+        const cambioSignificativo = !filtroAntiRuidoRef.current || diffHeading >= 3.0;
 
         const ahora = Date.now();
-        // Si el filtro anti-ruido está activo, descartar oscilaciones espurias menores a 2.5 grados
-        const diffHeading = Math.abs(h - ultimoHeadingRef.current);
-        const cambioSignificativo = !filtroAntiRuidoRef.current || diffHeading >= 2.5;
-
-        if (visible && cambioSignificativo && ahora - ultimoEnvio > 45) {
+        if (cambioSignificativo && ahora - ultimoEnvio > 75) {
           ultimoEnvio = ahora;
           ultimoHeadingRef.current = h;
-          if (modoTester === "gps_libre" || modoTester === "gps_uniespinal") {
-            const posActual = ultimaPosDespachadaRef.current || { x: puntoInicio.x, z: puntoInicio.z };
-            despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, posActual.x, posActual.z);
-          } else if (modoTester === "fijo_uniespinal") {
-            despacharAUnity(puntoInicio.lat, puntoInicio.lng, h, 0, 1, puntoInicio.x, puntoInicio.z);
+          setBrujulaHeading(h);
+
+          if (visible) {
+            if (modoTester === "gps_libre" || modoTester === "gps_uniespinal") {
+              const posActual = ultimaPosDespachadaRef.current || { x: puntoInicio.x, z: puntoInicio.z };
+              despacharAUnity(coords.lat, coords.lng, h, coords.speed, coords.accuracy, posActual.x, posActual.z);
+            } else if (modoTester === "fijo_uniespinal") {
+              despacharAUnity(puntoInicio.lat, puntoInicio.lng, h, 0, 1, puntoInicio.x, puntoInicio.z);
+            }
           }
         }
       }
@@ -198,20 +206,20 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     setEstadoConexion(
       modoTester === "gps_libre"
         ? "📡 GPS Libre: Rastreando desplazamiento desde tu posición..."
-        : "📍 GPS UniEspinal: Traduciendo respecto a pivote 4.156310, -74.897399..."
+        : "📍 GPS UniEspinal: Sincronizando con maqueta 3D real del Campus..."
     );
 
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
         const { latitude, longitude, heading, speed, accuracy } = pos.coords;
-        const nuevoHeading = heading !== null && heading !== undefined ? heading : brujulaHeading;
+        const nuevoHeading = heading !== null && heading !== undefined ? Math.round(heading) : (ultimoHeadingRef.current || brujulaHeading || 0);
 
         setCoordsDispositivo({
           lat: latitude,
           lng: longitude,
           accuracy: Math.round(accuracy || 0),
           speed: speed ? Math.round(speed * 3.6) : 0,
-          heading: Math.round(nuevoHeading || 0),
+          heading: nuevoHeading,
         });
 
         let xCalculado, zCalculado, latVirtual, lngVirtual, dx, dz, distTotal;
@@ -229,49 +237,54 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
           const dLat = (latitude - anclaActual.lat) * (Math.PI / 180);
           const dLng = (longitude - anclaActual.lng) * (Math.PI / 180);
           const factorAvance = factorZancadaRef.current || 1.25;
-          const dxMetros = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
-          const dzMetros = dLat * RADIO_TIERRA_METROS;
+          const eastMetros = dLng * RADIO_TIERRA_METROS * Math.cos(anclaActual.lat * (Math.PI / 180));
+          const northMetros = dLat * RADIO_TIERRA_METROS;
 
-          // Calibración de zancada (5 pasos físicos = 4 a 5 pasos virtuales en maqueta 3D)
-          dx = dxMetros * factorAvance;
-          dz = dzMetros * factorAvance;
-          distTotal = Math.sqrt(dx * dx + dz * dz);
+          // Mapeo afín al espacio 3D de Unity para que la marcha real coincida con la orientación del campus
+          const dXUnity = (-0.217679 * eastMetros - 0.145650 * northMetros) * factorAvance;
+          const dZUnity = (0.897218 * eastMetros + 1.530297 * northMetros) * factorAvance;
+          distTotal = Math.sqrt(eastMetros * eastMetros + northMetros * northMetros);
 
-          xCalculado = puntoInicio.x + dx;
-          zCalculado = puntoInicio.z + dz;
+          xCalculado = Number((puntoInicio.x + dXUnity).toFixed(2));
+          zCalculado = Number((puntoInicio.z + dZUnity).toFixed(2));
+          dx = Number(dXUnity.toFixed(1));
+          dz = Number(dZUnity.toFixed(1));
 
           // Coordenada geográfica virtual sobre UniEspinal para Google Maps
-          latVirtual = puntoInicio.lat + (dz / RADIO_TIERRA_METROS) * (180 / Math.PI);
-          lngVirtual = puntoInicio.lng + (dx / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
+          latVirtual = puntoInicio.lat + (northMetros / RADIO_TIERRA_METROS) * (180 / Math.PI);
+          lngVirtual = puntoInicio.lng + (eastMetros / (RADIO_TIERRA_METROS * Math.cos(puntoInicio.lat * (Math.PI / 180)))) * (180 / Math.PI);
         } else {
-          // MODO GPS UNIESPINAL: Punto 0,0 es estrictamente CAMPUS_ORIGEN_ITFIP (4.156310, -74.897399)
-          const dLat = (latitude - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
-          const dLng = (longitude - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
-          dx = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180));
-          dz = dLat * RADIO_TIERRA_METROS;
-          distTotal = Math.sqrt(dx * dx + dz * dz);
+          // MODO GPS UNIESPINAL: Transformación afín exacta entre GPS WGS84 y Unity 3D
+          const coordsU = calcularCoordenadasUnity(latitude, longitude);
+          xCalculado = coordsU.x;
+          zCalculado = coordsU.z;
 
-          // En Unity, al centrar el pivote en (0,0), las coordenadas son directamente (dx, dz)
-          xCalculado = dx;
-          zCalculado = dz;
+          dx = Number((xCalculado - PUNTOS_CAMPUS[0].x).toFixed(1));
+          dz = Number((zCalculado - PUNTOS_CAMPUS[0].z).toFixed(1));
+          distTotal = Number(Math.sqrt(dx * dx + dz * dz).toFixed(1));
 
           latVirtual = latitude;
           lngVirtual = longitude;
         }
 
-        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO CALIBRADA):
+        // FILTRO ANTI-RUIDO SATELITAL (ZONA MUERTA DE REPOSO):
         let debeMover = true;
+        const velMs = speed ? Math.max(0, speed) : 0;
+
         if (filtroAntiRuidoRef.current && ultimaPosDespachadaRef.current) {
           const dXUltimo = xCalculado - ultimaPosDespachadaRef.current.x;
           const dZUltimo = zCalculado - ultimaPosDespachadaRef.current.z;
           const saltoMetros = Math.sqrt(dXUltimo * dXUltimo + dZUltimo * dZUltimo);
 
-          // Detección rápida de pasos: umbral de 0.8m y umbral de velocidad de 0.25 m/s
-          if (saltoMetros < umbralRuidoRef.current && (speed === null || speed < 0.25)) {
+          // Si el salto es menor al umbral de reposo y la velocidad es baja (< 0.6 m/s = 2.1 km/h), el usuario está detenido
+          if (saltoMetros < umbralRuidoRef.current && velMs < 0.6) {
             debeMover = false;
             setEnMovimiento(false);
           } else {
             setEnMovimiento(true);
+            // Suavizado EMA durante la marcha (0.35 anterior + 0.65 nueva) para evitar tirones
+            xCalculado = Number((ultimaPosDespachadaRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
+            zCalculado = Number((ultimaPosDespachadaRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
           }
         } else {
           setEnMovimiento(true);
@@ -290,12 +303,12 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             lat: latVirtual,
             lng: lngVirtual,
             accuracy: Math.round(accuracy || 0),
-            speed: speed ? Math.round(speed * 3.6) : 0,
-            heading: Math.round(nuevoHeading || 0),
+            speed: velMs > 0 ? Math.round(velMs * 3.6) : 0,
+            heading: nuevoHeading,
           });
 
           // Despachar a Unity: la cámara se posiciona exactamente a 1m sobre el punto
-          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, speed, accuracy, xCalculado, zCalculado);
+          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, velMs, accuracy, xCalculado, zCalculado);
 
           // Emitir evento global para el Grabador y Comparador de Rutas
           if (typeof window.dispatchEvent === "function") {
@@ -306,8 +319,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   z: Number(zCalculado.toFixed(2)),
                   lat: latVirtual,
                   lng: lngVirtual,
-                  heading: Math.round(nuevoHeading || 0),
-                  speed: speed ? Math.round(speed * 3.6) : 0,
+                  heading: nuevoHeading,
+                  speed: velMs > 0 ? Math.round(velMs * 3.6) : 0,
                   accuracy: Math.round(accuracy || 0),
                   enMovimiento: true,
                   timestamp: Date.now(),
@@ -337,7 +350,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [modoTester, visible, puntoInicio, despacharAUnity, brujulaHeading]);
+  }, [modoTester, visible, puntoInicio, despacharAUnity, brujulaHeading, calcularCoordenadasUnity]);
 
   // 4. Control del Modo 3: Simulador de Caminata dentro del ITFIP
   useEffect(() => {
@@ -384,15 +397,12 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         }
         despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
       } else if (modoTester === "gps_uniespinal") {
-        const dLat = (coordsDispositivo.lat - CAMPUS_ORIGEN_ITFIP.lat) * (Math.PI / 180);
-        const dLng = (coordsDispositivo.lng - CAMPUS_ORIGEN_ITFIP.lng) * (Math.PI / 180);
-        const dx = dLng * RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN_ITFIP.lat * (Math.PI / 180));
-        const dz = dLat * RADIO_TIERRA_METROS;
-        ultimaPosDespachadaRef.current = { x: dx, z: dz };
+        const c = calcularCoordenadasUnity(coordsDispositivo.lat, coordsDispositivo.lng);
+        ultimaPosDespachadaRef.current = { x: c.x, z: c.z };
         if (unityController && typeof unityController.setModoGPS === "function") {
           unityController.setModoGPS(true);
         }
-        despacharAUnity(coordsDispositivo.lat, coordsDispositivo.lng, brujulaHeading, 0, coordsDispositivo.accuracy || 1, dx, dz);
+        despacharAUnity(coordsDispositivo.lat, coordsDispositivo.lng, brujulaHeading, 0, coordsDispositivo.accuracy || 1, c.x, c.z);
       }
     }
   };
@@ -408,9 +418,9 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
   // Coordenadas calculadas para Unity
   const unityCoord = modoTester === "gps_libre"
     ? { x: Number((puntoInicio.x + deltaMetros.dx).toFixed(2)), z: Number((puntoInicio.z + deltaMetros.dz).toFixed(2)) }
-    : modoTester === "gps_uniespinal"
-    ? { x: Number(deltaMetros.dx.toFixed(2)), z: Number(deltaMetros.dz.toFixed(2)) }
-    : calcularCoordenadasUnity(coords.lat, coords.lng);
+    : modoTester === "fijo_uniespinal"
+    ? { x: puntoInicio.x, z: puntoInicio.z }
+    : (ultimaPosDespachadaRef.current || calcularCoordenadasUnity(coords.lat, coords.lng));
 
   // Coordenadas para Google Maps
   const mapaLat = coords.lat;
@@ -630,7 +640,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             <div className="bannerGpsLibreInfo" style={{ background: "linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(15, 23, 42, 0.95))", borderColor: "rgba(16, 185, 129, 0.3)" }}>
               <div className="infoGpsLibreTexto">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                  <strong style={{ color: "#34d399" }}>📍 GPS UniEspinal (Pivote Oficial 0, 0):</strong>
+                  <strong style={{ color: "#34d399" }}>📍 GPS UniEspinal (Campus ITFIP Real):</strong>
                   <span
                     style={{
                       fontSize: "11px",
@@ -646,7 +656,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
                   </span>
                 </div>
                 <p>
-                  Pivote cartesiano: (4.156310, -74.897399). Si estás en la Biblioteca o Bloque D, la cámara se posiciona directamente en ese edificio.
+                  Campus ITFIP (4.15638, -74.89748). Calibrado matemáticamente con los edificios reales: Bloque D, Bloque E, Coliseo, Portería.
                 </p>
               </div>
 
@@ -754,8 +764,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             )}
             {modoTester === "gps_uniespinal" && (
               <div className="filaTelemetria" style={{ fontSize: "11px", color: "#34d399" }}>
-                <span>Offset desde Pivote Oficial (0, 0):</span>
-                <span>X: {deltaMetros.dx}m | Z: {deltaMetros.dz}m (Dist: {deltaMetros.total}m)</span>
+                <span>Distancia desde Entrada Principal:</span>
+                <span>ΔX: {deltaMetros.dx}m | ΔZ: {deltaMetros.dz}m (Total: {deltaMetros.total}m)</span>
               </div>
             )}
 

@@ -1,34 +1,33 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../../CSS/interfaz.css";
 
-// Coordenadas de los Edificios Principales y Zonas del Campus ITFIP en Unity (X, Z)
+// Coordenadas de los Edificios Principales y Zonas del Campus ITFIP en Unity (X, Z) Calibradas
 const EDIFICIOS_CAMPUS = [
-  { id: "porteria", nombre: "Portería Principal", x: -99.6, z: 363.6, ancho: 18, alto: 12, color: "#38bdf8", tipo: "rect" },
-  { id: "bloque_abc", nombre: "Bloque A-B-C", x: -110.0, z: 360.0, ancho: 32, alto: 22, color: "#818cf8", tipo: "rect" },
-  { id: "plazoleta", nombre: "Plazoleta Central", x: -120.0, z: 380.0, radio: 14, color: "#fbbf24", tipo: "circ" },
-  { id: "bloque_d", nombre: "Bloque D (Salones)", x: -146.5, z: 372.3, ancho: 30, alto: 24, color: "#34d399", tipo: "rect" },
-  { id: "cafeteria", nombre: "Cafetería Nueva", x: -121.1, z: 328.9, ancho: 22, alto: 18, color: "#f472b6", tipo: "rect" },
-  { id: "bloque_e", nombre: "Bloque E (Ingeniería)", x: -140.0, z: 430.0, ancho: 36, alto: 26, color: "#a78bfa", tipo: "rect" },
-  { id: "coliseo", nombre: "Coliseo ITFIP", x: -195.0, z: 335.0, ancho: 34, alto: 30, color: "#fb923c", tipo: "rect" },
-  { id: "gym", nombre: "Gimnasio", x: -210.0, z: 320.0, ancho: 20, alto: 18, color: "#f87171", tipo: "rect" },
-  { id: "canchas", nombre: "Canchas Deportivas", x: -185.0, z: 295.0, ancho: 38, alto: 26, color: "#4ade80", tipo: "rect" },
+  { id: "porteria", nombre: "Portería Principal", x: -102.3, z: 237.6, ancho: 16, alto: 10, color: "#38bdf8", tipo: "rect" },
+  { id: "bloque_abc", nombre: "Bloque A-B-C", x: -44.6, z: 292.6, ancho: 32, alto: 22, color: "#818cf8", tipo: "rect" },
+  { id: "plazoleta", nombre: "Plazoleta Central", x: -80.0, z: 270.0, radio: 14, color: "#fbbf24", tipo: "circ" },
+  { id: "bloque_d", nombre: "Bloque D (Salones)", x: -125.0, z: 367.2, ancho: 28, alto: 24, color: "#34d399", tipo: "rect" },
+  { id: "cafeteria", nombre: "Cafetería Universitaria", x: -66.5, z: 296.9, ancho: 20, alto: 16, color: "#f472b6", tipo: "rect" },
+  { id: "bloque_e", nombre: "Bloque E (Ingeniería)", x: -124.0, z: 450.6, ancho: 32, alto: 26, color: "#a78bfa", tipo: "rect" },
+  { id: "coliseo", nombre: "Coliseo ITFIP", x: -119.6, z: 270.9, ancho: 30, alto: 28, color: "#fb923c", tipo: "rect" },
+  { id: "gym", nombre: "Gimnasio (GYM)", x: -97.0, z: 252.2, ancho: 18, alto: 16, color: "#f87171", tipo: "rect" },
+  { id: "canchas", nombre: "Canchas Deportivas", x: -120.0, z: 285.0, ancho: 32, alto: 24, color: "#4ade80", tipo: "rect" },
 ];
 
 // Edificios y Puntos de Referencia para el modelo con Pivote Oficial Centrado en (0, 0)
 const EDIFICIOS_PIVOTE_CENTRAL = [
-  { id: "pivote", nombre: "⭐ Pivote Central (0, 0)", x: 0.0, z: 0.0, radio: 8, color: "#eab308", tipo: "circ" },
-  { id: "biblioteca", nombre: "Biblioteca Central", x: 30.0, z: -40.0, ancho: 28, alto: 20, color: "#38bdf8", tipo: "rect" },
-  { id: "porteria", nombre: "Portería Principal", x: 45.0, z: -10.0, ancho: 20, alto: 14, color: "#818cf8", tipo: "rect" },
-  { id: "bloque_d", nombre: "Bloque D", x: -20.0, z: 25.0, ancho: 30, alto: 22, color: "#34d399", tipo: "rect" },
-  { id: "coliseo", nombre: "Coliseo ITFIP", x: -50.0, z: -35.0, ancho: 34, alto: 28, color: "#fb923c", tipo: "rect" },
+  { id: "porteria", nombre: "Portería Principal", x: -102.3, z: 237.6, ancho: 16, alto: 10, color: "#38bdf8", tipo: "rect" },
+  { id: "bloque_d", nombre: "Bloque D", x: -125.0, z: 367.2, ancho: 28, alto: 24, color: "#34d399", tipo: "rect" },
+  { id: "bloque_e", nombre: "Bloque E", x: -124.0, z: 450.6, ancho: 32, alto: 26, color: "#a78bfa", tipo: "rect" },
+  { id: "coliseo", nombre: "Coliseo ITFIP", x: -119.6, z: 270.9, ancho: 30, alto: 28, color: "#fb923c", tipo: "rect" },
 ];
 
-// Límites de la superficie / mesh del campus en Unity (Modelo Legacy)
+// Límites de la superficie / mesh del campus en Unity Calibrados
 const CAMPUS_BOUNDS = {
-  minX: -240,
-  maxX: -60,
-  minZ: 270,
-  maxZ: 460,
+  minX: -160,
+  maxX: -20,
+  minZ: 210,
+  maxZ: 470,
 };
 
 function PanelRutasGPS({ visible, onClose, telemetriaCamara }) {
