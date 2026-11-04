@@ -47,8 +47,9 @@ function MinimapaGPS({ visible, onClose, unityController }) {
   });
 
   const [modoSimulador, setModoSimulador] = useState(false);
+  const [modoLibreCasa, setModoLibreCasa] = useState(false);
   const [indiceSimulacion, setIndiceSimulacion] = useState(0);
-  const [estadoConexion, setEstadoConexion] = useState("Iniciando GPS UniEspinal...");
+  const [estadoConexion, setEstadoConexion] = useState("Iniciando GPS...");
   const [minimizado, setMinimizado] = useState(false);
   const [brujulaHeading, setBrujulaHeading] = useState(0);
 
@@ -56,10 +57,12 @@ function MinimapaGPS({ visible, onClose, unityController }) {
   const [errorGeofence, setErrorGeofence] = useState(null);
   const [distanciaAlCampus, setDistanciaAlCampus] = useState(0);
 
-  // Refs para filtros antiruido satelital y control de simulación
+  // Refs para filtros antiruido satelital adaptados a Kirin 710F (Huawei Y9 Prime)
   const simulacionRef = useRef(null);
+  const anclaGPSRef = useRef(null);
   const ultimoPuntoEstableRef = useRef(null);
   const ultimoHeadingRef = useRef(0);
+  const haIniciadoMovimientoRef = useRef(false);
 
   // Convertir coordenadas geográficas WGS84 a coordenadas cartesianas calibradas (X, Z) en Unity
   const calcularCoordenadasUnity = useCallback((lat, lng) => {
@@ -81,15 +84,24 @@ function MinimapaGPS({ visible, onClose, unityController }) {
 
   // Enviar coordenadas y orientación a Unity WebGL
   const despacharAUnity = useCallback(
-    (lat, lng, heading, speed, accuracy) => {
-      const { x, z } = calcularCoordenadasUnity(lat, lng);
-      const rumboFinal = Number((heading ?? brujulaHeading ?? 0).toFixed(1));
+    (lat, lng, heading, speed, accuracy, xOverride, zOverride) => {
+      let x, z;
+      if (xOverride !== undefined && zOverride !== undefined) {
+        x = xOverride;
+        z = zOverride;
+      } else {
+        const c = calcularCoordenadasUnity(lat, lng);
+        x = c.x;
+        z = c.z;
+      }
+
+      const rumboFinal = Number((heading ?? ultimoHeadingRef.current ?? 0).toFixed(1));
 
       const paqueteGPS = {
         lat: Number(lat.toFixed(6)),
         lng: Number(lng.toFixed(6)),
-        x: x,
-        z: z,
+        x: Number(x.toFixed(2)),
+        z: Number(z.toFixed(2)),
         heading: rumboFinal,
         speed: Number((speed || 0).toFixed(2)),
         accuracy: Math.round(accuracy || 0),
@@ -108,22 +120,30 @@ function MinimapaGPS({ visible, onClose, unityController }) {
         window.dispatchEvent(
           new CustomEvent("UniMapGPSUpdate", {
             detail: {
-              x: x,
-              z: z,
+              x: Number(x.toFixed(2)),
+              z: Number(z.toFixed(2)),
               lat: Number(lat.toFixed(6)),
               lng: Number(lng.toFixed(6)),
               heading: rumboFinal,
               speed: Number((speed || 0).toFixed(2)),
               accuracy: Math.round(accuracy || 0),
-              enMovimiento: (speed || 0) > 0.4,
+              enMovimiento: (speed || 0) > 0.45,
               timestamp: Date.now(),
             },
           })
         );
       }
     },
-    [calcularCoordenadasUnity, unityController, brujulaHeading]
+    [calcularCoordenadasUnity, unityController]
   );
+
+  // Recalibrar y fijar posición actual (ancla)
+  const recalibrarPosicionActual = useCallback(() => {
+    anclaGPSRef.current = null;
+    ultimoPuntoEstableRef.current = null;
+    haIniciadoMovimientoRef.current = false;
+    setEstadoConexion("📍 Posición reiniciada. Da 4 o 5 pasos...");
+  }, []);
 
   // 1. Escuchar sensor de brújula o giroscopio del dispositivo (móvil) con filtro de zona muerta
   useEffect(() => {
@@ -135,9 +155,9 @@ function MinimapaGPS({ visible, onClose, unityController }) {
 
       if (heading !== null && heading !== undefined) {
         const h = Math.round(heading);
-        // Zona muerta antitemblores involuntarios de la mano (mínimo 3.0 grados de cambio)
+        // Zona muerta antitemblores involuntarios de la mano (mínimo 4.0 grados de cambio)
         const diff = Math.abs((h - (ultimoHeadingRef.current || 0) + 540) % 360 - 180);
-        if (diff >= 3.0) {
+        if (diff >= 4.0) {
           ultimoHeadingRef.current = h;
           setBrujulaHeading(h);
         }
@@ -153,7 +173,7 @@ function MinimapaGPS({ visible, onClose, unityController }) {
     };
   }, []);
 
-  // 2. Rastrear GPS Real con Geolocation API con filtro de zona muerta y EMA
+  // 2. Rastrear GPS Real con Geolocation API con filtro de marcha activa y zona muerta adaptada a Huawei Y9 Prime
   useEffect(() => {
     if (modoSimulador || !visible) return;
 
@@ -167,14 +187,22 @@ function MinimapaGPS({ visible, onClose, unityController }) {
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
         const { latitude, longitude, heading, speed, accuracy } = pos.coords;
-        const nuevoHeading = heading !== null && heading !== undefined ? Math.round(heading) : (ultimoHeadingRef.current || brujulaHeading || 0);
+        const nuevoHeading = heading !== null && heading !== undefined ? Math.round(heading) : (ultimoHeadingRef.current || 0);
         const distancia = calcularDistanciaMetros(latitude, longitude, CAMPUS_ORIGEN.lat, CAMPUS_ORIGEN.lng);
         setDistanciaAlCampus(distancia);
 
-        if (distancia > RADIO_GEOFENCE_METROS) {
-          // El usuario NO está físicamente en UniEspinal (ej. en su casa)
+        // Descartar lecturas con señal excesivamente pobre (> 28 metros) típicas de interiores
+        if (accuracy > 28) {
+          setEstadoConexion(`⚠️ Señal satelital débil (±${Math.round(accuracy)}m)`);
+          return;
+        }
+
+        const fueraDelCampus = distancia > RADIO_GEOFENCE_METROS;
+
+        if (fueraDelCampus && !modoLibreCasa) {
+          // El usuario NO está físicamente en UniEspinal y no ha activado el modo libre
           const km = (distancia / 1000).toFixed(1);
-          setErrorGeofence(`Estás a ${km} km del campus. El seguimiento GPS en vivo se activará al llegar a la universidad.`);
+          setErrorGeofence(`Estás a ${km} km del campus. Puedes caminar en tu entorno activando el Modo Libre.`);
           setEstadoConexion("⚠️ Fuera del campus UniEspinal");
 
           // Mantener mapa local centrado pero NO despachar a Unity para evitar secuestro de cámara y vibraciones en casa
@@ -190,53 +218,116 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           if (unityController && typeof unityController.setModoGPS === "function") {
             unityController.setModoGPS(false);
           }
-        } else {
-          // El usuario SÍ está físicamente dentro de UniEspinal
-          setErrorGeofence(null);
+          return;
+        }
 
-          // 1. Descartar lecturas con precisión satelital deficiente (> 30 metros)
-          if (accuracy > 30) {
-            console.warn("[GPS] Descartada lectura con baja precisión satelital:", accuracy);
-            setEstadoConexion(`⚠️ Señal débil (±${Math.round(accuracy)}m)`);
+        // Si está dentro del campus o activó modo libre en casa, limpiar alerta
+        setErrorGeofence(null);
+
+        let xCalculado, zCalculado, latVirtual, lngVirtual, distDesdeAncla;
+
+        if (modoLibreCasa) {
+          // MODO LIBRE EN CASA: Mapear pasos reales del usuario en su casa al espacio 3D de UniEspinal desde la Portería
+          if (!anclaGPSRef.current) {
+            anclaGPSRef.current = { lat: latitude, lng: longitude };
+            ultimoPuntoEstableRef.current = { x: -102.3, z: 237.6 };
+          }
+
+          const ancla = anclaGPSRef.current;
+          const dLat = (latitude - ancla.lat) * (Math.PI / 180);
+          const dLng = (longitude - ancla.lng) * (Math.PI / 180);
+          const eastMetros = dLng * RADIO_TIERRA_METROS * Math.cos(ancla.lat * (Math.PI / 180));
+          const northMetros = dLat * RADIO_TIERRA_METROS;
+
+          // Mapeo afín al espacio 3D (Portería = x: -102.3, z: 237.6)
+          const dXUnity = -0.217679 * eastMetros - 0.145650 * northMetros;
+          const dZUnity = 0.897218 * eastMetros + 1.530297 * northMetros;
+          distDesdeAncla = Math.sqrt(eastMetros * eastMetros + northMetros * northMetros);
+
+          xCalculado = Number((-102.3 + dXUnity).toFixed(2));
+          zCalculado = Number((237.6 + dZUnity).toFixed(2));
+
+          latVirtual = CAMPUS_ORIGEN.lat + (northMetros / RADIO_TIERRA_METROS) * (180 / Math.PI);
+          lngVirtual = CAMPUS_ORIGEN.lng + (eastMetros / (RADIO_TIERRA_METROS * Math.cos(CAMPUS_ORIGEN.lat * (Math.PI / 180)))) * (180 / Math.PI);
+        } else {
+          // MODO UNIESPINAL CAMPUS: Geometría afín directa
+          if (!anclaGPSRef.current) {
+            anclaGPSRef.current = { lat: latitude, lng: longitude };
+          }
+
+          const coordsU = calcularCoordenadasUnity(latitude, longitude);
+          xCalculado = coordsU.x;
+          zCalculado = coordsU.z;
+          distDesdeAncla = calcularDistanciaMetros(latitude, longitude, anclaGPSRef.current.lat, anclaGPSRef.current.lng);
+
+          latVirtual = latitude;
+          lngVirtual = longitude;
+        }
+
+        // CONTROL DE MOVIMIENTO ADAPTADO A HUAWEI Y9 PRIME (ANTENA MONO-BANDA L1):
+        // La antena L1 puede fluctuar 2-3m por ruido de satélite en reposo.
+        // Exigimos desplazamiento real sostenido de al menos 3.2 metros y velocidad >= 0.45 m/s antes de iniciar el movimiento.
+        const velMs = speed ? Math.max(0, speed) : 0;
+        let debeMoverCamara = false;
+
+        if (!haIniciadoMovimientoRef.current) {
+          // El usuario está quieto esperando: NO mover la cámara en Unity
+          if (distDesdeAncla >= 3.2 && velMs >= 0.45) {
+            haIniciadoMovimientoRef.current = true;
+            debeMoverCamara = true;
+            setEstadoConexion(modoLibreCasa ? "🟢 Caminando en Casa" : "🟢 Caminando por el Campus");
+          } else {
+            // Usuario detenido: mantener cámara fija y no enviar ruido satelital a Unity
+            debeMoverCamara = false;
+            setEstadoConexion("📍 Esperando a que comiences a caminar...");
+            setCoords((prev) => ({
+              ...prev,
+              speed: 0,
+              accuracy: Math.round(accuracy || 0),
+              heading: nuevoHeading,
+            }));
             return;
           }
+        } else {
+          // El usuario ya inició la caminata: filtrar reposos
+          const ultimoX = ultimoPuntoEstableRef.current?.x ?? xCalculado;
+          const ultimoZ = ultimoPuntoEstableRef.current?.z ?? zCalculado;
+          const saltoMetros = Math.hypot(xCalculado - ultimoX, zCalculado - ultimoZ);
 
-          // 2. Filtro de zona muerta para usuario quieto:
-          // Si el desplazamiento es menor a 2.5 metros y la velocidad es baja (< 0.6 m/s = ~2.1 km/h), el usuario está detenido
-          const velMs = speed ? Math.max(0, speed) : 0;
-          if (ultimoPuntoEstableRef.current) {
-            const deltaM = calcularDistanciaMetros(latitude, longitude, ultimoPuntoEstableRef.current.lat, ultimoPuntoEstableRef.current.lng);
-            if (deltaM < 2.5 && velMs < 0.6) {
-              // Usuario detenido: mantener posición fija y no enviar ruido satelital a Unity
-              setCoords((prev) => ({
-                ...prev,
-                speed: 0,
-                accuracy: Math.round(accuracy || 0),
-                heading: nuevoHeading,
-              }));
-              return;
+          if (saltoMetros < 2.8 && velMs < 0.45) {
+            // Usuario se detuvo: congelar cámara en seco para eliminar microtemblores
+            debeMoverCamara = false;
+            setEstadoConexion("🟡 Celular en reposo (Cámara fija)");
+            setCoords((prev) => ({
+              ...prev,
+              speed: 0,
+              accuracy: Math.round(accuracy || 0),
+              heading: nuevoHeading,
+            }));
+            return;
+          } else {
+            debeMoverCamara = true;
+            setEstadoConexion(modoLibreCasa ? "🟢 Caminando en Casa" : "🟢 Caminando por el Campus");
+            // Filtro suavizador exponencial (EMA: 35% previo / 65% nuevo)
+            if (ultimoPuntoEstableRef.current) {
+              xCalculado = Number((ultimoPuntoEstableRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
+              zCalculado = Number((ultimoPuntoEstableRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
             }
           }
+        }
 
-          // 3. Filtro suavizador exponencial (EMA) para pasos y marcha fluida
-          let latFiltrada = latitude;
-          let lngFiltrada = longitude;
-          if (ultimoPuntoEstableRef.current) {
-            latFiltrada = ultimoPuntoEstableRef.current.lat * 0.35 + latitude * 0.65;
-            lngFiltrada = ultimoPuntoEstableRef.current.lng * 0.35 + longitude * 0.65;
-          }
-
-          ultimoPuntoEstableRef.current = { lat: latFiltrada, lng: lngFiltrada };
+        if (debeMoverCamara) {
+          ultimoPuntoEstableRef.current = { x: xCalculado, z: zCalculado, lat: latVirtual, lng: lngVirtual };
 
           setCoords({
-            lat: latFiltrada,
-            lng: lngFiltrada,
+            lat: latVirtual,
+            lng: lngVirtual,
             accuracy: Math.round(accuracy || 0),
-            speed: velMs > 0 ? Math.round(velMs * 3.6) : 0, // Convertir m/s a km/h
+            speed: velMs > 0 ? Math.round(velMs * 3.6) : 0, // km/h
             heading: nuevoHeading,
           });
 
-          despacharAUnity(latFiltrada, lngFiltrada, nuevoHeading, velMs, accuracy);
+          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, velMs, accuracy, xCalculado, zCalculado);
         }
       },
       (err) => {
@@ -261,7 +352,7 @@ function MinimapaGPS({ visible, onClose, unityController }) {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [modoSimulador, visible, despacharAUnity, brujulaHeading, unityController]);
+  }, [modoSimulador, modoLibreCasa, visible, despacharAUnity, calcularCoordenadasUnity, unityController]);
 
   // 3. Modo Simulador de Caminata por el Campus (útil en PC o desde casa)
   useEffect(() => {
@@ -362,25 +453,45 @@ function MinimapaGPS({ visible, onClose, unityController }) {
                     (Estás a {distanciaAlCampus > 1000 ? `${(distanciaAlCampus / 1000).toFixed(1)} km` : `${distanciaAlCampus} m`} del campus UniEspinal)
                   </small>
                 )}
-                <button
-                  type="button"
-                  className="btnActivarSimuladorAlerta"
-                  onClick={() => setModoSimulador(true)}
-                  style={{
-                    marginTop: "8px",
-                    background: "rgba(255, 255, 255, 0.2)",
-                    border: "1px solid rgba(255, 255, 255, 0.4)",
-                    borderRadius: "6px",
-                    color: "#ffffff",
-                    fontSize: "11px",
-                    fontWeight: "600",
-                    padding: "4px 8px",
-                    cursor: "pointer",
-                    display: "inline-block",
-                  }}
-                >
-                  🚶 Probar Recorrido Virtual desde casa
-                </button>
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "8px" }}>
+                  <button
+                    type="button"
+                    className="btnActivarSimuladorAlerta"
+                    onClick={() => {
+                      setModoLibreCasa(true);
+                      recalibrarPosicionActual();
+                    }}
+                    style={{
+                      background: "#22c55e",
+                      border: "none",
+                      borderRadius: "6px",
+                      color: "#ffffff",
+                      fontSize: "11px",
+                      fontWeight: "700",
+                      padding: "6px 10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    🌍 Caminar en mi entorno (GPS Libre)
+                  </button>
+                  <button
+                    type="button"
+                    className="btnActivarSimuladorAlerta"
+                    onClick={() => setModoSimulador(true)}
+                    style={{
+                      background: "rgba(255, 255, 255, 0.2)",
+                      border: "1px solid rgba(255, 255, 255, 0.4)",
+                      borderRadius: "6px",
+                      color: "#ffffff",
+                      fontSize: "11px",
+                      fontWeight: "600",
+                      padding: "6px 10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    🚶 Recorrido Virtual
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -447,22 +558,59 @@ function MinimapaGPS({ visible, onClose, unityController }) {
             </div>
           </div>
 
-          {/* Controles de Modo: GPS Real vs Simulador */}
-          <div className="controlesMinimapaFooter">
+          {/* Controles de Modo: GPS Real vs Simulador vs GPS Libre */}
+          <div className="controlesMinimapaFooter" style={{ display: "flex", gap: "6px", flexWrap: "wrap", alignItems: "center" }}>
             <button
               type="button"
-              className={`btnModoRastreo ${!modoSimulador ? "activo" : ""}`}
-              onClick={() => setModoSimulador(false)}
+              className={`btnModoRastreo ${!modoSimulador && !modoLibreCasa ? "activo" : ""}`}
+              onClick={() => {
+                setModoSimulador(false);
+                setModoLibreCasa(false);
+                recalibrarPosicionActual();
+              }}
             >
-              🛰️ GPS Real
+              🏛️ Campus UniEspinal
+            </button>
+            <button
+              type="button"
+              className={`btnModoRastreo ${modoLibreCasa ? "activo" : ""}`}
+              onClick={() => {
+                setModoSimulador(false);
+                setModoLibreCasa(true);
+                recalibrarPosicionActual();
+              }}
+              title="Permite caminar en cualquier lugar (en casa o calle) mapeando tus pasos en 3D"
+            >
+              🌍 GPS Libre
             </button>
             <button
               type="button"
               className={`btnModoRastreo ${modoSimulador ? "activo" : ""}`}
-              onClick={() => setModoSimulador(true)}
+              onClick={() => {
+                setModoLibreCasa(false);
+                setModoSimulador(true);
+              }}
               title="Simula un recorrido a pie por el campus para probar en PC"
             >
-              🚶 Simular Recorrido
+              🚶 Simular
+            </button>
+            <button
+              type="button"
+              onClick={recalibrarPosicionActual}
+              style={{
+                background: "rgba(59, 130, 246, 0.2)",
+                border: "1px solid rgba(59, 130, 246, 0.5)",
+                color: "#60a5fa",
+                borderRadius: "6px",
+                padding: "6px 10px",
+                fontSize: "11px",
+                cursor: "pointer",
+                fontWeight: "600",
+                marginLeft: "auto",
+              }}
+              title="Recalibra el punto de inicio a donde estás parado ahora mismo"
+            >
+              🎯 Fijar Aquí
             </button>
           </div>
         </div>

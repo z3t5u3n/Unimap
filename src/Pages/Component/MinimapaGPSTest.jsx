@@ -61,14 +61,14 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Estabilizador anti-ruido satelital y de brújula (evita que la cámara se mueva sola con celular quieto)
   const [filtroAntiRuido, setFiltroAntiRuido] = useState(true);
-  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(2.2); // 2.2m: Zona muerta antiruido satelital para reposo
+  const [umbralRuidoMetros, setUmbralRuidoMetros] = useState(3.2); // 3.2m: Zona muerta antiruido satelital para L1 (Huawei Y9 Prime)
   const [factorZancada, setFactorZancada] = useState(1.25); // 1.25x: Calibración peatonal para que 5 pasos reales = 4 a 5 en 3D
   const [enMovimiento, setEnMovimiento] = useState(false);
 
   const anclaGPSRef = useRef(null);
   const filtroAntiRuidoRef = useRef(true);
   filtroAntiRuidoRef.current = filtroAntiRuido;
-  const umbralRuidoRef = useRef(2.2);
+  const umbralRuidoRef = useRef(3.2);
   umbralRuidoRef.current = umbralRuidoMetros;
   const factorZancadaRef = useRef(1.25);
   factorZancadaRef.current = factorZancada;
@@ -115,7 +115,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         z = c.z;
       }
 
-      const rumboFinal = Number((heading ?? brujulaHeading ?? 0).toFixed(1));
+      const rumboFinal = Number((heading ?? ultimoHeadingRef.current ?? 0).toFixed(1));
 
       const paqueteGPS = {
         lat: Number(lat.toFixed(6)),
@@ -135,7 +135,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
         setEstadoConexion("GPS Activo (Esperando WebGL)");
       }
     },
-    [calcularCoordenadasUnity, unityController, brujulaHeading]
+    [calcularCoordenadasUnity, unityController]
   );
 
   // 1. Giro en tiempo real: sensor de brújula (solo actualiza el rumbo para minimapa 2D, NO mueve la cámara 3D)
@@ -175,11 +175,11 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
       lng: puntoInicio.lng,
       accuracy: 1,
       speed: 0,
-      heading: brujulaHeading,
+      heading: ultimoHeadingRef.current || 0,
     });
     setEstadoConexion(`📍 Fijo en ${puntoInicio.nombre}`);
-    despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
-  }, [modoTester, puntoInicio, visible, brujulaHeading, despacharAUnity]);
+    despacharAUnity(puntoInicio.lat, puntoInicio.lng, ultimoHeadingRef.current || 0, 0, 1, puntoInicio.x, puntoInicio.z);
+  }, [modoTester, puntoInicio, visible, despacharAUnity]);
 
   // 3. Control de Rastrear GPS Real: GPS Libre (Móvil = 0,0) o GPS UniEspinal (Pivote 4.156310, -74.897399)
   useEffect(() => {
@@ -199,7 +199,13 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
         const { latitude, longitude, heading, speed, accuracy } = pos.coords;
-        const nuevoHeading = heading !== null && heading !== undefined ? Math.round(heading) : (ultimoHeadingRef.current || brujulaHeading || 0);
+        const nuevoHeading = heading !== null && heading !== undefined ? Math.round(heading) : (ultimoHeadingRef.current || 0);
+
+        // Descartar lecturas de precisión excesivamente baja (> 28m)
+        if (accuracy > 28) {
+          setEstadoConexion(`⚠️ Señal satelital débil (±${Math.round(accuracy)}m)`);
+          return;
+        }
 
         setCoordsDispositivo({
           lat: latitude,
@@ -265,8 +271,8 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
               ? distTotal
               : (ultimaPosDespachadaRef.current ? Math.hypot(xCalculado - ultimaPosDespachadaRef.current.x, zCalculado - ultimaPosDespachadaRef.current.z) : distTotal);
 
-            // Requiere desplazarse más del umbral antiruido y llevar velocidad de marcha
-            if (desplazamiento >= umbralRuidoRef.current && velMs >= 0.4) {
+            // Requiere desplazarse más del umbral antiruido y llevar velocidad de marcha real
+            if (desplazamiento >= umbralRuidoRef.current && velMs >= 0.45) {
               haIniciadoMovimientoRef.current = true;
               debeMover = true;
               setEnMovimiento(true);
@@ -282,7 +288,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             const dZUltimo = zCalculado - (ultimaPosDespachadaRef.current?.z ?? zCalculado);
             const saltoMetros = Math.hypot(dXUltimo, dZUltimo);
 
-            if (saltoMetros < umbralRuidoRef.current && velMs < 0.4) {
+            if (saltoMetros < umbralRuidoRef.current && velMs < 0.45) {
               // El usuario se detuvo: congelar cámara para eliminar cualquier vibración
               debeMover = false;
               setEnMovimiento(false);
@@ -319,7 +325,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
             heading: nuevoHeading,
           });
 
-          // Despachar a Unity: la cámara se posiciona exactamente a 1m sobre el punto
+          // Despachar a Unity
           despacharAUnity(latVirtual, lngVirtual, nuevoHeading, velMs, accuracy, xCalculado, zCalculado);
 
           // Emitir evento global para el Grabador y Comparador de Rutas
@@ -362,7 +368,7 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [modoTester, visible, puntoInicio, despacharAUnity, brujulaHeading, calcularCoordenadasUnity]);
+  }, [modoTester, visible, puntoInicio, despacharAUnity, calcularCoordenadasUnity]);
 
   // 4. Control del Modo 3: Simulador de Caminata dentro del ITFIP
   useEffect(() => {
@@ -398,24 +404,19 @@ function MinimapaGPSTest({ visible, onClose, unityController }) {
 
   // Re-calibrar: fijar la posición actual como origen en el campus
   const recalibrarPosicionActual = () => {
-    haIniciadoMovimientoRef.current = true;
+    haIniciadoMovimientoRef.current = false;
     if (coordsDispositivo) {
       if (modoTester === "gps_libre") {
         const nuevaAncla = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
         anclaGPSRef.current = nuevaAncla;
         ultimaPosDespachadaRef.current = { x: puntoInicio.x, z: puntoInicio.z };
         setDeltaMetros({ dx: 0, dz: 0, total: 0 });
-        if (unityController && typeof unityController.setModoGPS === "function") {
-          unityController.setModoGPS(true);
-        }
-        despacharAUnity(puntoInicio.lat, puntoInicio.lng, brujulaHeading, 0, 1, puntoInicio.x, puntoInicio.z);
+        setEstadoConexion("📍 Ancla fijada. Esperando a que comiences a caminar...");
       } else if (modoTester === "gps_uniespinal") {
         const c = calcularCoordenadasUnity(coordsDispositivo.lat, coordsDispositivo.lng);
+        anclaGPSRef.current = { lat: coordsDispositivo.lat, lng: coordsDispositivo.lng };
         ultimaPosDespachadaRef.current = { x: c.x, z: c.z };
-        if (unityController && typeof unityController.setModoGPS === "function") {
-          unityController.setModoGPS(true);
-        }
-        despacharAUnity(coordsDispositivo.lat, coordsDispositivo.lng, brujulaHeading, 0, coordsDispositivo.accuracy || 1, c.x, c.z);
+        setEstadoConexion("📍 Ancla fijada en Campus. Da 4 o 5 pasos...");
       }
     }
   };
