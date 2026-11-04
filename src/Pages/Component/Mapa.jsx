@@ -91,7 +91,7 @@ const Mapa = memo(function Mapa({
     codeUrl: "/UniMapBuild/Build/UniMapBuild.wasm.unityweb",
     companyName: "DefaultCompany",
     productName: "UniMapUniversal3D",
-    productVersion: "0.1.0",
+    productVersion: "0.2.0",
     webglContextAttributes: {
       preserveDrawingBuffer: false, // Optimización crítica de GPU: reduce consumo de VRAM y evita pérdida de contexto
       powerPreference: "default",

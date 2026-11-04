@@ -17,15 +17,15 @@ app.use('/UniMapBuild/Build', (req, res, next) => {
   // Asignar cabecera de compresión y tipo MIME correcto según extensión
   if (file.endsWith('.data.unityweb')) {
     res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Content-Encoding', 'br');
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   } else if (file.endsWith('.wasm.unityweb')) {
     res.setHeader('Content-Type', 'application/wasm');
-    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Content-Encoding', 'br');
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   } else if (file.endsWith('.framework.js.unityweb')) {
     res.setHeader('Content-Type', 'application/javascript');
-    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Content-Encoding', 'br');
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   } else if (file.endsWith('.loader.js')) {
     res.setHeader('Content-Type', 'application/javascript');
