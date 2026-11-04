@@ -53,6 +53,10 @@ function MinimapaGPS({ visible, onClose, unityController }) {
   const [minimizado, setMinimizado] = useState(false);
   const [brujulaHeading, setBrujulaHeading] = useState(0);
 
+  // Podómetro por Acelerómetro (Detección inercial de pasos físicos)
+  const [contadorPasos, setContadorPasos] = useState(0);
+  const [caminandoPorInercia, setCaminandoPorInercia] = useState(false);
+
   // Estados de validación física en UniEspinal (Geofence)
   const [errorGeofence, setErrorGeofence] = useState(null);
   const [distanciaAlCampus, setDistanciaAlCampus] = useState(0);
@@ -63,6 +67,14 @@ function MinimapaGPS({ visible, onClose, unityController }) {
   const ultimoPuntoEstableRef = useRef(null);
   const ultimoHeadingRef = useRef(0);
   const haIniciadoMovimientoRef = useRef(false);
+
+  // Refs para Podómetro Inercial
+  const contadorPasosRef = useRef(0);
+  const caminandoPorInerciaRef = useRef(false);
+  const acelerometroDisponibleRef = useRef(false);
+  const ultimoPasoTimeRef = useRef(0);
+  const ultimaAceleracionRef = useRef(0);
+  const timerInactividadPasoRef = useRef(null);
 
   // Convertir coordenadas geográficas WGS84 a coordenadas cartesianas calibradas (X, Z) en Unity
   const calcularCoordenadasUnity = useCallback((lat, lng) => {
@@ -137,12 +149,16 @@ function MinimapaGPS({ visible, onClose, unityController }) {
     [calcularCoordenadasUnity, unityController]
   );
 
-  // Recalibrar y fijar posición actual (ancla)
+  // Recalibrar y fijar posición actual (ancla y podómetro)
   const recalibrarPosicionActual = useCallback(() => {
     anclaGPSRef.current = null;
     ultimoPuntoEstableRef.current = null;
     haIniciadoMovimientoRef.current = false;
-    setEstadoConexion("📍 Posición reiniciada. Da 4 o 5 pasos...");
+    contadorPasosRef.current = 0;
+    setContadorPasos(0);
+    caminandoPorInerciaRef.current = false;
+    setCaminandoPorInercia(false);
+    setEstadoConexion("📍 Posición reiniciada. Da pasos para comenzar...");
   }, []);
 
   // 1. Escuchar sensor de brújula o giroscopio del dispositivo (móvil) con filtro de zona muerta
@@ -170,6 +186,61 @@ function MinimapaGPS({ visible, onClose, unityController }) {
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation, true);
+    };
+  }, []);
+
+  // 2. Podómetro Inercial: Escuchar acelerómetro para detección de pasos físicos reales (DeviceMotionEvent)
+  useEffect(() => {
+    const handleMotion = (e) => {
+      const acc = e.acceleration || e.accelerationIncludingGravity;
+      if (!acc) return;
+
+      const ax = acc.x || 0;
+      const ay = acc.y || 0;
+      const az = acc.z || 0;
+      const mag = Math.sqrt(ax * ax + ay * ay + az * az);
+
+      const dynamicAcc = (e.acceleration && e.acceleration.x !== null)
+        ? mag
+        : Math.abs(mag - 9.81);
+
+      acelerometroDisponibleRef.current = true;
+
+      const now = Date.now();
+      const deltaT = now - ultimoPasoTimeRef.current;
+
+      // Umbral dinámico de zancada peatonal humana (1.30 m/s²)
+      if (dynamicAcc >= 1.30 && ultimaAceleracionRef.current < 1.30) {
+        if (deltaT >= 300 && deltaT <= 1500) {
+          contadorPasosRef.current += 1;
+          setContadorPasos(contadorPasosRef.current);
+          ultimoPasoTimeRef.current = now;
+
+          caminandoPorInerciaRef.current = true;
+          setCaminandoPorInercia(true);
+
+          if (timerInactividadPasoRef.current) clearTimeout(timerInactividadPasoRef.current);
+          timerInactividadPasoRef.current = setTimeout(() => {
+            caminandoPorInerciaRef.current = false;
+            setCaminandoPorInercia(false);
+          }, 1500);
+        } else if (deltaT > 1500) {
+          ultimoPasoTimeRef.current = now;
+        }
+      }
+
+      ultimaAceleracionRef.current = dynamicAcc;
+    };
+
+    if (window.DeviceMotionEvent) {
+      window.addEventListener("devicemotion", handleMotion, true);
+    }
+
+    return () => {
+      if (window.DeviceMotionEvent) {
+        window.removeEventListener("devicemotion", handleMotion, true);
+      }
+      if (timerInactividadPasoRef.current) clearTimeout(timerInactividadPasoRef.current);
     };
   }, []);
 
@@ -264,71 +335,59 @@ function MinimapaGPS({ visible, onClose, unityController }) {
           lngVirtual = longitude;
         }
 
-        // CONTROL DE MOVIMIENTO ADAPTADO A HUAWEI Y9 PRIME (ANTENA MONO-BANDA L1):
-        // La antena L1 puede fluctuar 2-3m por ruido de satélite en reposo.
-        // Exigimos desplazamiento real sostenido de al menos 3.2 metros y velocidad >= 0.45 m/s antes de iniciar el movimiento.
+        // FUSIÓN SENSORIAL INERCIAL (ACELERÓMETRO + GPS):
+        // Si el teléfono tiene acelerómetro físico (móvil), el movimiento SOLO se permite
+        // si el sensor inercial confirma que el usuario está dando pasos físicos (caminandoPorInerciaRef.current).
         const velMs = speed ? Math.max(0, speed) : 0;
-        let debeMoverCamara = false;
+        const marchaConfirmada = acelerometroDisponibleRef.current
+          ? caminandoPorInerciaRef.current
+          : (velMs >= 0.45 && distDesdeAncla >= 3.0);
 
-        if (!haIniciadoMovimientoRef.current) {
-          // El usuario está quieto esperando: NO mover la cámara en Unity
-          if (distDesdeAncla >= 3.2 && velMs >= 0.45) {
-            haIniciadoMovimientoRef.current = true;
-            debeMoverCamara = true;
-            setEstadoConexion(modoLibreCasa ? "🟢 Caminando en Casa" : "🟢 Caminando por el Campus");
-          } else {
-            // Usuario detenido: mantener cámara fija y no enviar ruido satelital a Unity
-            debeMoverCamara = false;
-            setEstadoConexion("📍 Esperando a que comiences a caminar...");
-            setCoords((prev) => ({
-              ...prev,
-              speed: 0,
-              accuracy: Math.round(accuracy || 0),
-              heading: nuevoHeading,
-            }));
-            return;
-          }
-        } else {
-          // El usuario ya inició la caminata: filtrar reposos
-          const ultimoX = ultimoPuntoEstableRef.current?.x ?? xCalculado;
-          const ultimoZ = ultimoPuntoEstableRef.current?.z ?? zCalculado;
-          const saltoMetros = Math.hypot(xCalculado - ultimoX, zCalculado - ultimoZ);
-
-          if (saltoMetros < 2.8 && velMs < 0.45) {
-            // Usuario se detuvo: congelar cámara en seco para eliminar microtemblores
-            debeMoverCamara = false;
-            setEstadoConexion("🟡 Celular en reposo (Cámara fija)");
-            setCoords((prev) => ({
-              ...prev,
-              speed: 0,
-              accuracy: Math.round(accuracy || 0),
-              heading: nuevoHeading,
-            }));
-            return;
-          } else {
-            debeMoverCamara = true;
-            setEstadoConexion(modoLibreCasa ? "🟢 Caminando en Casa" : "🟢 Caminando por el Campus");
-            // Filtro suavizador exponencial (EMA: 35% previo / 65% nuevo)
-            if (ultimoPuntoEstableRef.current) {
-              xCalculado = Number((ultimoPuntoEstableRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
-              zCalculado = Number((ultimoPuntoEstableRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
-            }
-          }
-        }
-
-        if (debeMoverCamara) {
-          ultimoPuntoEstableRef.current = { x: xCalculado, z: zCalculado, lat: latVirtual, lng: lngVirtual };
-
-          setCoords({
-            lat: latVirtual,
-            lng: lngVirtual,
+        if (!marchaConfirmada && velMs < 0.75) {
+          // Usuario en reposo absoluto confirmado por acelerómetro:
+          // Bloqueo total de cámara 3D: cero temblores y cero saltos satelitales.
+          setEstadoConexion(
+            acelerometroDisponibleRef.current
+              ? `🟡 En reposo (${contadorPasosRef.current} pasos - Cámara fija)`
+              : "🟡 Celular en reposo (Cámara fija)"
+          );
+          setCoords((prev) => ({
+            ...prev,
+            speed: 0,
             accuracy: Math.round(accuracy || 0),
-            speed: velMs > 0 ? Math.round(velMs * 3.6) : 0, // km/h
             heading: nuevoHeading,
-          });
-
-          despacharAUnity(latVirtual, lngVirtual, nuevoHeading, velMs, accuracy, xCalculado, zCalculado);
+          }));
+          return;
         }
+
+        // Si hay pasos físicos confirmados:
+        haIniciadoMovimientoRef.current = true;
+        setEstadoConexion(
+          modoLibreCasa
+            ? `🟢 Caminando en Casa (👟 ${contadorPasosRef.current} pasos)`
+            : `🟢 Caminando por el Campus (👟 ${contadorPasosRef.current} pasos)`
+        );
+
+        let xFinal = xCalculado;
+        let zFinal = zCalculado;
+
+        // Filtro suavizador exponencial (EMA: 35% previo / 65% nuevo)
+        if (ultimoPuntoEstableRef.current) {
+          xFinal = Number((ultimoPuntoEstableRef.current.x * 0.35 + xCalculado * 0.65).toFixed(2));
+          zFinal = Number((ultimoPuntoEstableRef.current.z * 0.35 + zCalculado * 0.65).toFixed(2));
+        }
+
+        ultimoPuntoEstableRef.current = { x: xFinal, z: zFinal, lat: latVirtual, lng: lngVirtual };
+
+        setCoords({
+          lat: latVirtual,
+          lng: lngVirtual,
+          accuracy: Math.round(accuracy || 0),
+          speed: velMs > 0 ? Math.round(velMs * 3.6) : 0, // km/h
+          heading: nuevoHeading,
+        });
+
+        despacharAUnity(latVirtual, lngVirtual, nuevoHeading, velMs, accuracy, xFinal, zFinal);
       },
       (err) => {
         console.warn("Aviso GPS:", err.message);
@@ -546,6 +605,12 @@ function MinimapaGPS({ visible, onClose, unityController }) {
               <div className="itemMiniDato">
                 <small>Rumbo</small>
                 <b>{coords.heading || brujulaHeading}° ({getPuntoCardinal(coords.heading || brujulaHeading)})</b>
+              </div>
+              <div className="itemMiniDato">
+                <small>Pasos (Inercia)</small>
+                <b style={{ color: caminandoPorInercia ? "#22c55e" : "#60a5fa" }}>
+                  👟 {contadorPasos}
+                </b>
               </div>
               <div className="itemMiniDato">
                 <small>Velocidad</small>
