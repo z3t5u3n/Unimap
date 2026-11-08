@@ -44,8 +44,26 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
+const SETTINGS_VERSION = 'unimap_v2_60fps';
+
+const detectarDispositivoMovil = () => {
+  if (typeof navigator === 'undefined') return false;
+  const ua = navigator.userAgent || '';
+  const esMovilPorUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+  const esPantallaPequena = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const tieneTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  return esMovilPorUA || (esPantallaPequena && tieneTouch);
+};
+
 const obtenerAjustesIniciales = () => {
   try {
+    const versionGuardada = localStorage.getItem('unimap_settings_version');
+    if (versionGuardada !== SETTINGS_VERSION) {
+      // Migración automática: asegura que arranca en Modo 60 FPS por defecto
+      localStorage.setItem('unimap_settings_version', SETTINGS_VERSION);
+      localStorage.setItem('unimap_graphics_settings', JSON.stringify(AJUSTES_PREDETERMINADOS));
+      return { ...AJUSTES_PREDETERMINADOS };
+    }
     const guardados = localStorage.getItem('unimap_graphics_settings');
     if (guardados) {
       return { ...AJUSTES_PREDETERMINADOS, ...JSON.parse(guardados) };
@@ -99,7 +117,7 @@ export default function VisorCampus3D({
   const [mostrarConfiguracion, setMostrarConfiguracion] = useState(false);
   const [calidadUltra, setCalidadUltra] = useState(() => {
     const init = obtenerAjustesIniciales();
-    return init.modoUltra !== undefined ? init.modoUltra : true;
+    return init.modoUltra !== undefined ? init.modoUltra : false;
   }); // Modo Ultra Fotorrealista (Cycles / EEVEE Look)
   const [nodoActualCamara, setNodoActualCamara] = useState('POIs.4477'); // Nodo activo en marcha manual
   const [dandoPaso, setDandoPaso] = useState(false);
@@ -227,14 +245,19 @@ export default function VisorCampus3D({
     camera.position.set(puntoInicial.x, puntoInicial.y, puntoInicial.z);
 
     // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN FOTORREALISTA PBR (ACES FILMIC)
+    const esMovil = detectarDispositivoMovil();
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      powerPreference: 'high-performance'
+      antialias: !esMovil,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // En celulares limitamos pixelRatio a 1.0 para igualar el rendimiento fluido de Unity WebGL
+    const maxDPR = esMovil ? Math.min(window.devicePixelRatio || 1, 1.0) : Math.min(window.devicePixelRatio || 1, 1.75);
+    renderer.setPixelRatio(maxDPR);
     renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
-    renderer.shadowMap.type = cfg.sombrasSuaves ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
+    renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; // Algoritmo ACES de Hollywood y Blender
     renderer.toneMappingExposure = cfg.exposicion || 1.05;
@@ -279,7 +302,7 @@ export default function VisorCampus3D({
     // SISTEMA DE NIEVE ARTIFICIAL 3D (TEMPORADA NAVIDEÑA & INVIERNO)
     // No requiere modificar el modelo 3D en Blender: se genera dinámicamente
     // ------------------------------------------------------------------
-    const CANTIDAD_COPOS = 3500;
+    const CANTIDAD_COPOS = esMovil ? 700 : 3500;
     const snowGeo = new THREE.BufferGeometry();
     const snowPos = new Float32Array(CANTIDAD_COPOS * 3);
     const snowVel = new Float32Array(CANTIDAD_COPOS);
@@ -415,6 +438,9 @@ export default function VisorCampus3D({
     let stepStartYaw = 0;
     let stepTargetYaw = 0;
 
+    let lastReportedNodeName = '';
+    const lastCamPosChecked = new THREE.Vector3(-9999, -9999, -9999);
+
     // Actualiza hacia qué POI vecino debe posicionarse la flecha según hacia dónde mira la cámara
     const actualizarSiguienteNodoFlecha = (immediate = false) => {
       if (isNavigating || isStepping) {
@@ -424,12 +450,21 @@ export default function VisorCampus3D({
 
       arrowGroup.visible = true;
 
-      // Sincronizar el nodo más cercano a la cámara
+      // Sincronizar el nodo más cercano a la cámara solo si la cámara se movió
       const camPos = camera.position;
-      const currNode = poiGraphService.findNearestNode(camPos.x, camPos.y, camPos.z);
+      let currNode = null;
+      if (lastCamPosChecked.distanceToSquared(camPos) > 0.04 || currentCameraNodeId === null) {
+        currNode = poiGraphService.findNearestNode(camPos.x, camPos.y, camPos.z);
+        lastCamPosChecked.copy(camPos);
+      } else {
+        currNode = poiGraphService.getNode(currentCameraNodeId);
+      }
       if (!currNode) return;
       currentCameraNodeId = currNode.id;
-      setNodoActualCamara(currNode.name);
+      if (lastReportedNodeName !== currNode.name) {
+        lastReportedNodeName = currNode.name;
+        setNodoActualCamara(currNode.name);
+      }
 
       // Vector de dirección horizontal hacia donde mira la cámara
       const rad = THREE.MathUtils.degToRad(currentYaw);
@@ -1077,7 +1112,7 @@ export default function VisorCampus3D({
     );
     sunLight.position.copy(sunPos);
     sunLight.castShadow = cfg.sombrasHabilitadas !== false;
-    const shadowRes = cfg.calidadSombras || 2048;
+    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 1024);
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
@@ -1108,40 +1143,54 @@ export default function VisorCampus3D({
     scene.add(ambientLight);
 
     // Post-procesamiento cinematográfico (GTAO Ambient Occlusion + Bloom HDR + OutputPass)
+    // Se inicializa bajo demanda para no consumir memoria GPU en modo 60 FPS
     let composer = null;
     let gtaoPass = null;
     let bloomPass = null;
-    try {
-      composer = new EffectComposer(renderer);
-      const renderPass = new RenderPass(scene, camera);
-      composer.addPass(renderPass);
 
-      // Ambient Occlusion en tiempo real para sombras de contacto (como en Cycles)
-      gtaoPass = new GTAOPass(scene, camera, width, height);
-      gtaoPass.blendIntensity = cfg.gtaoIntensidad ?? 0.75;
-      gtaoPass.enabled = cfg.gtaoHabilitado !== false;
-      composer.addPass(gtaoPass);
+    const inicializarComposer = () => {
+      if (composer) return composer;
+      try {
+        composer = new EffectComposer(renderer);
+        const renderPass = new RenderPass(scene, camera);
+        composer.addPass(renderPass);
 
-      // Bloom HDR elegante para luces, reflejos y línea 3D
-      bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(width, height),
-        cfg.bloomIntensidad ?? 0.22,
-        0.4,
-        0.88
-      );
-      bloomPass.enabled = cfg.bloomHabilitado !== false;
-      composer.addPass(bloomPass);
+        // Ambient Occlusion en tiempo real para sombras de contacto (como en Cycles)
+        gtaoPass = new GTAOPass(scene, camera, width, height);
+        gtaoPass.blendIntensity = cfg.gtaoIntensidad ?? 0.75;
+        gtaoPass.enabled = cfg.gtaoHabilitado !== false;
+        composer.addPass(gtaoPass);
 
-      const outputPass = new OutputPass();
-      composer.addPass(outputPass);
-    } catch (e) {
-      console.warn('Aviso de post-procesamiento:', e);
-      composer = null;
+        // Bloom HDR elegante para luces, reflejos y línea 3D
+        bloomPass = new UnrealBloomPass(
+          new THREE.Vector2(width, height),
+          cfg.bloomIntensidad ?? 0.22,
+          0.4,
+          0.88
+        );
+        bloomPass.enabled = cfg.bloomHabilitado !== false;
+        composer.addPass(bloomPass);
+
+        const outputPass = new OutputPass();
+        composer.addPass(outputPass);
+        return composer;
+      } catch (e) {
+        console.warn('Aviso de post-procesamiento:', e);
+        composer = null;
+        return null;
+      }
+    };
+
+    if (cfg.modoUltra) {
+      inicializarComposer();
     }
 
-    let useUltraQuality = cfg.modoUltra ?? true;
+    let useUltraQuality = cfg.modoUltra ?? false;
     toggleCalidadRef.current = (activarUltra) => {
       useUltraQuality = activarUltra;
+      if (activarUltra && !composer) {
+        inicializarComposer();
+      }
     };
 
     // Manejador reactivo para actualizar en caliente cualquier propiedad de la escena 3D
@@ -1221,6 +1270,9 @@ export default function VisorCampus3D({
         case 'modoUltra':
           useUltraQuality = valor;
           setCalidadUltra(valor);
+          if (valor && !composer) {
+            inicializarComposer();
+          }
           break;
         case 'gtaoHabilitado':
           if (gtaoPass) gtaoPass.enabled = valor;
@@ -1319,7 +1371,7 @@ export default function VisorCampus3D({
 
                 mat.envMapIntensity = 1.0;
                 if (mat.map) {
-                  mat.map.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+                  mat.map.anisotropy = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
                 }
               });
             }
@@ -1609,6 +1661,8 @@ export default function VisorCampus3D({
       camera.aspect = newW / newH;
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
+      const curMaxDPR = esMovil ? Math.min(window.devicePixelRatio || 1, 1.0) : Math.min(window.devicePixelRatio || 1, 1.75);
+      renderer.setPixelRatio(curMaxDPR);
       if (composer) {
         composer.setSize(newW, newH);
       }

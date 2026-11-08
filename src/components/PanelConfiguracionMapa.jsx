@@ -26,22 +26,22 @@ export const AJUSTES_PREDETERMINADOS = {
   exposicion: 1.05,
   horaDelDia: 'dia', // 'manana', 'mediodia', 'atardecer', 'noche'
 
-  // Sombras
+  // Sombras (Calibrado a 1024 y estándar para 60 FPS estables)
   sombrasHabilitadas: true,
-  calidadSombras: 2048, // 1024, 2048, 4096
-  sombrasSuaves: true,
+  calidadSombras: 1024, // 1024, 2048, 4096
+  sombrasSuaves: false,
 
   // Cielo y Atmósfera
   turbidezCielo: 8,
   rayleighCielo: 1.2,
   nieblaHabilitada: true,
-  densidadNiebla: 0.0016,
+  densidadNiebla: 0.0012,
 
-  // Post-procesamiento
-  modoUltra: true,
-  gtaoHabilitado: true,
+  // Post-procesamiento (Desactivado por defecto para 60 FPS fluidos en celulares y laptops)
+  modoUltra: false,
+  gtaoHabilitado: false,
   gtaoIntensidad: 0.75,
-  bloomHabilitado: true,
+  bloomHabilitado: false,
   bloomIntensidad: 0.22,
 
   // Navegación y Cámara
@@ -53,12 +53,49 @@ export const AJUSTES_PREDETERMINADOS = {
 };
 
 export const PRESETS_CONFIG = {
+  rendimiento: {
+    id: 'rendimiento',
+    nombre: 'Modo 60 FPS',
+    icono: '⚡',
+    descripcion: 'Rendimiento fluido a 60 FPS para celulares y portátiles (Recomendado)',
+    ajustes: {
+      modoUltra: false,
+      gtaoHabilitado: false,
+      bloomHabilitado: false,
+      calidadSombras: 1024,
+      sombrasSuaves: false,
+      densidadNiebla: 0.0012
+    }
+  },
   equilibrado: {
     id: 'equilibrado',
     nombre: 'Equilibrado PBR',
     icono: '✨',
     descripcion: 'Calibración fotográfica estándar de campus',
-    ajustes: { ...AJUSTES_PREDETERMINADOS }
+    ajustes: {
+      modoUltra: false,
+      gtaoHabilitado: false,
+      bloomHabilitado: false,
+      calidadSombras: 2048,
+      sombrasSuaves: true,
+      densidadNiebla: 0.0016
+    }
+  },
+  ultra: {
+    id: 'ultra',
+    nombre: 'Ultra Fotorrealista',
+    icono: '💎',
+    descripcion: 'Pipeline GTAO de oclusión ambiental y Bloom HDR para GPUs potentes',
+    ajustes: {
+      modoUltra: true,
+      gtaoHabilitado: true,
+      gtaoIntensidad: 0.75,
+      bloomHabilitado: true,
+      bloomIntensidad: 0.22,
+      calidadSombras: 2048,
+      sombrasSuaves: true,
+      densidadNiebla: 0.0016
+    }
   },
   mediodia: {
     id: 'mediodia',
@@ -112,19 +149,6 @@ export const PRESETS_CONFIG = {
       densidadNiebla: 0.0026,
       bloomIntensidad: 0.4
     }
-  },
-  rendimiento: {
-    id: 'rendimiento',
-    nombre: 'Modo 60 FPS',
-    icono: '⚡',
-    descripcion: 'Bajo consumo para móviles y portátiles antiguos',
-    ajustes: {
-      modoUltra: false,
-      gtaoHabilitado: false,
-      bloomHabilitado: false,
-      calidadSombras: 1024,
-      densidadNiebla: 0.0012
-    }
   }
 };
 
@@ -144,6 +168,22 @@ export default function PanelConfiguracionMapa({
     { id: 'efectos', label: 'Efectos PBR', icon: <Sparkles size={15} /> },
     { id: 'camara', label: 'Cámara y Guía', icon: <Compass size={15} /> }
   ];
+
+  const esPresetActivo = (presetId) => {
+    if (presetId === 'rendimiento') {
+      return !ajustes.modoUltra && !ajustes.gtaoHabilitado && !ajustes.bloomHabilitado;
+    }
+    if (presetId === 'ultra') {
+      return Boolean(ajustes.modoUltra && (ajustes.gtaoHabilitado || ajustes.bloomHabilitado));
+    }
+    if (presetId === 'equilibrado') {
+      return !ajustes.modoUltra && ajustes.calidadSombras >= 2048 && ajustes.sombrasSuaves;
+    }
+    if (presetId === 'mediodia') return ajustes.horaDelDia === 'mediodia';
+    if (presetId === 'atardecer') return ajustes.horaDelDia === 'atardecer';
+    if (presetId === 'noche') return ajustes.horaDelDia === 'noche';
+    return false;
+  };
 
   return (
     <div className="panelConfigOverlay" onClick={onCerrar}>
@@ -176,18 +216,21 @@ export default function PanelConfiguracionMapa({
         <div className="seccionPresetsRapidos">
           <span className="subtituloSeccion">Presets de Iluminación y Rendimiento</span>
           <div className="gridPresetsConfig">
-            {Object.values(PRESETS_CONFIG).map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                className="btnPresetItem"
-                onClick={() => onAplicarPreset(p)}
-                title={p.descripcion}
-              >
-                <span className="emojiPreset">{p.icono}</span>
-                <span className="nombrePreset">{p.nombre}</span>
-              </button>
-            ))}
+            {Object.values(PRESETS_CONFIG).map((p) => {
+              const activo = esPresetActivo(p.id);
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  className={`btnPresetItem ${activo ? 'activo' : ''}`}
+                  onClick={() => onAplicarPreset(p)}
+                  title={p.descripcion}
+                >
+                  <span className="emojiPreset">{p.icono}</span>
+                  <span className="nombrePreset">{p.nombre}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

@@ -1865,6 +1865,13 @@ body {
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
 }
 
+.btnPresetItem.activo {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.16);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+  font-weight: 700;
+}
+
 .emojiPreset {
   font-size: 18px;
 }
