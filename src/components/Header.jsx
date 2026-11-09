@@ -155,15 +155,23 @@ export default function Header() {
           {esRutaMapa && (
             <>
               {usuario && (
-                <span
+                <button
+                  type="button"
                   className="headerUserBadge"
-                  title={`Usuario conectado: ${usuario.nombres || usuario.nombre || ''} ${usuario.apellidos || ''}`}
+                  onClick={() => window.dispatchEvent(new CustomEvent('unimap_abrir_panel_datos'))}
+                  title={`Mi Perfil / Datos: ${usuario.nombres || usuario.nombre || ''} ${usuario.apellidos || ''}`}
+                  style={{
+                    cursor: 'pointer',
+                    background: 'rgba(56, 189, 248, 0.12)',
+                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    color: '#38bdf8'
+                  }}
                 >
                   <User size={13} />
                   <span>
                     {(usuario.nombres || usuario.nombre || 'Estudiante').split(' ')[0]}
                   </span>
-                </span>
+                </button>
               )}
               <button
                 type="button"

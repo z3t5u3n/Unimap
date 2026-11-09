@@ -36,9 +36,10 @@ export default function Interfaz() {
     return guardado === null ? true : guardado === 'true';
   });
 
-  // Sincronizar eventos globales de temporada
+  // Sincronizar eventos globales de temporada y panel de datos
   useEffect(() => {
     const handleAbrirModal = () => setModalTemporadaAbierto(true);
+    const handleAbrirDatos = () => setVistaActiva('datos');
     const handleTemporadaChanged = (e) => {
       if (e.detail && typeof e.detail.activa === 'boolean') {
         setTemporadaActiva(e.detail.activa);
@@ -46,9 +47,11 @@ export default function Interfaz() {
     };
 
     window.addEventListener('unimap_abrir_modal_temporada', handleAbrirModal);
+    window.addEventListener('unimap_abrir_panel_datos', handleAbrirDatos);
     window.addEventListener('unimap_temporada_changed', handleTemporadaChanged);
     return () => {
       window.removeEventListener('unimap_abrir_modal_temporada', handleAbrirModal);
+      window.removeEventListener('unimap_abrir_panel_datos', handleAbrirDatos);
       window.removeEventListener('unimap_temporada_changed', handleTemporadaChanged);
     };
   }, []);
@@ -251,6 +254,16 @@ export default function Interfaz() {
                   aria-label="Encuesta de Satisfacción"
                 >
                   <Star size={17} />
+                </button>
+
+                <button
+                  type="button"
+                  className="btn3DControl btnPerfilTop"
+                  onClick={() => setVistaActiva('datos')}
+                  title="Mi Perfil / Activar Rol de Estudiante"
+                  aria-label="Perfil de Usuario"
+                >
+                  <User size={17} />
                 </button>
               </>
             }

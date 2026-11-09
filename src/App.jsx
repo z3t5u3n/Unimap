@@ -6,6 +6,7 @@ const Registro = lazy(() => import('./pages/Registro'));
 const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const Admin = lazy(() => import('./pages/Admin'));
 const Interfaz = lazy(() => import('./pages/Interfaz'));
+const VerificarRol = lazy(() => import('./pages/VerificarRol'));
 
 function CargandoRuta() {
   return (
@@ -46,6 +47,8 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/interfaz" element={<Interfaz />} />
           <Route path="/mapa" element={<Interfaz />} />
+          <Route path="/VerificarRol" element={<VerificarRol />} />
+          <Route path="/verificar-rol" element={<VerificarRol />} />
           {/* Redirección por defecto */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
