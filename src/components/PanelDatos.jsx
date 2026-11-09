@@ -76,11 +76,31 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
       .catch((err) => console.log('Aviso carreras:', err.message));
   }, [usuario?.id_usuario, onUsuarioActualizado]);
 
-  // Sugerencia de correo institucional
+  // Sugerencia de correo institucional según formato ITFIP:
+  // 1ª letra del primer nombre + primer apellido + 2 últimos dígitos de la CC + @itfip.edu.co
   const correoSugerido = (() => {
-    const n = (nombres || perfil.nombres || 'estudiante').trim().toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
-    const a = (apellidos || perfil.apellidos || 'itfip').trim().toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
-    return `${n}.${a}@itfip.edu.co`;
+    const normalizar = (str) =>
+      (str || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+
+    // 1. Primera letra del primer nombre (ej: "Juan Carlos" -> "j")
+    const nombreCompleto = (nombres || perfil.nombres || usuario?.nombres || '').trim();
+    const primerNombre = nombreCompleto.split(/\s+/)[0] || '';
+    const inicialNombre = normalizar(primerNombre).replace(/[^a-z0-9]/g, '').charAt(0) || 'e';
+
+    // 2. Primer apellido (ej: "Hernández Pérez" -> "hernandez")
+    const apellidoCompleto = (apellidos || perfil.apellidos || usuario?.apellidos || '').trim();
+    const primerApellido = apellidoCompleto.split(/\s+/)[0] || '';
+    const apellidoLimpio = normalizar(primerApellido).replace(/[^a-z0-9]/g, '') || 'estudiante';
+
+    // 3. Dos últimos dígitos del número de documento / CC (ej: "1110594371" -> "71")
+    const numDoc = String(perfil.numero_documento || usuario?.numero_documento || '').replace(/\D/g, '');
+    const ultimosDosCC = numDoc.length >= 2 ? numDoc.slice(-2) : (numDoc || '00');
+
+    return `${inicialNombre}${apellidoLimpio}${ultimosDosCC}@itfip.edu.co`;
   })();
 
   // 2. Guardar edición de nombres / apellidos
@@ -532,6 +552,9 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
                         fontSize: '0.88rem'
                       }}
                     />
+                    <small style={{ display: 'block', marginTop: '6px', fontSize: '0.74rem', color: '#94a3b8' }}>
+                      Estructura institucional: 1ª letra de tu nombre + 1er apellido + 2 últimos dígitos de tu documento + @itfip.edu.co
+                    </small>
                   </div>
 
                   <div style={{
