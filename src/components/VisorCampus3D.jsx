@@ -227,26 +227,35 @@ export default function VisorCampus3D({
     const height = currentMount.clientHeight || window.innerHeight;
 
     const cfg = ajustesGraficos;
+    const esMovil = detectarDispositivoMovil();
+
+    // Distancia máxima de visión según el dispositivo:
+    // En celular se limita a 260m (suficiente para ver bloques cercanos y senderos sin saturar la GPU).
+    // En PC se amplía a 600m (descartando geometría innecesaria más allá de 600m en lugar de los antiguos 3500m).
+    const distanciaVision = esMovil ? 260 : 600;
+    const fogNear = esMovil ? 90 : 180;
+    const fogFar = distanciaVision;
 
     // 1. ESCENA Y CONFIGURACIÓN ATMOSFÉRICA
     const scene = new THREE.Scene();
     const esClaroInicial = document.documentElement.getAttribute('data-theme') !== 'dark';
-
-    // Niebla de profundidad atmosférica (sensación de escala y volumen)
     const fogColorInicial = esClaroInicial ? '#dbeafe' : '#0b1329';
+
+    // Niebla de Distancia Lineal: los objetos lejanos se desvanecen suavemente hacia el color del cielo
+    // y la GPU los descarta automáticamente cuando superan la distancia de visión (Zero Overdraw).
     if (cfg.nieblaHabilitada !== false) {
-      scene.fog = new THREE.FogExp2(fogColorInicial, cfg.densidadNiebla || 0.0016);
+      scene.fog = new THREE.Fog(fogColorInicial, fogNear, fogFar);
     } else {
       scene.fog = null;
     }
+    scene.background = new THREE.Color(fogColorInicial);
 
     // 2. CÁMARA INICIAL (Punto de inicio seleccionado o Portería Principal)
     const puntoInicial = puntoInicioRef.current || POI_ENTRADA_COORDS;
-    const camera = new THREE.PerspectiveCamera(cfg.fovBase || 60, width / height, 0.2, 3500);
+    const camera = new THREE.PerspectiveCamera(cfg.fovBase || 60, width / height, 0.2, distanciaVision);
     camera.position.set(puntoInicial.x, puntoInicial.y, puntoInicial.z);
 
     // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN FOTORREALISTA PBR (ACES FILMIC)
-    const esMovil = detectarDispositivoMovil();
     const renderer = new THREE.WebGLRenderer({
       antialias: !esMovil,
       powerPreference: 'high-performance',
@@ -1113,12 +1122,12 @@ export default function VisorCampus3D({
     );
     sunLight.position.copy(sunPos);
     sunLight.castShadow = cfg.sombrasHabilitadas !== false;
-    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 1024);
+    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 512, 512) : (cfg.calidadSombras || 1024);
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = 1200;
-    const d = 320;
+    sunLight.shadow.camera.far = esMovil ? 350 : 1200;
+    const d = esMovil ? 140 : 320;
     sunLight.shadow.camera.left = -d;
     sunLight.shadow.camera.right = d;
     sunLight.shadow.camera.top = d;
@@ -1255,17 +1264,16 @@ export default function VisorCampus3D({
         case 'nieblaHabilitada':
           if (valor) {
             const esClaro = document.documentElement.getAttribute('data-theme') !== 'dark';
-            scene.fog = new THREE.FogExp2(
-              esClaro ? '#dbeafe' : '#0b1329',
-              (todos && todos.densidadNiebla) || 0.0016
-            );
+            const col = esClaro ? '#dbeafe' : '#0b1329';
+            scene.fog = new THREE.Fog(col, fogNear, fogFar);
           } else {
             scene.fog = null;
           }
           break;
         case 'densidadNiebla':
-          if (scene.fog) {
-            scene.fog.density = valor;
+          if (scene.fog && scene.fog.isFog) {
+            scene.fog.near = Math.max(40, fogNear * (1 - (valor - 0.001) * 300));
+            scene.fog.far = Math.max(100, fogFar * (1 - (valor - 0.001) * 200));
           }
           break;
         case 'modoUltra':
@@ -1318,9 +1326,11 @@ export default function VisorCampus3D({
     const handleThemeChange = (e) => {
       const tema = e.detail?.tema;
       const claro = tema === 'light';
+      const col = claro ? '#dbeafe' : '#0b1329';
       if (scene.fog) {
-        scene.fog.color.set(claro ? '#dbeafe' : '#0b1329');
+        scene.fog.color.set(col);
       }
+      scene.background.set(col);
       if (sky) {
         skyUniforms['rayleigh'].value = claro ? 1.2 : 3.5;
         skyUniforms['turbidity'].value = claro ? 8 : 12;
@@ -1340,7 +1350,8 @@ export default function VisorCampus3D({
 
         model.traverse((child) => {
           if (child.isMesh) {
-            child.castShadow = true;
+            child.frustumCulled = true;
+            child.castShadow = !esMovil;
             child.receiveShadow = true;
 
             if (child.material) {
