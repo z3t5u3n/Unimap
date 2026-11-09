@@ -79,7 +79,8 @@ export default function VisorCampus3D({
   destinoActivo,
   puntoInicio,
   onReorientar,
-  temporadaActiva
+  temporadaActiva,
+  accionesExtra
 }) {
   const mountRef = useRef(null);
   const snowPointsRef = useRef(null);
@@ -1367,6 +1368,13 @@ export default function VisorCampus3D({
                     mat.color.setRGB(0.35, 0.35, 0.37);
                     mat.roughness = 0.8;
                   }
+                } else if (matName === 'white' || matName === 'whitere') {
+                  // Calibración de color para aceras, bordillos, rampas y muros para evitar quemado en blanco absoluto
+                  if (mat.color && mat.color.r > 0.70 && mat.color.g > 0.70 && mat.color.b > 0.70) {
+                    mat.color.setRGB(0.55, 0.55, 0.53);
+                    mat.roughness = 0.85;
+                    mat.metalness = 0.0;
+                  }
                 }
 
                 mat.envMapIntensity = 1.0;
@@ -1769,8 +1777,10 @@ export default function VisorCampus3D({
         </span>
       </div>
 
-      {/* Barra vertical de herramientas y controles 3D */}
+      {/* Barra vertical de herramientas y controles al lado */}
       <div className="botonesControl3D">
+        {accionesExtra}
+        {accionesExtra && <div className="separadorControles3D" />}
         <button
           type="button"
           className={`btn3DControl ${mostrarConfiguracion ? 'activoConfig' : ''}`}
@@ -1793,35 +1803,11 @@ export default function VisorCampus3D({
         </button>
         <button
           type="button"
-          className={`btn3DControl ${mostrarRedGrafos ? 'activoGizmo' : ''}`}
-          onClick={handleToggleRedGrafos}
-          title={mostrarRedGrafos ? 'Ocultar red de grafos' : 'Ver red completa de grafos (POIs <= 3.8m)'}
-        >
-          <Network size={17} />
-        </button>
-        <button
-          type="button"
           className="btn3DControl"
           onClick={() => recentrarRef.current && recentrarRef.current()}
           title="Reorientar / Volver a la entrada"
         >
           <RotateCcw size={17} />
-        </button>
-        <button
-          type="button"
-          className="btn3DControl"
-          onClick={() => zoomInRef.current && zoomInRef.current()}
-          title="Acercar (Zoom FOV)"
-        >
-          <ZoomIn size={17} />
-        </button>
-        <button
-          type="button"
-          className="btn3DControl"
-          onClick={() => zoomOutRef.current && zoomOutRef.current()}
-          title="Alejar (Zoom FOV)"
-        >
-          <ZoomOut size={17} />
         </button>
       </div>
 

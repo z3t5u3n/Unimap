@@ -206,9 +206,57 @@ export default function Interfaz() {
             puntoInicio={puntoInicioActivo}
             onReorientar={handleLimpiarDestino}
             temporadaActiva={temporadaActiva}
+            accionesExtra={
+              <>
+                {/* Botón de Configuración de Temporada Navideña */}
+                <button
+                  type="button"
+                  className={`btn3DControl btnTemporadaTop ${temporadaActiva ? 'temporadaActiva' : ''}`}
+                  onClick={() => setModalTemporadaAbierto(true)}
+                  title="Configuración de Temporada"
+                  aria-label="Configuración de Temporada"
+                >
+                  <Snowflake size={17} className={temporadaActiva ? 'iconoNieveGirando' : ''} />
+                  {temporadaActiva && <span className="puntoNavidadActivo" />}
+                </button>
+
+                <button
+                  type="button"
+                  className="btn3DControl btnNotifTop"
+                  onClick={() => setModalNotificacionesAbierto(true)}
+                  title="Avisos y Comunicados Oficiales"
+                  aria-label="Avisos y Notificaciones"
+                >
+                  <Bell size={17} />
+                  {totalNotificaciones > 0 && (
+                    <span className="badgeContadorNotif">{totalNotificaciones}</span>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  className="btn3DControl btnReporteTop"
+                  onClick={() => setModalReporteAbierto(true)}
+                  title="Reportar Bug o Error del Mapa"
+                  aria-label="Reportar Error"
+                >
+                  <AlertTriangle size={17} />
+                </button>
+
+                <button
+                  type="button"
+                  className="btn3DControl btnEncuestaTop"
+                  onClick={() => setModalEncuestaAbierto(true)}
+                  title="Encuesta de Satisfacción"
+                  aria-label="Encuesta de Satisfacción"
+                >
+                  <Star size={17} />
+                </button>
+              </>
+            }
           />
 
-          {/* BARRA SUPERIOR DE NAVEGACIÓN: SELECTOR DE INICIO, BUSCADOR Y ACCIONES DE USUARIO */}
+          {/* BARRA SUPERIOR DE NAVEGACIÓN: SELECTOR DE INICIO Y BUSCADOR */}
           <div className="barraNavegacionSuperiorMapa">
             <SelectorPuntoInicio
               puntoInicioActivo={puntoInicioActivo}
@@ -219,54 +267,6 @@ export default function Interfaz() {
               lugarActivo={destinoActivo}
               onLimpiar={handleLimpiarDestino}
             />
-
-            {/* BOTONES DE ACCIÓN: NOTIFICACIONES, REPORTES, ENCUESTAS Y TEMPORADA */}
-            <div className="grupoAccionesMapaTop">
-              {/* Botón de Configuración de Temporada Navideña */}
-              <button
-                type="button"
-                className={`btnAccionMapaTop btnTemporadaTop ${temporadaActiva ? 'temporadaActiva' : ''}`}
-                onClick={() => setModalTemporadaAbierto(true)}
-                title="Configuración de Temporada"
-                aria-label="Configuración de Temporada"
-              >
-                <Snowflake size={18} className={temporadaActiva ? 'iconoNieveGirando' : ''} />
-                {temporadaActiva && <span className="puntoNavidadActivo" />}
-              </button>
-
-              <button
-                type="button"
-                className="btnAccionMapaTop btnNotifTop"
-                onClick={() => setModalNotificacionesAbierto(true)}
-                title="Avisos y Comunicados Oficiales"
-                aria-label="Avisos y Notificaciones"
-              >
-                <Bell size={18} />
-                {totalNotificaciones > 0 && (
-                  <span className="badgeContadorNotif">{totalNotificaciones}</span>
-                )}
-              </button>
-
-              <button
-                type="button"
-                className="btnAccionMapaTop btnReporteTop"
-                onClick={() => setModalReporteAbierto(true)}
-                title="Reportar Bug o Error del Mapa"
-                aria-label="Reportar Error"
-              >
-                <AlertTriangle size={18} />
-              </button>
-
-              <button
-                type="button"
-                className="btnAccionMapaTop btnEncuestaTop"
-                onClick={() => setModalEncuestaAbierto(true)}
-                title="Encuesta de Satisfacción"
-                aria-label="Encuesta de Satisfacción"
-              >
-                <Star size={18} />
-              </button>
-            </div>
           </div>
 
           {/* 2. BADGE INFORMATIVO DE DESTINO ACTIVO */}

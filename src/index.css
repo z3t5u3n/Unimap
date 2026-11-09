@@ -988,6 +988,14 @@ body {
   transform: scale(1.05);
 }
 
+.separadorControles3D {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  margin: 3px 0;
+  opacity: 0.6;
+}
+
 
 /* ==============================================================
    PANEL DE DATOS DEL USUARIO (SUPERPUESTO EN EL MAPA CON DIFUMINADO)

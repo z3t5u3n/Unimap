@@ -77,45 +77,64 @@ export default function Admin() {
   });
 
   const [tabActiva, setTabActiva] = useState('usuarios');
-  const [cargando, setCargando] = useState(true);
-  const [errorCarga, setErrorCarga] = useState('');
-
-  // 2. Datos Maestros del Dashboard
-  const [data, setData] = useState({
-    usuarios: [],
-    sesiones: [],
-    recorridos: [],
-    reportes: [],
-    admins: [],
-    admin_sesiones: [],
-    admin_auditorias: [],
-    tipos_usuario: [],
-    ranking_lugares: [],
-    notificaciones: [],
-    encuestas: [],
-    encuestas_stats: {
-      total_respuestas: 0,
-      promedio_general: 0,
-      promedio_facilidad: 0,
-      promedio_mapa_3d: 0,
-      estrellas: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-      comentarios: []
-    },
-    metricas: {
-      total_usuarios: 0,
-      total_sesiones: 0,
-      total_recorridos: 0,
-      total_reportes: 0,
-      reportes_pendientes: 0,
-      reportes_resueltos: 0,
-      total_admins: 0,
-      total_auditorias: 0,
-      bloque_top: null
-    },
-    estadisticas: {
-      bloques: []
+  // 2. Datos Maestros del Dashboard con Caché Instantáneo (SWR)
+  const [data, setData] = useState(() => {
+    try {
+      const guardado = localStorage.getItem('unimap_admin_dashboard_cache');
+      if (guardado) {
+        const parsed = JSON.parse(guardado);
+        if (parsed && parsed.metricas && Array.isArray(parsed.usuarios)) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      // Usar estado inicial si la caché está corrupta
     }
+    return {
+      usuarios: [],
+      sesiones: [],
+      recorridos: [],
+      reportes: [],
+      admins: [],
+      admin_sesiones: [],
+      admin_auditorias: [],
+      tipos_usuario: [],
+      ranking_lugares: [],
+      notificaciones: [],
+      encuestas: [],
+      encuestas_stats: {
+        total_respuestas: 0,
+        promedio_general: 0,
+        promedio_facilidad: 0,
+        promedio_mapa_3d: 0,
+        estrellas: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        comentarios: []
+      },
+      metricas: {
+        total_usuarios: 0,
+        total_sesiones: 0,
+        total_recorridos: 0,
+        total_reportes: 0,
+        reportes_pendientes: 0,
+        reportes_resueltos: 0,
+        total_admins: 0,
+        total_auditorias: 0,
+        bloque_top: null
+      },
+      estadisticas: {
+        bloques: []
+      }
+    };
   });
+
+  const [cargando, setCargando] = useState(() => {
+    try {
+      const guardado = localStorage.getItem('unimap_admin_dashboard_cache');
+      if (guardado) return false;
+    } catch (e) {}
+    return true;
+  });
+  const [errorCarga, setErrorCarga] = useState('');
 
   // 3. Estados de Filtros y Búsqueda
   // Filtros de Usuarios
@@ -192,6 +211,11 @@ export default function Admin() {
       const res = await axios.get(`${API_BASE_URL}/admin/dashboard`);
       if (res.data) {
         setData(res.data);
+        try {
+          localStorage.setItem('unimap_admin_dashboard_cache', JSON.stringify(res.data));
+        } catch (e) {
+          // Si excede la cuota de localStorage no romper el flujo
+        }
       }
     } catch (err) {
       console.error('Error al cargar datos administrativos:', err);
