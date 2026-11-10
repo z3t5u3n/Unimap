@@ -34,6 +34,7 @@ import PanelConfiguracionMapa, {
 } from './PanelConfiguracionMapa';
 import { poiGraphService } from '../services/POIGraphService';
 import { poiLibraryService } from '../services/POILibraryService';
+import { prepararCacheThreeJS } from '../services/cacheCampus3D';
 
 // Coordenadas fijas de la Portería Principal (nodo POIs.4477 a la altura del centro de los POIs)
 const POI_ENTRADA_COORDS = {
@@ -106,6 +107,8 @@ export default function VisorCampus3D({
   const [progresoCarga, setProgresoCarga] = useState(0);
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState(null);
+  const [desdeCache, setDesdeCache] = useState(false);
+  const [subtituloCarga, setSubtituloCarga] = useState('Inicializando red de 2.407 POIs y grafos de caminos');
 
   // Estados de navegación cinemática y recorrido de grafos
   const [rutaCalculada, setRutaCalculada] = useState(null);
@@ -1341,111 +1344,131 @@ export default function VisorCampus3D({
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
 
-    // 9. CARGA DEL MODELO 3D
+    // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
-    loader.load(
-      '/Modelo3D/Unimap.gltf',
-      (gltf) => {
-        const model = gltf.scene;
 
-        model.traverse((child) => {
-          if (child.isMesh) {
-            child.frustumCulled = true;
-            child.castShadow = !esMovil;
-            child.receiveShadow = true;
+    const ejecutarCargaGLTF = () => {
+      loader.load(
+        '/Modelo3D/Unimap.gltf',
+        (gltf) => {
+          const model = gltf.scene;
 
-            if (child.material) {
-              const mats = Array.isArray(child.material) ? child.material : [child.material];
-              mats.forEach((mat) => {
-                const matName = (mat.name || '').toLowerCase();
-                // Corrección de materiales de palmeras y rocas si vienen en blanco del glTF
-                if (matName.includes('trunk.001')) {
-                  if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
-                    mat.color.setRGB(0.35, 0.20, 0.10);
-                    mat.roughness = 0.7;
-                  }
-                } else if (matName.includes('green_2.001')) {
-                  if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
-                    mat.color.setRGB(0.12, 0.42, 0.08);
-                    mat.roughness = 0.6;
-                  }
-                } else if (matName.includes('green.001')) {
-                  if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
-                    mat.color.setRGB(0.08, 0.32, 0.05);
-                    mat.roughness = 0.6;
-                  }
-                } else if (matName === 'trunk') {
-                  if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
-                    mat.color.setRGB(0.35, 0.35, 0.37);
-                    mat.roughness = 0.8;
-                  }
-                } else if (matName === 'white' || matName === 'whitere') {
-                  // Calibración de color para aceras, bordillos, rampas y muros para evitar quemado en blanco absoluto
-                  if (mat.color && mat.color.r > 0.70 && mat.color.g > 0.70 && mat.color.b > 0.70) {
-                    mat.color.setRGB(0.55, 0.55, 0.53);
-                    mat.roughness = 0.85;
-                    mat.metalness = 0.0;
-                  }
-                }
+          model.traverse((child) => {
+            if (child.isMesh) {
+              child.frustumCulled = true;
+              child.castShadow = !esMovil;
+              child.receiveShadow = true;
 
-                mat.envMapIntensity = 1.0;
-                if (mat.map) {
-                  mat.map.anisotropy = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
-                }
-              });
+              if (child.material) {
+                const mats = Array.isArray(child.material) ? child.material : [child.material];
+                mats.forEach((mat) => {
+                  const matName = (mat.name || '').toLowerCase();
+                  // Corrección de materiales de palmeras y rocas si vienen en blanco del glTF
+                  if (matName.includes('trunk.001')) {
+                    if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
+                      mat.color.setRGB(0.35, 0.20, 0.10);
+                      mat.roughness = 0.7;
+                    }
+                  } else if (matName.includes('green_2.001')) {
+                    if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
+                      mat.color.setRGB(0.12, 0.42, 0.08);
+                      mat.roughness = 0.6;
+                    }
+                  } else if (matName.includes('green.001')) {
+                    if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
+                      mat.color.setRGB(0.08, 0.32, 0.05);
+                      mat.roughness = 0.6;
+                    }
+                  } else if (matName === 'trunk') {
+                    if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
+                      mat.color.setRGB(0.35, 0.35, 0.37);
+                      mat.roughness = 0.8;
+                    }
+                  } else if (matName === 'white' || matName === 'whitere') {
+                    // Calibración de color para aceras, bordillos, rampas y muros para evitar quemado en blanco absoluto
+                    if (mat.color && mat.color.r > 0.70 && mat.color.g > 0.70 && mat.color.b > 0.70) {
+                      mat.color.setRGB(0.55, 0.55, 0.53);
+                      mat.roughness = 0.85;
+                      mat.metalness = 0.0;
+                    }
+                  }
+
+                  mat.envMapIntensity = 1.0;
+                  if (mat.map) {
+                    mat.map.anisotropy = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+                  }
+                });
+              }
             }
+          });
+
+          scene.add(model);
+          sceneModel = model;
+
+          // Ocultar mallas Codiller auxiliares (idéntico a POIGraphManager.HideCodillerObjects en Unity)
+          poiGraphService.hideCodillerObjects(model);
+
+          // Escanear y registrar todos los Empties de destino (idéntico a POILibrary.ScanAndRegisterPlaces en Unity)
+          poiLibraryService.scanAndRegisterPlaces(model, poiGraphService);
+
+          let emptyPOI = null;
+          model.traverse((child) => {
+            if (
+              child.name === 'POIs.4477' ||
+              child.name === 'POIs4477' ||
+              child.userData?.name === 'POIs.4477'
+            ) {
+              emptyPOI = child;
+            }
+          });
+
+          const puntoAct = puntoInicioRef.current;
+          if (puntoAct) {
+            camera.position.set(puntoAct.x, puntoAct.y, puntoAct.z);
+            currentYaw = targetYaw = puntoAct.yaw !== undefined ? puntoAct.yaw : POI_ENTRADA_COORDS.initialYaw;
+            currentPitch = targetPitch = puntoAct.pitch !== undefined ? puntoAct.pitch : POI_ENTRADA_COORDS.initialPitch;
+          } else if (emptyPOI) {
+            const poiPos = new THREE.Vector3();
+            emptyPOI.getWorldPosition(poiPos);
+            camera.position.set(poiPos.x, poiPos.y, poiPos.z);
+          } else {
+            camera.position.set(POI_ENTRADA_COORDS.x, POI_ENTRADA_COORDS.y, POI_ENTRADA_COORDS.z);
           }
-        });
 
-        scene.add(model);
-        sceneModel = model;
-
-        // Ocultar mallas Codiller auxiliares (idéntico a POIGraphManager.HideCodillerObjects en Unity)
-        poiGraphService.hideCodillerObjects(model);
-
-        // Escanear y registrar todos los Empties de destino (idéntico a POILibrary.ScanAndRegisterPlaces en Unity)
-        poiLibraryService.scanAndRegisterPlaces(model, poiGraphService);
-
-        let emptyPOI = null;
-        model.traverse((child) => {
-          if (
-            child.name === 'POIs.4477' ||
-            child.name === 'POIs4477' ||
-            child.userData?.name === 'POIs.4477'
-          ) {
-            emptyPOI = child;
+          actualizarSiguienteNodoFlecha(true);
+          setCargando(false);
+          if (onCargaCompletaRef.current) onCargaCompletaRef.current(model);
+        },
+        (xhr) => {
+          if (xhr.total > 0) {
+            const pct = Math.round((xhr.loaded / xhr.total) * 100);
+            setProgresoCarga(pct);
           }
-        });
-
-        const puntoAct = puntoInicioRef.current;
-        if (puntoAct) {
-          camera.position.set(puntoAct.x, puntoAct.y, puntoAct.z);
-          currentYaw = targetYaw = puntoAct.yaw !== undefined ? puntoAct.yaw : POI_ENTRADA_COORDS.initialYaw;
-          currentPitch = targetPitch = puntoAct.pitch !== undefined ? puntoAct.pitch : POI_ENTRADA_COORDS.initialPitch;
-        } else if (emptyPOI) {
-          const poiPos = new THREE.Vector3();
-          emptyPOI.getWorldPosition(poiPos);
-          camera.position.set(poiPos.x, poiPos.y, poiPos.z);
-        } else {
-          camera.position.set(POI_ENTRADA_COORDS.x, POI_ENTRADA_COORDS.y, POI_ENTRADA_COORDS.z);
+        },
+        (err) => {
+          console.error('Error al cargar Unimap.gltf:', err);
+          setErrorCarga('No se pudo cargar el modelo 3D del campus.');
+          setCargando(false);
         }
+      );
+    };
 
-        actualizarSiguienteNodoFlecha(true);
-        setCargando(false);
-        if (onCargaCompletaRef.current) onCargaCompletaRef.current(model);
-      },
-      (xhr) => {
-        if (xhr.total > 0) {
-          const pct = Math.round((xhr.loaded / xhr.total) * 100);
-          setProgresoCarga(pct);
+    // Iniciar carga con aceleración de Cache API
+    prepararCacheThreeJS((pct, mensaje) => {
+      setProgresoCarga(pct);
+      if (mensaje) setSubtituloCarga(mensaje);
+    })
+      .then((resultado) => {
+        if (resultado && resultado.desdeCache) {
+          setDesdeCache(true);
+          setSubtituloCarga('⚡ Recuperando modelo 3D desde memoria local...');
         }
-      },
-      (err) => {
-        console.error('Error al cargar Unimap.gltf:', err);
-        setErrorCarga('No se pudo cargar el modelo 3D del campus.');
-        setCargando(false);
-      }
-    );
+        ejecutarCargaGLTF();
+      })
+      .catch((err) => {
+        console.warn('Aviso caché 3D, continuando con carga directa:', err);
+        ejecutarCargaGLTF();
+      });
 
     // 10. BUCLE DE ANIMACIÓN Y NAVEGACIÓN CINEMÁTICA
     let animationFrameId;
@@ -1899,10 +1922,13 @@ export default function VisorCampus3D({
       {cargando && (
         <div className="loadingOverlay3D">
           <div className="loadingSpinnerBox">
-            <Loader2 className="animate-spin" size={36} color="#38bdf8" />
+            <Loader2 className="animate-spin" size={36} color={desdeCache ? '#10b981' : '#38bdf8'} />
             <div className="loadingTextGroup">
-              <h3>Cargando Campus 3D...</h3>
-              <p>Inicializando red de 2.407 POIs y grafos de caminos</p>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {desdeCache && <Zap size={18} color="#10b981" />}
+                {desdeCache ? 'Campus 3D (Caché Local)' : 'Cargando Campus 3D...'}
+              </h3>
+              <p>{subtituloCarga}</p>
               {progresoCarga > 0 && <span className="pctLoading">{progresoCarga}%</span>}
             </div>
           </div>
