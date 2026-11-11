@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const CACHE_NAME = 'unimap-3d-cache-v1';
+export const CACHE_NAME = 'unimap-3d-cache-v2';
 export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_URL = '/Modelo3D/Unimap.bin';
 
@@ -124,7 +124,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
     if (!gltfResponse.ok) throw new Error('No se pudo descargar Unimap.gltf');
     const gltfText = await gltfResponse.text();
 
-    if (onProgreso) onProgreso(15, 'Descargando geometría y texturas del campus (24 MB)...');
+    if (onProgreso) onProgreso(15, 'Descargando geometría y texturas del campus (27 MB)...');
     const binResponse = await fetchConProgreso(
       BIN_URL,
       (pct) => {
@@ -132,7 +132,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
         const mappedPct = Math.round(15 + (pct * 0.8));
         if (onProgreso) onProgreso(mappedPct, `Descargando campus 3D (${pct}%)...`);
       },
-      25165824
+      26899940
     );
 
     const binBuffer = await binResponse.arrayBuffer();

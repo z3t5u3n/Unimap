@@ -1394,9 +1394,12 @@ export default function VisorCampus3D({
                   }
 
                   mat.envMapIntensity = 1.0;
-                  if (mat.map) {
-                    mat.map.anisotropy = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
-                  }
+                  const maxAniso = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+                  ['map', 'normalMap', 'roughnessMap', 'metalnessMap'].forEach((mapProp) => {
+                    if (mat[mapProp]) {
+                      mat[mapProp].anisotropy = maxAniso;
+                    }
+                  });
                 });
               }
             }
