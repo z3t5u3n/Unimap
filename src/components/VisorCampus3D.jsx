@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -45,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v2_60fps';
+const SETTINGS_VERSION = 'unimap_v3_hdr_instanced';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -58,16 +59,22 @@ const detectarDispositivoMovil = () => {
 
 const obtenerAjustesIniciales = () => {
   try {
+    const estiloGuardado = localStorage.getItem('unimap_estilo_visual');
     const versionGuardada = localStorage.getItem('unimap_settings_version');
     if (versionGuardada !== SETTINGS_VERSION) {
-      // Migración automática: asegura que arranca en Modo 60 FPS por defecto
       localStorage.setItem('unimap_settings_version', SETTINGS_VERSION);
-      localStorage.setItem('unimap_graphics_settings', JSON.stringify(AJUSTES_PREDETERMINADOS));
-      return { ...AJUSTES_PREDETERMINADOS };
+      const defaults = {
+        ...AJUSTES_PREDETERMINADOS,
+        estiloVisual: estiloGuardado || AJUSTES_PREDETERMINADOS.estiloVisual || 'realista'
+      };
+      localStorage.setItem('unimap_graphics_settings', JSON.stringify(defaults));
+      return defaults;
     }
     const guardados = localStorage.getItem('unimap_graphics_settings');
     if (guardados) {
-      return { ...AJUSTES_PREDETERMINADOS, ...JSON.parse(guardados) };
+      const parsed = JSON.parse(guardados);
+      if (estiloGuardado) parsed.estiloVisual = estiloGuardado;
+      return { ...AJUSTES_PREDETERMINADOS, ...parsed };
     }
   } catch (e) {
     console.warn('Error leyendo unimap_graphics_settings:', e);
@@ -279,10 +286,10 @@ export default function VisorCampus3D({
     // IBL: Entorno de reflexiones físicas PBR con PMREM (Image-Based Lighting)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
-    const envTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environment = envTexture;
+    const roomEnvTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+    let hdrEnvTexture = null;
 
-    // Cielo Atmosférico Físico (Sky Shader con dispersión Rayleigh / Mie)
+    // Cielo Atmosférico Físico (Sky Shader con dispersión Rayleigh / Mie para Modo Juego)
     const sky = new Sky();
     sky.scale.setScalar(450000);
     scene.add(sky);
@@ -299,6 +306,50 @@ export default function VisorCampus3D({
     skyUniforms['mieCoefficient'].value = 0.005;
     skyUniforms['mieDirectionalG'].value = 0.8;
     skyUniforms['sunPosition'].value.copy(sunDirection);
+
+    // Función controladora del Estilo Visual: Realista (HDR Kloppenheim + ACES) vs Juego (Sky + Linear)
+    const aplicarEstiloVisual = (estilo) => {
+      const esRealista = estilo === 'realista';
+      if (esRealista) {
+        if (hdrEnvTexture) {
+          scene.environment = hdrEnvTexture;
+          scene.background = hdrEnvTexture;
+          sky.visible = false;
+        } else {
+          scene.environment = roomEnvTexture;
+        }
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = cfg.exposicion || 1.05;
+      } else {
+        scene.environment = roomEnvTexture;
+        const esClaro = document.documentElement.getAttribute('data-theme') !== 'dark';
+        const col = esClaro ? '#dbeafe' : '#0b1329';
+        scene.background = new THREE.Color(col);
+        sky.visible = true;
+        renderer.toneMapping = THREE.LinearToneMapping;
+        renderer.toneMappingExposure = (cfg.exposicion || 1.05) * 0.95;
+      }
+    };
+
+    // Carga asíncrona optimizada de cielo_kloppenheim_2k.hdr
+    const rgbeLoader = new RGBELoader();
+    rgbeLoader.load(
+      '/Modelo3D/cielo_kloppenheim_2k.hdr',
+      (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        hdrEnvTexture = pmremGenerator.fromEquirectangular(texture).texture;
+        texture.dispose();
+        if ((cfg.estiloVisual || 'realista') === 'realista') {
+          aplicarEstiloVisual('realista');
+        }
+      },
+      undefined,
+      (err) => {
+        console.warn('Aviso cargando HDR Kloppenheim:', err);
+      }
+    );
+
+    aplicarEstiloVisual(cfg.estiloVisual || 'realista');
 
     // 4. GRUPOS PARA ELEMENTOS 3D
     let sceneModel = null;
@@ -1315,6 +1366,13 @@ export default function VisorCampus3D({
           setMostrarRedGrafos(valor);
           if (toggleRedGrafosRef.current) toggleRedGrafosRef.current(valor);
           break;
+        case 'estiloVisual':
+          cfg.estiloVisual = valor;
+          try {
+            localStorage.setItem('unimap_estilo_visual', valor);
+          } catch (_) {}
+          aplicarEstiloVisual(valor);
+          break;
         default:
           break;
       }
@@ -1333,7 +1391,9 @@ export default function VisorCampus3D({
       if (scene.fog) {
         scene.fog.color.set(col);
       }
-      scene.background.set(col);
+      if (cfg.estiloVisual !== 'realista' || !hdrEnvTexture) {
+        scene.background = new THREE.Color(col);
+      }
       if (sky) {
         skyUniforms['rayleigh'].value = claro ? 1.2 : 3.5;
         skyUniforms['turbidity'].value = claro ? 8 : 12;
@@ -1404,6 +1464,65 @@ export default function VisorCampus3D({
               }
             }
           });
+
+          // ------------------------------------------------------------------
+          // OPTIMIZACIÓN INSTANCED MESH PARA ÁRBOLES
+          // Convierte árboles repetidos en mallas instanciadas reduciendo drásticamente draw calls
+          // ------------------------------------------------------------------
+          model.updateMatrixWorld(true);
+          const treeMeshesByGroup = new Map();
+
+          model.traverse((child) => {
+            if (child.isMesh) {
+              const isTree = /(tree|arbol)/i.test(child.name) || (child.parent && /(tree|arbol)/i.test(child.parent.name));
+              if (isTree) {
+                const matKey = Array.isArray(child.material) 
+                  ? child.material.map((m) => m.uuid).join('_') 
+                  : child.material.uuid;
+                const groupKey = `${child.geometry.uuid}_${matKey}`;
+                if (!treeMeshesByGroup.has(groupKey)) {
+                  treeMeshesByGroup.set(groupKey, []);
+                }
+                treeMeshesByGroup.get(groupKey).push(child);
+              }
+            }
+          });
+
+          const instancedTreesGroup = new THREE.Group();
+          instancedTreesGroup.name = 'InstancedTreesGroup';
+
+          let totalArbolesInstanciados = 0;
+          let drawCallsAhorrados = 0;
+
+          treeMeshesByGroup.forEach((meshList) => {
+            if (meshList.length >= 2) {
+              const firstMesh = meshList[0];
+              const instancedMesh = new THREE.InstancedMesh(
+                firstMesh.geometry,
+                firstMesh.material,
+                meshList.length
+              );
+              instancedMesh.name = `Instanced_${firstMesh.name || 'Tree'}_x${meshList.length}`;
+              instancedMesh.castShadow = !esMovil;
+              instancedMesh.receiveShadow = true;
+              instancedMesh.frustumCulled = true;
+
+              meshList.forEach((mesh, index) => {
+                mesh.updateMatrixWorld(true);
+                instancedMesh.setMatrixAt(index, mesh.matrixWorld);
+                mesh.visible = false;
+              });
+
+              instancedMesh.instanceMatrix.needsUpdate = true;
+              instancedMesh.computeBoundingSphere();
+              instancedTreesGroup.add(instancedMesh);
+              totalArbolesInstanciados += meshList.length;
+              drawCallsAhorrados += (meshList.length - 1);
+            }
+          });
+
+          scene.add(instancedTreesGroup);
+          console.log(`🌲 InstancedMesh: ${totalArbolesInstanciados} árboles convertidos a instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
 
           scene.add(model);
           sceneModel = model;
@@ -1777,6 +1896,8 @@ export default function VisorCampus3D({
         currentMount.removeChild(renderer.domElement);
       }
       if (composer) composer.dispose();
+      if (hdrEnvTexture) hdrEnvTexture.dispose();
+      if (roomEnvTexture) roomEnvTexture.dispose();
       pmremGenerator.dispose();
       renderer.dispose();
       snowGeo.dispose();

@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 
-export const CACHE_NAME = 'unimap-3d-cache-v2';
+export const CACHE_NAME = 'unimap-3d-cache-v3';
 export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_PART1_URL = '/Modelo3D/Unimap_part1.bin';
 export const BIN_PART2_URL = '/Modelo3D/Unimap_part2.bin';
+export const BIN_PART3_URL = '/Modelo3D/Unimap_part3.bin';
+export const HDR_URL = '/Modelo3D/cielo_kloppenheim_2k.hdr';
 
 /**
  * Verifica si el navegador soporta Cache API
@@ -22,7 +24,8 @@ export async function estaModeloEnCache() {
     const hasGltf = await cache.match(GLTF_URL);
     const hasBin1 = await cache.match(BIN_PART1_URL);
     const hasBin2 = await cache.match(BIN_PART2_URL);
-    return Boolean(hasGltf && hasBin1 && hasBin2);
+    const hasBin3 = await cache.match(BIN_PART3_URL);
+    return Boolean(hasGltf && hasBin1 && hasBin2 && hasBin3);
   } catch (err) {
     console.warn('Aviso comprobando Cache API:', err.message);
     return false;
@@ -32,7 +35,7 @@ export async function estaModeloEnCache() {
 /**
  * Descarga un recurso mostrando el progreso en tiempo real usando ReadableStream
  */
-async function fetchConProgreso(url, onProgreso, pesoAproximadoBytes = 14000000) {
+async function fetchConProgreso(url, onProgreso, pesoAproximadoBytes = 20000000) {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Error HTTP ${response.status} al descargar ${url}`);
@@ -83,6 +86,15 @@ async function fetchConProgreso(url, onProgreso, pesoAproximadoBytes = 14000000)
   });
 }
 
+function inyectarEnThreeCache(url, bufferOrText) {
+  THREE.Cache.add(url, bufferOrText);
+  THREE.Cache.add('file:' + url, bufferOrText);
+  const baseName = url.split('/').pop();
+  if (baseName && baseName !== url) {
+    THREE.Cache.add(baseName, bufferOrText);
+  }
+}
+
 /**
  * Prepara e inyecta el modelo 3D en THREE.Cache utilizando Cache API del navegador.
  * Si ya está en caché, la carga es prácticamente instantánea (< 250ms).
@@ -92,7 +104,6 @@ async function fetchConProgreso(url, onProgreso, pesoAproximadoBytes = 14000000)
  * @returns {Promise<{ desdeCache: boolean, exito: boolean }>}
  */
 export async function prepararCacheThreeJS(onProgreso = () => {}) {
-  // Siempre habilitamos el caché en memoria nativo de Three.js
   THREE.Cache.enabled = true;
 
   if (!soportaCacheApi()) {
@@ -100,58 +111,85 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
   }
 
   try {
+    // Purgar versiones previas de la caché 3D para liberar espacio
+    try {
+      const keys = await window.caches.keys();
+      for (const k of keys) {
+        if (k.startsWith('unimap-3d-cache-') && k !== CACHE_NAME) {
+          console.log('Purgando versión anterior de caché:', k);
+          await window.caches.delete(k);
+        }
+      }
+    } catch (_) {}
+
     const cache = await window.caches.open(CACHE_NAME);
     let cachedGltf = await cache.match(GLTF_URL);
     let cachedBin1 = await cache.match(BIN_PART1_URL);
     let cachedBin2 = await cache.match(BIN_PART2_URL);
+    let cachedBin3 = await cache.match(BIN_PART3_URL);
 
     // 1. CASO HIT: Los archivos ya están guardados en el disco del usuario
-    if (cachedGltf && cachedBin1 && cachedBin2) {
-      if (onProgreso) onProgreso(30, 'Recuperando modelo desde caché local...');
+    if (cachedGltf && cachedBin1 && cachedBin2 && cachedBin3) {
+      if (onProgreso) onProgreso(20, 'Recuperando modelo desde caché local...');
       const gltfText = await cachedGltf.text();
       
-      if (onProgreso) onProgreso(60, 'Cargando datos binarios (parte 1)...');
+      if (onProgreso) onProgreso(45, 'Cargando geometría binaria (1/3)...');
       const bin1Buffer = await cachedBin1.arrayBuffer();
 
-      if (onProgreso) onProgreso(85, 'Cargando datos binarios (parte 2)...');
+      if (onProgreso) onProgreso(70, 'Cargando geometría binaria (2/3)...');
       const bin2Buffer = await cachedBin2.arrayBuffer();
 
-      // Inyectar en THREE.Cache bajo las claves que busca FileLoader
-      THREE.Cache.add('file:' + GLTF_URL, gltfText);
-      THREE.Cache.add('file:' + BIN_PART1_URL, bin1Buffer);
-      THREE.Cache.add('file:' + BIN_PART2_URL, bin2Buffer);
+      if (onProgreso) onProgreso(90, 'Cargando geometría binaria (3/3)...');
+      const bin3Buffer = await cachedBin3.arrayBuffer();
+
+      // Inyectar en THREE.Cache bajo todas las claves posibles
+      inyectarEnThreeCache(GLTF_URL, gltfText);
+      inyectarEnThreeCache(BIN_PART1_URL, bin1Buffer);
+      inyectarEnThreeCache(BIN_PART2_URL, bin2Buffer);
+      inyectarEnThreeCache(BIN_PART3_URL, bin3Buffer);
 
       if (onProgreso) onProgreso(100, 'Modelo 3D listo en memoria');
       return { desdeCache: true, exito: true };
     }
 
-    // 2. CASO MISS: Primera visita, se descargan y se guardan para siempre en Cache API
-    if (onProgreso) onProgreso(5, 'Descargando definición del mapa 3D...');
+    // 2. CASO MISS: Primera visita o modelo actualizado
+    if (onProgreso) onProgreso(5, 'Descargando estructura del campus 3D...');
     const gltfResponse = await fetch(GLTF_URL);
     if (!gltfResponse.ok) throw new Error('No se pudo descargar Unimap.gltf');
     const gltfText = await gltfResponse.text();
 
-    if (onProgreso) onProgreso(15, 'Descargando geometría del campus (parte 1/2)...');
+    if (onProgreso) onProgreso(12, 'Descargando geometría del campus (1/3)...');
     const bin1Response = await fetchConProgreso(
       BIN_PART1_URL,
       (pct) => {
-        const mappedPct = Math.round(15 + (pct * 0.4));
-        if (onProgreso) onProgreso(mappedPct, `Descargando geometría 1/2 (${pct}%)...`);
+        const mappedPct = Math.round(12 + (pct * 0.28));
+        if (onProgreso) onProgreso(mappedPct, `Descargando geometría 1/3 (${pct}%)...`);
       },
-      13896172
+      20302908
     );
     const bin1Buffer = await bin1Response.arrayBuffer();
 
-    if (onProgreso) onProgreso(55, 'Descargando geometría del campus (parte 2/2)...');
+    if (onProgreso) onProgreso(40, 'Descargando geometría del campus (2/3)...');
     const bin2Response = await fetchConProgreso(
       BIN_PART2_URL,
       (pct) => {
-        const mappedPct = Math.round(55 + (pct * 0.4));
-        if (onProgreso) onProgreso(mappedPct, `Descargando geometría 2/2 (${pct}%)...`);
+        const mappedPct = Math.round(40 + (pct * 0.28));
+        if (onProgreso) onProgreso(mappedPct, `Descargando geometría 2/3 (${pct}%)...`);
       },
-      13003768
+      20532340
     );
     const bin2Buffer = await bin2Response.arrayBuffer();
+
+    if (onProgreso) onProgreso(68, 'Descargando geometría del campus (3/3)...');
+    const bin3Response = await fetchConProgreso(
+      BIN_PART3_URL,
+      (pct) => {
+        const mappedPct = Math.round(68 + (pct * 0.28));
+        if (onProgreso) onProgreso(mappedPct, `Descargando geometría 3/3 (${pct}%)...`);
+      },
+      19861296
+    );
+    const bin3Buffer = await bin3Response.arrayBuffer();
 
     // Guardar en la Cache API local del navegador (persistencia en disco)
     try {
@@ -164,15 +202,19 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
       await cache.put(BIN_PART2_URL, new Response(bin2Buffer.slice(0), {
         headers: { 'Content-Type': 'application/octet-stream' }
       }));
-      console.log('⚡ Modelo UniMap (partes 1 y 2) guardado con éxito en Cache API del dispositivo.');
+      await cache.put(BIN_PART3_URL, new Response(bin3Buffer.slice(0), {
+        headers: { 'Content-Type': 'application/octet-stream' }
+      }));
+      console.log('⚡ Modelo UniMap (partes 1, 2 y 3) guardado con éxito en Cache API.');
     } catch (cacheErr) {
       console.warn('Aviso guardando en Cache API:', cacheErr.message);
     }
 
     // Inyectar en THREE.Cache
-    THREE.Cache.add('file:' + GLTF_URL, gltfText);
-    THREE.Cache.add('file:' + BIN_PART1_URL, bin1Buffer);
-    THREE.Cache.add('file:' + BIN_PART2_URL, bin2Buffer);
+    inyectarEnThreeCache(GLTF_URL, gltfText);
+    inyectarEnThreeCache(BIN_PART1_URL, bin1Buffer);
+    inyectarEnThreeCache(BIN_PART2_URL, bin2Buffer);
+    inyectarEnThreeCache(BIN_PART3_URL, bin3Buffer);
 
     if (onProgreso) onProgreso(100, 'Descarga y caché completados');
     return { desdeCache: false, exito: true };
@@ -189,7 +231,15 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
 export async function limpiarCache3D() {
   if (!soportaCacheApi()) return false;
   try {
-    return await window.caches.delete(CACHE_NAME);
+    const keys = await window.caches.keys();
+    let ok = true;
+    for (const k of keys) {
+      if (k.startsWith('unimap-3d-cache-')) {
+        const deleted = await window.caches.delete(k);
+        if (!deleted) ok = false;
+      }
+    }
+    return ok;
   } catch (err) {
     return false;
   }
