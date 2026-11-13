@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v3_hdr_instanced';
+const SETTINGS_VERSION = 'unimap_v4_fluid_orbit';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -495,7 +495,7 @@ export default function VisorCampus3D({
     let currentArrowNodeId = 1998;
     let isStepping = false;
     let stepStartTime = 0;
-    const stepDuration = 0.45; // Duración del paso en segundos (idéntico a POIManualArrowNavigator en Unity)
+    const stepDuration = 0.30; // Duración ágil del paso en segundos para máxima fluidez
     const arrowYOffset = -0.55; // Ajuste de altura idéntico a Unity para situar la flecha en el suelo
     const stepStartPos = new THREE.Vector3();
     const stepTargetPos = new THREE.Vector3();
@@ -720,8 +720,8 @@ export default function VisorCampus3D({
     dom.style.touchAction = 'none';
 
     const actualizarOrientacionCamara = (delta) => {
-      // Amortiguación inercial exponencial idéntica a POICameraOrbitController en Unity (smoothDamping = 12)
-      const smoothDamping = 12.0;
+      // Amortiguación inercial ultra-fluida: altamente responsiva al arrastrar (28.0) y suave al soltar (18.0)
+      const smoothDamping = isPointerDown ? 28.0 : 18.0;
       const dt = delta || 0.016;
       const t = 1.0 - Math.exp(-smoothDamping * dt);
 
@@ -1094,10 +1094,25 @@ export default function VisorCampus3D({
         previousPointerX = e.clientX;
         previousPointerY = e.clientY;
 
-        const velocidadRotacion = cfg.sensibilidadGiro || 0.22;
-        targetYaw -= deltaX * velocidadRotacion;
-        targetPitch += deltaY * velocidadRotacion;
+        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.38 : 0.32);
+        
+        // Control orbital intuitivo:
+        // En modo 'natural':
+        // - Subir dedo/ratón (deltaY < 0): mira hacia arriba (pitch aumenta).
+        // - Bajar dedo/ratón (deltaY > 0): mira hacia abajo (pitch disminuye).
+        // - Mover derecha (deltaX > 0): gira hacia la derecha (yaw aumenta).
+        // - Mover izquierda (deltaX < 0): gira hacia la izquierda (yaw disminuye).
+        // Si el usuario activa 'invertido' (o invertirEjeY/invertirEjeX), se invierte el factor correspondiente.
+        const invertY = cfg.modoOrbital === 'invertido' || Boolean(cfg.invertirEjeY);
+        const invertX = cfg.modoOrbital === 'invertido' || Boolean(cfg.invertirEjeX);
+
+        const factorY = invertY ? 1 : -1;
+        const factorX = invertX ? -1 : 1;
+
+        targetPitch += factorY * deltaY * velocidadRotacion;
         targetPitch = Math.max(-60, Math.min(60, targetPitch)); // Límites -60° a 60° (idéntico a Unity)
+
+        targetYaw += factorX * deltaX * velocidadRotacion;
       } else {
         // Feedback visual hover sobre la flecha 3D (cursor y brillo reactivo)
         if (!isNavigating && !isStepping && arrowGroup.visible) {
@@ -1350,10 +1365,22 @@ export default function VisorCampus3D({
           if (bloomPass) bloomPass.strength = valor;
           break;
         case 'velocidadRecorrido':
+          cfg.velocidadRecorrido = valor;
           moveSpeed = valor;
           break;
         case 'sensibilidadGiro':
-          velocidadRotacion = valor;
+          cfg.sensibilidadGiro = valor;
+          break;
+        case 'modoOrbital':
+          cfg.modoOrbital = valor;
+          cfg.invertirEjeY = valor === 'invertido';
+          cfg.invertirEjeX = valor === 'invertido';
+          break;
+        case 'invertirEjeY':
+          cfg.invertirEjeY = Boolean(valor);
+          break;
+        case 'invertirEjeX':
+          cfg.invertirEjeX = Boolean(valor);
           break;
         case 'fovBase':
           camera.fov = valor;

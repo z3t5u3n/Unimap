@@ -47,10 +47,13 @@ export const AJUSTES_PREDETERMINADOS = {
   bloomHabilitado: false,
   bloomIntensidad: 0.22,
 
-  // Navegación y Cámara
-  velocidadRecorrido: 14, // m/s
-  sensibilidadGiro: 0.22,
+  // Navegación y Cámara (Fluidez optimizada y controles orbitales)
+  velocidadRecorrido: 20, // m/s (avance ágil y dinámico)
+  sensibilidadGiro: 0.35, // rotación 360° fluida sin retraso
   fovBase: 60,
+  modoOrbital: 'natural', // 'natural' | 'invertido'
+  invertirEjeY: false, // Arriba sube la mirada
+  invertirEjeX: false, // Derecha gira a la derecha
   mostrarFlecha3D: true,
   mostrarGizmosGrafos: false
 };
@@ -619,6 +622,86 @@ export default function PanelConfiguracionMapa({
           {/* 5. CÁMARA Y NAVEGACIÓN */}
           {tabActiva === 'camara' && (
             <div className="grupoControles">
+              {/* Selector de Modos de Control Orbital */}
+              <div style={{ marginBottom: '14px' }}>
+                <span className="subtituloSeccion" style={{ marginBottom: '6px' }}>Modo de Control Orbital (Giro 360°)</span>
+                <div className="gridEstilosVisuales">
+                  <button
+                    type="button"
+                    className={`btnEstiloVisual ${(ajustes.modoOrbital || 'natural') === 'natural' ? 'activo' : ''}`}
+                    onClick={() => {
+                      onCambiarAjuste('modoOrbital', 'natural');
+                      onCambiarAjuste('invertirEjeY', false);
+                      onCambiarAjuste('invertirEjeX', false);
+                    }}
+                    title="Mover hacia arriba mira hacia arriba, mover a la derecha gira a la derecha (Intuitivo)"
+                  >
+                    <div className="estiloIconoTitulo">
+                      <span className="emojiEstilo">👆</span>
+                      <div>
+                        <div className="tituloEstilo">Control Natural</div>
+                        <div className="descEstilo">Arriba sube la mirada, derecha gira derecha</div>
+                      </div>
+                    </div>
+                    {(ajustes.modoOrbital || 'natural') === 'natural' && <Check size={16} className="checkEstiloActivo" />}
+                  </button>
+                  <button
+                    type="button"
+                    className={`btnEstiloVisual ${ajustes.modoOrbital === 'invertido' ? 'activo' : ''}`}
+                    onClick={() => {
+                      onCambiarAjuste('modoOrbital', 'invertido');
+                      onCambiarAjuste('invertirEjeY', true);
+                      onCambiarAjuste('invertirEjeX', true);
+                    }}
+                    title="Mover hacia arriba inclina hacia abajo y viceversa (Estilo vuelo o arrastrar escenario)"
+                  >
+                    <div className="estiloIconoTitulo">
+                      <span className="emojiEstilo">🔄</span>
+                      <div>
+                        <div className="tituloEstilo">Control Invertido</div>
+                        <div className="descEstilo">Estilo simulación de vuelo / arrastrar mundo</div>
+                      </div>
+                    </div>
+                    {ajustes.modoOrbital === 'invertido' && <Check size={16} className="checkEstiloActivo" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Conmutadores precisos de inversión de ejes */}
+              <div className="controlToggleGroup">
+                <div className="toggleTexts">
+                  <span className="toggleLabel">Invertir Eje Vertical (Y)</span>
+                  <span className="toggleDesc">Al activarlo, mover abajo mira hacia arriba</span>
+                </div>
+                <label className="switchToggle">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(ajustes.invertirEjeY)}
+                    onChange={(e) => {
+                      const nuevo = e.target.checked;
+                      onCambiarAjuste('invertirEjeY', nuevo);
+                      onCambiarAjuste('modoOrbital', nuevo ? 'invertido' : 'natural');
+                    }}
+                  />
+                  <span className="switchSlider" />
+                </label>
+              </div>
+
+              <div className="controlToggleGroup">
+                <div className="toggleTexts">
+                  <span className="toggleLabel">Invertir Eje Horizontal (X)</span>
+                  <span className="toggleDesc">Al activarlo, mover derecha gira hacia la izquierda</span>
+                </div>
+                <label className="switchToggle">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(ajustes.invertirEjeX)}
+                    onChange={(e) => onCambiarAjuste('invertirEjeX', e.target.checked)}
+                  />
+                  <span className="switchSlider" />
+                </label>
+              </div>
+
               {/* Velocidad de avance */}
               <div className="controlSliderGroup">
                 <div className="sliderHeader">
@@ -628,7 +711,7 @@ export default function PanelConfiguracionMapa({
                 <input
                   type="range"
                   min="6"
-                  max="28"
+                  max="38"
                   step="1"
                   value={ajustes.velocidadRecorrido}
                   onChange={(e) => onCambiarAjuste('velocidadRecorrido', parseInt(e.target.value, 10))}
@@ -639,13 +722,13 @@ export default function PanelConfiguracionMapa({
               {/* Sensibilidad de Giro 360° */}
               <div className="controlSliderGroup">
                 <div className="sliderHeader">
-                  <span className="sliderLabel">Sensibilidad de Giro 360° (Ratón / Táctil)</span>
+                  <span className="sliderLabel">Sensibilidad de Giro 360° (Fluidez)</span>
                   <span className="sliderValue">{ajustes.sensibilidadGiro.toFixed(2)}</span>
                 </div>
                 <input
                   type="range"
                   min="0.10"
-                  max="0.50"
+                  max="0.80"
                   step="0.02"
                   value={ajustes.sensibilidadGiro}
                   onChange={(e) => onCambiarAjuste('sensibilidadGiro', parseFloat(e.target.value))}
