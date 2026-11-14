@@ -123,14 +123,14 @@ export const EDIFICIOS_PRINCIPALES = [
     "id": "porteria",
     "nombre": "Portería Principal",
     "icono": "🚪",
-    "meshName": "POIs.4477",
-    "x": 182.01,
-    "y": 1.2,
-    "z": 276.26,
+    "meshName": "POIs",
+    "x": 176.023,
+    "y": 1.15,
+    "z": 245.385,
     "yaw": -142.1,
     "pitch": 1.5,
     "fov": 60,
-    "descripcion": "Entrada Principal al Campus (POIs.4477)"
+    "descripcion": "Entrada Principal al Campus (POIs)"
   }
 ];
 

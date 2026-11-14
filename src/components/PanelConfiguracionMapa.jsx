@@ -18,9 +18,6 @@ import {
 } from 'lucide-react';
 
 export const AJUSTES_PREDETERMINADOS = {
-  // Estilo Visual General
-  estiloVisual: 'realista', // 'juego' | 'realista'
-
   // Iluminación
   luzSolarIntensidad: 2.2,
   luzSolarColor: '#fff6ea',
@@ -217,43 +214,8 @@ export default function PanelConfiguracionMapa({
             <X size={18} />
           </button>
         </div>
- 
-        {/* Sección de Selección de Estilo Visual (Modo Realista vs Modo Juego) */}
-        <div className="seccionEstiloVisual">
-          <span className="subtituloSeccion">Estilo Visual del Campus</span>
-          <div className="gridEstilosVisuales">
-            <button
-              type="button"
-              className={`btnEstiloVisual ${(ajustes.estiloVisual || 'realista') === 'realista' ? 'activo' : ''}`}
-              onClick={() => onCambiarAjuste('estiloVisual', 'realista')}
-              title="Iluminación HDR de Kloppenheim, reflejos PBR y mapeo tonal cinematográfico"
-            >
-              <div className="estiloIconoTitulo">
-                <span className="emojiEstilo">🌿</span>
-                <div>
-                  <div className="tituloEstilo">Modo Realista</div>
-                  <div className="descEstilo">Cielo HDR Kloppenheim y reflejos PBR</div>
-                </div>
-              </div>
-              {(ajustes.estiloVisual || 'realista') === 'realista' && <Check size={16} className="checkEstiloActivo" />}
-            </button>
-            <button
-              type="button"
-              className={`btnEstiloVisual ${ajustes.estiloVisual === 'juego' ? 'activo' : ''}`}
-              onClick={() => onCambiarAjuste('estiloVisual', 'juego')}
-              title="Estilo videojuego brillante con cielo atmosférico procedural y 60 FPS garantizados"
-            >
-              <div className="estiloIconoTitulo">
-                <span className="emojiEstilo">🎮</span>
-                <div>
-                  <div className="tituloEstilo">Modo Juego</div>
-                  <div className="descEstilo">Estilizado vibrante y 60 FPS fluidos</div>
-                </div>
-              </div>
-              {ajustes.estiloVisual === 'juego' && <Check size={16} className="checkEstiloActivo" />}
-            </button>
-          </div>
-        </div>
+        {/* Cuerpo con Scroll Interno Independiente */}
+        <div className="panelConfigBody">
 
         {/* Sección de Presets Rápidos */}
         <div className="seccionPresetsRapidos">
@@ -786,6 +748,7 @@ export default function PanelConfiguracionMapa({
               </div>
             </div>
           )}
+        </div>
         </div>
 
         {/* Pie de Panel con botón de restablecimiento */}

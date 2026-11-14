@@ -5,7 +5,6 @@ export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_PART1_URL = '/Modelo3D/Unimap_part1.bin';
 export const BIN_PART2_URL = '/Modelo3D/Unimap_part2.bin';
 export const BIN_PART3_URL = '/Modelo3D/Unimap_part3.bin';
-export const HDR_URL = '/Modelo3D/cielo_kloppenheim_2k.hdr';
 
 /**
  * Verifica si el navegador soporta Cache API

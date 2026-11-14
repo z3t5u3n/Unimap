@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -37,16 +36,16 @@ import { poiGraphService } from '../services/POIGraphService';
 import { poiLibraryService } from '../services/POILibraryService';
 import { prepararCacheThreeJS } from '../services/cacheCampus3D';
 
-// Coordenadas fijas de la Portería Principal (nodo POIs.4477 a la altura del centro de los POIs)
+// Coordenadas fijas de la Portería Principal (nodo POIs a la altura del centro de los POIs)
 const POI_ENTRADA_COORDS = {
-  x: 182.0139923095703,
-  y: 1.1999976634979248, // Altura exacta del centro de los POIs (POIs.4477)
-  z: 276.25738525390625,
+  x: 176.023,
+  y: 1.15,
+  z: 245.385,
   initialYaw: -142.1, // Ángulo en grados hacia el interior de la avenida del campus
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v4_fluid_orbit';
+const SETTINGS_VERSION = 'unimap_v5_game_mode';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -59,21 +58,16 @@ const detectarDispositivoMovil = () => {
 
 const obtenerAjustesIniciales = () => {
   try {
-    const estiloGuardado = localStorage.getItem('unimap_estilo_visual');
     const versionGuardada = localStorage.getItem('unimap_settings_version');
     if (versionGuardada !== SETTINGS_VERSION) {
       localStorage.setItem('unimap_settings_version', SETTINGS_VERSION);
-      const defaults = {
-        ...AJUSTES_PREDETERMINADOS,
-        estiloVisual: estiloGuardado || AJUSTES_PREDETERMINADOS.estiloVisual || 'realista'
-      };
+      const defaults = { ...AJUSTES_PREDETERMINADOS };
       localStorage.setItem('unimap_graphics_settings', JSON.stringify(defaults));
       return defaults;
     }
     const guardados = localStorage.getItem('unimap_graphics_settings');
     if (guardados) {
       const parsed = JSON.parse(guardados);
-      if (estiloGuardado) parsed.estiloVisual = estiloGuardado;
       return { ...AJUSTES_PREDETERMINADOS, ...parsed };
     }
   } catch (e) {
@@ -130,7 +124,7 @@ export default function VisorCampus3D({
     const init = obtenerAjustesIniciales();
     return init.modoUltra !== undefined ? init.modoUltra : false;
   }); // Modo Ultra Fotorrealista (Cycles / EEVEE Look)
-  const [nodoActualCamara, setNodoActualCamara] = useState('POIs.4477'); // Nodo activo en marcha manual
+  const [nodoActualCamara, setNodoActualCamara] = useState('POIs'); // Nodo activo en marcha manual
   const [dandoPaso, setDandoPaso] = useState(false);
 
   const aplicarAjusteEnEscenaRef = useRef(null);
@@ -287,9 +281,9 @@ export default function VisorCampus3D({
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
     const roomEnvTexture = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-    let hdrEnvTexture = null;
+    scene.environment = roomEnvTexture;
 
-    // Cielo Atmosférico Físico (Sky Shader con dispersión Rayleigh / Mie para Modo Juego)
+    // Cielo Atmosférico Físico (Sky Shader con dispersión Rayleigh / Mie estilo Videojuego fluido)
     const sky = new Sky();
     sky.scale.setScalar(450000);
     scene.add(sky);
@@ -307,49 +301,12 @@ export default function VisorCampus3D({
     skyUniforms['mieDirectionalG'].value = 0.8;
     skyUniforms['sunPosition'].value.copy(sunDirection);
 
-    // Función controladora del Estilo Visual: Realista (HDR Kloppenheim + ACES) vs Juego (Sky + Linear)
-    const aplicarEstiloVisual = (estilo) => {
-      const esRealista = estilo === 'realista';
-      if (esRealista) {
-        if (hdrEnvTexture) {
-          scene.environment = hdrEnvTexture;
-          scene.background = hdrEnvTexture;
-          sky.visible = false;
-        } else {
-          scene.environment = roomEnvTexture;
-        }
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = cfg.exposicion || 1.05;
-      } else {
-        scene.environment = roomEnvTexture;
-        const esClaro = document.documentElement.getAttribute('data-theme') !== 'dark';
-        const col = esClaro ? '#dbeafe' : '#0b1329';
-        scene.background = new THREE.Color(col);
-        sky.visible = true;
-        renderer.toneMapping = THREE.LinearToneMapping;
-        renderer.toneMappingExposure = (cfg.exposicion || 1.05) * 0.95;
-      }
-    };
-
-    // Carga asíncrona optimizada de cielo_kloppenheim_2k.hdr
-    const rgbeLoader = new RGBELoader();
-    rgbeLoader.load(
-      '/Modelo3D/cielo_kloppenheim_2k.hdr',
-      (texture) => {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        hdrEnvTexture = pmremGenerator.fromEquirectangular(texture).texture;
-        texture.dispose();
-        if ((cfg.estiloVisual || 'realista') === 'realista') {
-          aplicarEstiloVisual('realista');
-        }
-      },
-      undefined,
-      (err) => {
-        console.warn('Aviso cargando HDR Kloppenheim:', err);
-      }
-    );
-
-    aplicarEstiloVisual(cfg.estiloVisual || 'realista');
+    const esClaro = document.documentElement.getAttribute('data-theme') !== 'dark';
+    const col = esClaro ? '#dbeafe' : '#0b1329';
+    scene.background = new THREE.Color(col);
+    sky.visible = true;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = cfg.exposicion || 1.05;
 
     // 4. GRUPOS PARA ELEMENTOS 3D
     let sceneModel = null;
@@ -1393,13 +1350,6 @@ export default function VisorCampus3D({
           setMostrarRedGrafos(valor);
           if (toggleRedGrafosRef.current) toggleRedGrafosRef.current(valor);
           break;
-        case 'estiloVisual':
-          cfg.estiloVisual = valor;
-          try {
-            localStorage.setItem('unimap_estilo_visual', valor);
-          } catch (_) {}
-          aplicarEstiloVisual(valor);
-          break;
         default:
           break;
       }
@@ -1418,9 +1368,7 @@ export default function VisorCampus3D({
       if (scene.fog) {
         scene.fog.color.set(col);
       }
-      if (cfg.estiloVisual !== 'realista' || !hdrEnvTexture) {
-        scene.background = new THREE.Color(col);
-      }
+      scene.background = new THREE.Color(col);
       if (sky) {
         skyUniforms['rayleigh'].value = claro ? 1.2 : 3.5;
         skyUniforms['turbidity'].value = claro ? 8 : 12;
@@ -1563,8 +1511,10 @@ export default function VisorCampus3D({
           let emptyPOI = null;
           model.traverse((child) => {
             if (
+              child.name === 'POIs' ||
               child.name === 'POIs.4477' ||
               child.name === 'POIs4477' ||
+              child.userData?.name === 'POIs' ||
               child.userData?.name === 'POIs.4477'
             ) {
               emptyPOI = child;
@@ -1860,6 +1810,14 @@ export default function VisorCampus3D({
     };
     window.addEventListener('resize', handleResize);
 
+    let resizeObserver = null;
+    if (typeof ResizeObserver !== 'undefined' && currentMount) {
+      resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
+      resizeObserver.observe(currentMount);
+    }
+
     // Handlers para eventos del puente global estilo Unity WebGL
     const handleUniMapMoverA = (e) => {
       const detail = e.detail;
@@ -1906,6 +1864,9 @@ export default function VisorCampus3D({
     window.addEventListener('unimap_temporada_changed', handleTemporadaChanged);
 
     return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       dom.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
@@ -1923,7 +1884,6 @@ export default function VisorCampus3D({
         currentMount.removeChild(renderer.domElement);
       }
       if (composer) composer.dispose();
-      if (hdrEnvTexture) hdrEnvTexture.dispose();
       if (roomEnvTexture) roomEnvTexture.dispose();
       pmremGenerator.dispose();
       renderer.dispose();
@@ -1958,7 +1918,7 @@ export default function VisorCampus3D({
             ? `Avanzando hacia ${nodoActualCamara}...`
             : haLlegado
             ? '¡Llegaste a tu destino! (Clic en flecha para seguir)'
-            : `Paso a Paso • ${nodoActualCamara || 'POIs.4477'} • Clic en flecha para avanzar`}
+            : `Paso a Paso • ${nodoActualCamara || 'POIs'} • Clic en flecha para avanzar`}
         </span>
       </div>
 
