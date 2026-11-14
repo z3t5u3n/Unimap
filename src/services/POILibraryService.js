@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { EDIFICIOS_PRINCIPALES, LUGARES_RECORRIBLES } from '../data/catalogoCampus';
+import { EDIFICIOS_PRINCIPALES, LUGARES_RECORRIBLES } from '../data/catalogoCampus.js';
 
 /**
  * POIPlace: Representa un Punto de Interés / Empty de destino en el mapa.
@@ -264,12 +264,25 @@ export class POILibraryService {
    */
   initializeFromStaticCatalog() {
     const list = [];
+    for (const item of EDIFICIOS_PRINCIPALES) {
+      const place = new POIPlace(item.meshName || item.nombre, {
+        x: item.x,
+        y: item.y !== undefined ? item.y : 1.2,
+        z: item.z
+      });
+      place.id = item.id;
+      place.displayName = item.nombre;
+      place.category = 'Edificio Principal';
+      place.building = item.nombre;
+      list.push(place);
+    }
     for (const item of LUGARES_RECORRIBLES) {
       const place = new POIPlace(item.meshName || item.displayName, {
         x: item.x,
         y: item.y !== undefined ? item.y : 1.2,
         z: item.z
       });
+      place.id = item.id;
       place.displayName = item.displayName || place.displayName;
       if (item.categoria) place.category = item.categoria;
       if (item.bloque) place.building = item.bloque;

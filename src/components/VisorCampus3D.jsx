@@ -4,6 +4,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
@@ -307,6 +309,43 @@ export default function VisorCampus3D({
     sky.visible = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = cfg.exposicion || 1.05;
+
+    // Carga de cielo de alta definición Kloppenheim PureSky (.exr) solicitado
+    let hdrCieloTexture = null;
+    const aplicarTexturaCielo = (texture) => {
+      if (!texture) return;
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      hdrCieloTexture = texture;
+      scene.background = texture;
+      scene.environment = texture;
+      sky.visible = false;
+      if (scene.fog) {
+        scene.fog.color.setHex(0xd0e4f7);
+      }
+    };
+
+    const exrLoader = new EXRLoader();
+    exrLoader.load(
+      '/Modelo3D/kloppenheim_06_puresky_4k.exr',
+      (texture) => {
+        aplicarTexturaCielo(texture);
+      },
+      undefined,
+      (err) => {
+        console.warn('kloppenheim_06_puresky_4k.exr no disponible o error al decodificar, intentando fallback HDR:', err);
+        const rgbeLoader = new RGBELoader();
+        rgbeLoader.load(
+          '/Modelo3D/cielo_kloppenheim_2k.hdr',
+          (fallbackTex) => {
+            aplicarTexturaCielo(fallbackTex);
+          },
+          undefined,
+          (errHdr) => {
+            console.warn('Fallback HDR también falló, manteniendo Sky Shader:', errHdr);
+          }
+        );
+      }
+    );
 
     // 4. GRUPOS PARA ELEMENTOS 3D
     let sceneModel = null;
@@ -757,15 +796,24 @@ export default function VisorCampus3D({
 
         const nearestDestNode = poiGraphService.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
         const distAlNearestNode = nearestDestNode
-          ? Math.hypot(currentPos.x - nearestDestNode.x, currentPos.z - nearestDestNode.z)
-          : Math.hypot(currentPos.x - targetPos.x, currentPos.z - targetPos.z);
+          ? Math.hypot(currentPos.x - nearestDestNode.x, (currentPos.y - nearestDestNode.y) * 2.0, currentPos.z - nearestDestNode.z)
+          : Math.hypot(currentPos.x - targetPos.x, (currentPos.y - (targetPos.y ?? currentPos.y)) * 2.0, currentPos.z - targetPos.z);
 
         crearOActualizarMarcador(targetPos);
 
-        // Si la cámara ya está prácticamente en el POI más cercano del destino (< 2.8m), orientar y listo
+        // Si la cámara ya está prácticamente en el POI más cercano del destino (< 2.8m en 3D), orientar y listo
         if (distAlNearestNode < 2.8) {
-          if (dest.yaw !== undefined) targetYaw = dest.yaw;
-          targetPitch = dest.pitch || 0;
+          const dx = targetPos.x - camera.position.x;
+          const dz = targetPos.z - camera.position.z;
+          const dHoriz = Math.hypot(dx, dz);
+          if (dHoriz > 0.4) {
+            targetYaw = Math.atan2(dx, dz) * (180 / Math.PI);
+            const dy = (targetPos.y ?? camera.position.y) - camera.position.y;
+            targetPitch = Math.max(-20, Math.min(15, Math.atan2(dy, dHoriz) * (180 / Math.PI)));
+          } else if (dest.yaw !== undefined) {
+            targetYaw = dest.yaw;
+            targetPitch = dest.pitch || 0;
+          }
           targetFOV = dest.fov || 50;
           setHaLlegado(true);
           return;
@@ -866,14 +914,21 @@ export default function VisorCampus3D({
             destPos = { x: wp.x, y: wp.y, z: wp.z };
           }
         }
-        if (dest.yaw !== undefined) {
-          targetYaw = dest.yaw;
-          targetPitch = dest.pitch || 0;
-        } else if (destPos.x !== undefined && destPos.z !== undefined) {
+        if (destPos.x !== undefined && destPos.z !== undefined) {
           const dx = destPos.x - finalPos.x;
           const dz = destPos.z - finalPos.z;
-          targetYaw = Math.atan2(dx, dz) * (180 / Math.PI);
-          targetPitch = 0;
+          const dHoriz = Math.hypot(dx, dz);
+          if (dHoriz > 0.4) {
+            targetYaw = Math.atan2(dx, dz) * (180 / Math.PI);
+            const dy = (destPos.y ?? finalPos.y) - finalPos.y;
+            targetPitch = Math.max(-20, Math.min(15, Math.atan2(dy, dHoriz) * (180 / Math.PI)));
+          } else if (dest.yaw !== undefined) {
+            targetYaw = dest.yaw;
+            targetPitch = dest.pitch || 0;
+          }
+        } else if (dest.yaw !== undefined) {
+          targetYaw = dest.yaw;
+          targetPitch = dest.pitch || 0;
         }
       }
       actualizarSiguienteNodoFlecha(true);
@@ -1701,14 +1756,21 @@ export default function VisorCampus3D({
                 destPos = { x: wp.x, y: wp.y, z: wp.z };
               }
             }
-            if (dest.yaw !== undefined) {
-              destYaw = dest.yaw;
-              destPitch = dest.pitch || 0;
-            } else if (destPos.x !== undefined && destPos.z !== undefined) {
+            if (destPos.x !== undefined && destPos.z !== undefined) {
               const dx = destPos.x - finalPos.x;
               const dz = destPos.z - finalPos.z;
-              destYaw = Math.atan2(dx, dz) * (180 / Math.PI);
-              destPitch = 0;
+              const dHoriz = Math.hypot(dx, dz);
+              if (dHoriz > 0.4) {
+                destYaw = Math.atan2(dx, dz) * (180 / Math.PI);
+                const dy = (destPos.y ?? finalPos.y) - finalPos.y;
+                destPitch = Math.max(-20, Math.min(15, Math.atan2(dy, dHoriz) * (180 / Math.PI)));
+              } else if (dest.yaw !== undefined) {
+                destYaw = dest.yaw;
+                destPitch = dest.pitch || 0;
+              }
+            } else if (dest.yaw !== undefined) {
+              destYaw = dest.yaw;
+              destPitch = dest.pitch || 0;
             }
           }
 
@@ -1885,6 +1947,7 @@ export default function VisorCampus3D({
       }
       if (composer) composer.dispose();
       if (roomEnvTexture) roomEnvTexture.dispose();
+      if (hdrCieloTexture) hdrCieloTexture.dispose();
       pmremGenerator.dispose();
       renderer.dispose();
       snowGeo.dispose();

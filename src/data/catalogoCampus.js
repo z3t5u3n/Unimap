@@ -1,5 +1,5 @@
 // Catálogo Oficial de Edificios y Lugares Recorribles del Campus ITFIP
-// Coordenadas globales en el mundo (World Position) calculadas acumulando las matrices de pivotes maestros de Unimap.gltf
+// Coordenadas globales en el mundo (World Position) calculadas acumulando las matrices de pivotes maestros de Unimap.gltf y Unimap.blend
 
 export const EDIFICIOS_PRINCIPALES = [
   {
@@ -10,7 +10,7 @@ export const EDIFICIOS_PRINCIPALES = [
     "x": -58.16,
     "y": 1.2,
     "z": -9.88,
-    "yaw": -140,
+    "yaw": 157.8,
     "pitch": -0.3,
     "fov": 52,
     "descripcion": "Capilla, Biblioteca, Sala Directores, Administración y Salones A, B, C"
@@ -20,9 +20,9 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Bloque D",
     "icono": "🏢",
     "meshName": "Empty-Bloque-D",
-    "x": -44.92,
+    "x": -50.86,
     "y": 1.2,
-    "z": -13.08,
+    "z": -44.28,
     "yaw": -141.9,
     "pitch": -0.3,
     "fov": 52,
@@ -33,10 +33,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Bloque E",
     "icono": "🏢",
     "meshName": "Empty-Bloque-E",
-    "x": -13.89,
+    "x": -19.83,
     "y": 0.7,
-    "z": 65.95,
-    "yaw": -137,
+    "z": 34.75,
+    "yaw": 141.4,
     "pitch": -0.4,
     "fov": 50,
     "descripcion": "Auditorio, Decanatura y Salones E1 a E8"
@@ -46,10 +46,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Biblioteca Central",
     "icono": "📚",
     "meshName": "Empty-BIBLIO-C p1",
-    "x": -113.87,
+    "x": -124.31,
     "y": 2.5,
-    "z": -117.26,
-    "yaw": -146.7,
+    "z": -151.19,
+    "yaw": -100.9,
     "pitch": -0.6,
     "fov": 48,
     "descripcion": "Biblioteca General - Bloque C Piso 1"
@@ -59,10 +59,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Coliseo ITFIP",
     "icono": "🏟️",
     "meshName": "Empty-Coliseo",
-    "x": -26.91,
+    "x": -32.85,
     "y": 1.2,
-    "z": -101.37,
-    "yaw": -151,
+    "z": -132.57,
+    "yaw": 164.4,
     "pitch": -0.2,
     "fov": 48,
     "descripcion": "Coliseo Cubierto y Escenarios Deportivos"
@@ -72,10 +72,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Gimnasio (GYM)",
     "icono": "🏋️",
     "meshName": "Empty-GYM",
-    "x": -47.55,
+    "x": -53.5,
     "y": 1.2,
-    "z": -119.85,
-    "yaw": -149.9,
+    "z": -151.05,
+    "yaw": 154.4,
     "pitch": -0.2,
     "fov": 48,
     "descripcion": "Gimnasio Universitario ITFIP"
@@ -85,10 +85,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Canchas Deportivas",
     "icono": "⚽",
     "meshName": "Mesh_Canchas-1",
-    "x": -11.93,
+    "x": -17.87,
     "y": 1.43,
-    "z": -71.86,
-    "yaw": -148.7,
+    "z": -103.07,
+    "yaw": 52.2,
     "pitch": -0.4,
     "fov": 50,
     "descripcion": "Canchas Múltiples de Fútbol y Baloncesto"
@@ -98,10 +98,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Cafetería Nueva",
     "icono": "☕",
     "meshName": "Empty-Cafeteria Nueva",
-    "x": -25.15,
+    "x": -31.1,
     "y": 2.5,
-    "z": -41.83,
-    "yaw": -147.5,
+    "z": -73.03,
+    "yaw": -0.0,
     "pitch": -0.3,
     "fov": 50,
     "descripcion": "Cafetería Exterior y Plazoleta"
@@ -111,10 +111,10 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Capilla",
     "icono": "⛪",
     "meshName": "Empty-CAPILLA-A p1",
-    "x": -116.53,
-    "y": 3,
-    "z": -29.1,
-    "yaw": -145.9,
+    "x": -127.27,
+    "y": 3.0,
+    "z": -63.04,
+    "yaw": -92.5,
     "pitch": -0.6,
     "fov": 48,
     "descripcion": "Capilla Universitaria - Bloque A"
@@ -124,9 +124,9 @@ export const EDIFICIOS_PRINCIPALES = [
     "nombre": "Portería Principal",
     "icono": "🚪",
     "meshName": "POIs",
-    "x": 176.023,
+    "x": 176.02,
     "y": 1.15,
-    "z": 245.385,
+    "z": 245.39,
     "yaw": -142.1,
     "pitch": 1.5,
     "fov": 60,
@@ -142,12 +142,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Auditorio",
     "bloque": "Bloque E",
     "piso": "Piso 1",
-    "x": -13.86,
+    "x": -19.8,
     "y": 0.7,
-    "z": 88.05,
-    "yaw": -161.9,
+    "z": 56.84,
+    "yaw": 170.1,
     "pitch": -0.5,
-    "dist": 167.1
+    "dist": 271.8
   },
   {
     "id": "mesh_ba_os_f_a_p3",
@@ -156,12 +156,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -70.63,
+    "x": -81.2,
     "y": 13.89,
-    "z": -79.78,
-    "yaw": -17.8,
+    "z": -113.55,
+    "yaw": 168.5,
     "pitch": -0.4,
-    "dist": 344.2
+    "dist": 441.6
   },
   {
     "id": "mesh_ba_os_f_c_p2",
@@ -170,12 +170,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -140.6,
+    "x": -151.02,
     "y": 8.47,
-    "z": -123.5,
-    "yaw": 172.8,
+    "z": -157.52,
+    "yaw": -172.6,
     "pitch": -0.5,
-    "dist": 410.7
+    "dist": 518.9
   },
   {
     "id": "mesh_ba_os_h_a_p3",
@@ -184,12 +184,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -73.09,
+    "x": -83.7,
     "y": 13.35,
-    "z": -68.04,
-    "yaw": 54.3,
+    "z": -101.83,
+    "yaw": -12.7,
     "pitch": -0.4,
-    "dist": 333.8
+    "dist": 433.6
   },
   {
     "id": "mesh_ba_os_h_c_p2",
@@ -198,12 +198,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -117.15,
+    "x": -127.57,
     "y": 7.54,
-    "z": -123.64,
-    "yaw": 36.4,
+    "z": -157.58,
+    "yaw": -179.6,
     "pitch": -0.5,
-    "dist": 401.4
+    "dist": 504.5
   },
   {
     "id": "mesh_ba_os_a_p1",
@@ -212,12 +212,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque A",
     "piso": "Piso 1",
-    "x": -70.36,
+    "x": -80.93,
     "y": 4.02,
-    "z": -79.03,
-    "yaw": -9.9,
+    "z": -112.8,
+    "yaw": 2.8,
     "pitch": -0.6,
-    "dist": 343.4
+    "dist": 440.8
   },
   {
     "id": "mesh_ba_os_a_p2",
@@ -226,12 +226,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -70.36,
+    "x": -80.93,
     "y": 9.02,
-    "z": -79.03,
-    "yaw": -9.9,
+    "z": -112.8,
+    "yaw": -177.9,
     "pitch": -0.5,
-    "dist": 343.4
+    "dist": 440.8
   },
   {
     "id": "mesh_ba_os_b_p2",
@@ -240,12 +240,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque B",
     "piso": "Piso 2",
-    "x": -121.2,
+    "x": -131.75,
     "y": 7.25,
-    "z": -85.51,
-    "yaw": -91.8,
+    "z": -119.47,
+    "yaw": -107.0,
     "pitch": -0.5,
-    "dist": 368
+    "dist": 477.3
   },
   {
     "id": "mesh_ba_os_c_p2",
@@ -254,12 +254,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -117.39,
+    "x": -127.84,
     "y": 7.26,
-    "z": -113.98,
-    "yaw": 72.4,
+    "z": -147.92,
+    "yaw": -4.7,
     "pitch": -0.5,
-    "dist": 392.5
+    "dist": 497.0
   },
   {
     "id": "empty_ba_os_d_p1",
@@ -268,12 +268,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Servicios",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -36.41,
+    "x": -42.36,
     "y": 1.42,
-    "z": -4.35,
-    "yaw": -10.6,
+    "z": -35.55,
+    "yaw": -10.1,
     "pitch": -0.2,
-    "dist": 262.1
+    "dist": 355.8
   },
   {
     "id": "empty_biblio_c_p1",
@@ -282,12 +282,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Biblioteca",
     "bloque": "Bloque C",
     "piso": "Piso 1",
-    "x": -113.87,
+    "x": -124.31,
     "y": 2.5,
-    "z": -117.26,
-    "yaw": 73.4,
+    "z": -151.19,
+    "yaw": -100.9,
     "pitch": -0.6,
-    "dist": 394.2
+    "dist": 497.5
   },
   {
     "id": "mesh_cafeteria_vieja_c_p1",
@@ -296,12 +296,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Cafetería",
     "bloque": "Bloque C",
     "piso": "Piso 1",
-    "x": -136.05,
+    "x": -146.48,
     "y": 3.01,
-    "z": -110.49,
-    "yaw": -67.3,
+    "z": -145.0,
+    "yaw": -109.1,
     "pitch": -0.6,
-    "dist": 397
+    "dist": 506.4
   },
   {
     "id": "empty_cafeteria_nueva",
@@ -310,12 +310,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Cafetería",
     "bloque": "Plazoleta Central",
     "piso": "Planta Baja",
-    "x": -25.15,
+    "x": -31.1,
     "y": 2.5,
-    "z": -41.83,
-    "yaw": 0.6,
+    "z": -73.03,
+    "yaw": -0.0,
     "pitch": -0.3,
-    "dist": 295.8
+    "dist": 379.9
   },
   {
     "id": "mesh_canchas_1",
@@ -324,12 +324,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Deportes",
     "bloque": "Zona Deportiva",
     "piso": "Planta Baja",
-    "x": -11.93,
+    "x": -17.87,
     "y": 1.43,
-    "z": -71.86,
-    "yaw": 175.7,
+    "z": -103.07,
+    "yaw": 52.2,
     "pitch": -0.4,
-    "dist": 323.2
+    "dist": 398.8
   },
   {
     "id": "mesh_canchas_2",
@@ -338,12 +338,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Deportes",
     "bloque": "Zona Deportiva",
     "piso": "Planta Baja",
-    "x": 90.92,
+    "x": 84.98,
     "y": 1.32,
-    "z": 20.5,
-    "yaw": 41.9,
+    "z": -10.7,
+    "yaw": 106.5,
     "pitch": -0.4,
-    "dist": 234.3
+    "dist": 271.8
   },
   {
     "id": "empty_capilla_a_p2",
@@ -352,12 +352,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Capilla",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -116.53,
-    "y": 8,
-    "z": -29.1,
-    "yaw": -9.3,
+    "x": -127.27,
+    "y": 8.0,
+    "z": -63.04,
+    "yaw": -13.5,
     "pitch": -0.5,
-    "dist": 315.6
+    "dist": 432.6
   },
   {
     "id": "empty_coliseo",
@@ -366,12 +366,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Deportes",
     "bloque": "Zona Deportiva",
     "piso": "Planta Baja",
-    "x": -26.91,
+    "x": -32.85,
     "y": 1.2,
-    "z": -101.37,
-    "yaw": -151,
+    "z": -132.57,
+    "yaw": 164.4,
     "pitch": -0.2,
-    "dist": 354.7
+    "dist": 431.8
   },
   {
     "id": "empty_decanatura_e_p2",
@@ -380,12 +380,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Administración",
     "bloque": "Bloque E",
     "piso": "Piso 2",
-    "x": -32.01,
+    "x": -37.96,
     "y": 6.2,
-    "z": 80.02,
-    "yaw": -146.6,
+    "z": 48.81,
+    "yaw": -52.5,
     "pitch": -0.4,
-    "dist": 180.6
+    "dist": 290.6
   },
   {
     "id": "empty_enferm_c_p2",
@@ -394,12 +394,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salud",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -107.92,
+    "x": -118.39,
     "y": 7.5,
-    "z": -109.13,
-    "yaw": 152.5,
+    "z": -143.04,
+    "yaw": 25.6,
     "pitch": -0.5,
-    "dist": 384.4
+    "dist": 487.4
   },
   {
     "id": "empty_gym",
@@ -408,12 +408,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Deportes",
     "bloque": "Zona Deportiva",
     "piso": "Planta Baja",
-    "x": -47.55,
+    "x": -53.5,
     "y": 1.2,
-    "z": -119.85,
-    "yaw": 82.5,
+    "z": -151.05,
+    "yaw": 154.4,
     "pitch": -0.2,
-    "dist": 376.8
+    "dist": 458.1
   },
   {
     "id": "empty_lab_c1_c_p1",
@@ -422,12 +422,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Laboratorio",
     "bloque": "Bloque C",
     "piso": "Piso 1",
-    "x": -126.05,
+    "x": -136.47,
     "y": 2.5,
-    "z": -122.29,
-    "yaw": -3.9,
+    "z": -156.26,
+    "yaw": -1.3,
     "pitch": -0.6,
-    "dist": 403.6
+    "dist": 508.9
   },
   {
     "id": "empty_lab_c2_c_p1",
@@ -436,12 +436,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Laboratorio",
     "bloque": "Bloque C",
     "piso": "Piso 1",
-    "x": -132,
+    "x": -142.42,
     "y": 2.51,
-    "z": -123.21,
-    "yaw": 12.2,
+    "z": -157.21,
+    "yaw": 156.4,
     "pitch": -0.6,
-    "dist": 406.8
+    "dist": 513.3
   },
   {
     "id": "empty_lab_c3_c_p1",
@@ -450,12 +450,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Laboratorio",
     "bloque": "Bloque C",
     "piso": "Piso 1",
-    "x": -138.98,
+    "x": -149.4,
     "y": 2.51,
-    "z": -123.7,
-    "yaw": 170.5,
+    "z": -157.72,
+    "yaw": 174.7,
     "pitch": -0.6,
-    "dist": 410.2
+    "dist": 518.1
   },
   {
     "id": "mesh_sala_de_directors_b_p1",
@@ -464,12 +464,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Administración",
     "bloque": "Bloque B",
     "piso": "Piso 1",
-    "x": -116.81,
+    "x": -127.35,
     "y": 3.19,
-    "z": -86.98,
-    "yaw": -133.2,
+    "z": -120.92,
+    "yaw": -94.8,
     "pitch": -0.6,
-    "dist": 367.5
+    "dist": 475.6
   },
   {
     "id": "mesh_salon_a_p2",
@@ -478,12 +478,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "",
-    "x": -111.17,
+    "x": -121.73,
     "y": 8.03,
-    "z": -82.69,
-    "yaw": 116.4,
+    "z": -116.61,
+    "yaw": 107.5,
     "pitch": -0.5,
-    "dist": 361.3
+    "dist": 468.7
   },
   {
     "id": "mesh_salon_a101_p1",
@@ -492,12 +492,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 1",
-    "x": -40.33,
+    "x": -50.93,
     "y": 3.98,
-    "z": -72.07,
-    "yaw": -177.9,
+    "z": -105.75,
+    "yaw": -163.5,
     "pitch": -0.6,
-    "dist": 328.7
+    "dist": 418.1
   },
   {
     "id": "mesh_salon_a102_p1_001",
@@ -506,12 +506,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 1",
-    "x": -48.32,
+    "x": -58.91,
     "y": 3.98,
-    "z": -72.62,
-    "yaw": -145.9,
+    "z": -106.32,
+    "yaw": 168.0,
     "pitch": -0.6,
-    "dist": 331.1
+    "dist": 423.0
   },
   {
     "id": "mesh_salon_a103_p1",
@@ -520,12 +520,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 1",
-    "x": -56.15,
+    "x": -66.74,
     "y": 3.88,
-    "z": -73.14,
-    "yaw": -165.1,
+    "z": -106.86,
+    "yaw": 165.1,
     "pitch": -0.6,
-    "dist": 333.6
+    "dist": 427.8
   },
   {
     "id": "mesh_salon_a104_p1_",
@@ -534,12 +534,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 1",
-    "x": -64.13,
+    "x": -74.72,
     "y": 3.88,
-    "z": -73.69,
-    "yaw": -169,
+    "z": -107.45,
+    "yaw": 165.5,
     "pitch": -0.6,
-    "dist": 336.4
+    "dist": 432.9
   },
   {
     "id": "mesh_salon_a201_p2",
@@ -548,12 +548,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -40.19,
+    "x": -50.79,
     "y": 8.88,
-    "z": -72.02,
-    "yaw": 179.3,
+    "z": -105.69,
+    "yaw": -164.5,
     "pitch": -0.5,
-    "dist": 328.6
+    "dist": 418.0
   },
   {
     "id": "mesh_salon_a202_p2",
@@ -562,12 +562,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -48.17,
+    "x": -58.76,
     "y": 8.88,
-    "z": -72.58,
-    "yaw": -158.2,
+    "z": -106.28,
+    "yaw": 176.0,
     "pitch": -0.5,
-    "dist": 331
+    "dist": 422.8
   },
   {
     "id": "mesh_salon_a203_p2",
@@ -576,12 +576,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -56.15,
+    "x": -66.74,
     "y": 8.88,
-    "z": -73.14,
-    "yaw": -165.1,
+    "z": -106.86,
+    "yaw": 176.1,
     "pitch": -0.5,
-    "dist": 333.6
+    "dist": 427.8
   },
   {
     "id": "mesh_salon_a204_p2",
@@ -590,12 +590,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -64.13,
+    "x": -74.72,
     "y": 8.88,
-    "z": -73.69,
-    "yaw": -169,
+    "z": -107.45,
+    "yaw": 176.3,
     "pitch": -0.5,
-    "dist": 336.4
+    "dist": 432.9
   },
   {
     "id": "mesh_salon_a205_p2",
@@ -604,12 +604,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -80.53,
+    "x": -91.12,
     "y": 9.11,
-    "z": -74.9,
-    "yaw": 111.6,
+    "z": -108.72,
+    "yaw": -143.7,
     "pitch": -0.5,
-    "dist": 342.7
+    "dist": 443.6
   },
   {
     "id": "mesh_salon_a206_p2",
@@ -618,12 +618,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -88.32,
+    "x": -98.89,
     "y": 8.39,
-    "z": -78.11,
-    "yaw": -79.6,
+    "z": -111.95,
+    "yaw": -176.4,
     "pitch": -0.5,
-    "dist": 348.4
+    "dist": 450.8
   },
   {
     "id": "mesh_salon_a207_p2",
@@ -632,12 +632,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -96.3,
+    "x": -106.87,
     "y": 8.39,
-    "z": -78.66,
-    "yaw": 176.8,
+    "z": -112.53,
+    "yaw": -176.4,
     "pitch": -0.5,
-    "dist": 351.8
+    "dist": 456.2
   },
   {
     "id": "mesh_salon_a208_p2_007",
@@ -646,12 +646,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -104.28,
+    "x": -114.85,
     "y": 8.39,
-    "z": -79.22,
-    "yaw": 168.2,
+    "z": -113.12,
+    "yaw": -176.5,
     "pitch": -0.5,
-    "dist": 355.4
+    "dist": 461.7
   },
   {
     "id": "mesh_salon_a301_p3",
@@ -660,12 +660,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -40.73,
+    "x": -51.31,
     "y": 12.6,
-    "z": -77.08,
-    "yaw": 147.4,
+    "z": -110.75,
+    "yaw": 149.8,
     "pitch": -0.4,
-    "dist": 333.6
+    "dist": 422.5
   },
   {
     "id": "mesh_salon_a302_p3",
@@ -674,12 +674,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -49.01,
+    "x": -59.63,
     "y": 12.83,
-    "z": -67.18,
-    "yaw": 133.2,
+    "z": -100.88,
+    "yaw": -13.1,
     "pitch": -0.4,
-    "dist": 326
+    "dist": 418.8
   },
   {
     "id": "mesh_salon_a303_p3",
@@ -688,12 +688,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -48.71,
+    "x": -59.28,
     "y": 12.6,
-    "z": -77.63,
-    "yaw": 12.9,
+    "z": -111.34,
+    "yaw": 167.4,
     "pitch": -0.4,
-    "dist": 336
+    "dist": 427.3
   },
   {
     "id": "mesh_salon_a304_p3",
@@ -702,12 +702,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -56.99,
+    "x": -67.6,
     "y": 12.83,
-    "z": -67.73,
-    "yaw": 128.6,
+    "z": -101.47,
+    "yaw": -13.0,
     "pitch": -0.4,
-    "dist": 328.7
+    "dist": 423.9
   },
   {
     "id": "mesh_salon_a305_p3",
@@ -716,12 +716,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -56.69,
+    "x": -67.26,
     "y": 12.6,
-    "z": -78.19,
-    "yaw": -12.8,
+    "z": -111.92,
+    "yaw": 167.5,
     "pitch": -0.4,
-    "dist": 338.7
+    "dist": 432.3
   },
   {
     "id": "mesh_salon_a306_p3",
@@ -730,12 +730,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -64.97,
+    "x": -75.58,
     "y": 12.83,
-    "z": -68.29,
-    "yaw": 123.1,
+    "z": -102.05,
+    "yaw": -13.1,
     "pitch": -0.4,
-    "dist": 331.5
+    "dist": 429.0
   },
   {
     "id": "mesh_salon_a307_p3",
@@ -744,12 +744,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -64.67,
+    "x": -75.24,
     "y": 12.6,
-    "z": -78.75,
-    "yaw": -14,
+    "z": -112.51,
+    "yaw": 167.5,
     "pitch": -0.4,
-    "dist": 341.4
+    "dist": 437.3
   },
   {
     "id": "mesh_salon_a308_p3",
@@ -758,12 +758,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -80.97,
+    "x": -91.58,
     "y": 12.83,
-    "z": -69.42,
-    "yaw": 127.8,
+    "z": -103.24,
+    "yaw": -13.8,
     "pitch": -0.4,
-    "dist": 337.7
+    "dist": 439.5
   },
   {
     "id": "mesh_salon_a309_p3",
@@ -772,12 +772,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -77.24,
+    "x": -87.81,
     "y": 12.83,
-    "z": -78.85,
-    "yaw": 7.6,
+    "z": -112.65,
+    "yaw": 172.3,
     "pitch": -0.4,
-    "dist": 345.4
+    "dist": 444.7
   },
   {
     "id": "mesh_salon_a310_p3",
@@ -786,12 +786,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -88.95,
+    "x": -99.55,
     "y": 12.83,
-    "z": -69.98,
-    "yaw": 132,
+    "z": -103.83,
+    "yaw": -13.7,
     "pitch": -0.4,
-    "dist": 341.1
+    "dist": 444.9
   },
   {
     "id": "mesh_salon_a311_p3",
@@ -800,12 +800,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -85.22,
+    "x": -95.79,
     "y": 12.83,
-    "z": -79.4,
-    "yaw": 55.4,
+    "z": -113.23,
+    "yaw": 172.3,
     "pitch": -0.4,
-    "dist": 348.6
+    "dist": 450.0
   },
   {
     "id": "mesh_salon_a312_p3",
@@ -814,12 +814,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -96.93,
+    "x": -107.53,
     "y": 12.83,
-    "z": -70.54,
-    "yaw": 135.7,
+    "z": -104.41,
+    "yaw": -13.8,
     "pitch": -0.4,
-    "dist": 344.6
+    "dist": 450.3
   },
   {
     "id": "mesh_salon_a313_p3",
@@ -828,12 +828,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -93.2,
+    "x": -103.77,
     "y": 12.83,
-    "z": -79.96,
-    "yaw": -49.2,
+    "z": -113.82,
+    "yaw": 172.4,
     "pitch": -0.4,
-    "dist": 351.9
+    "dist": 455.3
   },
   {
     "id": "mesh_salon_a314_p3",
@@ -842,12 +842,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -104.91,
+    "x": -115.51,
     "y": 12.83,
-    "z": -71.1,
-    "yaw": 138.9,
+    "z": -105.0,
+    "yaw": 75.3,
     "pitch": -0.4,
-    "dist": 348.2
+    "dist": 455.8
   },
   {
     "id": "mesh_salon_a315_p3",
@@ -856,12 +856,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -101.18,
+    "x": -111.75,
     "y": 12.83,
-    "z": -80.52,
-    "yaw": 18.2,
+    "z": -114.4,
+    "yaw": 172.4,
     "pitch": -0.4,
-    "dist": 355.4
+    "dist": 460.7
   },
   {
     "id": "mesh_salon_a316_p3",
@@ -870,12 +870,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -119.95,
+    "x": -130.55,
     "y": 12.68,
-    "z": -71.1,
-    "yaw": -168.9,
+    "z": -105.05,
+    "yaw": -44.5,
     "pitch": -0.4,
-    "dist": 354.5
+    "dist": 465.6
   },
   {
     "id": "mesh_salon_a317_p3",
@@ -884,12 +884,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque A",
     "piso": "Piso 3",
-    "x": -119.18,
+    "x": -129.75,
     "y": 12.67,
-    "z": -82.07,
-    "yaw": -93,
+    "z": -116.02,
+    "yaw": -152.1,
     "pitch": -0.4,
-    "dist": 364.1
+    "dist": 473.4
   },
   {
     "id": "mesh_salon_b101_p1",
@@ -898,12 +898,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque B",
     "piso": "Piso 1",
-    "x": -116.81,
+    "x": -127.35,
     "y": 3.19,
-    "z": -86.98,
-    "yaw": -133.2,
+    "z": -120.92,
+    "yaw": -94.8,
     "pitch": -0.6,
-    "dist": 367.5
+    "dist": 475.6
   },
   {
     "id": "mesh_salon_b102_p1",
@@ -912,12 +912,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque B",
     "piso": "Piso 1",
-    "x": -121.46,
+    "x": -131.94,
     "y": 3.26,
-    "z": -103.54,
-    "yaw": -4.1,
+    "z": -137.49,
+    "yaw": 176.5,
     "pitch": -0.6,
-    "dist": 384.6
+    "dist": 491.4
   },
   {
     "id": "mesh_salon_c201_p2",
@@ -926,12 +926,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -125.7,
+    "x": -136.17,
     "y": 7.55,
-    "z": -108.88,
-    "yaw": -139,
+    "z": -142.85,
+    "yaw": -104.5,
     "pitch": -0.5,
-    "dist": 391.2
+    "dist": 498.2
   },
   {
     "id": "mesh_salon_c202_p2",
@@ -940,12 +940,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -124.63,
+    "x": -135.04,
     "y": 7.55,
-    "z": -124.19,
-    "yaw": -43,
+    "z": -158.16,
+    "yaw": 175.4,
     "pitch": -0.5,
-    "dist": 404.8
+    "dist": 509.5
   },
   {
     "id": "mesh_salon_c203_p2",
@@ -954,12 +954,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -136.7,
+    "x": -147.17,
     "y": 7.57,
-    "z": -109.01,
-    "yaw": -85.3,
+    "z": -143.02,
+    "yaw": -9.4,
     "pitch": -0.5,
-    "dist": 395.9
+    "dist": 505.3
   },
   {
     "id": "mesh_salon_c204_p2",
@@ -968,12 +968,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 2",
-    "x": -132.61,
+    "x": -143.02,
     "y": 7.55,
-    "z": -124.84,
-    "yaw": 3.8,
+    "z": -158.83,
+    "yaw": 175.7,
     "pitch": -0.5,
-    "dist": 408.5
+    "dist": 515.0
   },
   {
     "id": "mesh_salon_c301_p3",
@@ -982,12 +982,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -140.23,
+    "x": -150.64,
     "y": 12.85,
-    "z": -124.17,
-    "yaw": 9.6,
+    "z": -158.19,
+    "yaw": -157.4,
     "pitch": -0.4,
-    "dist": 411.1
+    "dist": 519.2
   },
   {
     "id": "mesh_salon_c302_p3",
@@ -996,12 +996,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -140.72,
+    "x": -151.17,
     "y": 12.96,
-    "z": -113.81,
-    "yaw": 75.6,
+    "z": -147.84,
+    "yaw": -19.8,
     "pitch": -0.4,
-    "dist": 402
+    "dist": 511.5
   },
   {
     "id": "mesh_salon_c303_p3",
@@ -1010,12 +1010,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -133.23,
-    "y": 12.58,
-    "z": -124.65,
-    "yaw": -14.8,
+    "x": -143.64,
+    "y": 12.57,
+    "z": -158.65,
+    "yaw": 165.5,
     "pitch": -0.4,
-    "dist": 408.6
+    "dist": 515.2
   },
   {
     "id": "mesh_salon_c304_p3",
@@ -1024,12 +1024,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -133.34,
-    "y": 12.58,
-    "z": -109.65,
-    "yaw": 112.2,
+    "x": -143.81,
+    "y": 12.57,
+    "z": -143.65,
+    "yaw": -4.9,
     "pitch": -0.4,
-    "dist": 395.1
+    "dist": 503.6
   },
   {
     "id": "mesh_salon_c305_p3",
@@ -1038,12 +1038,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -125.25,
-    "y": 12.58,
-    "z": -124.1,
-    "yaw": 29.9,
+    "x": -135.67,
+    "y": 12.57,
+    "z": -158.06,
+    "yaw": 166.2,
     "pitch": -0.4,
-    "dist": 404.9
+    "dist": 509.8
   },
   {
     "id": "mesh_salon_c306_p3",
@@ -1052,12 +1052,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -124.87,
-    "y": 12.58,
-    "z": -109.06,
-    "yaw": -151.7,
+    "x": -135.34,
+    "y": 12.57,
+    "z": -143.03,
+    "yaw": -1.8,
     "pitch": -0.4,
-    "dist": 391
+    "dist": 497.8
   },
   {
     "id": "mesh_salon_c307_p3",
@@ -1066,12 +1066,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -115.27,
-    "y": 12.58,
-    "z": -123.4,
-    "yaw": 29,
+    "x": -125.69,
+    "y": 12.57,
+    "z": -157.33,
+    "yaw": 166.3,
     "pitch": -0.4,
-    "dist": 400.4
+    "dist": 503.2
   },
   {
     "id": "mesh_salon_c308_p3",
@@ -1080,12 +1080,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -116.39,
+    "x": -126.86,
     "y": 12.58,
-    "z": -108.45,
-    "yaw": 98.1,
+    "z": -142.39,
+    "yaw": 1.4,
     "pitch": -0.4,
-    "dist": 387
+    "dist": 492.0
   },
   {
     "id": "mesh_salon_c309_p3",
@@ -1094,12 +1094,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -107.29,
-    "y": 12.58,
-    "z": -122.84,
-    "yaw": 33.8,
+    "x": -117.71,
+    "y": 12.57,
+    "z": -156.75,
+    "yaw": 166.4,
     "pitch": -0.4,
-    "dist": 397
+    "dist": 498.0
   },
   {
     "id": "mesh_salon_c310_p3",
@@ -1108,12 +1108,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque C",
     "piso": "Piso 3",
-    "x": -107.91,
-    "y": 12.58,
-    "z": -107.88,
-    "yaw": 128.5,
+    "x": -118.38,
+    "y": 12.57,
+    "z": -141.78,
+    "yaw": -8.0,
     "pitch": -0.4,
-    "dist": 383.3
+    "dist": 486.4
   },
   {
     "id": "empty_salon_d101_p1",
@@ -1122,12 +1122,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -38.97,
+    "x": -44.91,
     "y": 1.56,
-    "z": -13.82,
-    "yaw": -179.5,
+    "z": -45.02,
+    "yaw": 176.9,
     "pitch": -0.2,
-    "dist": 271.9
+    "dist": 364.9
   },
   {
     "id": "empty_salon_d102_p1",
@@ -1136,12 +1136,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -32.09,
+    "x": -38.03,
     "y": 1.56,
-    "z": -13.21,
-    "yaw": 147.3,
+    "z": -44.42,
+    "yaw": 146.9,
     "pitch": -0.2,
-    "dist": 269.5
+    "dist": 360.3
   },
   {
     "id": "empty_salon_d103_p1",
@@ -1150,12 +1150,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -24.94,
+    "x": -30.88,
     "y": 1.56,
-    "z": -13.59,
-    "yaw": 177.8,
+    "z": -44.8,
+    "yaw": 175.9,
     "pitch": -0.2,
-    "dist": 268.2
+    "dist": 356.4
   },
   {
     "id": "empty_salon_d104_p1",
@@ -1164,12 +1164,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -17.96,
+    "x": -23.9,
     "y": 1.56,
-    "z": -12.98,
-    "yaw": 173.4,
+    "z": -44.19,
+    "yaw": 157.3,
     "pitch": -0.2,
-    "dist": 266.1
+    "dist": 351.9
   },
   {
     "id": "empty_salon_d105_p1",
@@ -1178,12 +1178,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -11.65,
+    "x": -17.59,
     "y": 1.56,
-    "z": -11.91,
-    "yaw": 136.2,
+    "z": -43.11,
+    "yaw": 143.4,
     "pitch": -0.2,
-    "dist": 263.9
+    "dist": 347.4
   },
   {
     "id": "empty_salon_d106_p1",
@@ -1192,12 +1192,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -12.18,
+    "x": -18.12,
     "y": 1.56,
-    "z": -5.88,
-    "yaw": 75.9,
+    "z": -37.09,
+    "yaw": 67.0,
     "pitch": -0.2,
-    "dist": 258.1
+    "dist": 342.8
   },
   {
     "id": "empty_salon_d107_p1",
@@ -1206,12 +1206,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -12.69,
+    "x": -18.63,
     "y": 1.51,
-    "z": -0.04,
-    "yaw": 115.1,
+    "z": -31.25,
+    "yaw": 69.8,
     "pitch": -0.2,
-    "dist": 252.4
+    "dist": 338.3
   },
   {
     "id": "empty_salon_d108_p1",
@@ -1220,12 +1220,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -13.22,
+    "x": -19.16,
     "y": 1.56,
-    "z": 5.98,
-    "yaw": 103.2,
+    "z": -25.22,
+    "yaw": 67.4,
     "pitch": -0.2,
-    "dist": 246.6
+    "dist": 333.7
   },
   {
     "id": "empty_salon_d109_p1",
@@ -1234,12 +1234,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -13.74,
+    "x": -19.68,
     "y": 1.56,
-    "z": 11.91,
-    "yaw": 71.7,
+    "z": -19.29,
+    "yaw": 67.7,
     "pitch": -0.2,
-    "dist": 240.9
+    "dist": 329.2
   },
   {
     "id": "empty_salon_d110_p1",
@@ -1248,12 +1248,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -23.33,
+    "x": -29.27,
     "y": 1.56,
-    "z": -8.43,
-    "yaw": -6.9,
+    "z": -39.64,
+    "yaw": -4.8,
     "pitch": -0.2,
-    "dist": 262.8
+    "dist": 351.3
   },
   {
     "id": "empty_salon_d111_p1",
@@ -1262,12 +1262,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 1",
-    "x": -31.39,
+    "x": -37.33,
     "y": 1.56,
-    "z": -8.13,
-    "yaw": -6.3,
+    "z": -39.34,
+    "yaw": -5.0,
     "pitch": -0.2,
-    "dist": 264.4
+    "dist": 355.8
   },
   {
     "id": "empty_salon_d201_p2",
@@ -1276,12 +1276,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -13.74,
+    "x": -19.68,
     "y": 4.56,
-    "z": 12,
-    "yaw": 67.4,
+    "z": -19.2,
+    "yaw": 172.3,
     "pitch": 0.3,
-    "dist": 240.8
+    "dist": 329.1
   },
   {
     "id": "empty_salon_d202_p2",
@@ -1290,12 +1290,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -13.19,
+    "x": -19.13,
     "y": 4.56,
-    "z": 5.94,
-    "yaw": 105,
+    "z": -25.27,
+    "yaw": 69.1,
     "pitch": 0.3,
-    "dist": 246.7
+    "dist": 333.7
   },
   {
     "id": "empty_salon_d203_p2",
@@ -1304,12 +1304,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -12.7,
+    "x": -18.64,
     "y": 4.56,
-    "z": 0.05,
-    "yaw": 111.6,
+    "z": -31.16,
+    "yaw": 67.3,
     "pitch": 0.3,
-    "dist": 252.3
+    "dist": 338.2
   },
   {
     "id": "empty_salon_d204_p2",
@@ -1318,12 +1318,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -12.18,
+    "x": -18.12,
     "y": 4.56,
-    "z": -5.88,
-    "yaw": 75.9,
+    "z": -37.09,
+    "yaw": 67.0,
     "pitch": 0.3,
-    "dist": 258.1
+    "dist": 342.8
   },
   {
     "id": "empty_salon_d205_p2",
@@ -1332,12 +1332,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -11.63,
+    "x": -17.57,
     "y": 4.56,
-    "z": -11.86,
-    "yaw": 134.5,
+    "z": -43.06,
+    "yaw": 142.8,
     "pitch": 0.3,
-    "dist": 263.9
+    "dist": 347.4
   },
   {
     "id": "empty_salon_d206_p2",
@@ -1346,12 +1346,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque D",
     "piso": "Piso 2",
-    "x": -17.96,
+    "x": -23.9,
     "y": 4.56,
-    "z": -12.98,
-    "yaw": 173.4,
+    "z": -44.19,
+    "yaw": 157.3,
     "pitch": 0.3,
-    "dist": 266.1
+    "dist": 351.9
   },
   {
     "id": "empty_salon_e1_p3",
@@ -1360,12 +1360,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -24.28,
+    "x": -30.22,
     "y": 10.05,
-    "z": 74.58,
-    "yaw": 38.6,
+    "z": 43.38,
+    "yaw": 141.1,
     "pitch": -0.4,
-    "dist": 183.1
+    "dist": 288.7
   },
   {
     "id": "empty_salon_e2_p3",
@@ -1374,12 +1374,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -25.76,
+    "x": -31.71,
     "y": 10.05,
-    "z": 80.16,
-    "yaw": -27.6,
+    "z": 48.96,
+    "yaw": -30.7,
     "pitch": -0.4,
-    "dist": 178.3
+    "dist": 285.9
   },
   {
     "id": "empty_salon_e3p3",
@@ -1388,12 +1388,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -21.07,
+    "x": -27.01,
     "y": 10.05,
-    "z": 78.41,
-    "yaw": 117.9,
+    "z": 47.21,
+    "yaw": 115.5,
     "pitch": -0.4,
-    "dist": 178.4
+    "dist": 283.7
   },
   {
     "id": "empty_salon_e4_p3",
@@ -1402,12 +1402,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -22.55,
+    "x": -28.49,
     "y": 10.05,
-    "z": 83.99,
-    "yaw": -53.4,
+    "z": 52.79,
+    "yaw": -52.5,
     "pitch": -0.4,
-    "dist": 173.6
+    "dist": 280.9
   },
   {
     "id": "empty_salon_e5_p3",
@@ -1416,12 +1416,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -17.86,
+    "x": -23.8,
     "y": 10.05,
-    "z": 82.25,
-    "yaw": 139.4,
+    "z": 51.04,
+    "yaw": 140.7,
     "pitch": -0.4,
-    "dist": 173.8
+    "dist": 278.7
   },
   {
     "id": "empty_salon_e6_p3",
@@ -1430,12 +1430,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -19.34,
+    "x": -25.28,
     "y": 10.05,
-    "z": 87.82,
-    "yaw": -178,
+    "z": 56.62,
+    "yaw": -29.7,
     "pitch": -0.4,
-    "dist": 168.9
+    "dist": 276.0
   },
   {
     "id": "empty_salon_e7_p3",
@@ -1444,12 +1444,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -14.64,
+    "x": -20.58,
     "y": 10.05,
-    "z": 86.08,
-    "yaw": 6.1,
+    "z": 54.87,
+    "yaw": 116.3,
     "pitch": -0.4,
-    "dist": 169.2
+    "dist": 273.8
   },
   {
     "id": "empty_salon_e8_p3",
@@ -1458,12 +1458,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Salón de Clase",
     "bloque": "Bloque E",
     "piso": "Piso 3",
-    "x": -16.12,
+    "x": -22.06,
     "y": 10.05,
-    "z": 91.65,
-    "yaw": 70.4,
+    "z": 60.45,
+    "yaw": -52.5,
     "pitch": -0.4,
-    "dist": 164.3
+    "dist": 271.0
   },
   {
     "id": "empty_admin_a_p2",
@@ -1472,12 +1472,12 @@ export const LUGARES_RECORRIBLES = [
     "categoria": "Administración",
     "bloque": "Bloque A",
     "piso": "Piso 2",
-    "x": -114.44,
-    "y": 8,
-    "z": -60.72,
-    "yaw": -73.2,
+    "x": -125.08,
+    "y": 8.0,
+    "z": -94.65,
+    "yaw": -103.4,
     "pitch": -0.5,
-    "dist": 342.7
+    "dist": 454.2
   }
 ];
 
