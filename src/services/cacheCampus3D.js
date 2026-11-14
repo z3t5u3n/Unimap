@@ -157,7 +157,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
         const mappedPct = Math.round(15 + (pct * 0.40));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 1/2 (${pct}%)...`);
       },
-      17875204
+      17885596
     );
     const bin1Buffer = await bin1Response.arrayBuffer();
 
@@ -168,7 +168,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
         const mappedPct = Math.round(55 + (pct * 0.40));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 2/2 (${pct}%)...`);
       },
-      17891900
+      17881508
     );
     const bin2Buffer = await bin2Response.arrayBuffer();
 

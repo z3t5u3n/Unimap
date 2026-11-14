@@ -4,7 +4,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
-import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -311,7 +310,7 @@ export default function VisorCampus3D({
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = cfg.exposicion || 1.05;
 
-    // Carga de cielo de alta definición Kloppenheim PureSky (.exr) solicitado
+    // Carga de cielo de alta definición Kloppenheim PureSky 4K (.hdr, optimizado para WebGL y Cloudflare <25MiB)
     let hdrCieloTexture = null;
     const aplicarTexturaCielo = (texture) => {
       if (!texture) return;
@@ -325,16 +324,15 @@ export default function VisorCampus3D({
       }
     };
 
-    const exrLoader = new EXRLoader();
-    exrLoader.load(
-      '/Modelo3D/kloppenheim_06_puresky_4k.exr',
+    const rgbeLoader = new RGBELoader();
+    rgbeLoader.load(
+      '/Modelo3D/kloppenheim_06_puresky_4k.hdr',
       (texture) => {
         aplicarTexturaCielo(texture);
       },
       undefined,
       (err) => {
-        console.warn('kloppenheim_06_puresky_4k.exr no disponible o error al decodificar, intentando fallback HDR:', err);
-        const rgbeLoader = new RGBELoader();
+        console.warn('kloppenheim_06_puresky_4k.hdr no disponible, intentando fallback 2K:', err);
         rgbeLoader.load(
           '/Modelo3D/cielo_kloppenheim_2k.hdr',
           (fallbackTex) => {
