@@ -47,7 +47,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v5_game_mode';
+const SETTINGS_VERSION = 'unimap_v6_crisp_performance';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -261,16 +261,17 @@ export default function VisorCampus3D({
     const camera = new THREE.PerspectiveCamera(cfg.fovBase || 60, width / height, 0.2, distanciaVision);
     camera.position.set(puntoInicial.x, puntoInicial.y, puntoInicial.z);
 
-    // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN FOTORREALISTA PBR (ACES FILMIC)
+    // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN DE ALTA NITIDEZ Y PBR (ACES FILMIC)
     const renderer = new THREE.WebGLRenderer({
-      antialias: !esMovil,
+      antialias: true,
       powerPreference: 'high-performance',
       stencil: false,
       depth: true
     });
     renderer.setSize(width, height);
-    // En celulares limitamos pixelRatio a 1.0 para igualar el rendimiento fluido de Unity WebGL
-    const maxDPR = esMovil ? Math.min(window.devicePixelRatio || 1, 1.0) : Math.min(window.devicePixelRatio || 1, 1.75);
+    // Calibración de alta nitidez Retina/HD (hasta 2.0x tanto en PC como móviles para eliminar el pixeleado)
+    const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+    const maxDPR = Math.min(dpr, 2.0);
     renderer.setPixelRatio(maxDPR);
     renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
@@ -626,7 +627,7 @@ export default function VisorCampus3D({
     let currentDistance = 0;
     let isNavigating = false;
     let isPaused = false;
-    let moveSpeed = cfg.velocidadRecorrido || 14.0; // Velocidad de avance fluido en metros/segundo (ajustable)
+    let moveSpeed = cfg.velocidadRecorrido || 22.0; // Velocidad de avance ágil y fluido en metros/segundo (ajustable)
     const lookAheadDistance = 3.5; // Anticipación suave de curvas (igual a Unity)
     const clock = new THREE.Clock();
 
@@ -716,8 +717,8 @@ export default function VisorCampus3D({
     dom.style.touchAction = 'none';
 
     const actualizarOrientacionCamara = (delta) => {
-      // Amortiguación inercial ultra-fluida: altamente responsiva al arrastrar (28.0) y suave al soltar (18.0)
-      const smoothDamping = isPointerDown ? 28.0 : 18.0;
+      // Amortiguación inercial ultra-fluida y reactiva: instantánea al arrastrar (36.0) y suave al soltar (22.0)
+      const smoothDamping = isPointerDown ? 36.0 : 22.0;
       const dt = delta || 0.016;
       const t = 1.0 - Math.exp(-smoothDamping * dt);
 
@@ -1106,7 +1107,7 @@ export default function VisorCampus3D({
         previousPointerX = e.clientX;
         previousPointerY = e.clientY;
 
-        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.38 : 0.32);
+        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.42 : 0.36);
         
         // Control orbital intuitivo:
         // En modo 'natural':
@@ -1201,14 +1202,15 @@ export default function VisorCampus3D({
       cfg.luzSolarColor || 0xfff6ea,
       cfg.luzSolarIntensidad ?? 2.2
     );
-    sunLight.position.copy(sunPos);
+    const sunOffset = sunPos.clone();
+    sunLight.position.copy(sunOffset);
     sunLight.castShadow = cfg.sombrasHabilitadas !== false;
-    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 512, 512) : (cfg.calidadSombras || 1024);
+    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 2048);
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = esMovil ? 350 : 1200;
-    const d = esMovil ? 140 : 320;
+    sunLight.shadow.camera.far = esMovil ? 450 : 900;
+    const d = esMovil ? 110 : 160;
     sunLight.shadow.camera.left = -d;
     sunLight.shadow.camera.right = d;
     sunLight.shadow.camera.top = d;
@@ -1216,6 +1218,7 @@ export default function VisorCampus3D({
     sunLight.shadow.bias = -0.0003;
     sunLight.shadow.normalBias = 0.02;
     scene.add(sunLight);
+    scene.add(sunLight.target);
 
     // Luz hemisférica: cielo azul arriba, rebote de pasto/tierra abajo
     const hemiLight = new THREE.HemisphereLight(
@@ -1242,7 +1245,17 @@ export default function VisorCampus3D({
     const inicializarComposer = () => {
       if (composer) return composer;
       try {
-        composer = new EffectComposer(renderer);
+        const curDPR = renderer.getPixelRatio();
+        const renderTarget = new THREE.WebGLRenderTarget(
+          Math.floor(width * curDPR),
+          Math.floor(height * curDPR),
+          {
+            samples: 4,
+            type: THREE.HalfFloatType
+          }
+        );
+        composer = new EffectComposer(renderer, renderTarget);
+        composer.setPixelRatio(curDPR);
         const renderPass = new RenderPass(scene, camera);
         composer.addPass(renderPass);
 
@@ -1304,15 +1317,16 @@ export default function VisorCampus3D({
           break;
         case 'horaDelDia':
           if (valor === 'mediodia') {
-            sunLight.position.set(60, 340, 40);
+            sunOffset.set(60, 340, 40);
           } else if (valor === 'atardecer') {
-            sunLight.position.set(220, 50, -180);
+            sunOffset.set(220, 50, -180);
           } else if (valor === 'noche') {
-            sunLight.position.set(-80, -60, 100);
+            sunOffset.set(-80, -60, 100);
           } else {
-            sunLight.position.set(160, 260, 120);
+            sunOffset.set(160, 260, 120);
           }
-          skyUniforms['sunPosition'].value.copy(sunLight.position).normalize();
+          sunLight.position.set(camera.position.x + sunOffset.x, sunOffset.y, camera.position.z + sunOffset.z);
+          skyUniforms['sunPosition'].value.copy(sunOffset).normalize();
           break;
         case 'sombrasHabilitadas':
           sunLight.castShadow = valor;
@@ -1434,6 +1448,10 @@ export default function VisorCampus3D({
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
 
+    // Sistema de Distance Culling para renderizado dinámico al moverse la cámara
+    let cullingMeshesList = [];
+    const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
+
     // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
 
@@ -1484,7 +1502,7 @@ export default function VisorCampus3D({
                   }
 
                   mat.envMapIntensity = 1.0;
-                  const maxAniso = esMovil ? 2 : Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+                  const maxAniso = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
                   ['map', 'normalMap', 'roughnessMap', 'metalnessMap'].forEach((mapProp) => {
                     if (mat[mapProp]) {
                       mat[mapProp].anisotropy = maxAniso;
@@ -1496,35 +1514,38 @@ export default function VisorCampus3D({
           });
 
           // ------------------------------------------------------------------
-          // OPTIMIZACIÓN INSTANCED MESH PARA ÁRBOLES
-          // Convierte árboles repetidos en mallas instanciadas reduciendo drásticamente draw calls
+          // OPTIMIZACIÓN INSTANCED MESH PARA ÁRBOLES Y VEGETACIÓN
+          // Convierte todos los nuevos árboles (No_LowPoly Tree, LowPoly Tree, No_bush, etc.) en InstancedMesh
           // ------------------------------------------------------------------
           model.updateMatrixWorld(true);
-          const treeMeshesByGroup = new Map();
+          const vegMeshesByGroup = new Map();
 
           model.traverse((child) => {
             if (child.isMesh) {
-              const isTree = /(tree|arbol)/i.test(child.name) || (child.parent && /(tree|arbol)/i.test(child.parent.name));
-              if (isTree) {
+              const name = (child.name || '').toLowerCase();
+              const parentName = child.parent ? (child.parent.name || '').toLowerCase() : '';
+              const isVeg = /(tree|arbol|bush|planta|vegeta|grass|flower|sunflower|rock|palm)/i.test(name) ||
+                            /(tree|arbol|bush|planta|vegeta|grass|flower|sunflower|rock|palm)/i.test(parentName);
+              if (isVeg) {
                 const matKey = Array.isArray(child.material) 
                   ? child.material.map((m) => m.uuid).join('_') 
                   : child.material.uuid;
                 const groupKey = `${child.geometry.uuid}_${matKey}`;
-                if (!treeMeshesByGroup.has(groupKey)) {
-                  treeMeshesByGroup.set(groupKey, []);
+                if (!vegMeshesByGroup.has(groupKey)) {
+                  vegMeshesByGroup.set(groupKey, []);
                 }
-                treeMeshesByGroup.get(groupKey).push(child);
+                vegMeshesByGroup.get(groupKey).push(child);
               }
             }
           });
 
           const instancedTreesGroup = new THREE.Group();
-          instancedTreesGroup.name = 'InstancedTreesGroup';
+          instancedTreesGroup.name = 'InstancedVegetationGroup';
 
-          let totalArbolesInstanciados = 0;
+          let totalVegetacionInstanciada = 0;
           let drawCallsAhorrados = 0;
 
-          treeMeshesByGroup.forEach((meshList) => {
+          vegMeshesByGroup.forEach((meshList) => {
             if (meshList.length >= 2) {
               const firstMesh = meshList[0];
               const instancedMesh = new THREE.InstancedMesh(
@@ -1532,8 +1553,8 @@ export default function VisorCampus3D({
                 firstMesh.material,
                 meshList.length
               );
-              instancedMesh.name = `Instanced_${firstMesh.name || 'Tree'}_x${meshList.length}`;
-              instancedMesh.castShadow = !esMovil;
+              instancedMesh.name = `Instanced_${firstMesh.name || 'Veg'}_x${meshList.length}`;
+              instancedMesh.castShadow = true;
               instancedMesh.receiveShadow = true;
               instancedMesh.frustumCulled = true;
 
@@ -1546,13 +1567,53 @@ export default function VisorCampus3D({
               instancedMesh.instanceMatrix.needsUpdate = true;
               instancedMesh.computeBoundingSphere();
               instancedTreesGroup.add(instancedMesh);
-              totalArbolesInstanciados += meshList.length;
+              totalVegetacionInstanciada += meshList.length;
               drawCallsAhorrados += (meshList.length - 1);
             }
           });
 
           scene.add(instancedTreesGroup);
-          console.log(`🌲 InstancedMesh: ${totalArbolesInstanciados} árboles convertidos a instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
+          console.log(`🌲 InstancedMesh: ${totalVegetacionInstanciada} árboles y elementos de vegetación agrupados en instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
+
+          // ------------------------------------------------------------------
+          // SISTEMA DE DISTANCE CULLING (RENDERIZADO DINÁMICO AL MOVERSE LA CÁMARA)
+          // Oculta en tiempo real elementos lejanos según la posición de la cámara
+          // ------------------------------------------------------------------
+          const listaDistanceCulling = [];
+
+          // Culling en grupos instanciados de vegetación (visibles hasta 220m)
+          instancedTreesGroup.children.forEach((inst) => {
+            if (inst.boundingSphere) {
+              listaDistanceCulling.push({
+                mesh: inst,
+                center: inst.boundingSphere.center.clone(),
+                maxDistSq: 220 * 220
+              });
+            }
+          });
+
+          // Culling en mallas individuales no estructurales
+          model.traverse((child) => {
+            if (child.isMesh && child.visible) {
+              const name = (child.name || '').toLowerCase();
+              const esEstructuraBase = /(plane|terreno|calle|suelo|pasto|bloque|coliseo|gym|biblioteca|canchas|cafeteria|capilla)/i.test(name);
+              if (!esEstructuraBase) {
+                if (!child.geometry.boundingSphere) child.geometry.computeBoundingSphere();
+                const bs = child.geometry.boundingSphere;
+                if (bs) {
+                  const centerWorld = bs.center.clone().applyMatrix4(child.matrixWorld);
+                  const maxDist = bs.radius < 2.5 ? 90 : 180;
+                  listaDistanceCulling.push({
+                    mesh: child,
+                    center: centerWorld,
+                    maxDistSq: maxDist * maxDist
+                  });
+                }
+              }
+            }
+          });
+
+          cullingMeshesList = listaDistanceCulling;
 
           scene.add(model);
           sceneModel = model;
@@ -1849,6 +1910,33 @@ export default function VisorCampus3D({
         ringMesh.scale.set(scaleRing, scaleRing, 1);
       }
 
+      // Renderizado dinámico por distancia a medida que la cámara se mueve (Distance Culling)
+      if (cullingMeshesList.length > 0) {
+        const camPos = camera.position;
+        if (camPos.distanceToSquared(lastCullCamPos) >= 2.25) {
+          lastCullCamPos.copy(camPos);
+          for (let i = 0; i < cullingMeshesList.length; i++) {
+            const item = cullingMeshesList[i];
+            const dx = camPos.x - item.center.x;
+            const dy = (camPos.y - item.center.y) * 1.5;
+            const dz = camPos.z - item.center.z;
+            const dSq = dx * dx + dy * dy + dz * dz;
+            item.mesh.visible = dSq <= item.maxDistSq;
+          }
+        }
+      }
+
+      // Mantener sombras enfocadas y nítidas donde se encuentra la cámara
+      if (sunLight.castShadow) {
+        const camX = camera.position.x;
+        const camZ = camera.position.z;
+        if (Math.hypot(camX - sunLight.target.position.x, camZ - sunLight.target.position.z) > 8) {
+          sunLight.target.position.set(camX, 0, camZ);
+          sunLight.position.set(camX + sunOffset.x, sunOffset.y, camZ + sunOffset.z);
+          sunLight.target.updateMatrixWorld();
+        }
+      }
+
       if (useUltraQuality && composer) {
         composer.render();
       } else {
@@ -1864,9 +1952,11 @@ export default function VisorCampus3D({
       camera.aspect = newW / newH;
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
-      const curMaxDPR = esMovil ? Math.min(window.devicePixelRatio || 1, 1.0) : Math.min(window.devicePixelRatio || 1, 1.75);
-      renderer.setPixelRatio(curMaxDPR);
+      const curDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+      const effDPR = Math.min(curDPR, 2.0);
+      renderer.setPixelRatio(effDPR);
       if (composer) {
+        composer.setPixelRatio(effDPR);
         composer.setSize(newW, newH);
       }
     };
