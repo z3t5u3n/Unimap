@@ -1446,10 +1446,6 @@ export default function VisorCampus3D({
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
 
-    // Sistema de Distance Culling para renderizado dinámico al moverse la cámara
-    let cullingMeshesList = [];
-    const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
-
     // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
 
@@ -1573,45 +1569,13 @@ export default function VisorCampus3D({
           scene.add(instancedTreesGroup);
           console.log(`🌲 InstancedMesh: ${totalVegetacionInstanciada} árboles y elementos de vegetación agrupados en instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
 
-          // ------------------------------------------------------------------
-          // SISTEMA DE DISTANCE CULLING (RENDERIZADO DINÁMICO AL MOVERSE LA CÁMARA)
-          // Oculta en tiempo real elementos lejanos según la posición de la cámara
-          // ------------------------------------------------------------------
-          const listaDistanceCulling = [];
-
-          // Culling en grupos instanciados de vegetación (visibles hasta 220m)
-          instancedTreesGroup.children.forEach((inst) => {
-            if (inst.boundingSphere) {
-              listaDistanceCulling.push({
-                mesh: inst,
-                center: inst.boundingSphere.center.clone(),
-                maxDistSq: 220 * 220
-              });
-            }
-          });
-
-          // Culling en mallas individuales no estructurales
+          // Asegurar que todos los edificios, aulas y elementos del campus estén 100% visibles.
+          // Three.js aplica Frustum Culling automático en GPU sin ocultar edificios enteros.
           model.traverse((child) => {
-            if (child.isMesh && child.visible) {
-              const name = (child.name || '').toLowerCase();
-              const esEstructuraBase = /(plane|terreno|calle|suelo|pasto|bloque|coliseo|gym|biblioteca|canchas|cafeteria|capilla)/i.test(name);
-              if (!esEstructuraBase) {
-                if (!child.geometry.boundingSphere) child.geometry.computeBoundingSphere();
-                const bs = child.geometry.boundingSphere;
-                if (bs) {
-                  const centerWorld = bs.center.clone().applyMatrix4(child.matrixWorld);
-                  const maxDist = bs.radius < 2.5 ? 90 : 180;
-                  listaDistanceCulling.push({
-                    mesh: child,
-                    center: centerWorld,
-                    maxDistSq: maxDist * maxDist
-                  });
-                }
-              }
+            if (child.isMesh) {
+              child.frustumCulled = true;
             }
           });
-
-          cullingMeshesList = listaDistanceCulling;
 
           scene.add(model);
           sceneModel = model;
@@ -1906,22 +1870,6 @@ export default function VisorCampus3D({
         pinMesh.position.y = basePosY + Math.sin(time) * 0.35;
         const scaleRing = 1 + Math.sin(time * 1.5) * 0.2;
         ringMesh.scale.set(scaleRing, scaleRing, 1);
-      }
-
-      // Renderizado dinámico por distancia a medida que la cámara se mueve (Distance Culling)
-      if (cullingMeshesList.length > 0) {
-        const camPos = camera.position;
-        if (camPos.distanceToSquared(lastCullCamPos) >= 2.25) {
-          lastCullCamPos.copy(camPos);
-          for (let i = 0; i < cullingMeshesList.length; i++) {
-            const item = cullingMeshesList[i];
-            const dx = camPos.x - item.center.x;
-            const dy = (camPos.y - item.center.y) * 1.5;
-            const dz = camPos.z - item.center.z;
-            const dSq = dx * dx + dy * dy + dz * dz;
-            item.mesh.visible = dSq <= item.maxDistSq;
-          }
-        }
       }
 
       // Mantener sombras enfocadas y nítidas donde se encuentra la cámara
