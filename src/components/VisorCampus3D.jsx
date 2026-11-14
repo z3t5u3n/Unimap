@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v6_crisp_performance';
+const SETTINGS_VERSION = 'unimap_v7_optimized_webp_instances';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -268,9 +268,9 @@ export default function VisorCampus3D({
       depth: true
     });
     renderer.setSize(width, height);
-    // Calibración de alta nitidez Retina/HD (hasta 2.0x tanto en PC como móviles para eliminar el pixeleado)
+    // Calibración balanceada de alta nitidez y 60 FPS (1.5x en móvil, 1.75x en PC para máxima nitidez sin saturar GPU)
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-    const maxDPR = Math.min(dpr, 2.0);
+    const maxDPR = esMovil ? Math.min(dpr, 1.5) : Math.min(dpr, 1.75);
     renderer.setPixelRatio(maxDPR);
     renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
@@ -1446,6 +1446,10 @@ export default function VisorCampus3D({
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
 
+    // Gestión de instancias y renderizado dinámico de vegetación a medida que la cámara se mueve
+    const instancedMeshesData = [];
+    const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
+
     // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
 
@@ -1496,10 +1500,12 @@ export default function VisorCampus3D({
                   }
 
                   mat.envMapIntensity = 1.0;
-                  const maxAniso = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+                  const maxAniso = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
                   ['map', 'normalMap', 'roughnessMap', 'metalnessMap'].forEach((mapProp) => {
                     if (mat[mapProp]) {
                       mat[mapProp].anisotropy = maxAniso;
+                      mat[mapProp].generateMipmaps = true;
+                      mat[mapProp].minFilter = THREE.LinearMipmapLinearFilter;
                     }
                   });
                 });
@@ -1552,9 +1558,19 @@ export default function VisorCampus3D({
               instancedMesh.receiveShadow = true;
               instancedMesh.frustumCulled = true;
 
+              const origMatrices = [];
+              const positions = [];
+              const visibleStates = new Uint8Array(meshList.length);
+              const dummyPos = new THREE.Vector3();
+
               meshList.forEach((mesh, index) => {
                 mesh.updateMatrixWorld(true);
-                instancedMesh.setMatrixAt(index, mesh.matrixWorld);
+                const mat = mesh.matrixWorld.clone();
+                instancedMesh.setMatrixAt(index, mat);
+                origMatrices.push(mat);
+                dummyPos.setFromMatrixPosition(mat);
+                positions.push(dummyPos.clone());
+                visibleStates[index] = 1;
                 mesh.visible = false;
               });
 
@@ -1563,6 +1579,14 @@ export default function VisorCampus3D({
               instancedTreesGroup.add(instancedMesh);
               totalVegetacionInstanciada += meshList.length;
               drawCallsAhorrados += (meshList.length - 1);
+
+              instancedMeshesData.push({
+                instancedMesh,
+                origMatrices,
+                positions,
+                visibleStates,
+                count: meshList.length
+              });
             }
           });
 
@@ -1872,6 +1896,39 @@ export default function VisorCampus3D({
         ringMesh.scale.set(scaleRing, scaleRing, 1);
       }
 
+      // Renderizado dinámico de mallas de vegetación a medida que la cámara se mueve
+      // Oculta en GPU instancias de árboles y arbustos lejanos (> 220m en PC, > 170m en móvil)
+      // escalándolas a 0, y las restaura instantáneamente conforme la cámara avanza por el campus.
+      // (Los edificios, aulas y terreno permanecen siempre al 100% visibles).
+      if (instancedMeshesData.length > 0) {
+        const camPos = camera.position;
+        if (camPos.distanceToSquared(lastCullCamPos) >= 9.0) {
+          lastCullCamPos.copy(camPos);
+          const maxTreeDistSq = esMovil ? (170 * 170) : (220 * 220);
+          const zeroMat = new THREE.Matrix4().makeScale(0, 0, 0);
+
+          for (let g = 0; g < instancedMeshesData.length; g++) {
+            const data = instancedMeshesData[g];
+            let needsUpdate = false;
+            for (let i = 0; i < data.count; i++) {
+              const p = data.positions[i];
+              const dx = camPos.x - p.x;
+              const dz = camPos.z - p.z;
+              const dSq = dx * dx + dz * dz;
+              const isVisible = dSq <= maxTreeDistSq ? 1 : 0;
+              if (data.visibleStates[i] !== isVisible) {
+                data.visibleStates[i] = isVisible;
+                data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : zeroMat);
+                needsUpdate = true;
+              }
+            }
+            if (needsUpdate) {
+              data.instancedMesh.instanceMatrix.needsUpdate = true;
+            }
+          }
+        }
+      }
+
       // Mantener sombras enfocadas y nítidas donde se encuentra la cámara
       if (sunLight.castShadow) {
         const camX = camera.position.x;
@@ -1899,7 +1956,7 @@ export default function VisorCampus3D({
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
       const curDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-      const effDPR = Math.min(curDPR, 2.0);
+      const effDPR = esMovil ? Math.min(curDPR, 1.5) : Math.min(curDPR, 1.75);
       renderer.setPixelRatio(effDPR);
       if (composer) {
         composer.setPixelRatio(effDPR);

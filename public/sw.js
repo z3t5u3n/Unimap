@@ -4,7 +4,7 @@
  * para proporcionar tiempos de carga ultrarrápidos (0ms de red) y navegación offline.
  */
 
-const CACHE_NAME = 'unimap-3d-cache-v4';
+const CACHE_NAME = 'unimap-3d-cache-v5';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

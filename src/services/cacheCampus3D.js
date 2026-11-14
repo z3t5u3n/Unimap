@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const CACHE_NAME = 'unimap-3d-cache-v4';
+export const CACHE_NAME = 'unimap-3d-cache-v5';
 export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_PART1_URL = '/Modelo3D/Unimap_part1.bin';
 export const BIN_PART2_URL = '/Modelo3D/Unimap_part2.bin';
@@ -157,7 +157,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
         const mappedPct = Math.round(15 + (pct * 0.40));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 1/2 (${pct}%)...`);
       },
-      17885596
+      15852852
     );
     const bin1Buffer = await bin1Response.arrayBuffer();
 
@@ -168,7 +168,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
         const mappedPct = Math.round(55 + (pct * 0.40));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 2/2 (${pct}%)...`);
       },
-      17881508
+      15663836
     );
     const bin2Buffer = await bin2Response.arrayBuffer();
 
