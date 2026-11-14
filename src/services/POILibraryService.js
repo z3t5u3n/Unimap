@@ -308,6 +308,11 @@ export class POILibraryService {
     sceneModel.traverse((child) => {
       const name = child.name || '';
 
+      // Ignorar objetos que inicien con No_ (no representan nada según la arquitectura del proyecto)
+      if (name.toLowerCase().startsWith('no_')) {
+        return;
+      }
+
       // Ignorar nodos de la red de caminos POIs.*
       if (name.toLowerCase().startsWith('pois')) {
         return;
@@ -365,7 +370,7 @@ export class POILibraryService {
   }
 
   /**
-   * Asocia cada lugar con el nodo del grafo más cercano.
+   * Asocia cada lugar con el nodo alcanzable del grafo más cercano.
    * Idéntico a POILibrary.LinkPlacesToGraphNodes() en Unity.
    */
   linkPlacesToGraphNodes(graphService) {
@@ -373,7 +378,7 @@ export class POILibraryService {
 
     for (let i = 0; i < this.places.length; i++) {
       const p = this.places[i];
-      const nearest = graphService.findNearestNode(p.x, p.y, p.z);
+      const nearest = graphService.findNearestNode(p.x, p.y, p.z, true);
       if (nearest) {
         p.nearestNodeId = nearest.id;
       }
@@ -415,6 +420,7 @@ export class POILibraryService {
       this.sceneModel.traverse((child) => {
         if (directFound) return;
         const name = child.name || '';
+        if (name.toLowerCase().startsWith('no_')) return;
         const cleanName = POIPlace.cleanEmptyPrefix(name);
 
         if (
@@ -432,7 +438,7 @@ export class POILibraryService {
         directFound.getWorldPosition(wp);
         const dynamicPlace = new POIPlace(directFound.name, wp, directFound);
         if (this.graphService) {
-          const nearest = this.graphService.findNearestNode(wp.x, wp.y, wp.z);
+          const nearest = this.graphService.findNearestNode(wp.x, wp.y, wp.z, true);
           if (nearest) dynamicPlace.nearestNodeId = nearest.id;
         }
         this.places.push(dynamicPlace);

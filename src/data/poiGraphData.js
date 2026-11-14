@@ -1,12 +1,12 @@
-// Archivo generado automáticamente con la red de grafos de 3.018 POIs
-// Conexiones <= 4.0m con verificación de obstáculos y muros de edificios horneados
+// Archivo generado automaticamente con la red de grafos de 3.025 POIs
+// Conexiones <= 4.0m con verificacion de todas las 144 mallas Mesh_ (muros y obstaculos)
 export const graphData = {
-  "version": "3.0-blender-3018",
-  "description": "Red de grafos de 3.018 POIs del Campus ITFIP con conectividad continua (max_d = 4.0m) y muros BVH horneados",
+  "version": "4.0-blender-3025-mesh-walls",
+  "description": "Red de grafos de 3.025 POIs del Campus ITFIP horneada con todas las 144 mallas de muros Mesh_ (max_d = 4.0m)",
   "maxConnectionDistance": 4.0,
-  "totalNodes": 3018,
-  "totalEdges": 6764,
-  "bifurcationsCount": 2737,
+  "totalNodes": 3025,
+  "totalEdges": 6560,
+  "bifurcationsCount": 2715,
   "nodes": [
     {
       "id": 0,
@@ -24,7 +24,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1,
@@ -46,7 +47,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2,
@@ -68,7 +70,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3,
@@ -90,7 +93,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 4,
@@ -112,7 +116,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 5,
@@ -134,7 +139,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 6,
@@ -156,7 +162,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 7,
@@ -178,7 +185,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 8,
@@ -200,7 +208,8 @@ export const graphData = {
           "dist": 3.995
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 9,
@@ -222,7 +231,8 @@ export const graphData = {
           "dist": 3.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 10,
@@ -242,13 +252,10 @@ export const graphData = {
         {
           "id": 11,
           "dist": 2.0
-        },
-        {
-          "id": 12,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 11,
@@ -267,42 +274,44 @@ export const graphData = {
         },
         {
           "id": 12,
-          "dist": 2.0
+          "dist": 2.09
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 12,
       "name": "POIs.012",
-      "x": 160.92,
+      "x": 161.122,
       "y": 1.15,
-      "z": 226.77,
+      "z": 226.483,
       "neighbors": [
         {
-          "id": 10,
-          "dist": 4.0
-        },
-        {
           "id": 11,
-          "dist": 2.0
+          "dist": 2.09
         },
         {
           "id": 13,
-          "dist": 2.0
+          "dist": 2.673
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 13,
       "name": "POIs.013",
       "x": 159.513,
       "y": 1.15,
-      "z": 225.349,
+      "z": 224.349,
       "neighbors": [
         {
           "id": 12,
+          "dist": 2.673
+        },
+        {
+          "id": 14,
           "dist": 2.0
         },
         {
@@ -310,15 +319,20 @@ export const graphData = {
           "dist": 3.996
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 14,
       "name": "POIs.014",
       "x": 158.106,
       "y": 1.15,
-      "z": 223.927,
+      "z": 222.927,
       "neighbors": [
+        {
+          "id": 13,
+          "dist": 2.0
+        },
         {
           "id": 15,
           "dist": 1.998
@@ -328,14 +342,15 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 15,
       "name": "POIs.015",
       "x": 156.797,
       "y": 1.15,
-      "z": 222.418,
+      "z": 221.418,
       "neighbors": [
         {
           "id": 13,
@@ -350,14 +365,15 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 16,
       "name": "POIs.016",
       "x": 155.527,
       "y": 1.15,
-      "z": 220.873,
+      "z": 219.873,
       "neighbors": [
         {
           "id": 14,
@@ -376,14 +392,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 17,
       "name": "POIs.017",
       "x": 154.257,
       "y": 1.15,
-      "z": 219.327,
+      "z": 218.327,
       "neighbors": [
         {
           "id": 16,
@@ -398,14 +415,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 18,
       "name": "POIs.018",
       "x": 152.987,
       "y": 1.15,
-      "z": 217.782,
+      "z": 216.782,
       "neighbors": [
         {
           "id": 16,
@@ -424,14 +442,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 19,
       "name": "POIs.019",
       "x": 151.718,
       "y": 1.15,
-      "z": 216.237,
+      "z": 215.237,
       "neighbors": [
         {
           "id": 17,
@@ -450,14 +469,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 20,
       "name": "POIs.020",
       "x": 150.448,
       "y": 1.15,
-      "z": 214.692,
+      "z": 213.692,
       "neighbors": [
         {
           "id": 18,
@@ -476,14 +496,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 21,
       "name": "POIs.021",
       "x": 149.178,
       "y": 1.15,
-      "z": 213.146,
+      "z": 212.146,
       "neighbors": [
         {
           "id": 19,
@@ -498,14 +519,15 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 22,
       "name": "POIs.022",
       "x": 147.908,
       "y": 1.15,
-      "z": 211.601,
+      "z": 210.601,
       "neighbors": [
         {
           "id": 20,
@@ -520,14 +542,15 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 23,
       "name": "POIs.023",
       "x": 146.639,
       "y": 1.15,
-      "z": 210.056,
+      "z": 209.056,
       "neighbors": [
         {
           "id": 22,
@@ -538,14 +561,15 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 24,
       "name": "POIs.024",
       "x": 145.369,
       "y": 1.15,
-      "z": 208.511,
+      "z": 207.511,
       "neighbors": [
         {
           "id": 23,
@@ -556,14 +580,15 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 25,
       "name": "POIs.025",
       "x": 144.099,
       "y": 1.15,
-      "z": 206.965,
+      "z": 205.965,
       "neighbors": [
         {
           "id": 24,
@@ -578,14 +603,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 26,
       "name": "POIs.026",
       "x": 142.83,
       "y": 1.15,
-      "z": 205.42,
+      "z": 204.42,
       "neighbors": [
         {
           "id": 25,
@@ -600,14 +626,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 27,
       "name": "POIs.027",
       "x": 141.56,
       "y": 1.15,
-      "z": 203.875,
+      "z": 202.875,
       "neighbors": [
         {
           "id": 25,
@@ -626,14 +653,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 28,
       "name": "POIs.028",
       "x": 140.29,
       "y": 1.15,
-      "z": 202.33,
+      "z": 201.33,
       "neighbors": [
         {
           "id": 26,
@@ -652,14 +680,15 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 29,
       "name": "POIs.029",
       "x": 139.02,
       "y": 1.15,
-      "z": 200.784,
+      "z": 199.784,
       "neighbors": [
         {
           "id": 27,
@@ -678,14 +707,15 @@ export const graphData = {
           "dist": 3.976
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 30,
       "name": "POIs.030",
       "x": 137.751,
       "y": 1.15,
-      "z": 199.239,
+      "z": 198.239,
       "neighbors": [
         {
           "id": 28,
@@ -701,21 +731,22 @@ export const graphData = {
         },
         {
           "id": 32,
-          "dist": 3.931
+          "dist": 3.07
         },
         {
           "id": 2393,
-          "dist": 2.79
+          "dist": 2.91
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 31,
       "name": "POIs.031",
       "x": 136.602,
       "y": 1.15,
-      "z": 197.628,
+      "z": 196.628,
       "neighbors": [
         {
           "id": 29,
@@ -727,14 +758,19 @@ export const graphData = {
         },
         {
           "id": 32,
-          "dist": 2.0
+          "dist": 1.091
+        },
+        {
+          "id": 33,
+          "dist": 3.063
         },
         {
           "id": 2393,
-          "dist": 2.189
+          "dist": 2.95
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 32,
@@ -745,11 +781,11 @@ export const graphData = {
       "neighbors": [
         {
           "id": 30,
-          "dist": 3.931
+          "dist": 3.07
         },
         {
           "id": 31,
-          "dist": 2.0
+          "dist": 1.091
         },
         {
           "id": 33,
@@ -764,7 +800,8 @@ export const graphData = {
           "dist": 3.512
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 33,
@@ -773,6 +810,10 @@ export const graphData = {
       "y": 1.15,
       "z": 193.818,
       "neighbors": [
+        {
+          "id": 31,
+          "dist": 3.063
+        },
         {
           "id": 32,
           "dist": 2.0
@@ -786,7 +827,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 34,
@@ -812,7 +854,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 35,
@@ -834,7 +877,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 36,
@@ -856,7 +900,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 37,
@@ -878,7 +923,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 38,
@@ -896,7 +942,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 39,
@@ -922,7 +969,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 40,
@@ -944,7 +992,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 41,
@@ -966,7 +1015,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 42,
@@ -988,7 +1038,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 43,
@@ -1006,7 +1057,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 44,
@@ -1028,7 +1080,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 45,
@@ -1046,7 +1099,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 46,
@@ -1068,7 +1122,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 47,
@@ -1090,7 +1145,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 48,
@@ -1112,7 +1168,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 49,
@@ -1134,7 +1191,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 50,
@@ -1156,7 +1214,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 51,
@@ -1178,7 +1237,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 52,
@@ -1200,7 +1260,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 53,
@@ -1226,7 +1287,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 54,
@@ -1248,7 +1310,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 55,
@@ -1270,7 +1333,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 56,
@@ -1292,7 +1356,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 57,
@@ -1310,7 +1375,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 58,
@@ -1332,7 +1398,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 59,
@@ -1354,7 +1421,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 60,
@@ -1376,7 +1444,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 61,
@@ -1402,7 +1471,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 62,
@@ -1424,7 +1494,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 63,
@@ -1450,7 +1521,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 64,
@@ -1472,7 +1544,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 65,
@@ -1498,7 +1571,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 66,
@@ -1520,7 +1594,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 67,
@@ -1546,7 +1621,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 68,
@@ -1564,7 +1640,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 69,
@@ -1586,7 +1663,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 70,
@@ -1608,7 +1686,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 71,
@@ -1626,7 +1705,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 72,
@@ -1648,7 +1728,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 73,
@@ -1670,7 +1751,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 74,
@@ -1688,7 +1770,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 75,
@@ -1710,7 +1793,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 76,
@@ -1728,7 +1812,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 77,
@@ -1746,7 +1831,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 78,
@@ -1768,7 +1854,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 79,
@@ -1790,7 +1877,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 80,
@@ -1812,7 +1900,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 81,
@@ -1834,7 +1923,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 82,
@@ -1856,7 +1946,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 83,
@@ -1874,7 +1965,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 84,
@@ -1900,7 +1992,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 85,
@@ -1922,7 +2015,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 86,
@@ -1948,7 +2042,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 87,
@@ -1974,7 +2069,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 88,
@@ -2000,7 +2096,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 89,
@@ -2022,7 +2119,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 90,
@@ -2044,7 +2142,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 91,
@@ -2066,7 +2165,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 92,
@@ -2088,7 +2188,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 93,
@@ -2110,7 +2211,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 94,
@@ -2132,7 +2234,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 95,
@@ -2150,7 +2253,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 96,
@@ -2176,7 +2280,8 @@ export const graphData = {
           "dist": 3.916
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 97,
@@ -2210,7 +2315,8 @@ export const graphData = {
           "dist": 2.659
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 98,
@@ -2252,7 +2358,8 @@ export const graphData = {
           "dist": 3.27
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 99,
@@ -2294,7 +2401,8 @@ export const graphData = {
           "dist": 3.209
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 100,
@@ -2324,7 +2432,8 @@ export const graphData = {
           "dist": 3.83
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 101,
@@ -2346,7 +2455,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 102,
@@ -2372,7 +2482,8 @@ export const graphData = {
           "dist": 3.603
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 103,
@@ -2406,7 +2517,8 @@ export const graphData = {
           "dist": 2.562
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 104,
@@ -2440,7 +2552,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 105,
@@ -2474,7 +2587,8 @@ export const graphData = {
           "dist": 2.745
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 106,
@@ -2496,7 +2610,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 107,
@@ -2522,7 +2637,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 108,
@@ -2544,7 +2660,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 109,
@@ -2570,7 +2687,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 110,
@@ -2596,7 +2714,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 111,
@@ -2618,7 +2737,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 112,
@@ -2644,7 +2764,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 113,
@@ -2662,7 +2783,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 114,
@@ -2684,7 +2806,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 115,
@@ -2706,7 +2829,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 116,
@@ -2724,7 +2848,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 117,
@@ -2750,7 +2875,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 118,
@@ -2772,7 +2898,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 119,
@@ -2798,7 +2925,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 120,
@@ -2820,7 +2948,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 121,
@@ -2842,7 +2971,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 122,
@@ -2864,7 +2994,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 123,
@@ -2886,7 +3017,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 124,
@@ -2908,7 +3040,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 125,
@@ -2930,7 +3063,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 126,
@@ -2952,7 +3086,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 127,
@@ -2970,7 +3105,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 128,
@@ -2996,7 +3132,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 129,
@@ -3018,7 +3155,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 130,
@@ -3044,7 +3182,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 131,
@@ -3070,7 +3209,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 132,
@@ -3092,7 +3232,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 133,
@@ -3118,7 +3259,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 134,
@@ -3140,7 +3282,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 135,
@@ -3162,7 +3305,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 136,
@@ -3188,7 +3332,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 137,
@@ -3210,7 +3355,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 138,
@@ -3236,7 +3382,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 139,
@@ -3258,7 +3405,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 140,
@@ -3284,7 +3432,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 141,
@@ -3302,7 +3451,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 142,
@@ -3328,7 +3478,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 143,
@@ -3350,7 +3501,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 144,
@@ -3376,7 +3528,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 145,
@@ -3402,7 +3555,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 146,
@@ -3424,7 +3578,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 147,
@@ -3450,7 +3605,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 148,
@@ -3472,7 +3628,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 149,
@@ -3510,7 +3667,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 150,
@@ -3552,7 +3710,8 @@ export const graphData = {
           "dist": 3.945
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 151,
@@ -3594,7 +3753,8 @@ export const graphData = {
           "dist": 2.825
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 152,
@@ -3632,7 +3792,8 @@ export const graphData = {
           "dist": 2.876
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 153,
@@ -3662,7 +3823,8 @@ export const graphData = {
           "dist": 3.992
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 154,
@@ -3684,7 +3846,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 155,
@@ -3710,7 +3873,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 156,
@@ -3728,7 +3892,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 157,
@@ -3750,7 +3915,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 158,
@@ -3772,7 +3938,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 159,
@@ -3794,7 +3961,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 160,
@@ -3820,7 +3988,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 161,
@@ -3846,7 +4015,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 162,
@@ -3872,7 +4042,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 163,
@@ -3894,7 +4065,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 164,
@@ -3916,7 +4088,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 165,
@@ -3938,7 +4111,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 166,
@@ -3960,7 +4134,8 @@ export const graphData = {
           "dist": 3.963
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 167,
@@ -3986,7 +4161,8 @@ export const graphData = {
           "dist": 3.953
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 168,
@@ -4008,7 +4184,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 169,
@@ -4030,7 +4207,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 170,
@@ -4052,7 +4230,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 171,
@@ -4074,7 +4253,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 172,
@@ -4096,7 +4276,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 173,
@@ -4118,7 +4299,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 174,
@@ -4140,7 +4322,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 175,
@@ -4158,7 +4341,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 176,
@@ -4184,7 +4368,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 177,
@@ -4202,7 +4387,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 178,
@@ -4228,7 +4414,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 179,
@@ -4250,7 +4437,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 180,
@@ -4284,7 +4472,8 @@ export const graphData = {
           "dist": 2.32
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 181,
@@ -4318,7 +4507,8 @@ export const graphData = {
           "dist": 0.592
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 182,
@@ -4344,7 +4534,8 @@ export const graphData = {
           "dist": 2.178
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 183,
@@ -4370,7 +4561,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 184,
@@ -4392,7 +4584,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 185,
@@ -4418,7 +4611,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 186,
@@ -4444,7 +4638,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 187,
@@ -4466,7 +4661,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 188,
@@ -4496,7 +4692,8 @@ export const graphData = {
           "dist": 3.228
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 189,
@@ -4526,7 +4723,8 @@ export const graphData = {
           "dist": 2.045
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 190,
@@ -4556,7 +4754,8 @@ export const graphData = {
           "dist": 3.613
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 191,
@@ -4582,7 +4781,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 192,
@@ -4604,7 +4804,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 193,
@@ -4630,7 +4831,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 194,
@@ -4652,7 +4854,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 195,
@@ -4674,7 +4877,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 196,
@@ -4692,7 +4896,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 197,
@@ -4710,7 +4915,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 198,
@@ -4728,7 +4934,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 199,
@@ -4746,7 +4953,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 200,
@@ -4768,7 +4976,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 201,
@@ -4790,7 +4999,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 202,
@@ -4812,7 +5022,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 203,
@@ -4834,7 +5045,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 204,
@@ -4852,7 +5064,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 205,
@@ -4870,7 +5083,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 206,
@@ -4892,7 +5106,8 @@ export const graphData = {
           "dist": 3.373
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 207,
@@ -4914,7 +5129,8 @@ export const graphData = {
           "dist": 3.071
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 208,
@@ -4936,7 +5152,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 209,
@@ -4962,7 +5179,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 210,
@@ -4980,7 +5198,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 211,
@@ -5006,7 +5225,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 212,
@@ -5028,7 +5248,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 213,
@@ -5054,7 +5275,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 214,
@@ -5080,7 +5302,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 215,
@@ -5102,7 +5325,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 216,
@@ -5124,7 +5348,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 217,
@@ -5146,7 +5371,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 218,
@@ -5168,7 +5394,8 @@ export const graphData = {
           "dist": 2.923
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 219,
@@ -5194,7 +5421,8 @@ export const graphData = {
           "dist": 3.628
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 220,
@@ -5216,7 +5444,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 221,
@@ -5238,7 +5467,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 222,
@@ -5256,7 +5486,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 223,
@@ -5278,7 +5509,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 224,
@@ -5300,7 +5532,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 225,
@@ -5326,7 +5559,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 226,
@@ -5356,7 +5590,8 @@ export const graphData = {
           "dist": 3.774
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 227,
@@ -5398,7 +5633,8 @@ export const graphData = {
           "dist": 3.993
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 228,
@@ -5440,7 +5676,8 @@ export const graphData = {
           "dist": 3.58
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 229,
@@ -5474,7 +5711,8 @@ export const graphData = {
           "dist": 3.576
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 230,
@@ -5496,7 +5734,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 231,
@@ -5518,7 +5757,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 232,
@@ -5536,7 +5776,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 233,
@@ -5558,7 +5799,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 234,
@@ -5592,7 +5834,8 @@ export const graphData = {
           "dist": 3.348
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 235,
@@ -5634,7 +5877,8 @@ export const graphData = {
           "dist": 2.752
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 236,
@@ -5672,7 +5916,8 @@ export const graphData = {
           "dist": 3.4
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 237,
@@ -5710,7 +5955,8 @@ export const graphData = {
           "dist": 3.982
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 238,
@@ -5728,7 +5974,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 239,
@@ -5750,7 +5997,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 240,
@@ -5780,7 +6028,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 241,
@@ -5818,7 +6067,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 242,
@@ -5856,7 +6106,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 243,
@@ -5890,7 +6141,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 244,
@@ -5916,7 +6168,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 245,
@@ -5950,7 +6203,8 @@ export const graphData = {
           "dist": 3.987
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 246,
@@ -5984,7 +6238,8 @@ export const graphData = {
           "dist": 2.07
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 247,
@@ -6022,7 +6277,8 @@ export const graphData = {
           "dist": 3.858
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 248,
@@ -6060,7 +6316,8 @@ export const graphData = {
           "dist": 3.79
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 249,
@@ -6082,7 +6339,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 250,
@@ -6104,7 +6362,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 251,
@@ -6126,7 +6385,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 252,
@@ -6156,7 +6416,8 @@ export const graphData = {
           "dist": 2.65
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 253,
@@ -6186,7 +6447,8 @@ export const graphData = {
           "dist": 0.672
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 254,
@@ -6224,7 +6486,8 @@ export const graphData = {
           "dist": 1.37
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 255,
@@ -6258,7 +6521,8 @@ export const graphData = {
           "dist": 3.362
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 256,
@@ -6280,7 +6544,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 257,
@@ -6306,7 +6571,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 258,
@@ -6340,7 +6606,8 @@ export const graphData = {
           "dist": 3.905
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 259,
@@ -6382,7 +6649,8 @@ export const graphData = {
           "dist": 2.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 260,
@@ -6420,7 +6688,8 @@ export const graphData = {
           "dist": 2.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 261,
@@ -6466,7 +6735,8 @@ export const graphData = {
           "dist": 3.931
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 262,
@@ -6496,7 +6766,8 @@ export const graphData = {
           "dist": 3.255
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 263,
@@ -6522,7 +6793,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 264,
@@ -6548,7 +6820,8 @@ export const graphData = {
           "dist": 3.989
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 265,
@@ -6574,7 +6847,8 @@ export const graphData = {
           "dist": 3.996
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 266,
@@ -6600,7 +6874,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 267,
@@ -6626,7 +6901,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 268,
@@ -6652,7 +6928,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 269,
@@ -6678,7 +6955,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 270,
@@ -6704,7 +6982,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 271,
@@ -6730,7 +7009,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 272,
@@ -6756,7 +7036,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 273,
@@ -6782,7 +7063,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 274,
@@ -6808,7 +7090,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 275,
@@ -6834,7 +7117,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 276,
@@ -6864,7 +7148,8 @@ export const graphData = {
           "dist": 3.036
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 277,
@@ -6898,7 +7183,8 @@ export const graphData = {
           "dist": 3.803
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 278,
@@ -6928,7 +7214,8 @@ export const graphData = {
           "dist": 2.422
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 279,
@@ -6954,7 +7241,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 280,
@@ -6992,7 +7280,8 @@ export const graphData = {
           "dist": 3.373
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 281,
@@ -7030,7 +7319,8 @@ export const graphData = {
           "dist": 2.074
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 282,
@@ -7064,7 +7354,8 @@ export const graphData = {
           "dist": 2.443
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 283,
@@ -7094,7 +7385,8 @@ export const graphData = {
           "dist": 3.978
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 284,
@@ -7120,7 +7412,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 285,
@@ -7146,7 +7439,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 286,
@@ -7168,7 +7462,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 287,
@@ -7194,7 +7489,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 288,
@@ -7216,7 +7512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 289,
@@ -7242,7 +7539,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 290,
@@ -7264,7 +7562,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 291,
@@ -7286,7 +7585,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 292,
@@ -7308,7 +7608,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 293,
@@ -7330,7 +7631,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 294,
@@ -7356,7 +7658,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 295,
@@ -7382,7 +7685,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 296,
@@ -7408,7 +7712,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 297,
@@ -7430,7 +7735,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 298,
@@ -7456,7 +7762,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 299,
@@ -7474,7 +7781,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 300,
@@ -7500,7 +7808,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 301,
@@ -7522,7 +7831,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 302,
@@ -7544,7 +7854,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 303,
@@ -7570,7 +7881,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 304,
@@ -7592,7 +7904,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 305,
@@ -7618,7 +7931,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 306,
@@ -7640,7 +7954,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 307,
@@ -7666,7 +7981,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 308,
@@ -7688,7 +8004,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 309,
@@ -7714,7 +8031,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 310,
@@ -7736,7 +8054,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 311,
@@ -7758,7 +8077,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 312,
@@ -7780,7 +8100,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 313,
@@ -7802,7 +8123,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 314,
@@ -7824,7 +8146,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 315,
@@ -7850,7 +8173,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 316,
@@ -7872,7 +8196,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 317,
@@ -7894,7 +8219,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 318,
@@ -7920,7 +8246,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 319,
@@ -7942,7 +8269,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 320,
@@ -7968,7 +8296,8 @@ export const graphData = {
           "dist": 3.965
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 321,
@@ -7994,7 +8323,8 @@ export const graphData = {
           "dist": 3.574
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 322,
@@ -8020,7 +8350,8 @@ export const graphData = {
           "dist": 3.978
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 323,
@@ -8046,7 +8377,8 @@ export const graphData = {
           "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 324,
@@ -8072,7 +8404,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 325,
@@ -8098,7 +8431,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 326,
@@ -8124,7 +8458,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 327,
@@ -8150,7 +8485,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 328,
@@ -8176,7 +8512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 329,
@@ -8202,7 +8539,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 330,
@@ -8228,7 +8566,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 331,
@@ -8254,7 +8593,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 332,
@@ -8276,7 +8616,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 333,
@@ -8298,7 +8639,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 334,
@@ -8316,7 +8658,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 335,
@@ -8338,7 +8681,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 336,
@@ -8360,7 +8704,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 337,
@@ -8386,7 +8731,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 338,
@@ -8408,7 +8754,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 339,
@@ -8430,7 +8777,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 340,
@@ -8452,7 +8800,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 341,
@@ -8474,7 +8823,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 342,
@@ -8500,7 +8850,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 343,
@@ -8526,7 +8877,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 344,
@@ -8548,7 +8900,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 345,
@@ -8574,7 +8927,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 346,
@@ -8596,7 +8950,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 347,
@@ -8618,7 +8973,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 348,
@@ -8644,7 +9000,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 349,
@@ -8666,7 +9023,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 350,
@@ -8692,7 +9050,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 351,
@@ -8718,7 +9077,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 352,
@@ -8740,7 +9100,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 353,
@@ -8762,7 +9123,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 354,
@@ -8784,7 +9146,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 355,
@@ -8806,7 +9169,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 356,
@@ -8828,7 +9192,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 357,
@@ -8854,7 +9219,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 358,
@@ -8876,7 +9242,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 359,
@@ -8902,7 +9269,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 360,
@@ -8928,7 +9296,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 361,
@@ -8954,7 +9323,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 362,
@@ -8980,7 +9350,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 363,
@@ -9006,7 +9377,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 364,
@@ -9032,7 +9404,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 365,
@@ -9054,7 +9427,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 366,
@@ -9080,7 +9454,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 367,
@@ -9098,7 +9473,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 368,
@@ -9120,7 +9496,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 369,
@@ -9142,7 +9519,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 370,
@@ -9164,7 +9542,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 371,
@@ -9190,7 +9569,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 372,
@@ -9212,7 +9592,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 373,
@@ -9246,7 +9627,8 @@ export const graphData = {
           "dist": 2.498
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 374,
@@ -9280,7 +9662,8 @@ export const graphData = {
           "dist": 2.368
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 375,
@@ -9318,7 +9701,8 @@ export const graphData = {
           "dist": 3.905
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 376,
@@ -9352,7 +9736,8 @@ export const graphData = {
           "dist": 3.646
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 377,
@@ -9374,7 +9759,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 378,
@@ -9404,7 +9790,8 @@ export const graphData = {
           "dist": 2.881
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 379,
@@ -9438,7 +9825,8 @@ export const graphData = {
           "dist": 1.123
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 380,
@@ -9468,7 +9856,8 @@ export const graphData = {
           "dist": 1.956
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 381,
@@ -9494,7 +9883,8 @@ export const graphData = {
           "dist": 3.909
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 382,
@@ -9516,7 +9906,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 383,
@@ -9542,7 +9933,8 @@ export const graphData = {
           "dist": 3.552
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 384,
@@ -9580,7 +9972,8 @@ export const graphData = {
           "dist": 2.589
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 385,
@@ -9618,7 +10011,8 @@ export const graphData = {
           "dist": 3.688
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 386,
@@ -9656,7 +10050,8 @@ export const graphData = {
           "dist": 2.757
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 387,
@@ -9678,7 +10073,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 388,
@@ -9700,7 +10096,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 389,
@@ -9734,7 +10131,8 @@ export const graphData = {
           "dist": 2.8
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 390,
@@ -9764,7 +10162,8 @@ export const graphData = {
           "dist": 0.892
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 391,
@@ -9794,7 +10193,8 @@ export const graphData = {
           "dist": 1.305
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 392,
@@ -9820,7 +10220,8 @@ export const graphData = {
           "dist": 3.252
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 393,
@@ -9838,7 +10239,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 394,
@@ -9856,7 +10258,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 395,
@@ -9874,7 +10277,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 396,
@@ -9892,7 +10296,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 397,
@@ -9922,7 +10327,8 @@ export const graphData = {
           "dist": 2.37
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 398,
@@ -9952,7 +10358,8 @@ export const graphData = {
           "dist": 1.518
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 399,
@@ -9982,7 +10389,8 @@ export const graphData = {
           "dist": 2.648
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 400,
@@ -10008,7 +10416,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 401,
@@ -10030,7 +10439,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 402,
@@ -10056,7 +10466,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 403,
@@ -10078,7 +10489,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 404,
@@ -10104,7 +10516,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 405,
@@ -10126,7 +10539,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 406,
@@ -10152,7 +10566,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 407,
@@ -10182,7 +10597,8 @@ export const graphData = {
           "dist": 2.395
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 408,
@@ -10216,7 +10632,8 @@ export const graphData = {
           "dist": 1.343
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 409,
@@ -10250,7 +10667,8 @@ export const graphData = {
           "dist": 1.076
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 410,
@@ -10288,7 +10706,8 @@ export const graphData = {
           "dist": 1.96
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 411,
@@ -10322,7 +10741,8 @@ export const graphData = {
           "dist": 3.811
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 412,
@@ -10344,7 +10764,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 413,
@@ -10362,7 +10783,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 414,
@@ -10380,7 +10802,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 415,
@@ -10402,7 +10825,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 416,
@@ -10424,7 +10848,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 417,
@@ -10446,7 +10871,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 418,
@@ -10468,7 +10894,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 419,
@@ -10490,7 +10917,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 420,
@@ -10508,7 +10936,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 421,
@@ -10530,7 +10959,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 422,
@@ -10556,7 +10986,8 @@ export const graphData = {
           "dist": 3.775
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 423,
@@ -10586,7 +11017,8 @@ export const graphData = {
           "dist": 2.268
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 424,
@@ -10620,7 +11052,8 @@ export const graphData = {
           "dist": 1.331
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 425,
@@ -10650,7 +11083,8 @@ export const graphData = {
           "dist": 2.392
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 426,
@@ -10672,7 +11106,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 427,
@@ -10694,7 +11129,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 428,
@@ -10716,7 +11152,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 429,
@@ -10738,7 +11175,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 430,
@@ -10768,7 +11206,8 @@ export const graphData = {
           "dist": 2.846
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 431,
@@ -10798,7 +11237,8 @@ export const graphData = {
           "dist": 2.137
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 432,
@@ -10824,7 +11264,8 @@ export const graphData = {
           "dist": 3.006
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 433,
@@ -10846,7 +11287,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 434,
@@ -10868,7 +11310,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 435,
@@ -10890,7 +11333,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 436,
@@ -10916,7 +11360,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 437,
@@ -10938,7 +11383,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 438,
@@ -10964,7 +11410,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 439,
@@ -10986,7 +11433,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 440,
@@ -11008,7 +11456,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 441,
@@ -11030,7 +11479,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 442,
@@ -11052,7 +11502,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 443,
@@ -11074,7 +11525,8 @@ export const graphData = {
           "dist": 3.958
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 444,
@@ -11100,7 +11552,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 445,
@@ -11126,7 +11579,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 446,
@@ -11148,7 +11602,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 447,
@@ -11174,7 +11629,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 448,
@@ -11196,7 +11652,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 449,
@@ -11222,7 +11679,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 450,
@@ -11248,7 +11706,8 @@ export const graphData = {
           "dist": 3.982
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 451,
@@ -11274,7 +11733,8 @@ export const graphData = {
           "dist": 3.976
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 452,
@@ -11300,7 +11760,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 453,
@@ -11322,7 +11783,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 454,
@@ -11348,7 +11810,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 455,
@@ -11370,7 +11833,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 456,
@@ -11392,7 +11856,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 457,
@@ -11418,7 +11883,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 458,
@@ -11444,7 +11910,8 @@ export const graphData = {
           "dist": 3.568
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 459,
@@ -11478,7 +11945,8 @@ export const graphData = {
           "dist": 1.871
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 460,
@@ -11508,7 +11976,8 @@ export const graphData = {
           "dist": 2.049
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 461,
@@ -11546,7 +12015,8 @@ export const graphData = {
           "dist": 3.159
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 462,
@@ -11576,7 +12046,8 @@ export const graphData = {
           "dist": 1.49
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 463,
@@ -11606,7 +12077,8 @@ export const graphData = {
           "dist": 1.709
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 464,
@@ -11632,7 +12104,8 @@ export const graphData = {
           "dist": 3.511
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 465,
@@ -11654,7 +12127,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 466,
@@ -11672,7 +12146,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 467,
@@ -11698,7 +12173,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 468,
@@ -11720,7 +12196,8 @@ export const graphData = {
           "dist": 3.796
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 469,
@@ -11746,7 +12223,8 @@ export const graphData = {
           "dist": 3.82
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 470,
@@ -11772,7 +12250,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 471,
@@ -11798,7 +12277,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 472,
@@ -11824,7 +12304,8 @@ export const graphData = {
           "dist": 3.899
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 473,
@@ -11854,7 +12335,8 @@ export const graphData = {
           "dist": 2.187
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 474,
@@ -11888,7 +12370,8 @@ export const graphData = {
           "dist": 0.692
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 475,
@@ -11918,7 +12401,8 @@ export const graphData = {
           "dist": 2.363
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 476,
@@ -11940,7 +12424,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 477,
@@ -11958,7 +12443,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 478,
@@ -11976,7 +12462,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 479,
@@ -11998,7 +12485,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 480,
@@ -12016,7 +12504,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 481,
@@ -12038,7 +12527,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 482,
@@ -12060,7 +12550,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 483,
@@ -12090,7 +12581,8 @@ export const graphData = {
           "dist": 2.665
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 484,
@@ -12124,7 +12616,8 @@ export const graphData = {
           "dist": 0.676
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 485,
@@ -12158,7 +12651,8 @@ export const graphData = {
           "dist": 1.36
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 486,
@@ -12185,7 +12679,7 @@ export const graphData = {
         },
         {
           "id": 514,
-          "dist": 3.859
+          "dist": 3.884
         },
         {
           "id": 2753,
@@ -12200,7 +12694,8 @@ export const graphData = {
           "dist": 3.399
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 487,
@@ -12227,11 +12722,11 @@ export const graphData = {
         },
         {
           "id": 513,
-          "dist": 3.651
+          "dist": 3.668
         },
         {
           "id": 514,
-          "dist": 2.403
+          "dist": 2.435
         },
         {
           "id": 2781,
@@ -12246,7 +12741,8 @@ export const graphData = {
           "dist": 1.477
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 488,
@@ -12269,11 +12765,11 @@ export const graphData = {
         },
         {
           "id": 513,
-          "dist": 2.738
+          "dist": 2.751
         },
         {
           "id": 514,
-          "dist": 2.59
+          "dist": 2.61
         },
         {
           "id": 2781,
@@ -12288,7 +12784,8 @@ export const graphData = {
           "dist": 1.181
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 489,
@@ -12326,7 +12823,8 @@ export const graphData = {
           "dist": 3.177
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 490,
@@ -12360,7 +12858,8 @@ export const graphData = {
           "dist": 3.445
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 491,
@@ -12390,7 +12889,8 @@ export const graphData = {
           "dist": 3.319
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 492,
@@ -12412,7 +12912,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 493,
@@ -12434,7 +12935,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 494,
@@ -12464,7 +12966,8 @@ export const graphData = {
           "dist": 3.973
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 495,
@@ -12494,7 +12997,8 @@ export const graphData = {
           "dist": 3.2
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 496,
@@ -12532,7 +13036,8 @@ export const graphData = {
           "dist": 3.767
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 497,
@@ -12570,7 +13075,8 @@ export const graphData = {
           "dist": 3.239
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 498,
@@ -12604,7 +13110,8 @@ export const graphData = {
           "dist": 2.577
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 499,
@@ -12646,7 +13153,8 @@ export const graphData = {
           "dist": 3.375
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 500,
@@ -12684,7 +13192,8 @@ export const graphData = {
           "dist": 2.747
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 501,
@@ -12718,7 +13227,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 502,
@@ -12748,7 +13258,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 503,
@@ -12782,7 +13293,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 504,
@@ -12808,7 +13320,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 505,
@@ -12830,7 +13343,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 506,
@@ -12852,7 +13366,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 507,
@@ -12874,7 +13389,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 508,
@@ -12893,14 +13409,15 @@ export const graphData = {
         },
         {
           "id": 510,
-          "dist": 3.338
+          "dist": 3.417
         },
         {
           "id": 2628,
-          "dist": 3.279
+          "dist": 3.361
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 509,
@@ -12919,340 +13436,364 @@ export const graphData = {
         },
         {
           "id": 510,
-          "dist": 1.508
+          "dist": 1.724
         },
         {
           "id": 511,
-          "dist": 3.231
+          "dist": 3.337
         },
         {
           "id": 2627,
-          "dist": 3.396
+          "dist": 3.491
         },
         {
           "id": 2628,
-          "dist": 1.637
+          "dist": 1.837
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 510,
       "name": "POIs.510",
       "x": -40.397,
-      "y": 0.422,
+      "y": 1.276,
       "z": -123.23,
       "neighbors": [
         {
           "id": 508,
-          "dist": 3.338
+          "dist": 3.417
         },
         {
           "id": 509,
-          "dist": 1.508
+          "dist": 1.724
         },
         {
           "id": 511,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 512,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 2628,
-          "dist": 2.18
+          "dist": 2.179
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 511,
       "name": "POIs.511",
       "x": -40.463,
-      "y": 0.492,
+      "y": 1.276,
       "z": -125.228,
       "neighbors": [
         {
           "id": 509,
-          "dist": 3.231
+          "dist": 3.337
         },
         {
           "id": 510,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 512,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 513,
-          "dist": 4.0
+          "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 512,
       "name": "POIs.512",
       "x": -40.528,
-      "y": 0.562,
+      "y": 1.276,
       "z": -127.226,
       "neighbors": [
         {
           "id": 510,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 511,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 513,
-          "dist": 2.0
+          "dist": 1.999
+        },
+        {
+          "id": 514,
+          "dist": 3.998
         },
         {
           "id": 2783,
-          "dist": 3.933
+          "dist": 3.949
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 513,
       "name": "POIs.513",
       "x": -40.593,
-      "y": 0.632,
+      "y": 1.276,
       "z": -129.223,
       "neighbors": [
         {
           "id": 487,
-          "dist": 3.651
+          "dist": 3.668
         },
         {
           "id": 488,
-          "dist": 2.738
+          "dist": 2.751
         },
         {
           "id": 511,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 512,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 514,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 515,
-          "dist": 3.103
+          "dist": 3.101
         },
         {
           "id": 2782,
-          "dist": 3.66
+          "dist": 3.674
         },
         {
           "id": 2783,
-          "dist": 2.179
+          "dist": 2.214
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 514,
       "name": "POIs.514",
       "x": -40.658,
-      "y": 0.702,
+      "y": 1.276,
       "z": -131.221,
       "neighbors": [
         {
           "id": 486,
-          "dist": 3.859
+          "dist": 3.884
         },
         {
           "id": 487,
-          "dist": 2.403
+          "dist": 2.435
         },
         {
           "id": 488,
-          "dist": 2.59
+          "dist": 2.61
+        },
+        {
+          "id": 512,
+          "dist": 3.998
         },
         {
           "id": 513,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 515,
-          "dist": 1.881
+          "dist": 1.88
         },
         {
           "id": 516,
-          "dist": 3.878
+          "dist": 3.876
         },
         {
           "id": 2782,
-          "dist": 3.387
+          "dist": 3.406
         },
         {
           "id": 2783,
-          "dist": 1.421
+          "dist": 1.483
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 515,
       "name": "POIs.515",
       "x": -42.481,
-      "y": 0.76,
+      "y": 1.276,
       "z": -131.683,
       "neighbors": [
         {
           "id": 513,
-          "dist": 3.103
+          "dist": 3.101
         },
         {
           "id": 514,
-          "dist": 1.881
+          "dist": 1.88
         },
         {
           "id": 516,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 517,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 2783,
-          "dist": 3.295
+          "dist": 3.324
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 516,
       "name": "POIs.516",
       "x": -44.453,
-      "y": 0.817,
+      "y": 1.276,
       "z": -132.015,
       "neighbors": [
         {
           "id": 514,
-          "dist": 3.878
+          "dist": 3.876
         },
         {
           "id": 515,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 517,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 518,
-          "dist": 4.0
+          "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 517,
       "name": "POIs.517",
       "x": -46.424,
-      "y": 0.874,
+      "y": 1.276,
       "z": -132.347,
       "neighbors": [
         {
           "id": 515,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 516,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 518,
-          "dist": 2.0
+          "dist": 1.999
+        },
+        {
+          "id": 519,
+          "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 518,
       "name": "POIs.518",
       "x": -48.395,
-      "y": 0.931,
+      "y": 1.276,
       "z": -132.68,
       "neighbors": [
         {
           "id": 516,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 517,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 519,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 520,
-          "dist": 4.0
+          "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 519,
       "name": "POIs.519",
       "x": -50.367,
-      "y": 0.988,
+      "y": 1.276,
       "z": -133.012,
       "neighbors": [
         {
+          "id": 517,
+          "dist": 3.998
+        },
+        {
           "id": 518,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 520,
-          "dist": 2.0
-        },
-        {
-          "id": 521,
-          "dist": 4.0
+          "dist": 1.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 520,
       "name": "POIs.520",
       "x": -52.338,
-      "y": 1.045,
+      "y": 1.276,
       "z": -133.344,
       "neighbors": [
         {
           "id": 518,
-          "dist": 4.0
+          "dist": 3.998
         },
         {
           "id": 519,
-          "dist": 2.0
+          "dist": 1.999
         },
         {
           "id": 521,
-          "dist": 2.0
+          "dist": 2.007
         },
         {
           "id": 522,
-          "dist": 3.777
+          "dist": 3.778
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 521,
@@ -13262,12 +13803,8 @@ export const graphData = {
       "z": -133.676,
       "neighbors": [
         {
-          "id": 519,
-          "dist": 4.0
-        },
-        {
           "id": 520,
-          "dist": 2.0
+          "dist": 2.007
         },
         {
           "id": 522,
@@ -13286,7 +13823,8 @@ export const graphData = {
           "dist": 2.446
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 522,
@@ -13297,7 +13835,7 @@ export const graphData = {
       "neighbors": [
         {
           "id": 520,
-          "dist": 3.777
+          "dist": 3.778
         },
         {
           "id": 521,
@@ -13316,7 +13854,8 @@ export const graphData = {
           "dist": 2.116
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 523,
@@ -13342,7 +13881,8 @@ export const graphData = {
           "dist": 3.317
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 524,
@@ -13364,7 +13904,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 525,
@@ -13386,7 +13927,8 @@ export const graphData = {
           "dist": 3.725
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 526,
@@ -13412,7 +13954,8 @@ export const graphData = {
           "dist": 3.398
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 527,
@@ -13438,7 +13981,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 528,
@@ -13464,7 +14008,8 @@ export const graphData = {
           "dist": 3.966
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 529,
@@ -13490,7 +14035,8 @@ export const graphData = {
           "dist": 3.256
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 530,
@@ -13512,7 +14058,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 531,
@@ -13538,7 +14085,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 532,
@@ -13556,7 +14104,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 533,
@@ -13578,7 +14127,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 534,
@@ -13596,7 +14146,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 535,
@@ -13622,7 +14173,8 @@ export const graphData = {
           "dist": 3.813
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 536,
@@ -13652,7 +14204,8 @@ export const graphData = {
           "dist": 3.966
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 537,
@@ -13686,7 +14239,8 @@ export const graphData = {
           "dist": 2.591
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 538,
@@ -13724,7 +14278,8 @@ export const graphData = {
           "dist": 3.566
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 539,
@@ -13758,7 +14313,8 @@ export const graphData = {
           "dist": 3.647
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 540,
@@ -13788,7 +14344,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 541,
@@ -13822,7 +14379,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 542,
@@ -13852,7 +14410,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 543,
@@ -13886,7 +14445,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 544,
@@ -13912,7 +14472,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 545,
@@ -13942,7 +14503,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 546,
@@ -13972,7 +14534,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 547,
@@ -14002,7 +14565,8 @@ export const graphData = {
           "dist": 2.607
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 548,
@@ -14020,7 +14584,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 549,
@@ -14042,7 +14607,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 550,
@@ -14064,7 +14630,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 551,
@@ -14090,7 +14657,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 552,
@@ -14112,7 +14680,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 553,
@@ -14134,7 +14703,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 554,
@@ -14156,7 +14726,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 555,
@@ -14178,7 +14749,8 @@ export const graphData = {
           "dist": 3.246
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 556,
@@ -14208,7 +14780,8 @@ export const graphData = {
           "dist": 2.542
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 557,
@@ -14238,7 +14811,8 @@ export const graphData = {
           "dist": 1.578
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 558,
@@ -14268,7 +14842,8 @@ export const graphData = {
           "dist": 3.092
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 559,
@@ -14290,7 +14865,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 560,
@@ -14316,7 +14892,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 561,
@@ -14338,7 +14915,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 562,
@@ -14364,7 +14942,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 563,
@@ -14386,7 +14965,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 564,
@@ -14412,7 +14992,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 565,
@@ -14438,7 +15019,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 566,
@@ -14464,7 +15046,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 567,
@@ -14490,7 +15073,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 568,
@@ -14516,7 +15100,8 @@ export const graphData = {
           "dist": 3.971
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 569,
@@ -14540,9 +15125,14 @@ export const graphData = {
         {
           "id": 571,
           "dist": 3.951
+        },
+        {
+          "id": 3023,
+          "dist": 2.985
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 570,
@@ -14562,9 +15152,18 @@ export const graphData = {
         {
           "id": 571,
           "dist": 2.0
+        },
+        {
+          "id": 3023,
+          "dist": 1.783
+        },
+        {
+          "id": 3024,
+          "dist": 3.806
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 571,
@@ -14584,9 +15183,22 @@ export const graphData = {
         {
           "id": 572,
           "dist": 2.0
+        },
+        {
+          "id": 573,
+          "dist": 3.937
+        },
+        {
+          "id": 3023,
+          "dist": 1.958
+        },
+        {
+          "id": 3024,
+          "dist": 3.519
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 572,
@@ -14601,262 +15213,245 @@ export const graphData = {
         },
         {
           "id": 573,
-          "dist": 2.0
+          "dist": 1.997
         },
         {
-          "id": 574,
-          "dist": 4.0
+          "id": 3023,
+          "dist": 3.533
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 573,
       "name": "POIs.573",
-      "x": -81.352,
+      "x": -80.679,
       "y": 1.15,
-      "z": -164.364,
+      "z": -164.507,
       "neighbors": [
         {
+          "id": 571,
+          "dist": 3.937
+        },
+        {
           "id": 572,
-          "dist": 2.0
+          "dist": 1.997
         },
         {
           "id": 574,
-          "dist": 2.0
+          "dist": 2.539
         },
         {
           "id": 575,
-          "dist": 3.312
+          "dist": 3.922
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 574,
       "name": "POIs.574",
-      "x": -82.107,
+      "x": -81.032,
       "y": 1.15,
-      "z": -166.216,
+      "z": -167.021,
       "neighbors": [
         {
-          "id": 572,
-          "dist": 4.0
-        },
-        {
           "id": 573,
-          "dist": 2.0
+          "dist": 2.539
         },
         {
           "id": 575,
-          "dist": 1.968
-        },
-        {
-          "id": 576,
-          "dist": 3.967
+          "dist": 1.9
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 575,
       "name": "POIs.575",
-      "x": -84.075,
+      "x": -82.747,
       "y": 1.15,
-      "z": -166.251,
+      "z": -167.839,
       "neighbors": [
         {
           "id": 573,
-          "dist": 3.312
+          "dist": 3.922
         },
         {
           "id": 574,
-          "dist": 1.968
+          "dist": 1.9
         },
         {
           "id": 576,
-          "dist": 2.0
-        },
-        {
-          "id": 577,
-          "dist": 4.0
+          "dist": 2.514
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 576,
       "name": "POIs.576",
-      "x": -86.075,
+      "x": -85.26,
       "y": 1.15,
-      "z": -166.236,
+      "z": -167.762,
       "neighbors": [
         {
-          "id": 574,
-          "dist": 3.967
-        },
-        {
           "id": 575,
-          "dist": 2.0
+          "dist": 2.514
         },
         {
           "id": 577,
-          "dist": 2.0
+          "dist": 2.966
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 577,
       "name": "POIs.577",
-      "x": -88.074,
+      "x": -88.226,
       "y": 1.15,
-      "z": -166.222,
+      "z": -167.783,
       "neighbors": [
         {
-          "id": 575,
-          "dist": 4.0
-        },
-        {
           "id": 576,
-          "dist": 2.0
+          "dist": 2.966
         },
         {
           "id": 578,
-          "dist": 2.0
-        },
-        {
-          "id": 579,
-          "dist": 4.0
+          "dist": 2.183
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 578,
       "name": "POIs.578",
-      "x": -90.074,
+      "x": -90.408,
       "y": 1.15,
-      "z": -166.207,
+      "z": -167.741,
       "neighbors": [
         {
           "id": 577,
-          "dist": 2.0
+          "dist": 2.183
         },
         {
           "id": 579,
-          "dist": 2.0
+          "dist": 3.787
         },
         {
-          "id": 580,
-          "dist": 2.964
+          "id": 3018,
+          "dist": 2.047
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 579,
       "name": "POIs.579",
-      "x": -92.074,
+      "x": -94.192,
       "y": 1.15,
-      "z": -166.193,
+      "z": -167.592,
       "neighbors": [
         {
-          "id": 577,
-          "dist": 4.0
-        },
-        {
           "id": 578,
-          "dist": 2.0
+          "dist": 3.787
         },
         {
           "id": 580,
-          "dist": 1.71
+          "dist": 1.845
         },
         {
           "id": 581,
-          "dist": 3.69
+          "dist": 3.596
+        },
+        {
+          "id": 3018,
+          "dist": 1.739
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 580,
       "name": "POIs.580",
-      "x": -92.528,
+      "x": -94.074,
       "y": 1.15,
-      "z": -164.545,
+      "z": -165.751,
       "neighbors": [
         {
-          "id": 578,
-          "dist": 2.964
-        },
-        {
           "id": 579,
-          "dist": 1.71
+          "dist": 1.845
         },
         {
           "id": 581,
-          "dist": 2.0
+          "dist": 1.757
         },
         {
           "id": 582,
-          "dist": 4.0
+          "dist": 3.713
+        },
+        {
+          "id": 3018,
+          "dist": 2.49
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 581,
       "name": "POIs.581",
-      "x": -92.653,
+      "x": -94.165,
       "y": 1.15,
-      "z": -162.549,
+      "z": -163.996,
       "neighbors": [
         {
           "id": 579,
-          "dist": 3.69
+          "dist": 3.596
         },
         {
           "id": 580,
-          "dist": 2.0
+          "dist": 1.757
         },
         {
           "id": 582,
-          "dist": 2.0
-        },
-        {
-          "id": 583,
-          "dist": 4.0
+          "dist": 1.969
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 582,
       "name": "POIs.582",
-      "x": -92.778,
+      "x": -93.931,
       "y": 1.15,
-      "z": -160.553,
+      "z": -162.04,
       "neighbors": [
         {
           "id": 580,
-          "dist": 4.0
+          "dist": 3.713
         },
         {
           "id": 581,
-          "dist": 2.0
+          "dist": 1.969
         },
         {
           "id": 583,
-          "dist": 2.0
-        },
-        {
-          "id": 584,
-          "dist": 4.0
+          "dist": 3.633
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 583,
@@ -14866,12 +15461,8 @@ export const graphData = {
       "z": -158.556,
       "neighbors": [
         {
-          "id": 581,
-          "dist": 4.0
-        },
-        {
           "id": 582,
-          "dist": 2.0
+          "dist": 3.633
         },
         {
           "id": 584,
@@ -14880,9 +15471,14 @@ export const graphData = {
         {
           "id": 585,
           "dist": 4.0
+        },
+        {
+          "id": 3020,
+          "dist": 2.257
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 584,
@@ -14891,10 +15487,6 @@ export const graphData = {
       "y": 1.15,
       "z": -156.56,
       "neighbors": [
-        {
-          "id": 582,
-          "dist": 4.0
-        },
         {
           "id": 583,
           "dist": 2.0
@@ -14914,9 +15506,14 @@ export const graphData = {
         {
           "id": 1213,
           "dist": 2.834
+        },
+        {
+          "id": 3020,
+          "dist": 3.179
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 585,
@@ -14950,7 +15547,8 @@ export const graphData = {
           "dist": 0.849
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 586,
@@ -14980,7 +15578,8 @@ export const graphData = {
           "dist": 1.207
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 587,
@@ -15010,7 +15609,8 @@ export const graphData = {
           "dist": 3.197
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 588,
@@ -15028,7 +15628,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 589,
@@ -15046,7 +15647,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 590,
@@ -15064,7 +15666,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 591,
@@ -15086,7 +15689,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 592,
@@ -15108,7 +15712,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 593,
@@ -15130,7 +15735,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 594,
@@ -15152,7 +15758,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 595,
@@ -15178,7 +15785,8 @@ export const graphData = {
           "dist": 3.957
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 596,
@@ -15208,7 +15816,8 @@ export const graphData = {
           "dist": 3.975
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 597,
@@ -15238,7 +15847,8 @@ export const graphData = {
           "dist": 3.953
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 598,
@@ -15268,7 +15878,8 @@ export const graphData = {
           "dist": 3.953
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 599,
@@ -15286,7 +15897,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 600,
@@ -15308,7 +15920,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 601,
@@ -15326,7 +15939,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 602,
@@ -15348,7 +15962,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 603,
@@ -15374,7 +15989,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 604,
@@ -15404,7 +16020,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 605,
@@ -15430,7 +16047,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 606,
@@ -15448,7 +16066,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 607,
@@ -15466,7 +16085,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 608,
@@ -15492,7 +16112,8 @@ export const graphData = {
           "dist": 3.52
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 609,
@@ -15522,7 +16143,8 @@ export const graphData = {
           "dist": 2.776
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 610,
@@ -15552,7 +16174,8 @@ export const graphData = {
           "dist": 2.889
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 611,
@@ -15590,7 +16213,8 @@ export const graphData = {
           "dist": 2.889
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 612,
@@ -15620,7 +16244,8 @@ export const graphData = {
           "dist": 0.745
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 613,
@@ -15658,7 +16283,8 @@ export const graphData = {
           "dist": 3.892
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 614,
@@ -15688,7 +16314,8 @@ export const graphData = {
           "dist": 3.337
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 615,
@@ -15710,7 +16337,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 616,
@@ -15732,7 +16360,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 617,
@@ -15754,7 +16383,8 @@ export const graphData = {
           "dist": 3.783
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 618,
@@ -15776,7 +16406,8 @@ export const graphData = {
           "dist": 3.481
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 619,
@@ -15798,7 +16429,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 620,
@@ -15824,7 +16456,8 @@ export const graphData = {
           "dist": 3.631
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 621,
@@ -15850,7 +16483,8 @@ export const graphData = {
           "dist": 2.458
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 622,
@@ -15884,7 +16518,8 @@ export const graphData = {
           "dist": 1.432
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 623,
@@ -15918,7 +16553,8 @@ export const graphData = {
           "dist": 2.706
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 624,
@@ -15940,7 +16576,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 625,
@@ -15962,7 +16599,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 626,
@@ -15980,7 +16618,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 627,
@@ -16002,7 +16641,8 @@ export const graphData = {
           "dist": 3.912
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 628,
@@ -16032,7 +16672,8 @@ export const graphData = {
           "dist": 2.917
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 629,
@@ -16074,7 +16715,8 @@ export const graphData = {
           "dist": 3.6
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 630,
@@ -16124,7 +16766,8 @@ export const graphData = {
           "dist": 3.254
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 631,
@@ -16178,7 +16821,8 @@ export const graphData = {
           "dist": 2.951
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 632,
@@ -16228,7 +16872,8 @@ export const graphData = {
           "dist": 3.971
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 633,
@@ -16254,7 +16899,8 @@ export const graphData = {
           "dist": 3.165
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 634,
@@ -16276,7 +16922,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 635,
@@ -16302,7 +16949,8 @@ export const graphData = {
           "dist": 3.176
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 636,
@@ -16332,7 +16980,8 @@ export const graphData = {
           "dist": 1.794
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 637,
@@ -16366,7 +17015,8 @@ export const graphData = {
           "dist": 3.094
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 638,
@@ -16400,7 +17050,8 @@ export const graphData = {
           "dist": 2.151
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 639,
@@ -16430,7 +17081,8 @@ export const graphData = {
           "dist": 2.871
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 640,
@@ -16452,7 +17104,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 641,
@@ -16474,7 +17127,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 642,
@@ -16492,7 +17146,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 643,
@@ -16518,7 +17173,8 @@ export const graphData = {
           "dist": 3.461
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 644,
@@ -16548,7 +17204,8 @@ export const graphData = {
           "dist": 1.476
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 645,
@@ -16578,7 +17235,8 @@ export const graphData = {
           "dist": 0.855
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 646,
@@ -16612,7 +17270,8 @@ export const graphData = {
           "dist": 2.761
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 647,
@@ -16638,7 +17297,8 @@ export const graphData = {
           "dist": 2.55
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 648,
@@ -16668,7 +17328,8 @@ export const graphData = {
           "dist": 0.55
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 649,
@@ -16710,7 +17371,8 @@ export const graphData = {
           "dist": 1.591
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 650,
@@ -16768,7 +17430,8 @@ export const graphData = {
           "dist": 3.582
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 651,
@@ -16814,7 +17477,8 @@ export const graphData = {
           "dist": 3.338
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 652,
@@ -16864,7 +17528,8 @@ export const graphData = {
           "dist": 3.798
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 653,
@@ -16898,7 +17563,8 @@ export const graphData = {
           "dist": 2.709
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 654,
@@ -16932,7 +17598,8 @@ export const graphData = {
           "dist": 3.613
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 655,
@@ -16954,7 +17621,8 @@ export const graphData = {
           "dist": 3.872
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 656,
@@ -16972,7 +17640,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 657,
@@ -16990,7 +17659,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 658,
@@ -17020,7 +17690,8 @@ export const graphData = {
           "dist": 2.875
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 659,
@@ -17054,7 +17725,8 @@ export const graphData = {
           "dist": 2.146
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 660,
@@ -17092,7 +17764,8 @@ export const graphData = {
           "dist": 3.014
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 661,
@@ -17130,7 +17803,8 @@ export const graphData = {
           "dist": 3.83
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 662,
@@ -17164,7 +17838,8 @@ export const graphData = {
           "dist": 3.771
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 663,
@@ -17198,7 +17873,8 @@ export const graphData = {
           "dist": 3.286
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 664,
@@ -17236,7 +17912,8 @@ export const graphData = {
           "dist": 2.94
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 665,
@@ -17274,7 +17951,8 @@ export const graphData = {
           "dist": 0.992
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 666,
@@ -17304,7 +17982,8 @@ export const graphData = {
           "dist": 1.151
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 667,
@@ -17330,7 +18009,8 @@ export const graphData = {
           "dist": 3.11
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 668,
@@ -17352,7 +18032,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 669,
@@ -17374,7 +18055,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 670,
@@ -17392,7 +18074,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 671,
@@ -17414,7 +18097,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 672,
@@ -17432,7 +18116,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 673,
@@ -17450,7 +18135,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 674,
@@ -17468,7 +18154,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 675,
@@ -17490,7 +18177,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 676,
@@ -17512,7 +18200,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 677,
@@ -17538,7 +18227,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 678,
@@ -17564,7 +18254,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 679,
@@ -17594,7 +18285,8 @@ export const graphData = {
           "dist": 3.331
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 680,
@@ -17628,7 +18320,8 @@ export const graphData = {
           "dist": 1.331
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 681,
@@ -17670,7 +18363,8 @@ export const graphData = {
           "dist": 1.646
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 682,
@@ -17716,7 +18410,8 @@ export const graphData = {
           "dist": 3.524
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 683,
@@ -17766,7 +18461,8 @@ export const graphData = {
           "dist": 3.3
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 684,
@@ -17792,10 +18488,6 @@ export const graphData = {
           "dist": 3.983
         },
         {
-          "id": 1404,
-          "dist": 3.426
-        },
-        {
           "id": 1405,
           "dist": 1.551
         },
@@ -17816,7 +18508,8 @@ export const graphData = {
           "dist": 3.503
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 685,
@@ -17842,14 +18535,6 @@ export const graphData = {
           "dist": 4.0
         },
         {
-          "id": 1401,
-          "dist": 3.844
-        },
-        {
-          "id": 1404,
-          "dist": 3.763
-        },
-        {
           "id": 1405,
           "dist": 2.636
         },
@@ -17862,7 +18547,8 @@ export const graphData = {
           "dist": 3.536
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 686,
@@ -17904,7 +18590,8 @@ export const graphData = {
           "dist": 3.98
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 687,
@@ -17950,7 +18637,8 @@ export const graphData = {
           "dist": 2.764
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 688,
@@ -18000,7 +18688,8 @@ export const graphData = {
           "dist": 2.739
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 689,
@@ -18046,7 +18735,8 @@ export const graphData = {
           "dist": 2.518
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 690,
@@ -18072,7 +18762,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 691,
@@ -18094,7 +18785,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 692,
@@ -18116,7 +18808,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 693,
@@ -18142,7 +18835,8 @@ export const graphData = {
           "dist": 3.321
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 694,
@@ -18172,7 +18866,8 @@ export const graphData = {
           "dist": 1.504
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 695,
@@ -18202,7 +18897,8 @@ export const graphData = {
           "dist": 1.195
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 696,
@@ -18232,7 +18928,8 @@ export const graphData = {
           "dist": 2.914
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 697,
@@ -18254,7 +18951,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 698,
@@ -18272,7 +18970,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 699,
@@ -18294,7 +18993,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 700,
@@ -18316,7 +19016,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 701,
@@ -18334,7 +19035,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 702,
@@ -18368,7 +19070,8 @@ export const graphData = {
           "dist": 3.329
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 703,
@@ -18406,7 +19109,8 @@ export const graphData = {
           "dist": 2.828
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 704,
@@ -18448,7 +19152,8 @@ export const graphData = {
           "dist": 2.58
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 705,
@@ -18486,7 +19191,8 @@ export const graphData = {
           "dist": 3.587
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 706,
@@ -18508,7 +19214,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 707,
@@ -18530,7 +19237,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 708,
@@ -18548,7 +19256,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 709,
@@ -18574,7 +19283,8 @@ export const graphData = {
           "dist": 2.752
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 710,
@@ -18604,7 +19314,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 711,
@@ -18630,7 +19341,8 @@ export const graphData = {
           "dist": 3.751
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 712,
@@ -18660,7 +19372,8 @@ export const graphData = {
           "dist": 1.8
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 713,
@@ -18690,7 +19403,8 @@ export const graphData = {
           "dist": 0.862
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 714,
@@ -18716,7 +19430,8 @@ export const graphData = {
           "dist": 2.856
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 715,
@@ -18738,7 +19453,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 716,
@@ -18756,7 +19472,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 717,
@@ -18786,7 +19503,8 @@ export const graphData = {
           "dist": 3.599
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 718,
@@ -18816,7 +19534,8 @@ export const graphData = {
           "dist": 1.727
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 719,
@@ -18846,7 +19565,8 @@ export const graphData = {
           "dist": 1.028
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 720,
@@ -18876,7 +19596,8 @@ export const graphData = {
           "dist": 2.697
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 721,
@@ -18898,7 +19619,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 722,
@@ -18920,7 +19642,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 723,
@@ -18942,7 +19665,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 724,
@@ -18960,7 +19684,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 725,
@@ -18978,7 +19703,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 726,
@@ -19004,7 +19730,8 @@ export const graphData = {
           "dist": 3.267
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 727,
@@ -19034,7 +19761,8 @@ export const graphData = {
           "dist": 2.925
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 728,
@@ -19064,7 +19792,8 @@ export const graphData = {
           "dist": 2.904
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 729,
@@ -19094,7 +19823,8 @@ export const graphData = {
           "dist": 2.904
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 730,
@@ -19112,7 +19842,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 731,
@@ -19134,7 +19865,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 732,
@@ -19152,7 +19884,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 733,
@@ -19178,7 +19911,8 @@ export const graphData = {
           "dist": 3.164
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 734,
@@ -19208,7 +19942,8 @@ export const graphData = {
           "dist": 1.89
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 735,
@@ -19238,7 +19973,8 @@ export const graphData = {
           "dist": 3.033
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 736,
@@ -19264,7 +20000,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 737,
@@ -19290,7 +20027,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 738,
@@ -19312,7 +20050,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 739,
@@ -19334,7 +20073,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 740,
@@ -19356,7 +20096,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 741,
@@ -19374,7 +20115,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 742,
@@ -19400,7 +20142,8 @@ export const graphData = {
           "dist": 3.102
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 743,
@@ -19422,7 +20165,8 @@ export const graphData = {
           "dist": 3.039
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 744,
@@ -19444,7 +20188,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 745,
@@ -19466,7 +20211,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 746,
@@ -19488,7 +20234,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 747,
@@ -19506,7 +20253,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 748,
@@ -19528,7 +20276,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 749,
@@ -19546,7 +20295,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 750,
@@ -19564,7 +20314,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 751,
@@ -19582,7 +20333,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 752,
@@ -19604,7 +20356,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 753,
@@ -19622,7 +20375,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 754,
@@ -19644,7 +20398,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 755,
@@ -19666,7 +20421,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 756,
@@ -19688,7 +20444,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 757,
@@ -19710,7 +20467,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 758,
@@ -19736,7 +20494,8 @@ export const graphData = {
           "dist": 3.814
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 759,
@@ -19762,7 +20521,8 @@ export const graphData = {
           "dist": 2.984
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 760,
@@ -19792,7 +20552,8 @@ export const graphData = {
           "dist": 1.396
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 761,
@@ -19822,7 +20583,8 @@ export const graphData = {
           "dist": 3.141
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 762,
@@ -19844,7 +20606,8 @@ export const graphData = {
           "dist": 3.661
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 763,
@@ -19866,7 +20629,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 764,
@@ -19888,7 +20652,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 765,
@@ -19906,7 +20671,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 766,
@@ -19924,7 +20690,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 767,
@@ -19946,7 +20713,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 768,
@@ -19968,7 +20736,8 @@ export const graphData = {
           "dist": 3.969
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 769,
@@ -19994,7 +20763,8 @@ export const graphData = {
           "dist": 3.99
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 770,
@@ -20020,7 +20790,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 771,
@@ -20046,7 +20817,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 772,
@@ -20072,7 +20844,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 773,
@@ -20094,7 +20867,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 774,
@@ -20120,7 +20894,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 775,
@@ -20154,7 +20929,8 @@ export const graphData = {
           "dist": 3.811
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 776,
@@ -20192,7 +20968,8 @@ export const graphData = {
           "dist": 2.315
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 777,
@@ -20234,7 +21011,8 @@ export const graphData = {
           "dist": 3.151
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 778,
@@ -20272,7 +21050,8 @@ export const graphData = {
           "dist": 2.65
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 779,
@@ -20306,7 +21085,8 @@ export const graphData = {
           "dist": 3.762
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 780,
@@ -20328,7 +21108,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 781,
@@ -20350,7 +21131,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 782,
@@ -20368,7 +21150,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 783,
@@ -20386,7 +21169,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 784,
@@ -20412,7 +21196,8 @@ export const graphData = {
           "dist": 3.297
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 785,
@@ -20442,7 +21227,8 @@ export const graphData = {
           "dist": 1.297
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 786,
@@ -20480,7 +21266,8 @@ export const graphData = {
           "dist": 0.84
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 787,
@@ -20522,7 +21309,8 @@ export const graphData = {
           "dist": 2.815
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 788,
@@ -20556,7 +21344,8 @@ export const graphData = {
           "dist": 3.845
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 789,
@@ -20578,7 +21367,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 790,
@@ -20608,7 +21398,8 @@ export const graphData = {
           "dist": 3.078
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 791,
@@ -20654,7 +21445,8 @@ export const graphData = {
           "dist": 3.398
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 792,
@@ -20704,7 +21496,8 @@ export const graphData = {
           "dist": 2.513
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 793,
@@ -20758,7 +21551,8 @@ export const graphData = {
           "dist": 0.756
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 794,
@@ -20808,7 +21602,8 @@ export const graphData = {
           "dist": 3.304
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 795,
@@ -20862,7 +21657,8 @@ export const graphData = {
           "dist": 3.832
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 796,
@@ -20908,7 +21704,8 @@ export const graphData = {
           "dist": 3.89
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 797,
@@ -20958,7 +21755,8 @@ export const graphData = {
           "dist": 2.564
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 798,
@@ -21016,7 +21814,8 @@ export const graphData = {
           "dist": 1.087
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 799,
@@ -21054,7 +21853,8 @@ export const graphData = {
           "dist": 3.426
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 800,
@@ -21096,7 +21896,8 @@ export const graphData = {
           "dist": 3.991
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 801,
@@ -21142,7 +21943,8 @@ export const graphData = {
           "dist": 3.965
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 802,
@@ -21200,7 +22002,8 @@ export const graphData = {
           "dist": 3.19
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 803,
@@ -21250,7 +22053,8 @@ export const graphData = {
           "dist": 0.733
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 804,
@@ -21304,7 +22108,8 @@ export const graphData = {
           "dist": 2.483
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 805,
@@ -21350,7 +22155,8 @@ export const graphData = {
           "dist": 3.546
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 806,
@@ -21392,7 +22198,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 807,
@@ -21430,7 +22237,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 808,
@@ -21464,7 +22272,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 809,
@@ -21510,10 +22319,6 @@ export const graphData = {
           "dist": 1.87
         },
         {
-          "id": 811,
-          "dist": 3.782
-        },
-        {
           "id": 2791,
           "dist": 2.098
         },
@@ -21522,7 +22327,8 @@ export const graphData = {
           "dist": 3.913
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 810,
@@ -21564,19 +22370,12 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 812,
-          "dist": 3.702
-        },
-        {
-          "id": 814,
-          "dist": 3.834
-        },
-        {
           "id": 2791,
           "dist": 3.689
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 811,
@@ -21585,10 +22384,6 @@ export const graphData = {
       "y": 3.841,
       "z": -103.144,
       "neighbors": [
-        {
-          "id": 809,
-          "dist": 3.782
-        },
         {
           "id": 810,
           "dist": 2.0
@@ -21604,13 +22399,10 @@ export const graphData = {
         {
           "id": 814,
           "dist": 2.786
-        },
-        {
-          "id": 815,
-          "dist": 3.518
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 812,
@@ -21619,10 +22411,6 @@ export const graphData = {
       "y": 4.5,
       "z": -103.749,
       "neighbors": [
-        {
-          "id": 810,
-          "dist": 3.702
-        },
         {
           "id": 811,
           "dist": 1.793
@@ -21640,7 +22428,8 @@ export const graphData = {
           "dist": 3.853
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 813,
@@ -21666,7 +22455,8 @@ export const graphData = {
           "dist": 3.526
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 814,
@@ -21675,10 +22465,6 @@ export const graphData = {
       "y": 4.952,
       "z": -105.699,
       "neighbors": [
-        {
-          "id": 810,
-          "dist": 3.834
-        },
         {
           "id": 811,
           "dist": 2.786
@@ -21694,13 +22480,10 @@ export const graphData = {
         {
           "id": 815,
           "dist": 2.0
-        },
-        {
-          "id": 816,
-          "dist": 3.933
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 815,
@@ -21709,10 +22492,6 @@ export const graphData = {
       "y": 6.106,
       "z": -105.33,
       "neighbors": [
-        {
-          "id": 811,
-          "dist": 3.518
-        },
         {
           "id": 812,
           "dist": 3.853
@@ -21734,10 +22513,6 @@ export const graphData = {
           "dist": 3.714
         },
         {
-          "id": 1002,
-          "dist": 3.142
-        },
-        {
           "id": 1003,
           "dist": 2.467
         },
@@ -21754,7 +22529,8 @@ export const graphData = {
           "dist": 2.979
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 816,
@@ -21763,10 +22539,6 @@ export const graphData = {
       "y": 7.135,
       "z": -104.74,
       "neighbors": [
-        {
-          "id": 814,
-          "dist": 3.933
-        },
         {
           "id": 815,
           "dist": 1.941
@@ -21804,7 +22576,8 @@ export const graphData = {
           "dist": 2.207
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 817,
@@ -21846,7 +22619,8 @@ export const graphData = {
           "dist": 2.857
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 818,
@@ -21876,7 +22650,8 @@ export const graphData = {
           "dist": 3.293
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 819,
@@ -21898,7 +22673,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 820,
@@ -21920,7 +22696,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 821,
@@ -21942,7 +22719,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 822,
@@ -21964,7 +22742,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 823,
@@ -21982,7 +22761,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 824,
@@ -22000,7 +22780,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 825,
@@ -22022,7 +22803,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 826,
@@ -22040,7 +22822,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 827,
@@ -22062,7 +22845,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 828,
@@ -22084,7 +22868,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 829,
@@ -22102,7 +22887,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 830,
@@ -22124,7 +22910,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 831,
@@ -22146,7 +22933,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 832,
@@ -22168,7 +22956,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 833,
@@ -22190,7 +22979,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 834,
@@ -22220,7 +23010,8 @@ export const graphData = {
           "dist": 3.344
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 835,
@@ -22250,7 +23041,8 @@ export const graphData = {
           "dist": 1.75
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 836,
@@ -22280,7 +23072,8 @@ export const graphData = {
           "dist": 1.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 837,
@@ -22306,7 +23099,8 @@ export const graphData = {
           "dist": 3.324
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 838,
@@ -22336,7 +23130,8 @@ export const graphData = {
           "dist": 2.134
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 839,
@@ -22366,7 +23161,8 @@ export const graphData = {
           "dist": 0.673
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 840,
@@ -22400,7 +23196,8 @@ export const graphData = {
           "dist": 2.065
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 841,
@@ -22426,7 +23223,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 842,
@@ -22460,7 +23258,8 @@ export const graphData = {
           "dist": 3.037
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 843,
@@ -22494,7 +23293,8 @@ export const graphData = {
           "dist": 1.199
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 844,
@@ -22528,7 +23328,8 @@ export const graphData = {
           "dist": 1.26
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 845,
@@ -22558,7 +23359,8 @@ export const graphData = {
           "dist": 3.108
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 846,
@@ -22584,7 +23386,8 @@ export const graphData = {
           "dist": 3.799
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 847,
@@ -22618,7 +23421,8 @@ export const graphData = {
           "dist": 3.676
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 848,
@@ -22656,7 +23460,8 @@ export const graphData = {
           "dist": 2.633
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 849,
@@ -22710,7 +23515,8 @@ export const graphData = {
           "dist": 1.276
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 850,
@@ -22756,7 +23562,8 @@ export const graphData = {
           "dist": 2.224
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 851,
@@ -22786,15 +23593,12 @@ export const graphData = {
           "dist": 3.764
         },
         {
-          "id": 1387,
-          "dist": 3.85
-        },
-        {
           "id": 1388,
           "dist": 3.625
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 852,
@@ -22832,7 +23636,8 @@ export const graphData = {
           "dist": 2.576
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 853,
@@ -22870,10 +23675,6 @@ export const graphData = {
           "dist": 2.444
         },
         {
-          "id": 925,
-          "dist": 3.454
-        },
-        {
           "id": 1396,
           "dist": 3.732
         },
@@ -22882,7 +23683,8 @@ export const graphData = {
           "dist": 1.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 854,
@@ -22912,19 +23714,12 @@ export const graphData = {
           "dist": 3.257
         },
         {
-          "id": 913,
-          "dist": 3.186
-        },
-        {
-          "id": 926,
-          "dist": 3.891
-        },
-        {
           "id": 1397,
           "dist": 3.671
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 855,
@@ -22952,17 +23747,10 @@ export const graphData = {
         {
           "id": 857,
           "dist": 3.793
-        },
-        {
-          "id": 925,
-          "dist": 3.329
-        },
-        {
-          "id": 926,
-          "dist": 3.341
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 856,
@@ -22988,7 +23776,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 857,
@@ -23018,7 +23807,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 858,
@@ -23056,7 +23846,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 859,
@@ -23098,7 +23889,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 860,
@@ -23144,7 +23936,8 @@ export const graphData = {
           "dist": 3.836
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 861,
@@ -23174,7 +23967,8 @@ export const graphData = {
           "dist": 3.954
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 862,
@@ -23192,7 +23986,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 863,
@@ -23214,7 +24009,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 864,
@@ -23236,7 +24032,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 865,
@@ -23254,7 +24051,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 866,
@@ -23272,7 +24070,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 867,
@@ -23294,7 +24093,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 868,
@@ -23316,7 +24116,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 869,
@@ -23334,7 +24135,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 870,
@@ -23352,7 +24154,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 871,
@@ -23374,7 +24177,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 872,
@@ -23396,7 +24200,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 873,
@@ -23414,7 +24219,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 874,
@@ -23422,25 +24228,9 @@ export const graphData = {
       "x": -80.732,
       "y": 6.908,
       "z": -107.451,
-      "neighbors": [
-        {
-          "id": 875,
-          "dist": 2.0
-        },
-        {
-          "id": 905,
-          "dist": 3.506
-        },
-        {
-          "id": 906,
-          "dist": 2.143
-        },
-        {
-          "id": 907,
-          "dist": 2.586
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 875,
@@ -23448,21 +24238,9 @@ export const graphData = {
       "x": -82.727,
       "y": 6.908,
       "z": -107.592,
-      "neighbors": [
-        {
-          "id": 874,
-          "dist": 2.0
-        },
-        {
-          "id": 906,
-          "dist": 3.48
-        },
-        {
-          "id": 907,
-          "dist": 2.868
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 876,
@@ -23480,7 +24258,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 877,
@@ -23502,7 +24281,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 878,
@@ -23528,7 +24308,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 879,
@@ -23550,7 +24331,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 880,
@@ -23572,7 +24354,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 881,
@@ -23586,7 +24369,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 882,
@@ -23604,7 +24388,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 883,
@@ -23626,7 +24411,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 884,
@@ -23648,7 +24434,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 885,
@@ -23666,7 +24453,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 886,
@@ -23684,7 +24472,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 887,
@@ -23702,7 +24491,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 888,
@@ -23724,7 +24514,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 889,
@@ -23738,7 +24529,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 890,
@@ -23756,7 +24548,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 891,
@@ -23778,7 +24571,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 892,
@@ -23800,7 +24594,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 893,
@@ -23818,7 +24613,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 894,
@@ -23844,7 +24640,8 @@ export const graphData = {
           "dist": 2.21
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 895,
@@ -23882,7 +24679,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 896,
@@ -23924,7 +24722,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 897,
@@ -23954,7 +24753,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 898,
@@ -23992,7 +24792,8 @@ export const graphData = {
           "dist": 3.721
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 899,
@@ -24026,7 +24827,8 @@ export const graphData = {
           "dist": 3.204
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 900,
@@ -24060,7 +24862,8 @@ export const graphData = {
           "dist": 3.812
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 901,
@@ -24090,7 +24893,8 @@ export const graphData = {
           "dist": 3.812
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 902,
@@ -24120,7 +24924,8 @@ export const graphData = {
           "dist": 3.052
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 903,
@@ -24154,7 +24959,8 @@ export const graphData = {
           "dist": 3.394
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 904,
@@ -24188,7 +24994,8 @@ export const graphData = {
           "dist": 3.526
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 905,
@@ -24197,10 +25004,6 @@ export const graphData = {
       "y": 7.217,
       "z": -105.276,
       "neighbors": [
-        {
-          "id": 874,
-          "dist": 3.506
-        },
         {
           "id": 903,
           "dist": 4.0
@@ -24222,7 +25025,8 @@ export const graphData = {
           "dist": 3.526
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 906,
@@ -24231,14 +25035,6 @@ export const graphData = {
       "y": 7.249,
       "z": -105.47,
       "neighbors": [
-        {
-          "id": 874,
-          "dist": 2.143
-        },
-        {
-          "id": 875,
-          "dist": 3.48
-        },
         {
           "id": 904,
           "dist": 4.0
@@ -24256,7 +25052,8 @@ export const graphData = {
           "dist": 3.124
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 907,
@@ -24274,14 +25071,6 @@ export const graphData = {
           "dist": 3.472
         },
         {
-          "id": 874,
-          "dist": 2.586
-        },
-        {
-          "id": 875,
-          "dist": 2.868
-        },
-        {
           "id": 905,
           "dist": 3.531
         },
@@ -24294,7 +25083,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 908,
@@ -24328,7 +25118,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 909,
@@ -24370,7 +25161,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 910,
@@ -24404,7 +25196,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 911,
@@ -24446,7 +25239,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 912,
@@ -24488,7 +25282,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 913,
@@ -24504,10 +25299,6 @@ export const graphData = {
         {
           "id": 853,
           "dist": 2.05
-        },
-        {
-          "id": 854,
-          "dist": 3.186
         },
         {
           "id": 914,
@@ -24530,7 +25321,8 @@ export const graphData = {
           "dist": 2.836
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 914,
@@ -24564,7 +25356,8 @@ export const graphData = {
           "dist": 2.573
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 915,
@@ -24598,7 +25391,8 @@ export const graphData = {
           "dist": 2.936
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 916,
@@ -24632,7 +25426,8 @@ export const graphData = {
           "dist": 3.185
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 917,
@@ -24656,17 +25451,10 @@ export const graphData = {
         {
           "id": 926,
           "dist": 3.185
-        },
-        {
-          "id": 927,
-          "dist": 2.706
-        },
-        {
-          "id": 928,
-          "dist": 3.535
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 918,
@@ -24686,21 +25474,10 @@ export const graphData = {
         {
           "id": 920,
           "dist": 4.0
-        },
-        {
-          "id": 927,
-          "dist": 3.535
-        },
-        {
-          "id": 928,
-          "dist": 3.177
-        },
-        {
-          "id": 929,
-          "dist": 3.961
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 919,
@@ -24720,17 +25497,10 @@ export const graphData = {
         {
           "id": 920,
           "dist": 2.0
-        },
-        {
-          "id": 928,
-          "dist": 3.961
-        },
-        {
-          "id": 929,
-          "dist": 3.702
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 920,
@@ -24754,13 +25524,10 @@ export const graphData = {
         {
           "id": 922,
           "dist": 3.972
-        },
-        {
-          "id": 2623,
-          "dist": 3.886
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 921,
@@ -24780,13 +25547,10 @@ export const graphData = {
         {
           "id": 923,
           "dist": 2.834
-        },
-        {
-          "id": 2624,
-          "dist": 3.651
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 922,
@@ -24806,17 +25570,10 @@ export const graphData = {
         {
           "id": 923,
           "dist": 1.485
-        },
-        {
-          "id": 2624,
-          "dist": 3.816
-        },
-        {
-          "id": 2625,
-          "dist": 3.465
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 923,
@@ -24834,7 +25591,8 @@ export const graphData = {
           "dist": 1.485
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 924,
@@ -24872,7 +25630,8 @@ export const graphData = {
           "dist": 3.562
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 925,
@@ -24881,14 +25640,6 @@ export const graphData = {
       "y": 7.213,
       "z": -101.497,
       "neighbors": [
-        {
-          "id": 853,
-          "dist": 3.454
-        },
-        {
-          "id": 855,
-          "dist": 3.329
-        },
         {
           "id": 913,
           "dist": 2.705
@@ -24914,7 +25665,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 926,
@@ -24923,14 +25675,6 @@ export const graphData = {
       "y": 7.473,
       "z": -103.475,
       "neighbors": [
-        {
-          "id": 854,
-          "dist": 3.891
-        },
-        {
-          "id": 855,
-          "dist": 3.341
-        },
         {
           "id": 915,
           "dist": 2.936
@@ -24956,7 +25700,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 927,
@@ -24970,14 +25715,6 @@ export const graphData = {
           "dist": 3.185
         },
         {
-          "id": 917,
-          "dist": 2.706
-        },
-        {
-          "id": 918,
-          "dist": 3.535
-        },
-        {
           "id": 926,
           "dist": 2.0
         },
@@ -24988,13 +25725,10 @@ export const graphData = {
         {
           "id": 929,
           "dist": 4.0
-        },
-        {
-          "id": 938,
-          "dist": 3.701
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 928,
@@ -25004,39 +25738,16 @@ export const graphData = {
       "z": -107.43,
       "neighbors": [
         {
-          "id": 917,
-          "dist": 3.535
-        },
-        {
-          "id": 918,
-          "dist": 3.177
-        },
-        {
-          "id": 919,
-          "dist": 3.961
-        },
-        {
           "id": 927,
           "dist": 2.0
         },
         {
           "id": 929,
           "dist": 2.0
-        },
-        {
-          "id": 936,
-          "dist": 3.708
-        },
-        {
-          "id": 937,
-          "dist": 3.179
-        },
-        {
-          "id": 938,
-          "dist": 3.803
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 929,
@@ -25045,14 +25756,6 @@ export const graphData = {
       "y": 8.253,
       "z": -109.408,
       "neighbors": [
-        {
-          "id": 918,
-          "dist": 3.961
-        },
-        {
-          "id": 919,
-          "dist": 3.702
-        },
         {
           "id": 927,
           "dist": 4.0
@@ -25072,13 +25775,10 @@ export const graphData = {
         {
           "id": 936,
           "dist": 2.712
-        },
-        {
-          "id": 937,
-          "dist": 3.361
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 930,
@@ -25112,7 +25812,8 @@ export const graphData = {
           "dist": 2.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 931,
@@ -25142,7 +25843,8 @@ export const graphData = {
           "dist": 2.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 932,
@@ -25168,7 +25870,8 @@ export const graphData = {
           "dist": 2.427
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 933,
@@ -25194,7 +25897,8 @@ export const graphData = {
           "dist": 3.847
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 934,
@@ -25228,7 +25932,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 935,
@@ -25262,7 +25967,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 936,
@@ -25271,10 +25977,6 @@ export const graphData = {
       "y": 10.048,
       "z": -109.629,
       "neighbors": [
-        {
-          "id": 928,
-          "dist": 3.708
-        },
         {
           "id": 929,
           "dist": 2.712
@@ -25296,7 +25998,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 937,
@@ -25305,14 +26008,6 @@ export const graphData = {
       "y": 10.434,
       "z": -107.672,
       "neighbors": [
-        {
-          "id": 928,
-          "dist": 3.179
-        },
-        {
-          "id": 929,
-          "dist": 3.361
-        },
         {
           "id": 936,
           "dist": 2.0
@@ -25326,7 +26021,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 938,
@@ -25335,14 +26031,6 @@ export const graphData = {
       "y": 10.82,
       "z": -105.715,
       "neighbors": [
-        {
-          "id": 927,
-          "dist": 3.701
-        },
-        {
-          "id": 928,
-          "dist": 3.803
-        },
         {
           "id": 937,
           "dist": 2.0
@@ -25356,7 +26044,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 939,
@@ -25382,7 +26071,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 940,
@@ -25408,7 +26098,8 @@ export const graphData = {
           "dist": 3.475
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 941,
@@ -25434,7 +26125,8 @@ export const graphData = {
           "dist": 3.694
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 942,
@@ -25464,7 +26156,8 @@ export const graphData = {
           "dist": 2.849
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 943,
@@ -25498,7 +26191,8 @@ export const graphData = {
           "dist": 1.153
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 944,
@@ -25532,7 +26226,8 @@ export const graphData = {
           "dist": 1.7
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 945,
@@ -25562,7 +26257,8 @@ export const graphData = {
           "dist": 3.548
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 946,
@@ -25592,7 +26288,8 @@ export const graphData = {
           "dist": 2.817
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 947,
@@ -25626,7 +26323,8 @@ export const graphData = {
           "dist": 3.562
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 948,
@@ -25656,7 +26354,8 @@ export const graphData = {
           "dist": 3.119
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 949,
@@ -25682,7 +26381,8 @@ export const graphData = {
           "dist": 2.728
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 950,
@@ -25708,7 +26408,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 951,
@@ -25730,7 +26431,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 952,
@@ -25756,7 +26458,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 953,
@@ -25778,7 +26481,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 954,
@@ -25804,7 +26508,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 955,
@@ -25830,7 +26535,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 956,
@@ -25856,7 +26562,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 957,
@@ -25882,7 +26589,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 958,
@@ -25908,7 +26616,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 959,
@@ -25934,7 +26643,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 960,
@@ -25960,7 +26670,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 961,
@@ -25982,7 +26693,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 962,
@@ -26004,7 +26716,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 963,
@@ -26026,7 +26739,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 964,
@@ -26048,7 +26762,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 965,
@@ -26074,7 +26789,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 966,
@@ -26100,7 +26816,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 967,
@@ -26126,7 +26843,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 968,
@@ -26152,7 +26870,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 969,
@@ -26174,7 +26893,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 970,
@@ -26200,7 +26920,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 971,
@@ -26218,7 +26939,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 972,
@@ -26240,7 +26962,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 973,
@@ -26262,7 +26985,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 974,
@@ -26284,7 +27008,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 975,
@@ -26310,7 +27035,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 976,
@@ -26336,7 +27062,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 977,
@@ -26362,7 +27089,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 978,
@@ -26384,7 +27112,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 979,
@@ -26406,7 +27135,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 980,
@@ -26428,7 +27158,8 @@ export const graphData = {
           "dist": 3.934
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 981,
@@ -26454,7 +27185,8 @@ export const graphData = {
           "dist": 3.917
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 982,
@@ -26488,7 +27220,8 @@ export const graphData = {
           "dist": 3.916
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 983,
@@ -26526,7 +27259,8 @@ export const graphData = {
           "dist": 2.767
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 984,
@@ -26568,7 +27302,8 @@ export const graphData = {
           "dist": 3.858
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 985,
@@ -26598,7 +27333,8 @@ export const graphData = {
           "dist": 3.726
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 986,
@@ -26624,7 +27360,8 @@ export const graphData = {
           "dist": 3.402
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 987,
@@ -26646,7 +27383,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 988,
@@ -26664,7 +27402,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 989,
@@ -26686,7 +27425,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 990,
@@ -26708,7 +27448,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 991,
@@ -26726,7 +27467,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 992,
@@ -26752,7 +27494,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 993,
@@ -26774,7 +27517,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 994,
@@ -26796,7 +27540,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 995,
@@ -26818,7 +27563,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 996,
@@ -26832,7 +27578,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 997,
@@ -26862,10 +27609,6 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 999,
-          "dist": 3.945
-        },
-        {
           "id": 1369,
           "dist": 3.93
         },
@@ -26874,7 +27617,8 @@ export const graphData = {
           "dist": 3.962
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 998,
@@ -26906,13 +27650,10 @@ export const graphData = {
         {
           "id": 1001,
           "dist": 2.841
-        },
-        {
-          "id": 1002,
-          "dist": 3.366
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 999,
@@ -26921,10 +27662,6 @@ export const graphData = {
       "y": 9.713,
       "z": -105.266,
       "neighbors": [
-        {
-          "id": 997,
-          "dist": 3.945
-        },
         {
           "id": 998,
           "dist": 1.947
@@ -26942,7 +27679,8 @@ export const graphData = {
           "dist": 3.098
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1000,
@@ -26968,7 +27706,8 @@ export const graphData = {
           "dist": 3.594
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1001,
@@ -26992,13 +27731,10 @@ export const graphData = {
         {
           "id": 1002,
           "dist": 2.0
-        },
-        {
-          "id": 1003,
-          "dist": 3.846
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1002,
@@ -27008,16 +27744,8 @@ export const graphData = {
       "z": -103.138,
       "neighbors": [
         {
-          "id": 815,
-          "dist": 3.142
-        },
-        {
           "id": 816,
           "dist": 2.916
-        },
-        {
-          "id": 998,
-          "dist": 3.366
         },
         {
           "id": 999,
@@ -27048,7 +27776,8 @@ export const graphData = {
           "dist": 3.319
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1003,
@@ -27068,10 +27797,6 @@ export const graphData = {
         {
           "id": 817,
           "dist": 2.485
-        },
-        {
-          "id": 1001,
-          "dist": 3.846
         },
         {
           "id": 1002,
@@ -27098,7 +27823,8 @@ export const graphData = {
           "dist": 3.693
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1004,
@@ -27144,7 +27870,8 @@ export const graphData = {
           "dist": 3.176
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1005,
@@ -27186,7 +27913,8 @@ export const graphData = {
           "dist": 3.176
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1006,
@@ -27212,7 +27940,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1007,
@@ -27234,7 +27963,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1008,
@@ -27256,7 +27986,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1009,
@@ -27274,7 +28005,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1010,
@@ -27296,7 +28028,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1011,
@@ -27318,7 +28051,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1012,
@@ -27340,7 +28074,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1013,
@@ -27370,7 +28105,8 @@ export const graphData = {
           "dist": 3.555
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1014,
@@ -27408,7 +28144,8 @@ export const graphData = {
           "dist": 2.44
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1015,
@@ -27438,7 +28175,8 @@ export const graphData = {
           "dist": 0.61
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1016,
@@ -27476,7 +28214,8 @@ export const graphData = {
           "dist": 0.679
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1017,
@@ -27518,7 +28257,8 @@ export const graphData = {
           "dist": 2.616
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1018,
@@ -27556,7 +28296,8 @@ export const graphData = {
           "dist": 2.453
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1019,
@@ -27594,7 +28335,8 @@ export const graphData = {
           "dist": 2.249
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1020,
@@ -27624,7 +28366,8 @@ export const graphData = {
           "dist": 2.083
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1021,
@@ -27658,7 +28401,8 @@ export const graphData = {
           "dist": 3.813
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1022,
@@ -27684,7 +28428,8 @@ export const graphData = {
           "dist": 3.991
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1023,
@@ -27718,7 +28463,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1024,
@@ -27726,25 +28472,9 @@ export const graphData = {
       "x": 0.0,
       "y": 0.0,
       "z": -0.0,
-      "neighbors": [
-        {
-          "id": 2461,
-          "dist": 2.598
-        },
-        {
-          "id": 2462,
-          "dist": 1.201
-        },
-        {
-          "id": 2463,
-          "dist": 2.033
-        },
-        {
-          "id": 2464,
-          "dist": 3.85
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1025,
@@ -27782,7 +28512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1026,
@@ -27828,7 +28559,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1027,
@@ -27874,7 +28606,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1028,
@@ -27904,7 +28637,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1029,
@@ -27926,7 +28660,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1030,
@@ -27948,7 +28683,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1031,
@@ -27966,7 +28702,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1032,
@@ -27984,7 +28721,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1033,
@@ -27998,7 +28736,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1034,
@@ -28044,7 +28783,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1035,
@@ -28090,7 +28830,8 @@ export const graphData = {
           "dist": 3.276
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1036,
@@ -28116,7 +28857,8 @@ export const graphData = {
           "dist": 3.036
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1037,
@@ -28142,7 +28884,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1038,
@@ -28172,7 +28915,8 @@ export const graphData = {
           "dist": 3.111
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1039,
@@ -28194,7 +28938,8 @@ export const graphData = {
           "dist": 3.286
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1040,
@@ -28216,7 +28961,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1041,
@@ -28242,7 +28988,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1042,
@@ -28264,7 +29011,8 @@ export const graphData = {
           "dist": 3.975
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1043,
@@ -28290,7 +29038,8 @@ export const graphData = {
           "dist": 3.98
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1044,
@@ -28316,7 +29065,8 @@ export const graphData = {
           "dist": 3.967
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1045,
@@ -28342,7 +29092,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1046,
@@ -28364,7 +29115,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1047,
@@ -28386,7 +29138,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1048,
@@ -28404,7 +29157,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1049,
@@ -28426,7 +29180,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1050,
@@ -28444,7 +29199,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1051,
@@ -28470,7 +29226,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1052,
@@ -28496,7 +29253,8 @@ export const graphData = {
           "dist": 3.85
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1053,
@@ -28522,10 +29280,6 @@ export const graphData = {
           "dist": 3.532
         },
         {
-          "id": 1183,
-          "dist": 3.842
-        },
-        {
           "id": 1184,
           "dist": 2.132
         },
@@ -28534,7 +29288,8 @@ export const graphData = {
           "dist": 3.964
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1054,
@@ -28584,7 +29339,8 @@ export const graphData = {
           "dist": 3.97
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1055,
@@ -28630,7 +29386,8 @@ export const graphData = {
           "dist": 2.531
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1056,
@@ -28692,15 +29449,12 @@ export const graphData = {
           "dist": 1.744
         },
         {
-          "id": 1188,
-          "dist": 3.082
-        },
-        {
           "id": 1368,
           "dist": 3.458
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1057,
@@ -28760,17 +29514,10 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 2.5
-        },
-        {
-          "id": 1188,
-          "dist": 2.562
-        },
-        {
-          "id": 1189,
-          "dist": 3.919
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1058,
@@ -28814,13 +29561,10 @@ export const graphData = {
         {
           "id": 1183,
           "dist": 3.796
-        },
-        {
-          "id": 1188,
-          "dist": 3.411
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1059,
@@ -28854,7 +29598,8 @@ export const graphData = {
           "dist": 3.099
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1060,
@@ -28902,17 +29647,10 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 3.327
-        },
-        {
-          "id": 1188,
-          "dist": 2.626
-        },
-        {
-          "id": 1189,
-          "dist": 3.602
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1061,
@@ -28942,27 +29680,16 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 1063,
-          "dist": 4.0
-        },
-        {
           "id": 1186,
           "dist": 3.306
         },
         {
           "id": 1187,
           "dist": 2.037
-        },
-        {
-          "id": 1188,
-          "dist": 2.225
-        },
-        {
-          "id": 1189,
-          "dist": 2.519
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1062,
@@ -28984,14 +29711,6 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 1063,
-          "dist": 2.0
-        },
-        {
-          "id": 1064,
-          "dist": 4.0
-        },
-        {
           "id": 1185,
           "dist": 3.966
         },
@@ -29004,23 +29723,12 @@ export const graphData = {
           "dist": 2.287
         },
         {
-          "id": 1188,
-          "dist": 3.318
-        },
-        {
-          "id": 1189,
-          "dist": 2.777
-        },
-        {
-          "id": 1190,
-          "dist": 3.768
-        },
-        {
           "id": 1368,
           "dist": 2.669
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1063,
@@ -29030,14 +29738,6 @@ export const graphData = {
       "z": -145.356,
       "neighbors": [
         {
-          "id": 1061,
-          "dist": 4.0
-        },
-        {
-          "id": 1062,
-          "dist": 2.0
-        },
-        {
           "id": 1064,
           "dist": 2.0
         },
@@ -29046,15 +29746,12 @@ export const graphData = {
           "dist": 3.167
         },
         {
-          "id": 1187,
-          "dist": 3.782
-        },
-        {
           "id": 1368,
           "dist": 2.306
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1064,
@@ -29064,15 +29761,7 @@ export const graphData = {
       "z": -146.322,
       "neighbors": [
         {
-          "id": 1062,
-          "dist": 4.0
-        },
-        {
           "id": 1063,
-          "dist": 2.0
-        },
-        {
-          "id": 1065,
           "dist": 2.0
         },
         {
@@ -29080,7 +29769,8 @@ export const graphData = {
           "dist": 3.393
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1065,
@@ -29090,23 +29780,16 @@ export const graphData = {
       "z": -147.287,
       "neighbors": [
         {
-          "id": 1064,
-          "dist": 2.0
-        },
-        {
           "id": 1066,
           "dist": 2.0
         },
         {
           "id": 1067,
           "dist": 4.0
-        },
-        {
-          "id": 1071,
-          "dist": 3.822
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1066,
@@ -29122,25 +29805,10 @@ export const graphData = {
         {
           "id": 1067,
           "dist": 2.0
-        },
-        {
-          "id": 1068,
-          "dist": 4.0
-        },
-        {
-          "id": 1069,
-          "dist": 3.94
-        },
-        {
-          "id": 1070,
-          "dist": 2.821
-        },
-        {
-          "id": 1071,
-          "dist": 2.898
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1067,
@@ -29156,25 +29824,10 @@ export const graphData = {
         {
           "id": 1066,
           "dist": 2.0
-        },
-        {
-          "id": 1068,
-          "dist": 2.0
-        },
-        {
-          "id": 1069,
-          "dist": 1.992
-        },
-        {
-          "id": 1070,
-          "dist": 1.754
-        },
-        {
-          "id": 1071,
-          "dist": 3.192
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1068,
@@ -29184,14 +29837,6 @@ export const graphData = {
       "z": -150.184,
       "neighbors": [
         {
-          "id": 1066,
-          "dist": 4.0
-        },
-        {
-          "id": 1067,
-          "dist": 2.0
-        },
-        {
           "id": 1069,
           "dist": 0.646
         },
@@ -29200,7 +29845,8 @@ export const graphData = {
           "dist": 2.489
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1069,
@@ -29210,14 +29856,6 @@ export const graphData = {
       "z": -150.686,
       "neighbors": [
         {
-          "id": 1066,
-          "dist": 3.94
-        },
-        {
-          "id": 1067,
-          "dist": 1.992
-        },
-        {
           "id": 1068,
           "dist": 0.646
         },
@@ -29230,7 +29868,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 1070,
@@ -29239,14 +29878,6 @@ export const graphData = {
       "y": 6.811,
       "z": -150.848,
       "neighbors": [
-        {
-          "id": 1066,
-          "dist": 2.821
-        },
-        {
-          "id": 1067,
-          "dist": 1.754
-        },
         {
           "id": 1068,
           "dist": 2.489
@@ -29264,7 +29895,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 1071,
@@ -29273,18 +29905,6 @@ export const graphData = {
       "y": 6.834,
       "z": -151.01,
       "neighbors": [
-        {
-          "id": 1065,
-          "dist": 3.822
-        },
-        {
-          "id": 1066,
-          "dist": 2.898
-        },
-        {
-          "id": 1067,
-          "dist": 3.192
-        },
         {
           "id": 1069,
           "dist": 4.0
@@ -29298,7 +29918,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 1072,
@@ -29320,7 +29941,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": false
     },
     {
       "id": 1073,
@@ -29336,13 +29958,10 @@ export const graphData = {
         {
           "id": 1074,
           "dist": 2.0
-        },
-        {
-          "id": 1075,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1074,
@@ -29354,17 +29973,10 @@ export const graphData = {
         {
           "id": 1073,
           "dist": 2.0
-        },
-        {
-          "id": 1075,
-          "dist": 2.0
-        },
-        {
-          "id": 1076,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1075,
@@ -29374,19 +29986,12 @@ export const graphData = {
       "z": -151.658,
       "neighbors": [
         {
-          "id": 1073,
-          "dist": 4.0
-        },
-        {
-          "id": 1074,
-          "dist": 2.0
-        },
-        {
           "id": 1076,
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1076,
@@ -29395,10 +30000,6 @@ export const graphData = {
       "y": 6.947,
       "z": -151.82,
       "neighbors": [
-        {
-          "id": 1074,
-          "dist": 4.0
-        },
         {
           "id": 1075,
           "dist": 2.0
@@ -29412,7 +30013,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1077,
@@ -29434,7 +30036,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1078,
@@ -29460,7 +30063,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1079,
@@ -29486,7 +30090,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1080,
@@ -29512,7 +30117,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1081,
@@ -29538,7 +30144,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1082,
@@ -29564,7 +30171,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1083,
@@ -29586,7 +30194,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1084,
@@ -29616,7 +30225,8 @@ export const graphData = {
           "dist": 2.899
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1085,
@@ -29638,14 +30248,6 @@ export const graphData = {
           "dist": 3.701
         },
         {
-          "id": 1092,
-          "dist": 2.821
-        },
-        {
-          "id": 1093,
-          "dist": 2.608
-        },
-        {
           "id": 1160,
           "dist": 2.844
         },
@@ -29654,7 +30256,8 @@ export const graphData = {
           "dist": 0.901
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1086,
@@ -29676,26 +30279,6 @@ export const graphData = {
           "dist": 1.857
         },
         {
-          "id": 1088,
-          "dist": 3.825
-        },
-        {
-          "id": 1092,
-          "dist": 2.063
-        },
-        {
-          "id": 1093,
-          "dist": 1.998
-        },
-        {
-          "id": 1094,
-          "dist": 3.983
-        },
-        {
-          "id": 1159,
-          "dist": 3.238
-        },
-        {
           "id": 1160,
           "dist": 1.393
         },
@@ -29704,7 +30287,8 @@ export const graphData = {
           "dist": 1.165
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1087,
@@ -29726,30 +30310,6 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 1089,
-          "dist": 2.673
-        },
-        {
-          "id": 1090,
-          "dist": 3.309
-        },
-        {
-          "id": 1091,
-          "dist": 3.552
-        },
-        {
-          "id": 1092,
-          "dist": 2.055
-        },
-        {
-          "id": 1093,
-          "dist": 3.382
-        },
-        {
-          "id": 1159,
-          "dist": 2.952
-        },
-        {
           "id": 1160,
           "dist": 1.947
         },
@@ -29758,7 +30318,8 @@ export const graphData = {
           "dist": 2.887
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1088,
@@ -29768,39 +30329,16 @@ export const graphData = {
       "z": -155.395,
       "neighbors": [
         {
-          "id": 1086,
-          "dist": 3.825
-        },
-        {
           "id": 1087,
           "dist": 2.0
         },
         {
           "id": 1089,
           "dist": 1.214
-        },
-        {
-          "id": 1090,
-          "dist": 2.796
-        },
-        {
-          "id": 1091,
-          "dist": 3.612
-        },
-        {
-          "id": 1092,
-          "dist": 3.168
-        },
-        {
-          "id": 1159,
-          "dist": 3.981
-        },
-        {
-          "id": 1160,
-          "dist": 3.67
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1089,
@@ -29809,10 +30347,6 @@ export const graphData = {
       "y": 9.88,
       "z": -154.491,
       "neighbors": [
-        {
-          "id": 1087,
-          "dist": 2.673
-        },
         {
           "id": 1088,
           "dist": 1.214
@@ -29824,17 +30358,10 @@ export const graphData = {
         {
           "id": 1091,
           "dist": 2.998
-        },
-        {
-          "id": 1092,
-          "dist": 3.078
-        },
-        {
-          "id": 1162,
-          "dist": 3.891
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1090,
@@ -29844,24 +30371,12 @@ export const graphData = {
       "z": -154.253,
       "neighbors": [
         {
-          "id": 1087,
-          "dist": 3.309
-        },
-        {
-          "id": 1088,
-          "dist": 2.796
-        },
-        {
           "id": 1089,
           "dist": 2.0
         },
         {
           "id": 1091,
           "dist": 1.123
-        },
-        {
-          "id": 1092,
-          "dist": 2.376
         },
         {
           "id": 1162,
@@ -29872,7 +30387,8 @@ export const graphData = {
           "dist": 3.836
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1091,
@@ -29882,24 +30398,12 @@ export const graphData = {
       "z": -154.159,
       "neighbors": [
         {
-          "id": 1087,
-          "dist": 3.552
-        },
-        {
-          "id": 1088,
-          "dist": 3.612
-        },
-        {
           "id": 1089,
           "dist": 2.998
         },
         {
           "id": 1090,
           "dist": 1.123
-        },
-        {
-          "id": 1092,
-          "dist": 2.0
         },
         {
           "id": 1162,
@@ -29910,7 +30414,8 @@ export const graphData = {
           "dist": 2.738
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1092,
@@ -29918,53 +30423,9 @@ export const graphData = {
       "x": -149.349,
       "y": 9.056,
       "z": -154.322,
-      "neighbors": [
-        {
-          "id": 1085,
-          "dist": 2.821
-        },
-        {
-          "id": 1086,
-          "dist": 2.063
-        },
-        {
-          "id": 1087,
-          "dist": 2.055
-        },
-        {
-          "id": 1088,
-          "dist": 3.168
-        },
-        {
-          "id": 1089,
-          "dist": 3.078
-        },
-        {
-          "id": 1090,
-          "dist": 2.376
-        },
-        {
-          "id": 1091,
-          "dist": 2.0
-        },
-        {
-          "id": 1160,
-          "dist": 2.78
-        },
-        {
-          "id": 1161,
-          "dist": 2.33
-        },
-        {
-          "id": 1162,
-          "dist": 2.739
-        },
-        {
-          "id": 1163,
-          "dist": 3.646
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1093,
@@ -29972,53 +30433,9 @@ export const graphData = {
       "x": -148.917,
       "y": 5.093,
       "z": -154.648,
-      "neighbors": [
-        {
-          "id": 1085,
-          "dist": 2.608
-        },
-        {
-          "id": 1086,
-          "dist": 1.998
-        },
-        {
-          "id": 1087,
-          "dist": 3.382
-        },
-        {
-          "id": 1094,
-          "dist": 2.0
-        },
-        {
-          "id": 1095,
-          "dist": 3.279
-        },
-        {
-          "id": 1128,
-          "dist": 3.969
-        },
-        {
-          "id": 1156,
-          "dist": 3.035
-        },
-        {
-          "id": 1157,
-          "dist": 3.077
-        },
-        {
-          "id": 1159,
-          "dist": 2.858
-        },
-        {
-          "id": 1160,
-          "dist": 1.844
-        },
-        {
-          "id": 1161,
-          "dist": 2.112
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 1094,
@@ -30027,14 +30444,6 @@ export const graphData = {
       "y": 3.111,
       "z": -154.811,
       "neighbors": [
-        {
-          "id": 1086,
-          "dist": 3.983
-        },
-        {
-          "id": 1093,
-          "dist": 2.0
-        },
         {
           "id": 1095,
           "dist": 1.454
@@ -30066,21 +30475,10 @@ export const graphData = {
         {
           "id": 1157,
           "dist": 2.636
-        },
-        {
-          "id": 1159,
-          "dist": 3.757
-        },
-        {
-          "id": 1160,
-          "dist": 3.638
-        },
-        {
-          "id": 1161,
-          "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1095,
@@ -30089,10 +30487,6 @@ export const graphData = {
       "y": 2.0,
       "z": -154.406,
       "neighbors": [
-        {
-          "id": 1093,
-          "dist": 3.279
-        },
         {
           "id": 1094,
           "dist": 1.454
@@ -30130,7 +30524,8 @@ export const graphData = {
           "dist": 3.762
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1096,
@@ -30184,7 +30579,8 @@ export const graphData = {
           "dist": 3.919
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1097,
@@ -30238,7 +30634,8 @@ export const graphData = {
           "dist": 2.61
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1098,
@@ -30276,7 +30673,8 @@ export const graphData = {
           "dist": 3.848
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1099,
@@ -30302,7 +30700,8 @@ export const graphData = {
           "dist": 3.752
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1100,
@@ -30324,7 +30723,8 @@ export const graphData = {
           "dist": 3.781
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1101,
@@ -30350,7 +30750,8 @@ export const graphData = {
           "dist": 2.793
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1102,
@@ -30380,7 +30781,8 @@ export const graphData = {
           "dist": 1.532
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1103,
@@ -30410,7 +30812,8 @@ export const graphData = {
           "dist": 2.734
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1104,
@@ -30428,7 +30831,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1105,
@@ -30446,7 +30850,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1106,
@@ -30476,7 +30881,8 @@ export const graphData = {
           "dist": 3.371
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1107,
@@ -30510,7 +30916,8 @@ export const graphData = {
           "dist": 2.857
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1108,
@@ -30548,7 +30955,8 @@ export const graphData = {
           "dist": 3.601
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1109,
@@ -30582,7 +30990,8 @@ export const graphData = {
           "dist": 3.19
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1110,
@@ -30612,7 +31021,8 @@ export const graphData = {
           "dist": 3.19
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1111,
@@ -30634,7 +31044,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1112,
@@ -30660,7 +31071,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1113,
@@ -30690,7 +31102,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1114,
@@ -30720,7 +31133,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1115,
@@ -30754,7 +31168,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1116,
@@ -30784,7 +31199,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1117,
@@ -30802,7 +31218,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1118,
@@ -30820,7 +31237,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1119,
@@ -30846,7 +31264,8 @@ export const graphData = {
           "dist": 3.798
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1120,
@@ -30884,7 +31303,8 @@ export const graphData = {
           "dist": 3.661
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1121,
@@ -30926,7 +31346,8 @@ export const graphData = {
           "dist": 3.873
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1122,
@@ -30968,7 +31389,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1123,
@@ -31002,7 +31424,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1124,
@@ -31032,7 +31455,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1125,
@@ -31062,7 +31486,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1126,
@@ -31112,7 +31537,8 @@ export const graphData = {
           "dist": 2.533
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1127,
@@ -31162,7 +31588,8 @@ export const graphData = {
           "dist": 3.688
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1128,
@@ -31171,10 +31598,6 @@ export const graphData = {
       "y": 2.0,
       "z": -152.248,
       "neighbors": [
-        {
-          "id": 1093,
-          "dist": 3.969
-        },
         {
           "id": 1094,
           "dist": 2.926
@@ -31208,7 +31631,8 @@ export const graphData = {
           "dist": 3.734
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1129,
@@ -31228,17 +31652,10 @@ export const graphData = {
         {
           "id": 1128,
           "dist": 2.0
-        },
-        {
-          "id": 1157,
-          "dist": 3.197
-        },
-        {
-          "id": 1159,
-          "dist": 3.832
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1130,
@@ -31256,7 +31673,8 @@ export const graphData = {
           "dist": 3.994
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1131,
@@ -31290,7 +31708,8 @@ export const graphData = {
           "dist": 3.958
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1132,
@@ -31332,7 +31751,8 @@ export const graphData = {
           "dist": 3.99
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1133,
@@ -31366,7 +31786,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1134,
@@ -31396,7 +31817,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1135,
@@ -31422,7 +31844,8 @@ export const graphData = {
           "dist": 3.903
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1136,
@@ -31448,7 +31871,8 @@ export const graphData = {
           "dist": 3.505
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1137,
@@ -31470,7 +31894,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1138,
@@ -31496,7 +31921,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1139,
@@ -31514,7 +31940,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1140,
@@ -31532,7 +31959,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1141,
@@ -31550,7 +31978,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1142,
@@ -31568,7 +31997,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1143,
@@ -31590,7 +32020,8 @@ export const graphData = {
           "dist": 3.002
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1144,
@@ -31612,7 +32043,8 @@ export const graphData = {
           "dist": 3.536
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1145,
@@ -31638,7 +32070,8 @@ export const graphData = {
           "dist": 3.807
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1146,
@@ -31664,7 +32097,8 @@ export const graphData = {
           "dist": 3.658
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1147,
@@ -31690,7 +32124,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1148,
@@ -31720,7 +32155,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1149,
@@ -31754,7 +32190,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1150,
@@ -31800,7 +32237,8 @@ export const graphData = {
           "dist": 3.669
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1151,
@@ -31830,7 +32268,8 @@ export const graphData = {
           "dist": 3.113
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1152,
@@ -31852,7 +32291,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1153,
@@ -31882,7 +32322,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1154,
@@ -31924,7 +32365,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1155,
@@ -31970,7 +32412,8 @@ export const graphData = {
           "dist": 3.985
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1156,
@@ -31979,10 +32422,6 @@ export const graphData = {
       "y": 2.189,
       "z": -155.155,
       "neighbors": [
-        {
-          "id": 1093,
-          "dist": 3.035
-        },
         {
           "id": 1094,
           "dist": 1.359
@@ -32010,17 +32449,10 @@ export const graphData = {
         {
           "id": 1157,
           "dist": 1.963
-        },
-        {
-          "id": 1158,
-          "dist": 3.96
-        },
-        {
-          "id": 1159,
-          "dist": 3.802
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1157,
@@ -32029,10 +32461,6 @@ export const graphData = {
       "y": 3.247,
       "z": -155.325,
       "neighbors": [
-        {
-          "id": 1093,
-          "dist": 3.077
-        },
         {
           "id": 1094,
           "dist": 2.636
@@ -32046,27 +32474,16 @@ export const graphData = {
           "dist": 3.734
         },
         {
-          "id": 1129,
-          "dist": 3.197
-        },
-        {
           "id": 1156,
           "dist": 1.963
         },
         {
           "id": 1158,
           "dist": 2.0
-        },
-        {
-          "id": 1159,
-          "dist": 2.256
-        },
-        {
-          "id": 1160,
-          "dist": 3.542
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1158,
@@ -32076,23 +32493,16 @@ export const graphData = {
       "z": -155.431,
       "neighbors": [
         {
-          "id": 1156,
-          "dist": 3.96
-        },
-        {
           "id": 1157,
           "dist": 2.0
         },
         {
           "id": 1159,
           "dist": 1.704
-        },
-        {
-          "id": 1160,
-          "dist": 3.578
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1159,
@@ -32101,38 +32511,6 @@ export const graphData = {
       "y": 5.254,
       "z": -154.41,
       "neighbors": [
-        {
-          "id": 1086,
-          "dist": 3.238
-        },
-        {
-          "id": 1087,
-          "dist": 2.952
-        },
-        {
-          "id": 1088,
-          "dist": 3.981
-        },
-        {
-          "id": 1093,
-          "dist": 2.858
-        },
-        {
-          "id": 1094,
-          "dist": 3.757
-        },
-        {
-          "id": 1129,
-          "dist": 3.832
-        },
-        {
-          "id": 1156,
-          "dist": 3.802
-        },
-        {
-          "id": 1157,
-          "dist": 2.256
-        },
         {
           "id": 1158,
           "dist": 1.704
@@ -32146,7 +32524,8 @@ export const graphData = {
           "dist": 3.92
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1160,
@@ -32168,30 +32547,6 @@ export const graphData = {
           "dist": 1.947
         },
         {
-          "id": 1088,
-          "dist": 3.67
-        },
-        {
-          "id": 1092,
-          "dist": 2.78
-        },
-        {
-          "id": 1093,
-          "dist": 1.844
-        },
-        {
-          "id": 1094,
-          "dist": 3.638
-        },
-        {
-          "id": 1157,
-          "dist": 3.542
-        },
-        {
-          "id": 1158,
-          "dist": 3.578
-        },
-        {
           "id": 1159,
           "dist": 2.0
         },
@@ -32200,7 +32555,8 @@ export const graphData = {
           "dist": 1.963
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1161,
@@ -32226,18 +32582,6 @@ export const graphData = {
           "dist": 2.887
         },
         {
-          "id": 1092,
-          "dist": 2.33
-        },
-        {
-          "id": 1093,
-          "dist": 2.112
-        },
-        {
-          "id": 1094,
-          "dist": 3.997
-        },
-        {
           "id": 1159,
           "dist": 3.92
         },
@@ -32246,7 +32590,8 @@ export const graphData = {
           "dist": 1.963
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1162,
@@ -32256,20 +32601,12 @@ export const graphData = {
       "z": -154.064,
       "neighbors": [
         {
-          "id": 1089,
-          "dist": 3.891
-        },
-        {
           "id": 1090,
           "dist": 1.914
         },
         {
           "id": 1091,
           "dist": 0.963
-        },
-        {
-          "id": 1092,
-          "dist": 2.739
         },
         {
           "id": 1163,
@@ -32280,7 +32617,8 @@ export const graphData = {
           "dist": 3.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1163,
@@ -32298,10 +32636,6 @@ export const graphData = {
           "dist": 2.738
         },
         {
-          "id": 1092,
-          "dist": 3.646
-        },
-        {
           "id": 1162,
           "dist": 1.996
         },
@@ -32310,7 +32644,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1164,
@@ -32332,7 +32667,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1165,
@@ -32354,7 +32690,8 @@ export const graphData = {
           "dist": 3.996
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1166,
@@ -32376,7 +32713,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1167,
@@ -32402,7 +32740,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1168,
@@ -32428,7 +32767,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1169,
@@ -32454,7 +32794,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1170,
@@ -32480,7 +32821,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1171,
@@ -32502,7 +32844,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1172,
@@ -32528,7 +32871,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1173,
@@ -32550,7 +32894,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1174,
@@ -32576,7 +32921,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1175,
@@ -32602,7 +32948,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1176,
@@ -32628,7 +32975,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1177,
@@ -32654,7 +33002,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1178,
@@ -32676,7 +33025,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1179,
@@ -32694,7 +33044,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1180,
@@ -32728,7 +33079,8 @@ export const graphData = {
           "dist": 3.118
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1181,
@@ -32766,7 +33118,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1182,
@@ -32810,13 +33163,10 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 3.872
-        },
-        {
-          "id": 1188,
-          "dist": 3.461
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1183,
@@ -32825,10 +33175,6 @@ export const graphData = {
       "y": 6.114,
       "z": -139.227,
       "neighbors": [
-        {
-          "id": 1053,
-          "dist": 3.842
-        },
         {
           "id": 1054,
           "dist": 3.162
@@ -32872,13 +33218,10 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 3.176
-        },
-        {
-          "id": 1188,
-          "dist": 3.65
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1184,
@@ -32924,7 +33267,8 @@ export const graphData = {
           "dist": 3.631
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1185,
@@ -32970,7 +33314,8 @@ export const graphData = {
           "dist": 1.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1186,
@@ -33020,15 +33365,12 @@ export const graphData = {
           "dist": 1.99
         },
         {
-          "id": 1188,
-          "dist": 3.885
-        },
-        {
           "id": 1368,
           "dist": 1.374
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1187,
@@ -33062,10 +33404,6 @@ export const graphData = {
           "dist": 2.287
         },
         {
-          "id": 1063,
-          "dist": 3.782
-        },
-        {
           "id": 1182,
           "dist": 3.872
         },
@@ -33090,15 +33428,12 @@ export const graphData = {
           "dist": 2.401
         },
         {
-          "id": 1190,
-          "dist": 3.32
-        },
-        {
           "id": 1368,
           "dist": 3.003
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1188,
@@ -33107,42 +33442,6 @@ export const graphData = {
       "y": 4.75,
       "z": -142.507,
       "neighbors": [
-        {
-          "id": 1056,
-          "dist": 3.082
-        },
-        {
-          "id": 1057,
-          "dist": 2.562
-        },
-        {
-          "id": 1058,
-          "dist": 3.411
-        },
-        {
-          "id": 1060,
-          "dist": 2.626
-        },
-        {
-          "id": 1061,
-          "dist": 2.225
-        },
-        {
-          "id": 1062,
-          "dist": 3.318
-        },
-        {
-          "id": 1182,
-          "dist": 3.461
-        },
-        {
-          "id": 1183,
-          "dist": 3.65
-        },
-        {
-          "id": 1186,
-          "dist": 3.885
-        },
         {
           "id": 1187,
           "dist": 1.897
@@ -33156,7 +33455,8 @@ export const graphData = {
           "dist": 3.06
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1189,
@@ -33165,22 +33465,6 @@ export const graphData = {
       "y": 4.353,
       "z": -143.917,
       "neighbors": [
-        {
-          "id": 1057,
-          "dist": 3.919
-        },
-        {
-          "id": 1060,
-          "dist": 3.602
-        },
-        {
-          "id": 1061,
-          "dist": 2.519
-        },
-        {
-          "id": 1062,
-          "dist": 2.777
-        },
         {
           "id": 1187,
           "dist": 2.401
@@ -33192,13 +33476,10 @@ export const graphData = {
         {
           "id": 1190,
           "dist": 2.0
-        },
-        {
-          "id": 1191,
-          "dist": 3.672
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1190,
@@ -33214,14 +33495,6 @@ export const graphData = {
         {
           "id": 632,
           "dist": 3.981
-        },
-        {
-          "id": 1062,
-          "dist": 3.768
-        },
-        {
-          "id": 1187,
-          "dist": 3.32
         },
         {
           "id": 1188,
@@ -33244,7 +33517,8 @@ export const graphData = {
           "dist": 3.229
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1191,
@@ -33260,10 +33534,6 @@ export const graphData = {
         {
           "id": 632,
           "dist": 3.004
-        },
-        {
-          "id": 1189,
-          "dist": 3.672
         },
         {
           "id": 1190,
@@ -33286,7 +33556,8 @@ export const graphData = {
           "dist": 2.411
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1192,
@@ -33336,7 +33607,8 @@ export const graphData = {
           "dist": 3.186
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1193,
@@ -33386,7 +33658,8 @@ export const graphData = {
           "dist": 1.191
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1194,
@@ -33436,7 +33709,8 @@ export const graphData = {
           "dist": 1.812
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1195,
@@ -33486,7 +33760,8 @@ export const graphData = {
           "dist": 3.668
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1196,
@@ -33524,7 +33799,8 @@ export const graphData = {
           "dist": 3.489
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1197,
@@ -33550,7 +33826,8 @@ export const graphData = {
           "dist": 3.269
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1198,
@@ -33572,7 +33849,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1199,
@@ -33594,7 +33872,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1200,
@@ -33616,7 +33895,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1201,
@@ -33638,7 +33918,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1202,
@@ -33668,7 +33949,8 @@ export const graphData = {
           "dist": 3.991
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1203,
@@ -33702,7 +33984,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1204,
@@ -33732,7 +34015,8 @@ export const graphData = {
           "dist": 2.502
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1205,
@@ -33758,7 +34042,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1206,
@@ -33784,7 +34069,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1207,
@@ -33806,7 +34092,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1208,
@@ -33828,7 +34115,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1209,
@@ -33846,7 +34134,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1210,
@@ -33868,7 +34157,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1211,
@@ -33890,7 +34180,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1212,
@@ -33928,7 +34219,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1213,
@@ -33962,7 +34254,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1214,
@@ -33992,7 +34285,8 @@ export const graphData = {
           "dist": 3.196
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1215,
@@ -34018,7 +34312,8 @@ export const graphData = {
           "dist": 3.541
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1216,
@@ -34048,7 +34343,8 @@ export const graphData = {
           "dist": 3.667
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1217,
@@ -34082,7 +34378,8 @@ export const graphData = {
           "dist": 3.993
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1218,
@@ -34120,7 +34417,8 @@ export const graphData = {
           "dist": 2.466
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1219,
@@ -34154,7 +34452,8 @@ export const graphData = {
           "dist": 3.578
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1220,
@@ -34176,7 +34475,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1221,
@@ -34202,7 +34502,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1222,
@@ -34224,7 +34525,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1223,
@@ -34250,7 +34552,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1224,
@@ -34276,7 +34579,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1225,
@@ -34298,7 +34602,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1226,
@@ -34320,7 +34625,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1227,
@@ -34338,7 +34644,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1228,
@@ -34360,7 +34667,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1229,
@@ -34382,7 +34690,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1230,
@@ -34404,7 +34713,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1231,
@@ -34426,7 +34736,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1232,
@@ -34448,7 +34759,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1233,
@@ -34470,7 +34782,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1234,
@@ -34492,7 +34805,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1235,
@@ -34522,7 +34836,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1236,
@@ -34560,7 +34875,8 @@ export const graphData = {
           "dist": 2.339
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1237,
@@ -34586,7 +34902,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1238,
@@ -34612,7 +34929,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1239,
@@ -34634,7 +34952,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1240,
@@ -34656,7 +34975,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1241,
@@ -34674,7 +34994,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1242,
@@ -34696,7 +35017,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1243,
@@ -34738,7 +35060,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1244,
@@ -34768,7 +35091,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1245,
@@ -34790,7 +35114,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1246,
@@ -34812,7 +35137,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1247,
@@ -34834,7 +35160,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1248,
@@ -34860,7 +35187,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1249,
@@ -34882,7 +35210,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1250,
@@ -34904,7 +35233,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1251,
@@ -34938,7 +35268,8 @@ export const graphData = {
           "dist": 3.558
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1252,
@@ -34968,7 +35299,8 @@ export const graphData = {
           "dist": 2.985
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1253,
@@ -35002,7 +35334,8 @@ export const graphData = {
           "dist": 1.579
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1254,
@@ -35036,7 +35369,8 @@ export const graphData = {
           "dist": 1.196
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1255,
@@ -35066,7 +35400,8 @@ export const graphData = {
           "dist": 3.172
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1256,
@@ -35088,7 +35423,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1257,
@@ -35114,7 +35450,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1258,
@@ -35140,7 +35477,8 @@ export const graphData = {
           "dist": 3.658
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1259,
@@ -35178,7 +35516,8 @@ export const graphData = {
           "dist": 3.086
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1260,
@@ -35216,7 +35555,8 @@ export const graphData = {
           "dist": 2.916
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1261,
@@ -35254,7 +35594,8 @@ export const graphData = {
           "dist": 3.979
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1262,
@@ -35292,7 +35633,8 @@ export const graphData = {
           "dist": 3.647
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1263,
@@ -35326,7 +35668,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1264,
@@ -35368,7 +35711,8 @@ export const graphData = {
           "dist": 2.048
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1265,
@@ -35406,7 +35750,8 @@ export const graphData = {
           "dist": 1.776
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1266,
@@ -35444,7 +35789,8 @@ export const graphData = {
           "dist": 3.143
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1267,
@@ -35470,7 +35816,8 @@ export const graphData = {
           "dist": 3.213
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1268,
@@ -35512,7 +35859,8 @@ export const graphData = {
           "dist": 3.809
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1269,
@@ -35546,7 +35894,8 @@ export const graphData = {
           "dist": 3.434
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1270,
@@ -35576,7 +35925,8 @@ export const graphData = {
           "dist": 2.691
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1271,
@@ -35618,7 +35968,8 @@ export const graphData = {
           "dist": 2.691
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1272,
@@ -35660,7 +36011,8 @@ export const graphData = {
           "dist": 3.385
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1273,
@@ -35702,7 +36054,8 @@ export const graphData = {
           "dist": 3.653
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1274,
@@ -35744,7 +36097,8 @@ export const graphData = {
           "dist": 2.684
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1275,
@@ -35778,7 +36132,8 @@ export const graphData = {
           "dist": 3.01
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1276,
@@ -35812,7 +36167,8 @@ export const graphData = {
           "dist": 3.506
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1277,
@@ -35842,7 +36198,8 @@ export const graphData = {
           "dist": 3.528
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1278,
@@ -35880,7 +36237,8 @@ export const graphData = {
           "dist": 3.962
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1279,
@@ -35918,7 +36276,8 @@ export const graphData = {
           "dist": 3.644
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1280,
@@ -35956,7 +36315,8 @@ export const graphData = {
           "dist": 3.986
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1281,
@@ -35994,7 +36354,8 @@ export const graphData = {
           "dist": 3.623
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1282,
@@ -36028,7 +36389,8 @@ export const graphData = {
           "dist": 1.78
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1283,
@@ -36062,7 +36424,8 @@ export const graphData = {
           "dist": 3.543
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1284,
@@ -36088,7 +36451,8 @@ export const graphData = {
           "dist": 3.117
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1285,
@@ -36114,7 +36478,8 @@ export const graphData = {
           "dist": 3.104
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1286,
@@ -36148,7 +36513,8 @@ export const graphData = {
           "dist": 2.954
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1287,
@@ -36186,7 +36552,8 @@ export const graphData = {
           "dist": 3.758
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1288,
@@ -36228,7 +36595,8 @@ export const graphData = {
           "dist": 3.715
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1289,
@@ -36266,7 +36634,8 @@ export const graphData = {
           "dist": 3.588
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1290,
@@ -36304,7 +36673,8 @@ export const graphData = {
           "dist": 3.588
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1291,
@@ -36334,7 +36704,8 @@ export const graphData = {
           "dist": 3.188
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1292,
@@ -36368,7 +36739,8 @@ export const graphData = {
           "dist": 3.209
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1293,
@@ -36406,7 +36778,8 @@ export const graphData = {
           "dist": 3.683
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1294,
@@ -36448,7 +36821,8 @@ export const graphData = {
           "dist": 1.871
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1295,
@@ -36490,7 +36864,8 @@ export const graphData = {
           "dist": 1.192
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1296,
@@ -36528,7 +36903,8 @@ export const graphData = {
           "dist": 2.7
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1297,
@@ -36562,7 +36938,8 @@ export const graphData = {
           "dist": 3.234
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1298,
@@ -36596,7 +36973,8 @@ export const graphData = {
           "dist": 3.207
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1299,
@@ -36626,7 +37004,8 @@ export const graphData = {
           "dist": 3.181
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1300,
@@ -36656,7 +37035,8 @@ export const graphData = {
           "dist": 3.208
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1301,
@@ -36690,7 +37070,8 @@ export const graphData = {
           "dist": 2.368
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1302,
@@ -36740,7 +37121,8 @@ export const graphData = {
           "dist": 2.96
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1303,
@@ -36778,7 +37160,8 @@ export const graphData = {
           "dist": 3.769
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1304,
@@ -36812,7 +37195,8 @@ export const graphData = {
           "dist": 3.796
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1305,
@@ -36846,7 +37230,8 @@ export const graphData = {
           "dist": 3.809
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1306,
@@ -36892,7 +37277,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1307,
@@ -36922,7 +37308,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1308,
@@ -36960,7 +37347,8 @@ export const graphData = {
           "dist": 3.065
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1309,
@@ -36998,7 +37386,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1310,
@@ -37032,7 +37421,8 @@ export const graphData = {
           "dist": 2.916
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1311,
@@ -37058,7 +37448,8 @@ export const graphData = {
           "dist": 3.879
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1312,
@@ -37092,7 +37483,8 @@ export const graphData = {
           "dist": 2.877
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1313,
@@ -37138,7 +37530,8 @@ export const graphData = {
           "dist": 3.963
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1314,
@@ -37176,7 +37569,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1315,
@@ -37214,7 +37608,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1316,
@@ -37256,7 +37651,8 @@ export const graphData = {
           "dist": 2.857
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1317,
@@ -37298,7 +37694,8 @@ export const graphData = {
           "dist": 1.55
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1318,
@@ -37340,7 +37737,8 @@ export const graphData = {
           "dist": 2.137
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1319,
@@ -37382,7 +37780,8 @@ export const graphData = {
           "dist": 3.835
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1320,
@@ -37416,7 +37815,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1321,
@@ -37458,7 +37858,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1322,
@@ -37504,7 +37905,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1323,
@@ -37542,7 +37944,8 @@ export const graphData = {
           "dist": 2.626
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1324,
@@ -37572,7 +37975,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1325,
@@ -37602,7 +38006,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1326,
@@ -37632,7 +38037,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1327,
@@ -37666,7 +38072,8 @@ export const graphData = {
           "dist": 2.863
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1328,
@@ -37716,7 +38123,8 @@ export const graphData = {
           "dist": 1.802
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1329,
@@ -37754,7 +38162,8 @@ export const graphData = {
           "dist": 3.572
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1330,
@@ -37788,7 +38197,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1331,
@@ -37830,7 +38240,8 @@ export const graphData = {
           "dist": 2.923
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1332,
@@ -37872,7 +38283,8 @@ export const graphData = {
           "dist": 0.944
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1333,
@@ -37918,7 +38330,8 @@ export const graphData = {
           "dist": 1.116
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1334,
@@ -37964,7 +38377,8 @@ export const graphData = {
           "dist": 3.099
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1335,
@@ -38010,7 +38424,8 @@ export const graphData = {
           "dist": 3.402
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1336,
@@ -38052,7 +38467,8 @@ export const graphData = {
           "dist": 2.959
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1337,
@@ -38090,7 +38506,8 @@ export const graphData = {
           "dist": 3.687
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1338,
@@ -38132,7 +38549,8 @@ export const graphData = {
           "dist": 3.294
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1339,
@@ -38170,7 +38588,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1340,
@@ -38208,7 +38627,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1341,
@@ -38242,7 +38662,8 @@ export const graphData = {
           "dist": 2.872
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1342,
@@ -38280,7 +38701,8 @@ export const graphData = {
           "dist": 1.772
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1343,
@@ -38322,7 +38744,8 @@ export const graphData = {
           "dist": 1.772
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1344,
@@ -38356,7 +38779,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1345,
@@ -38382,7 +38806,8 @@ export const graphData = {
           "dist": 3.066
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1346,
@@ -38408,7 +38833,8 @@ export const graphData = {
           "dist": 3.404
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1347,
@@ -38430,7 +38856,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1348,
@@ -38456,7 +38883,8 @@ export const graphData = {
           "dist": 3.705
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1349,
@@ -38478,7 +38906,8 @@ export const graphData = {
           "dist": 2.824
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1350,
@@ -38500,7 +38929,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1351,
@@ -38538,7 +38968,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1352,
@@ -38580,7 +39011,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1353,
@@ -38626,7 +39058,8 @@ export const graphData = {
           "dist": 3.572
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1354,
@@ -38672,7 +39105,8 @@ export const graphData = {
           "dist": 3.348
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1355,
@@ -38714,7 +39148,8 @@ export const graphData = {
           "dist": 3.835
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1356,
@@ -38752,7 +39187,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1357,
@@ -38782,7 +39218,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1358,
@@ -38816,7 +39253,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1359,
@@ -38846,7 +39284,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1360,
@@ -38872,7 +39311,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1361,
@@ -38894,7 +39334,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1362,
@@ -38924,7 +39365,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1363,
@@ -38962,7 +39404,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1364,
@@ -39000,7 +39443,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1365,
@@ -39030,7 +39474,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1366,
@@ -39064,7 +39509,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1367,
@@ -39090,7 +39536,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1368,
@@ -39136,7 +39583,8 @@ export const graphData = {
           "dist": 3.003
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1369,
@@ -39170,7 +39618,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1370,
@@ -39204,7 +39653,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1371,
@@ -39222,7 +39672,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1372,
@@ -39236,7 +39687,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1373,
@@ -39270,7 +39722,8 @@ export const graphData = {
           "dist": 3.633
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1374,
@@ -39304,7 +39757,8 @@ export const graphData = {
           "dist": 3.091
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1375,
@@ -39338,7 +39792,8 @@ export const graphData = {
           "dist": 2.705
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1376,
@@ -39372,7 +39827,8 @@ export const graphData = {
           "dist": 2.651
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1377,
@@ -39404,13 +39860,10 @@ export const graphData = {
         {
           "id": 1384,
           "dist": 2.433
-        },
-        {
-          "id": 1385,
-          "dist": 3.405
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1378,
@@ -39438,17 +39891,10 @@ export const graphData = {
         {
           "id": 1384,
           "dist": 3.58
-        },
-        {
-          "id": 1385,
-          "dist": 3.535
-        },
-        {
-          "id": 1386,
-          "dist": 3.932
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1379,
@@ -39474,7 +39920,8 @@ export const graphData = {
           "dist": 3.477
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1380,
@@ -39494,13 +39941,10 @@ export const graphData = {
         {
           "id": 1381,
           "dist": 2.0
-        },
-        {
-          "id": 1386,
-          "dist": 3.834
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1381,
@@ -39528,13 +39972,10 @@ export const graphData = {
         {
           "id": 1382,
           "dist": 2.0
-        },
-        {
-          "id": 1386,
-          "dist": 3.742
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1382,
@@ -39564,7 +40005,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1383,
@@ -39596,13 +40038,10 @@ export const graphData = {
         {
           "id": 1384,
           "dist": 2.0
-        },
-        {
-          "id": 1385,
-          "dist": 3.864
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1384,
@@ -39646,17 +40085,10 @@ export const graphData = {
         {
           "id": 1387,
           "dist": 2.718
-        },
-        {
-          "id": 1388,
-          "dist": 3.14
-        },
-        {
-          "id": 1392,
-          "dist": 3.993
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1385,
@@ -39665,18 +40097,6 @@ export const graphData = {
       "y": 9.75,
       "z": -94.588,
       "neighbors": [
-        {
-          "id": 1377,
-          "dist": 3.405
-        },
-        {
-          "id": 1378,
-          "dist": 3.535
-        },
-        {
-          "id": 1383,
-          "dist": 3.864
-        },
         {
           "id": 1384,
           "dist": 1.878
@@ -39692,21 +40112,10 @@ export const graphData = {
         {
           "id": 1388,
           "dist": 2.814
-        },
-        {
-          "id": 1392,
-          "dist": 3.488
-        },
-        {
-          "id": 1393,
-          "dist": 3.135
-        },
-        {
-          "id": 1394,
-          "dist": 3.935
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1386,
@@ -39715,18 +40124,6 @@ export const graphData = {
       "y": 9.75,
       "z": -95.391,
       "neighbors": [
-        {
-          "id": 1378,
-          "dist": 3.932
-        },
-        {
-          "id": 1380,
-          "dist": 3.834
-        },
-        {
-          "id": 1381,
-          "dist": 3.742
-        },
         {
           "id": 1384,
           "dist": 3.571
@@ -39742,29 +40139,10 @@ export const graphData = {
         {
           "id": 1388,
           "dist": 3.684
-        },
-        {
-          "id": 1393,
-          "dist": 3.925
-        },
-        {
-          "id": 1394,
-          "dist": 3.775
-        },
-        {
-          "id": 1395,
-          "dist": 3.922
-        },
-        {
-          "id": 1396,
-          "dist": 3.396
-        },
-        {
-          "id": 1397,
-          "dist": 3.96
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1387,
@@ -39773,10 +40151,6 @@ export const graphData = {
       "y": 9.75,
       "z": -96.433,
       "neighbors": [
-        {
-          "id": 851,
-          "dist": 3.85
-        },
         {
           "id": 1384,
           "dist": 2.718
@@ -39792,13 +40166,10 @@ export const graphData = {
         {
           "id": 1388,
           "dist": 1.956
-        },
-        {
-          "id": 1389,
-          "dist": 3.955
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1388,
@@ -39818,10 +40189,6 @@ export const graphData = {
         {
           "id": 851,
           "dist": 3.625
-        },
-        {
-          "id": 1384,
-          "dist": 3.14
         },
         {
           "id": 1385,
@@ -39850,13 +40217,10 @@ export const graphData = {
         {
           "id": 1399,
           "dist": 2.973
-        },
-        {
-          "id": 1400,
-          "dist": 3.274
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1389,
@@ -39872,10 +40236,6 @@ export const graphData = {
         {
           "id": 850,
           "dist": 3.178
-        },
-        {
-          "id": 1387,
-          "dist": 3.955
         },
         {
           "id": 1388,
@@ -39902,7 +40262,8 @@ export const graphData = {
           "dist": 2.721
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1390,
@@ -39938,13 +40299,10 @@ export const graphData = {
         {
           "id": 1400,
           "dist": 1.888
-        },
-        {
-          "id": 1401,
-          "dist": 3.859
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1391,
@@ -39978,7 +40336,8 @@ export const graphData = {
           "dist": 2.441
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1392,
@@ -39987,14 +40346,6 @@ export const graphData = {
       "y": 7.2,
       "z": -92.907,
       "neighbors": [
-        {
-          "id": 1384,
-          "dist": 3.993
-        },
-        {
-          "id": 1385,
-          "dist": 3.488
-        },
         {
           "id": 1390,
           "dist": 2.82
@@ -40014,13 +40365,10 @@ export const graphData = {
         {
           "id": 1400,
           "dist": 1.996
-        },
-        {
-          "id": 1401,
-          "dist": 3.078
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1393,
@@ -40029,14 +40377,6 @@ export const graphData = {
       "y": 7.216,
       "z": -92.769,
       "neighbors": [
-        {
-          "id": 1385,
-          "dist": 3.135
-        },
-        {
-          "id": 1386,
-          "dist": 3.925
-        },
         {
           "id": 1391,
           "dist": 4.0
@@ -40056,17 +40396,10 @@ export const graphData = {
         {
           "id": 1400,
           "dist": 3.164
-        },
-        {
-          "id": 1401,
-          "dist": 3.128
-        },
-        {
-          "id": 1402,
-          "dist": 3.659
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1394,
@@ -40075,14 +40408,6 @@ export const graphData = {
       "y": 7.233,
       "z": -92.631,
       "neighbors": [
-        {
-          "id": 1385,
-          "dist": 3.935
-        },
-        {
-          "id": 1386,
-          "dist": 3.775
-        },
         {
           "id": 1392,
           "dist": 4.0
@@ -40098,13 +40423,10 @@ export const graphData = {
         {
           "id": 1396,
           "dist": 3.041
-        },
-        {
-          "id": 1402,
-          "dist": 3.853
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1395,
@@ -40113,10 +40435,6 @@ export const graphData = {
       "y": 7.247,
       "z": -93.141,
       "neighbors": [
-        {
-          "id": 1386,
-          "dist": 3.922
-        },
         {
           "id": 1393,
           "dist": 3.484
@@ -40130,7 +40448,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1396,
@@ -40142,10 +40461,6 @@ export const graphData = {
         {
           "id": 853,
           "dist": 3.732
-        },
-        {
-          "id": 1386,
-          "dist": 3.396
         },
         {
           "id": 1394,
@@ -40160,7 +40475,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1397,
@@ -40190,15 +40506,12 @@ export const graphData = {
           "dist": 3.562
         },
         {
-          "id": 1386,
-          "dist": 3.96
-        },
-        {
           "id": 1396,
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1398,
@@ -40240,7 +40553,8 @@ export const graphData = {
           "dist": 2.641
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1399,
@@ -40282,7 +40596,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1400,
@@ -40291,10 +40606,6 @@ export const graphData = {
       "y": 6.136,
       "z": -94.551,
       "neighbors": [
-        {
-          "id": 1388,
-          "dist": 3.274
-        },
         {
           "id": 1389,
           "dist": 2.721
@@ -40330,13 +40641,10 @@ export const graphData = {
         {
           "id": 1403,
           "dist": 3.55
-        },
-        {
-          "id": 1404,
-          "dist": 3.313
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1401,
@@ -40345,22 +40653,6 @@ export const graphData = {
       "y": 4.748,
       "z": -94.443,
       "neighbors": [
-        {
-          "id": 685,
-          "dist": 3.844
-        },
-        {
-          "id": 1390,
-          "dist": 3.859
-        },
-        {
-          "id": 1392,
-          "dist": 3.078
-        },
-        {
-          "id": 1393,
-          "dist": 3.128
-        },
         {
           "id": 1400,
           "dist": 2.0
@@ -40376,17 +40668,10 @@ export const graphData = {
         {
           "id": 1404,
           "dist": 2.368
-        },
-        {
-          "id": 1405,
-          "dist": 3.678
-        },
-        {
-          "id": 1406,
-          "dist": 3.978
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1402,
@@ -40395,14 +40680,6 @@ export const graphData = {
       "y": 4.5,
       "z": -95.079,
       "neighbors": [
-        {
-          "id": 1393,
-          "dist": 3.659
-        },
-        {
-          "id": 1394,
-          "dist": 3.853
-        },
         {
           "id": 1400,
           "dist": 3.631
@@ -40420,7 +40697,8 @@ export const graphData = {
           "dist": 2.628
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1403,
@@ -40444,13 +40722,10 @@ export const graphData = {
         {
           "id": 1404,
           "dist": 1.842
-        },
-        {
-          "id": 1405,
-          "dist": 3.777
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1404,
@@ -40459,18 +40734,6 @@ export const graphData = {
       "y": 3.81,
       "z": -96.601,
       "neighbors": [
-        {
-          "id": 684,
-          "dist": 3.426
-        },
-        {
-          "id": 685,
-          "dist": 3.763
-        },
-        {
-          "id": 1400,
-          "dist": 3.313
-        },
         {
           "id": 1401,
           "dist": 2.368
@@ -40486,25 +40749,10 @@ export const graphData = {
         {
           "id": 1405,
           "dist": 2.0
-        },
-        {
-          "id": 1406,
-          "dist": 3.096
-        },
-        {
-          "id": 1407,
-          "dist": 3.531
-        },
-        {
-          "id": 1410,
-          "dist": 3.428
-        },
-        {
-          "id": 1411,
-          "dist": 3.547
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1405,
@@ -40524,14 +40772,6 @@ export const graphData = {
         {
           "id": 685,
           "dist": 2.636
-        },
-        {
-          "id": 1401,
-          "dist": 3.678
-        },
-        {
-          "id": 1403,
-          "dist": 3.777
         },
         {
           "id": 1404,
@@ -40562,7 +40802,8 @@ export const graphData = {
           "dist": 3.969
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1406,
@@ -40588,14 +40829,6 @@ export const graphData = {
           "dist": 3.32
         },
         {
-          "id": 1401,
-          "dist": 3.978
-        },
-        {
-          "id": 1404,
-          "dist": 3.096
-        },
-        {
           "id": 1405,
           "dist": 1.456
         },
@@ -40604,7 +40837,8 @@ export const graphData = {
           "dist": 2.202
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1407,
@@ -40630,10 +40864,6 @@ export const graphData = {
           "dist": 3.536
         },
         {
-          "id": 1404,
-          "dist": 3.531
-        },
-        {
           "id": 1405,
           "dist": 1.722
         },
@@ -40654,7 +40884,8 @@ export const graphData = {
           "dist": 2.834
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1408,
@@ -40700,7 +40931,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1409,
@@ -40750,7 +40982,8 @@ export const graphData = {
           "dist": 3.884
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1410,
@@ -40766,10 +40999,6 @@ export const graphData = {
         {
           "id": 683,
           "dist": 3.3
-        },
-        {
-          "id": 1404,
-          "dist": 3.428
         },
         {
           "id": 1405,
@@ -40800,7 +41029,8 @@ export const graphData = {
           "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1411,
@@ -40809,10 +41039,6 @@ export const graphData = {
       "y": 2.0,
       "z": -99.242,
       "neighbors": [
-        {
-          "id": 1404,
-          "dist": 3.547
-        },
         {
           "id": 1405,
           "dist": 3.969
@@ -40834,7 +41060,8 @@ export const graphData = {
           "dist": 3.774
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1412,
@@ -40852,10 +41079,6 @@ export const graphData = {
           "dist": 1.932
         },
         {
-          "id": 1414,
-          "dist": 3.112
-        },
-        {
           "id": 2784,
           "dist": 2.317
         },
@@ -40864,7 +41087,8 @@ export const graphData = {
           "dist": 3.896
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1413,
@@ -40894,7 +41118,8 @@ export const graphData = {
           "dist": 2.176
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1414,
@@ -40903,10 +41128,6 @@ export const graphData = {
       "y": 2.0,
       "z": -96.708,
       "neighbors": [
-        {
-          "id": 1412,
-          "dist": 3.112
-        },
         {
           "id": 1413,
           "dist": 2.0
@@ -40920,7 +41141,8 @@ export const graphData = {
           "dist": 3.624
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1415,
@@ -40943,14 +41165,15 @@ export const graphData = {
         },
         {
           "id": 1417,
-          "dist": 3.044
+          "dist": 3.108
         },
         {
           "id": 2654,
           "dist": 2.543
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1416,
@@ -40969,7 +41192,7 @@ export const graphData = {
         },
         {
           "id": 1417,
-          "dist": 2.0
+          "dist": 2.085
         },
         {
           "id": 2653,
@@ -40980,68 +41203,70 @@ export const graphData = {
           "dist": 1.797
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1417,
       "name": "POIs.1620",
       "x": -44.5,
-      "y": 1.639,
+      "y": 1.276,
       "z": -93.13,
       "neighbors": [
         {
           "id": 1415,
-          "dist": 3.044
+          "dist": 3.108
         },
         {
           "id": 1416,
-          "dist": 2.0
+          "dist": 2.085
         },
         {
           "id": 1418,
-          "dist": 2.0
+          "dist": 1.978
         },
         {
           "id": 1419,
-          "dist": 3.81
+          "dist": 3.792
         },
         {
           "id": 2635,
-          "dist": 2.852
+          "dist": 2.835
         },
         {
           "id": 2636,
-          "dist": 2.354
+          "dist": 2.324
         },
         {
           "id": 2637,
-          "dist": 3.49
+          "dist": 3.451
         },
         {
           "id": 2654,
-          "dist": 3.671
+          "dist": 3.703
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1418,
       "name": "POIs.1621",
       "x": -42.522,
-      "y": 1.346,
+      "y": 1.276,
       "z": -93.09,
       "neighbors": [
         {
           "id": 1417,
-          "dist": 2.0
+          "dist": 1.978
         },
         {
           "id": 1419,
-          "dist": 1.955
+          "dist": 1.954
         },
         {
           "id": 1420,
-          "dist": 3.952
+          "dist": 3.951
         },
         {
           "id": 2634,
@@ -41053,14 +41278,15 @@ export const graphData = {
         },
         {
           "id": 2636,
-          "dist": 0.526
+          "dist": 0.521
         },
         {
           "id": 2637,
-          "dist": 2.466
+          "dist": 2.46
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1419,
@@ -41071,11 +41297,11 @@ export const graphData = {
       "neighbors": [
         {
           "id": 1417,
-          "dist": 3.81
+          "dist": 3.792
         },
         {
           "id": 1418,
-          "dist": 1.955
+          "dist": 1.954
         },
         {
           "id": 1420,
@@ -41087,7 +41313,7 @@ export const graphData = {
         },
         {
           "id": 2636,
-          "dist": 1.489
+          "dist": 1.49
         },
         {
           "id": 2637,
@@ -41098,7 +41324,8 @@ export const graphData = {
           "dist": 3.554
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1420,
@@ -41109,7 +41336,7 @@ export const graphData = {
       "neighbors": [
         {
           "id": 1418,
-          "dist": 3.952
+          "dist": 3.951
         },
         {
           "id": 1419,
@@ -41121,7 +41348,7 @@ export const graphData = {
         },
         {
           "id": 2636,
-          "dist": 3.469
+          "dist": 3.47
         },
         {
           "id": 2637,
@@ -41136,7 +41363,8 @@ export const graphData = {
           "dist": 3.903
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1421,
@@ -41162,7 +41390,8 @@ export const graphData = {
           "dist": 3.328
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1422,
@@ -41192,7 +41421,8 @@ export const graphData = {
           "dist": 3.093
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1423,
@@ -41222,7 +41452,8 @@ export const graphData = {
           "dist": 1.877
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1424,
@@ -41256,7 +41487,8 @@ export const graphData = {
           "dist": 0.972
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1425,
@@ -41290,7 +41522,8 @@ export const graphData = {
           "dist": 2.153
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1426,
@@ -41316,7 +41549,8 @@ export const graphData = {
           "dist": 3.866
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1427,
@@ -41338,7 +41572,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1428,
@@ -41360,7 +41595,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1429,
@@ -41378,7 +41614,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1430,
@@ -41400,7 +41637,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1431,
@@ -41422,7 +41660,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1432,
@@ -41444,7 +41683,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1433,
@@ -41466,7 +41706,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1434,
@@ -41488,7 +41729,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1435,
@@ -41510,7 +41752,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1436,
@@ -41528,7 +41771,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1437,
@@ -41554,7 +41798,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1438,
@@ -41584,7 +41829,8 @@ export const graphData = {
           "dist": 3.484
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1439,
@@ -41638,7 +41884,8 @@ export const graphData = {
           "dist": 2.352
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1440,
@@ -41696,7 +41943,8 @@ export const graphData = {
           "dist": 1.058
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1441,
@@ -41746,7 +41994,8 @@ export const graphData = {
           "dist": 2.054
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1442,
@@ -41800,7 +42049,8 @@ export const graphData = {
           "dist": 3.781
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1443,
@@ -41838,7 +42088,8 @@ export const graphData = {
           "dist": 3.781
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1444,
@@ -41872,7 +42123,8 @@ export const graphData = {
           "dist": 3.502
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1445,
@@ -41898,7 +42150,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1446,
@@ -41924,7 +42177,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1447,
@@ -41950,7 +42204,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1448,
@@ -41972,7 +42227,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1449,
@@ -41998,7 +42254,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1450,
@@ -42020,7 +42277,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1451,
@@ -42046,7 +42304,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1452,
@@ -42072,7 +42331,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1453,
@@ -42098,7 +42358,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1454,
@@ -42136,7 +42397,8 @@ export const graphData = {
           "dist": 3.375
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1455,
@@ -42178,7 +42440,8 @@ export const graphData = {
           "dist": 2.411
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1456,
@@ -42216,7 +42479,8 @@ export const graphData = {
           "dist": 3.295
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1457,
@@ -42246,7 +42510,8 @@ export const graphData = {
           "dist": 2.624
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1458,
@@ -42264,7 +42529,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1459,
@@ -42282,7 +42548,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1460,
@@ -42304,7 +42571,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1461,
@@ -42326,7 +42594,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1462,
@@ -42348,7 +42617,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1463,
@@ -42370,7 +42640,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1464,
@@ -42392,7 +42663,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1465,
@@ -42414,7 +42686,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1466,
@@ -42440,7 +42713,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1467,
@@ -42466,7 +42740,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1468,
@@ -42492,7 +42767,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1469,
@@ -42526,7 +42802,8 @@ export const graphData = {
           "dist": 3.757
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1470,
@@ -42564,7 +42841,8 @@ export const graphData = {
           "dist": 3.213
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1471,
@@ -42602,7 +42880,8 @@ export const graphData = {
           "dist": 2.677
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1472,
@@ -42644,7 +42923,8 @@ export const graphData = {
           "dist": 3.638
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1473,
@@ -42686,7 +42966,8 @@ export const graphData = {
           "dist": 3.32
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1474,
@@ -42728,7 +43009,8 @@ export const graphData = {
           "dist": 3.073
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1475,
@@ -42770,7 +43052,8 @@ export const graphData = {
           "dist": 2.915
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1476,
@@ -42808,7 +43091,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1477,
@@ -42850,7 +43134,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1478,
@@ -42884,7 +43169,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1479,
@@ -42922,7 +43208,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1480,
@@ -42952,7 +43239,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1481,
@@ -42982,7 +43270,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1482,
@@ -43008,7 +43297,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1483,
@@ -43026,7 +43316,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1484,
@@ -43052,7 +43343,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1485,
@@ -43074,7 +43366,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1486,
@@ -43096,7 +43389,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1487,
@@ -43118,7 +43412,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1488,
@@ -43140,7 +43435,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1489,
@@ -43162,7 +43458,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1490,
@@ -43184,7 +43481,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1491,
@@ -43206,7 +43504,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1492,
@@ -43228,7 +43527,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1493,
@@ -43250,7 +43550,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1494,
@@ -43276,7 +43577,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1495,
@@ -43302,7 +43604,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1496,
@@ -43328,7 +43631,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1497,
@@ -43358,7 +43662,8 @@ export const graphData = {
           "dist": 3.705
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1498,
@@ -43400,7 +43705,8 @@ export const graphData = {
           "dist": 3.934
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1499,
@@ -43438,7 +43744,8 @@ export const graphData = {
           "dist": 1.963
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1500,
@@ -43476,7 +43783,8 @@ export const graphData = {
           "dist": 1.505
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1501,
@@ -43518,7 +43826,8 @@ export const graphData = {
           "dist": 3.326
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1502,
@@ -43548,7 +43857,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1503,
@@ -43570,7 +43880,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1504,
@@ -43592,7 +43903,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1505,
@@ -43622,7 +43934,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1506,
@@ -43656,7 +43969,8 @@ export const graphData = {
           "dist": 3.815
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1507,
@@ -43698,7 +44012,8 @@ export const graphData = {
           "dist": 3.875
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1508,
@@ -43736,7 +44051,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1509,
@@ -43762,7 +44078,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1510,
@@ -43784,7 +44101,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1511,
@@ -43806,7 +44124,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1512,
@@ -43824,7 +44143,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1513,
@@ -43850,7 +44170,8 @@ export const graphData = {
           "dist": 2.556
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1514,
@@ -43880,7 +44201,8 @@ export const graphData = {
           "dist": 1.743
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1515,
@@ -43902,7 +44224,8 @@ export const graphData = {
           "dist": 2.746
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1516,
@@ -43928,7 +44251,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1517,
@@ -43950,7 +44274,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1518,
@@ -43972,7 +44297,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1519,
@@ -43994,7 +44320,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1520,
@@ -44012,7 +44339,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1521,
@@ -44030,7 +44358,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1522,
@@ -44056,7 +44385,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1523,
@@ -44086,7 +44416,8 @@ export const graphData = {
           "dist": 2.834
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1524,
@@ -44120,7 +44451,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1525,
@@ -44154,7 +44486,8 @@ export const graphData = {
           "dist": 2.823
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1526,
@@ -44180,7 +44513,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1527,
@@ -44202,7 +44536,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1528,
@@ -44224,7 +44559,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1529,
@@ -44246,7 +44582,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1530,
@@ -44280,7 +44617,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1531,
@@ -44322,7 +44660,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1532,
@@ -44360,7 +44699,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1533,
@@ -44398,7 +44738,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1534,
@@ -44420,7 +44761,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1535,
@@ -44450,7 +44792,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1536,
@@ -44484,7 +44827,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1537,
@@ -44522,7 +44866,8 @@ export const graphData = {
           "dist": 0.507
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1538,
@@ -44564,7 +44909,8 @@ export const graphData = {
           "dist": 2.166
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1539,
@@ -44598,7 +44944,8 @@ export const graphData = {
           "dist": 2.85
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1540,
@@ -44632,7 +44979,8 @@ export const graphData = {
           "dist": 3.726
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1541,
@@ -44658,7 +45006,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1542,
@@ -44684,7 +45033,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1543,
@@ -44710,7 +45060,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1544,
@@ -44736,7 +45087,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1545,
@@ -44758,7 +45110,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1546,
@@ -44780,7 +45133,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1547,
@@ -44802,7 +45156,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1548,
@@ -44824,7 +45179,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1549,
@@ -44850,7 +45206,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1550,
@@ -44872,7 +45229,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1551,
@@ -44894,7 +45252,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1552,
@@ -44916,7 +45275,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1553,
@@ -44946,7 +45306,8 @@ export const graphData = {
           "dist": 3.785
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1554,
@@ -44984,7 +45345,8 @@ export const graphData = {
           "dist": 3.826
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1555,
@@ -45022,7 +45384,8 @@ export const graphData = {
           "dist": 3.044
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1556,
@@ -45060,7 +45423,8 @@ export const graphData = {
           "dist": 2.973
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1557,
@@ -45102,7 +45466,8 @@ export const graphData = {
           "dist": 1.287
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1558,
@@ -45132,7 +45497,8 @@ export const graphData = {
           "dist": 3.07
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1559,
@@ -45154,7 +45520,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1560,
@@ -45176,7 +45543,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1561,
@@ -45194,7 +45562,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1562,
@@ -45216,7 +45585,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1563,
@@ -45234,7 +45604,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1564,
@@ -45252,7 +45623,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1565,
@@ -45270,7 +45642,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1566,
@@ -45288,7 +45661,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1567,
@@ -45310,7 +45684,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1568,
@@ -45332,7 +45707,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1569,
@@ -45354,7 +45730,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1570,
@@ -45376,7 +45753,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1571,
@@ -45398,7 +45776,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1572,
@@ -45416,7 +45795,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1573,
@@ -45438,7 +45818,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1574,
@@ -45460,7 +45841,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1575,
@@ -45482,7 +45864,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1576,
@@ -45504,7 +45887,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1577,
@@ -45530,7 +45914,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1578,
@@ -45552,7 +45937,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1579,
@@ -45578,7 +45964,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1580,
@@ -45604,7 +45991,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1581,
@@ -45630,7 +46018,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1582,
@@ -45652,7 +46041,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1583,
@@ -45678,7 +46068,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1584,
@@ -45700,7 +46091,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1585,
@@ -45722,7 +46114,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1586,
@@ -45744,7 +46137,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1587,
@@ -45766,7 +46160,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1588,
@@ -45788,7 +46183,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1589,
@@ -45814,7 +46210,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1590,
@@ -45840,7 +46237,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1591,
@@ -45862,7 +46260,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1592,
@@ -45888,7 +46287,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1593,
@@ -45910,7 +46310,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1594,
@@ -45932,7 +46333,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1595,
@@ -45958,7 +46360,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1596,
@@ -45980,7 +46383,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1597,
@@ -46002,7 +46406,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1598,
@@ -46028,7 +46433,8 @@ export const graphData = {
           "dist": 3.293
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1599,
@@ -46050,7 +46456,8 @@ export const graphData = {
           "dist": 3.155
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1600,
@@ -46076,7 +46483,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1601,
@@ -46102,7 +46510,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1602,
@@ -46124,7 +46533,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1603,
@@ -46146,7 +46556,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1604,
@@ -46168,7 +46579,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1605,
@@ -46190,7 +46602,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1606,
@@ -46216,7 +46629,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1607,
@@ -46242,7 +46656,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1608,
@@ -46264,7 +46679,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1609,
@@ -46286,7 +46702,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1610,
@@ -46308,7 +46725,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1611,
@@ -46326,7 +46744,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1612,
@@ -46352,7 +46771,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1613,
@@ -46374,7 +46794,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1614,
@@ -46396,7 +46817,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1615,
@@ -46422,7 +46844,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1616,
@@ -46444,7 +46867,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1617,
@@ -46466,7 +46890,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1618,
@@ -46488,7 +46913,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1619,
@@ -46510,7 +46936,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1620,
@@ -46528,7 +46955,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1621,
@@ -46554,7 +46982,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1622,
@@ -46576,7 +47005,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1623,
@@ -46598,7 +47028,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1624,
@@ -46624,7 +47055,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1625,
@@ -46646,7 +47078,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1626,
@@ -46668,7 +47101,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1627,
@@ -46694,7 +47128,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1628,
@@ -46716,7 +47151,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1629,
@@ -46742,7 +47178,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1630,
@@ -46764,7 +47201,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1631,
@@ -46790,7 +47228,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1632,
@@ -46812,7 +47251,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1633,
@@ -46834,7 +47274,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1634,
@@ -46860,7 +47301,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1635,
@@ -46882,7 +47324,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1636,
@@ -46908,7 +47351,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1637,
@@ -46934,7 +47378,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1638,
@@ -46956,7 +47401,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1639,
@@ -46982,7 +47428,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1640,
@@ -47004,7 +47451,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1641,
@@ -47026,7 +47474,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1642,
@@ -47052,7 +47501,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1643,
@@ -47074,7 +47524,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1644,
@@ -47096,7 +47547,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1645,
@@ -47122,7 +47574,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1646,
@@ -47144,7 +47597,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1647,
@@ -47170,7 +47624,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1648,
@@ -47196,7 +47651,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1649,
@@ -47218,7 +47674,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1650,
@@ -47244,7 +47701,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1651,
@@ -47270,7 +47728,8 @@ export const graphData = {
           "dist": 2.933
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1652,
@@ -47300,7 +47759,8 @@ export const graphData = {
           "dist": 2.047
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1653,
@@ -47326,7 +47786,8 @@ export const graphData = {
           "dist": 2.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1654,
@@ -47352,7 +47813,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1655,
@@ -47370,7 +47832,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1656,
@@ -47392,7 +47855,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1657,
@@ -47410,7 +47874,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1658,
@@ -47428,7 +47893,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1659,
@@ -47450,7 +47916,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1660,
@@ -47468,7 +47935,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1661,
@@ -47490,7 +47958,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1662,
@@ -47512,7 +47981,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1663,
@@ -47530,7 +48000,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1664,
@@ -47552,7 +48023,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1665,
@@ -47574,7 +48046,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1666,
@@ -47592,7 +48065,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1667,
@@ -47618,7 +48092,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1668,
@@ -47640,7 +48115,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1669,
@@ -47666,7 +48142,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1670,
@@ -47688,7 +48165,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1671,
@@ -47710,7 +48188,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1672,
@@ -47728,7 +48207,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1673,
@@ -47746,7 +48226,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1674,
@@ -47768,7 +48249,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1675,
@@ -47790,7 +48272,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1676,
@@ -47812,7 +48295,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1677,
@@ -47834,7 +48318,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1678,
@@ -47856,7 +48341,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1679,
@@ -47878,7 +48364,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1680,
@@ -47904,7 +48391,8 @@ export const graphData = {
           "dist": 3.932
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1681,
@@ -47946,7 +48434,8 @@ export const graphData = {
           "dist": 3.287
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1682,
@@ -47988,7 +48477,8 @@ export const graphData = {
           "dist": 2.157
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1683,
@@ -48034,7 +48524,8 @@ export const graphData = {
           "dist": 3.311
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1684,
@@ -48076,7 +48567,8 @@ export const graphData = {
           "dist": 3.986
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1685,
@@ -48098,7 +48590,8 @@ export const graphData = {
           "dist": 3.808
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1686,
@@ -48116,7 +48609,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1687,
@@ -48134,7 +48628,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1688,
@@ -48156,7 +48651,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1689,
@@ -48190,7 +48686,8 @@ export const graphData = {
           "dist": 3.908
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1690,
@@ -48220,7 +48717,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1691,
@@ -48250,7 +48748,8 @@ export const graphData = {
           "dist": 3.474
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1692,
@@ -48280,7 +48779,8 @@ export const graphData = {
           "dist": 2.936
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1693,
@@ -48310,7 +48810,8 @@ export const graphData = {
           "dist": 3.141
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1694,
@@ -48340,7 +48841,8 @@ export const graphData = {
           "dist": 3.141
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1695,
@@ -48362,7 +48864,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1696,
@@ -48384,7 +48887,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1697,
@@ -48410,7 +48914,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1698,
@@ -48432,7 +48937,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1699,
@@ -48454,7 +48960,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1700,
@@ -48476,7 +48983,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1701,
@@ -48494,7 +49002,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1702,
@@ -48512,7 +49021,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1703,
@@ -48530,7 +49040,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1704,
@@ -48552,7 +49063,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1705,
@@ -48574,7 +49086,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1706,
@@ -48600,7 +49113,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1707,
@@ -48626,7 +49140,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1708,
@@ -48648,7 +49163,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1709,
@@ -48670,7 +49186,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1710,
@@ -48688,7 +49205,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1711,
@@ -48710,7 +49228,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1712,
@@ -48732,7 +49251,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1713,
@@ -48758,7 +49278,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1714,
@@ -48780,7 +49301,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1715,
@@ -48802,7 +49324,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1716,
@@ -48824,7 +49347,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1717,
@@ -48842,7 +49366,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1718,
@@ -48864,7 +49389,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1719,
@@ -48886,7 +49412,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1720,
@@ -48908,7 +49435,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1721,
@@ -48934,7 +49462,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1722,
@@ -48956,7 +49485,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1723,
@@ -48982,7 +49512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1724,
@@ -49004,7 +49535,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1725,
@@ -49030,7 +49562,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1726,
@@ -49052,7 +49585,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1727,
@@ -49078,7 +49612,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1728,
@@ -49100,7 +49635,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1729,
@@ -49126,7 +49662,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1730,
@@ -49152,7 +49689,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1731,
@@ -49178,7 +49716,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1732,
@@ -49204,7 +49743,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1733,
@@ -49230,7 +49770,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1734,
@@ -49256,7 +49797,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1735,
@@ -49278,7 +49820,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1736,
@@ -49312,7 +49855,8 @@ export const graphData = {
           "dist": 2.9
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1737,
@@ -49350,7 +49894,8 @@ export const graphData = {
           "dist": 3.619
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1738,
@@ -49392,7 +49937,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1739,
@@ -49422,7 +49968,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1740,
@@ -49444,7 +49991,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1741,
@@ -49470,7 +50018,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1742,
@@ -49496,7 +50045,8 @@ export const graphData = {
           "dist": 2.732
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1743,
@@ -49530,7 +50080,8 @@ export const graphData = {
           "dist": 1.626
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1744,
@@ -49556,7 +50107,8 @@ export const graphData = {
           "dist": 3.411
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1745,
@@ -49578,7 +50130,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1746,
@@ -49604,7 +50157,8 @@ export const graphData = {
           "dist": 3.752
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1747,
@@ -49634,7 +50188,8 @@ export const graphData = {
           "dist": 1.841
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1748,
@@ -49668,7 +50223,8 @@ export const graphData = {
           "dist": 0.858
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1749,
@@ -49698,7 +50254,8 @@ export const graphData = {
           "dist": 2.488
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1750,
@@ -49720,7 +50277,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1751,
@@ -49742,7 +50300,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1752,
@@ -49764,7 +50323,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1753,
@@ -49786,7 +50346,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1754,
@@ -49812,7 +50373,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1755,
@@ -49830,7 +50392,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1756,
@@ -49860,7 +50423,8 @@ export const graphData = {
           "dist": 2.615
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1757,
@@ -49890,7 +50454,8 @@ export const graphData = {
           "dist": 1.41
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1758,
@@ -49920,7 +50485,8 @@ export const graphData = {
           "dist": 2.477
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1759,
@@ -49946,7 +50512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1760,
@@ -49968,7 +50535,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1761,
@@ -49994,7 +50562,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1762,
@@ -50016,7 +50585,8 @@ export const graphData = {
           "dist": 3.04
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1763,
@@ -50042,7 +50612,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1764,
@@ -50068,7 +50639,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1765,
@@ -50090,7 +50662,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1766,
@@ -50112,7 +50685,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1767,
@@ -50134,7 +50708,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1768,
@@ -50152,7 +50727,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1769,
@@ -50174,7 +50750,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1770,
@@ -50196,7 +50773,8 @@ export const graphData = {
           "dist": 3.9
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1771,
@@ -50218,7 +50796,8 @@ export const graphData = {
           "dist": 3.798
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1772,
@@ -50244,7 +50823,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1773,
@@ -50266,7 +50846,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1774,
@@ -50288,7 +50869,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1775,
@@ -50310,7 +50892,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1776,
@@ -50332,7 +50915,8 @@ export const graphData = {
           "dist": 3.518
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1777,
@@ -50358,7 +50942,8 @@ export const graphData = {
           "dist": 3.55
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1778,
@@ -50380,7 +50965,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1779,
@@ -50402,7 +50988,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1780,
@@ -50424,7 +51011,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1781,
@@ -50446,7 +51034,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1782,
@@ -50480,7 +51069,8 @@ export const graphData = {
           "dist": 2.189
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1783,
@@ -50514,7 +51104,8 @@ export const graphData = {
           "dist": 1.294
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1784,
@@ -50544,7 +51135,8 @@ export const graphData = {
           "dist": 2.683
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1785,
@@ -50566,7 +51158,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1786,
@@ -50588,7 +51181,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1787,
@@ -50606,7 +51200,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1788,
@@ -50628,7 +51223,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1789,
@@ -50650,7 +51246,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1790,
@@ -50676,7 +51273,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1791,
@@ -50706,7 +51304,8 @@ export const graphData = {
           "dist": 2.417
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1792,
@@ -50740,7 +51339,8 @@ export const graphData = {
           "dist": 1.932
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1793,
@@ -50770,7 +51370,8 @@ export const graphData = {
           "dist": 3.225
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1794,
@@ -50792,7 +51393,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1795,
@@ -50818,7 +51420,8 @@ export const graphData = {
           "dist": 3.977
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1796,
@@ -50840,7 +51443,8 @@ export const graphData = {
           "dist": 3.987
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1797,
@@ -50862,7 +51466,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1798,
@@ -50884,7 +51489,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1799,
@@ -50906,7 +51512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1800,
@@ -50928,7 +51535,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1801,
@@ -50954,7 +51562,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1802,
@@ -50980,7 +51589,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1803,
@@ -51002,7 +51612,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1804,
@@ -51028,7 +51639,8 @@ export const graphData = {
           "dist": 3.901
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1805,
@@ -51050,7 +51662,8 @@ export const graphData = {
           "dist": 3.279
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1806,
@@ -51072,7 +51685,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1807,
@@ -51094,7 +51708,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1808,
@@ -51120,7 +51735,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1809,
@@ -51150,7 +51766,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1810,
@@ -51184,7 +51801,8 @@ export const graphData = {
           "dist": 2.736
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1811,
@@ -51218,7 +51836,8 @@ export const graphData = {
           "dist": 3.289
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1812,
@@ -51240,7 +51859,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1813,
@@ -51278,7 +51898,8 @@ export const graphData = {
           "dist": 3.276
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1814,
@@ -51316,7 +51937,8 @@ export const graphData = {
           "dist": 1.569
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1815,
@@ -51358,7 +51980,8 @@ export const graphData = {
           "dist": 1.849
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1816,
@@ -51396,7 +52019,8 @@ export const graphData = {
           "dist": 3.773
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1817,
@@ -51422,7 +52046,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1818,
@@ -51444,7 +52069,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1819,
@@ -51466,7 +52092,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1820,
@@ -51488,7 +52115,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1821,
@@ -51510,7 +52138,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1822,
@@ -51532,7 +52161,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1823,
@@ -51558,7 +52188,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1824,
@@ -51580,7 +52211,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1825,
@@ -51606,7 +52238,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1826,
@@ -51628,7 +52261,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1827,
@@ -51650,7 +52284,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1828,
@@ -51668,7 +52303,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1829,
@@ -51690,7 +52326,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1830,
@@ -51712,7 +52349,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1831,
@@ -51734,7 +52372,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1832,
@@ -51756,7 +52395,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1833,
@@ -51774,7 +52414,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1834,
@@ -51792,7 +52433,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1835,
@@ -51814,7 +52456,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1836,
@@ -51832,7 +52475,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1837,
@@ -51858,7 +52502,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1838,
@@ -51880,7 +52525,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1839,
@@ -51906,7 +52552,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1840,
@@ -51932,7 +52579,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1841,
@@ -51958,7 +52606,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1842,
@@ -51980,7 +52629,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1843,
@@ -52002,7 +52652,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1844,
@@ -52024,7 +52675,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1845,
@@ -52046,7 +52698,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1846,
@@ -52072,7 +52725,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1847,
@@ -52098,7 +52752,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1848,
@@ -52120,7 +52775,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1849,
@@ -52142,7 +52798,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1850,
@@ -52164,7 +52821,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1851,
@@ -52186,7 +52844,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1852,
@@ -52208,7 +52867,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1853,
@@ -52234,7 +52894,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1854,
@@ -52256,7 +52917,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1855,
@@ -52278,7 +52940,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1856,
@@ -52300,7 +52963,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1857,
@@ -52322,7 +52986,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1858,
@@ -52344,7 +53009,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1859,
@@ -52366,7 +53032,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1860,
@@ -52388,7 +53055,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1861,
@@ -52410,7 +53078,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1862,
@@ -52432,7 +53101,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1863,
@@ -52454,7 +53124,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1864,
@@ -52476,7 +53147,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1865,
@@ -52494,7 +53166,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1866,
@@ -52516,7 +53189,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1867,
@@ -52538,7 +53212,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1868,
@@ -52560,7 +53235,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1869,
@@ -52582,7 +53258,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1870,
@@ -52604,7 +53281,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1871,
@@ -52622,7 +53300,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1872,
@@ -52640,7 +53319,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1873,
@@ -52682,7 +53362,8 @@ export const graphData = {
           "dist": 1.02
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1874,
@@ -52716,7 +53397,8 @@ export const graphData = {
           "dist": 2.421
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1875,
@@ -52738,7 +53420,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1876,
@@ -52756,7 +53439,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1877,
@@ -52774,7 +53458,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1878,
@@ -52792,7 +53477,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1879,
@@ -52810,7 +53496,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1880,
@@ -52832,7 +53519,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1881,
@@ -52850,7 +53538,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1882,
@@ -52876,7 +53565,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1883,
@@ -52898,7 +53588,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1884,
@@ -52924,7 +53615,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1885,
@@ -52950,7 +53642,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1886,
@@ -52984,7 +53677,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1887,
@@ -53018,7 +53712,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1888,
@@ -53052,7 +53747,8 @@ export const graphData = {
           "dist": 3.035
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1889,
@@ -53082,7 +53778,8 @@ export const graphData = {
           "dist": 3.035
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1890,
@@ -53104,7 +53801,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1891,
@@ -53122,7 +53820,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1892,
@@ -53140,7 +53839,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1893,
@@ -53158,7 +53858,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1894,
@@ -53176,7 +53877,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1895,
@@ -53194,7 +53896,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1896,
@@ -53212,7 +53915,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1897,
@@ -53230,7 +53934,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1898,
@@ -53252,7 +53957,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1899,
@@ -53270,7 +53976,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1900,
@@ -53292,7 +53999,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1901,
@@ -53310,7 +54018,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1902,
@@ -53328,7 +54037,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1903,
@@ -53366,7 +54076,8 @@ export const graphData = {
           "dist": 3.923
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1904,
@@ -53412,7 +54123,8 @@ export const graphData = {
           "dist": 3.303
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1905,
@@ -53458,7 +54170,8 @@ export const graphData = {
           "dist": 3.8
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1906,
@@ -53496,7 +54209,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1907,
@@ -53546,7 +54260,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1908,
@@ -53580,7 +54295,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1909,
@@ -53602,7 +54318,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1910,
@@ -53624,7 +54341,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1911,
@@ -53646,7 +54364,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1912,
@@ -53668,7 +54387,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1913,
@@ -53690,7 +54410,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1914,
@@ -53724,7 +54445,8 @@ export const graphData = {
           "dist": 3.033
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1915,
@@ -53758,7 +54480,8 @@ export const graphData = {
           "dist": 3.175
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1916,
@@ -53792,7 +54515,8 @@ export const graphData = {
           "dist": 2.352
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1917,
@@ -53822,7 +54546,8 @@ export const graphData = {
           "dist": 1.049
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1918,
@@ -53856,7 +54581,8 @@ export const graphData = {
           "dist": 2.748
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1919,
@@ -53886,7 +54612,8 @@ export const graphData = {
           "dist": 3.398
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1920,
@@ -53912,7 +54639,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1921,
@@ -53934,7 +54662,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1922,
@@ -53960,7 +54689,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1923,
@@ -53986,7 +54716,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1924,
@@ -54024,7 +54755,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1925,
@@ -54066,7 +54798,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1926,
@@ -54096,7 +54829,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1927,
@@ -54122,7 +54856,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1928,
@@ -54144,7 +54879,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1929,
@@ -54162,7 +54898,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1930,
@@ -54184,7 +54921,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1931,
@@ -54206,7 +54944,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1932,
@@ -54232,7 +54971,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1933,
@@ -54266,7 +55006,8 @@ export const graphData = {
           "dist": 3.99
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1934,
@@ -54304,7 +55045,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1935,
@@ -54330,7 +55072,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1936,
@@ -54364,7 +55107,8 @@ export const graphData = {
           "dist": 3.964
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1937,
@@ -54398,7 +55142,8 @@ export const graphData = {
           "dist": 2.848
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1938,
@@ -54432,7 +55177,8 @@ export const graphData = {
           "dist": 2.924
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1939,
@@ -54458,7 +55204,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1940,
@@ -54484,7 +55231,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1941,
@@ -54510,7 +55258,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1942,
@@ -54540,7 +55289,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1943,
@@ -54574,7 +55324,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1944,
@@ -54608,7 +55359,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1945,
@@ -54642,7 +55394,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1946,
@@ -54668,7 +55421,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1947,
@@ -54694,7 +55448,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1948,
@@ -54720,7 +55475,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1949,
@@ -54742,7 +55498,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1950,
@@ -54764,7 +55521,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1951,
@@ -54782,7 +55540,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1952,
@@ -54804,7 +55563,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1953,
@@ -54826,7 +55586,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1954,
@@ -54852,7 +55613,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1955,
@@ -54874,7 +55636,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1956,
@@ -54896,7 +55659,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1957,
@@ -54918,7 +55682,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1958,
@@ -54944,7 +55709,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1959,
@@ -54978,7 +55744,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1960,
@@ -55008,7 +55775,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1961,
@@ -55034,7 +55802,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1962,
@@ -55056,7 +55825,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1963,
@@ -55078,7 +55848,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1964,
@@ -55100,7 +55871,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1965,
@@ -55126,7 +55898,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1966,
@@ -55152,7 +55925,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1967,
@@ -55190,7 +55964,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1968,
@@ -55224,7 +55999,8 @@ export const graphData = {
           "dist": 3.2
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1969,
@@ -55254,7 +56030,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1970,
@@ -55280,7 +56057,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1971,
@@ -55302,7 +56080,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1972,
@@ -55324,7 +56103,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1973,
@@ -55354,7 +56134,8 @@ export const graphData = {
           "dist": 3.828
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1974,
@@ -55388,7 +56169,8 @@ export const graphData = {
           "dist": 2.401
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1975,
@@ -55422,7 +56204,8 @@ export const graphData = {
           "dist": 2.108
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1976,
@@ -55460,7 +56243,8 @@ export const graphData = {
           "dist": 3.964
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1977,
@@ -55486,7 +56270,8 @@ export const graphData = {
           "dist": 3.964
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1978,
@@ -55508,7 +56293,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1979,
@@ -55526,7 +56312,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1980,
@@ -55544,7 +56331,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1981,
@@ -55562,7 +56350,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1982,
@@ -55584,7 +56373,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1983,
@@ -55610,7 +56400,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1984,
@@ -55640,7 +56431,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1985,
@@ -55662,7 +56454,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1986,
@@ -55688,7 +56481,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1987,
@@ -55718,7 +56512,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1988,
@@ -55756,7 +56551,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1989,
@@ -55790,7 +56586,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1990,
@@ -55824,7 +56621,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1991,
@@ -55850,7 +56648,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1992,
@@ -55872,7 +56671,8 @@ export const graphData = {
           "dist": 3.339
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1993,
@@ -55898,7 +56698,8 @@ export const graphData = {
           "dist": 3.689
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1994,
@@ -55924,7 +56725,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1995,
@@ -55946,7 +56748,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1996,
@@ -55968,7 +56771,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1997,
@@ -55986,7 +56790,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 1998,
@@ -56008,7 +56813,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 1999,
@@ -56030,7 +56836,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2000,
@@ -56052,7 +56859,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2001,
@@ -56078,7 +56886,8 @@ export const graphData = {
           "dist": 3.786
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2002,
@@ -56120,7 +56929,8 @@ export const graphData = {
           "dist": 3.559
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2003,
@@ -56166,7 +56976,8 @@ export const graphData = {
           "dist": 1.687
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2004,
@@ -56216,7 +57027,8 @@ export const graphData = {
           "dist": 1.018
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2005,
@@ -56250,7 +57062,8 @@ export const graphData = {
           "dist": 2.689
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2006,
@@ -56276,7 +57089,8 @@ export const graphData = {
           "dist": 3.824
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2007,
@@ -56310,7 +57124,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2008,
@@ -56340,7 +57155,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2009,
@@ -56382,7 +57198,8 @@ export const graphData = {
           "dist": 2.451
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2010,
@@ -56408,7 +57225,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2011,
@@ -56434,7 +57252,8 @@ export const graphData = {
           "dist": 3.368
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2012,
@@ -56452,7 +57271,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2013,
@@ -56478,7 +57298,8 @@ export const graphData = {
           "dist": 3.21
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2014,
@@ -56504,7 +57325,8 @@ export const graphData = {
           "dist": 3.521
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2015,
@@ -56538,7 +57360,8 @@ export const graphData = {
           "dist": 2.776
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2016,
@@ -56576,7 +57399,8 @@ export const graphData = {
           "dist": 2.144
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2017,
@@ -56614,7 +57438,8 @@ export const graphData = {
           "dist": 2.243
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2018,
@@ -56640,7 +57465,8 @@ export const graphData = {
           "dist": 3.797
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2019,
@@ -56666,7 +57492,8 @@ export const graphData = {
           "dist": 3.701
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2020,
@@ -56684,7 +57511,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2021,
@@ -56710,7 +57538,8 @@ export const graphData = {
           "dist": 3.451
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2022,
@@ -56732,7 +57561,8 @@ export const graphData = {
           "dist": 3.629
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2023,
@@ -56758,15 +57588,12 @@ export const graphData = {
           "dist": 2.839
         },
         {
-          "id": 2031,
-          "dist": 3.644
-        },
-        {
           "id": 2108,
           "dist": 3.746
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2024,
@@ -56792,27 +57619,12 @@ export const graphData = {
           "dist": 3.61
         },
         {
-          "id": 2031,
-          "dist": 3.851
-        },
-        {
-          "id": 2032,
-          "dist": 3.527
-        },
-        {
-          "id": 2105,
-          "dist": 3.668
-        },
-        {
-          "id": 2106,
-          "dist": 3.62
-        },
-        {
           "id": 2108,
           "dist": 2.078
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2025,
@@ -56838,23 +57650,12 @@ export const graphData = {
           "dist": 3.618
         },
         {
-          "id": 2105,
-          "dist": 3.759
-        },
-        {
-          "id": 2106,
-          "dist": 3.718
-        },
-        {
-          "id": 2107,
-          "dist": 3.677
-        },
-        {
           "id": 2108,
           "dist": 3.718
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2026,
@@ -56874,13 +57675,10 @@ export const graphData = {
         {
           "id": 2027,
           "dist": 1.971
-        },
-        {
-          "id": 2107,
-          "dist": 3.114
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2027,
@@ -56904,17 +57702,10 @@ export const graphData = {
         {
           "id": 2029,
           "dist": 3.971
-        },
-        {
-          "id": 2091,
-          "dist": 3.986
-        },
-        {
-          "id": 2107,
-          "dist": 3.153
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2028,
@@ -56932,7 +57723,8 @@ export const graphData = {
           "dist": 1.971
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2029,
@@ -56958,7 +57750,8 @@ export const graphData = {
           "dist": 3.686
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2030,
@@ -56982,13 +57775,10 @@ export const graphData = {
         {
           "id": 2033,
           "dist": 3.028
-        },
-        {
-          "id": 2106,
-          "dist": 3.319
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2031,
@@ -56997,14 +57787,6 @@ export const graphData = {
       "y": 13.425,
       "z": 36.208,
       "neighbors": [
-        {
-          "id": 2023,
-          "dist": 3.644
-        },
-        {
-          "id": 2024,
-          "dist": 3.851
-        },
         {
           "id": 2029,
           "dist": 3.686
@@ -57032,13 +57814,10 @@ export const graphData = {
         {
           "id": 2106,
           "dist": 1.831
-        },
-        {
-          "id": 2107,
-          "dist": 3.297
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2032,
@@ -57047,10 +57826,6 @@ export const graphData = {
       "y": 13.425,
       "z": 36.503,
       "neighbors": [
-        {
-          "id": 2024,
-          "dist": 3.527
-        },
         {
           "id": 2030,
           "dist": 3.155
@@ -57074,13 +57849,10 @@ export const graphData = {
         {
           "id": 2106,
           "dist": 1.206
-        },
-        {
-          "id": 2107,
-          "dist": 3.191
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2033,
@@ -57118,7 +57890,8 @@ export const graphData = {
           "dist": 3.129
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2034,
@@ -57144,7 +57917,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2035,
@@ -57170,7 +57944,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2036,
@@ -57196,7 +57971,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2037,
@@ -57218,7 +57994,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2038,
@@ -57240,7 +58017,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2039,
@@ -57258,7 +58036,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2040,
@@ -57280,7 +58059,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2041,
@@ -57302,7 +58082,8 @@ export const graphData = {
           "dist": 2.906
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2042,
@@ -57328,7 +58109,8 @@ export const graphData = {
           "dist": 3.632
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2043,
@@ -57350,7 +58132,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2044,
@@ -57372,7 +58155,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2045,
@@ -57394,7 +58178,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2046,
@@ -57414,17 +58199,10 @@ export const graphData = {
         {
           "id": 2048,
           "dist": 4.0
-        },
-        {
-          "id": 2139,
-          "dist": 3.509
-        },
-        {
-          "id": 2140,
-          "dist": 3.968
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2047,
@@ -57444,13 +58222,10 @@ export const graphData = {
         {
           "id": 2048,
           "dist": 2.0
-        },
-        {
-          "id": 2139,
-          "dist": 3.936
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2048,
@@ -57476,7 +58251,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2049,
@@ -57498,7 +58274,8 @@ export const graphData = {
           "dist": 3.027
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2050,
@@ -57524,7 +58301,8 @@ export const graphData = {
           "dist": 3.41
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2051,
@@ -57550,7 +58328,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2052,
@@ -57572,7 +58351,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2053,
@@ -57594,7 +58374,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2054,
@@ -57616,7 +58397,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2055,
@@ -57634,7 +58416,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2056,
@@ -57656,7 +58439,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2057,
@@ -57678,7 +58462,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2058,
@@ -57700,7 +58485,8 @@ export const graphData = {
           "dist": 3.452
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2059,
@@ -57726,7 +58512,8 @@ export const graphData = {
           "dist": 3.049
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2060,
@@ -57752,7 +58539,8 @@ export const graphData = {
           "dist": 3.08
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2061,
@@ -57782,7 +58570,8 @@ export const graphData = {
           "dist": 3.952
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2062,
@@ -57812,7 +58601,8 @@ export const graphData = {
           "dist": 2.832
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2063,
@@ -57846,7 +58636,8 @@ export const graphData = {
           "dist": 1.285
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2064,
@@ -57876,7 +58667,8 @@ export const graphData = {
           "dist": 2.408
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2065,
@@ -57898,7 +58690,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2066,
@@ -57924,7 +58717,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2067,
@@ -57946,7 +58740,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2068,
@@ -57968,7 +58763,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2069,
@@ -57990,7 +58786,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2070,
@@ -58012,7 +58809,8 @@ export const graphData = {
           "dist": 3.642
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2071,
@@ -58034,7 +58832,8 @@ export const graphData = {
           "dist": 3.743
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2072,
@@ -58060,7 +58859,8 @@ export const graphData = {
           "dist": 3.837
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2073,
@@ -58086,7 +58886,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2074,
@@ -58108,7 +58909,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2075,
@@ -58130,7 +58932,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2076,
@@ -58152,7 +58955,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2077,
@@ -58174,7 +58978,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2078,
@@ -58200,7 +59005,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2079,
@@ -58222,7 +59028,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2080,
@@ -58244,7 +59051,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2081,
@@ -58266,7 +59074,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2082,
@@ -58288,7 +59097,8 @@ export const graphData = {
           "dist": 3.926
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2083,
@@ -58314,7 +59124,8 @@ export const graphData = {
           "dist": 3.624
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2084,
@@ -58340,7 +59151,8 @@ export const graphData = {
           "dist": 3.832
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2085,
@@ -58366,7 +59178,8 @@ export const graphData = {
           "dist": 3.795
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2086,
@@ -58392,7 +59205,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2087,
@@ -58414,7 +59228,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2088,
@@ -58440,7 +59255,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2089,
@@ -58462,7 +59278,8 @@ export const graphData = {
           "dist": 3.853
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2090,
@@ -58488,7 +59305,8 @@ export const graphData = {
           "dist": 3.15
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2091,
@@ -58497,10 +59315,6 @@ export const graphData = {
       "y": 13.425,
       "z": 29.028,
       "neighbors": [
-        {
-          "id": 2027,
-          "dist": 3.986
-        },
         {
           "id": 2089,
           "dist": 3.853
@@ -58514,7 +59328,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2092,
@@ -58542,17 +59357,10 @@ export const graphData = {
         {
           "id": 2104,
           "dist": 3.15
-        },
-        {
-          "id": 2107,
-          "dist": 3.223
-        },
-        {
-          "id": 2116,
-          "dist": 3.868
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2093,
@@ -58580,21 +59388,10 @@ export const graphData = {
         {
           "id": 2105,
           "dist": 3.835
-        },
-        {
-          "id": 2107,
-          "dist": 3.174
-        },
-        {
-          "id": 2115,
-          "dist": 3.79
-        },
-        {
-          "id": 2116,
-          "dist": 3.617
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2094,
@@ -58626,17 +59423,10 @@ export const graphData = {
         {
           "id": 2105,
           "dist": 3.95
-        },
-        {
-          "id": 2114,
-          "dist": 3.764
-        },
-        {
-          "id": 2115,
-          "dist": 3.578
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2095,
@@ -58664,17 +59454,10 @@ export const graphData = {
         {
           "id": 2104,
           "dist": 3.95
-        },
-        {
-          "id": 2113,
-          "dist": 3.755
-        },
-        {
-          "id": 2114,
-          "dist": 3.56
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2096,
@@ -58694,21 +59477,10 @@ export const graphData = {
         {
           "id": 2097,
           "dist": 2.0
-        },
-        {
-          "id": 2112,
-          "dist": 3.63
-        },
-        {
-          "id": 2113,
-          "dist": 3.559
-        },
-        {
-          "id": 2117,
-          "dist": 3.786
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2097,
@@ -58728,21 +59500,10 @@ export const graphData = {
         {
           "id": 2098,
           "dist": 2.0
-        },
-        {
-          "id": 2112,
-          "dist": 3.837
-        },
-        {
-          "id": 2117,
-          "dist": 3.56
-        },
-        {
-          "id": 2118,
-          "dist": 3.801
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2098,
@@ -58762,17 +59523,10 @@ export const graphData = {
         {
           "id": 2100,
           "dist": 4.0
-        },
-        {
-          "id": 2118,
-          "dist": 3.58
-        },
-        {
-          "id": 2119,
-          "dist": 3.824
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2099,
@@ -58792,17 +59546,10 @@ export const graphData = {
         {
           "id": 2101,
           "dist": 4.0
-        },
-        {
-          "id": 2119,
-          "dist": 3.608
-        },
-        {
-          "id": 2120,
-          "dist": 3.855
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2100,
@@ -58822,17 +59569,10 @@ export const graphData = {
         {
           "id": 2101,
           "dist": 2.0
-        },
-        {
-          "id": 2120,
-          "dist": 3.645
-        },
-        {
-          "id": 2121,
-          "dist": 3.893
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2101,
@@ -58852,17 +59592,10 @@ export const graphData = {
         {
           "id": 2102,
           "dist": 2.0
-        },
-        {
-          "id": 2121,
-          "dist": 3.691
-        },
-        {
-          "id": 2122,
-          "dist": 3.94
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2102,
@@ -58882,17 +59615,10 @@ export const graphData = {
         {
           "id": 2103,
           "dist": 2.0
-        },
-        {
-          "id": 2122,
-          "dist": 3.744
-        },
-        {
-          "id": 2123,
-          "dist": 3.511
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2103,
@@ -58920,13 +59646,10 @@ export const graphData = {
         {
           "id": 2102,
           "dist": 2.0
-        },
-        {
-          "id": 2123,
-          "dist": 3.947
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2104,
@@ -58966,17 +59689,10 @@ export const graphData = {
         {
           "id": 2107,
           "dist": 2.032
-        },
-        {
-          "id": 2115,
-          "dist": 3.86
-        },
-        {
-          "id": 2116,
-          "dist": 3.818
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2105,
@@ -58985,14 +59701,6 @@ export const graphData = {
       "y": 13.425,
       "z": 35.308,
       "neighbors": [
-        {
-          "id": 2024,
-          "dist": 3.668
-        },
-        {
-          "id": 2025,
-          "dist": 3.759
-        },
         {
           "id": 2031,
           "dist": 2.486
@@ -59026,7 +59734,8 @@ export const graphData = {
           "dist": 2.117
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2106,
@@ -59035,18 +59744,6 @@ export const graphData = {
       "y": 13.451,
       "z": 35.32,
       "neighbors": [
-        {
-          "id": 2024,
-          "dist": 3.62
-        },
-        {
-          "id": 2025,
-          "dist": 3.718
-        },
-        {
-          "id": 2030,
-          "dist": 3.319
-        },
         {
           "id": 2031,
           "dist": 1.831
@@ -59066,13 +59763,10 @@ export const graphData = {
         {
           "id": 2105,
           "dist": 0.717
-        },
-        {
-          "id": 2107,
-          "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2107,
@@ -59082,47 +59776,16 @@ export const graphData = {
       "z": 33.321,
       "neighbors": [
         {
-          "id": 2025,
-          "dist": 3.677
-        },
-        {
-          "id": 2026,
-          "dist": 3.114
-        },
-        {
-          "id": 2027,
-          "dist": 3.153
-        },
-        {
-          "id": 2031,
-          "dist": 3.297
-        },
-        {
-          "id": 2032,
-          "dist": 3.191
-        },
-        {
-          "id": 2092,
-          "dist": 3.223
-        },
-        {
-          "id": 2093,
-          "dist": 3.174
-        },
-        {
           "id": 2104,
           "dist": 2.032
         },
         {
           "id": 2105,
           "dist": 2.117
-        },
-        {
-          "id": 2106,
-          "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2108,
@@ -59148,7 +59811,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2109,
@@ -59170,7 +59834,8 @@ export const graphData = {
           "dist": 2.768
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2110,
@@ -59200,7 +59865,8 @@ export const graphData = {
           "dist": 3.493
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2111,
@@ -59238,7 +59904,8 @@ export const graphData = {
           "dist": 2.449
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2112,
@@ -59247,14 +59914,6 @@ export const graphData = {
       "y": 9.925,
       "z": 37.535,
       "neighbors": [
-        {
-          "id": 2096,
-          "dist": 3.63
-        },
-        {
-          "id": 2097,
-          "dist": 3.837
-        },
         {
           "id": 2110,
           "dist": 3.438
@@ -59280,7 +59939,8 @@ export const graphData = {
           "dist": 3.044
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2113,
@@ -59289,14 +59949,6 @@ export const graphData = {
       "y": 9.925,
       "z": 36.065,
       "neighbors": [
-        {
-          "id": 2095,
-          "dist": 3.755
-        },
-        {
-          "id": 2096,
-          "dist": 3.559
-        },
         {
           "id": 2111,
           "dist": 3.252
@@ -59318,7 +59970,8 @@ export const graphData = {
           "dist": 2.07
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2114,
@@ -59327,14 +59980,6 @@ export const graphData = {
       "y": 9.925,
       "z": 34.785,
       "neighbors": [
-        {
-          "id": 2094,
-          "dist": 3.764
-        },
-        {
-          "id": 2095,
-          "dist": 3.56
-        },
         {
           "id": 2112,
           "dist": 3.29
@@ -59352,7 +59997,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2115,
@@ -59361,18 +60007,6 @@ export const graphData = {
       "y": 9.925,
       "z": 33.506,
       "neighbors": [
-        {
-          "id": 2093,
-          "dist": 3.79
-        },
-        {
-          "id": 2094,
-          "dist": 3.578
-        },
-        {
-          "id": 2104,
-          "dist": 3.86
-        },
         {
           "id": 2113,
           "dist": 4.0
@@ -59386,7 +60020,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2116,
@@ -59396,18 +60031,6 @@ export const graphData = {
       "z": 32.227,
       "neighbors": [
         {
-          "id": 2092,
-          "dist": 3.868
-        },
-        {
-          "id": 2093,
-          "dist": 3.617
-        },
-        {
-          "id": 2104,
-          "dist": 3.818
-        },
-        {
           "id": 2114,
           "dist": 4.0
         },
@@ -59416,7 +60039,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2117,
@@ -59425,14 +60049,6 @@ export const graphData = {
       "y": 9.925,
       "z": 37.415,
       "neighbors": [
-        {
-          "id": 2096,
-          "dist": 3.786
-        },
-        {
-          "id": 2097,
-          "dist": 3.56
-        },
         {
           "id": 2111,
           "dist": 2.99
@@ -59450,7 +60066,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2118,
@@ -59459,14 +60076,6 @@ export const graphData = {
       "y": 9.925,
       "z": 38.745,
       "neighbors": [
-        {
-          "id": 2097,
-          "dist": 3.801
-        },
-        {
-          "id": 2098,
-          "dist": 3.58
-        },
         {
           "id": 2111,
           "dist": 3.913
@@ -59488,7 +60097,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2119,
@@ -59497,14 +60107,6 @@ export const graphData = {
       "y": 9.925,
       "z": 40.076,
       "neighbors": [
-        {
-          "id": 2098,
-          "dist": 3.824
-        },
-        {
-          "id": 2099,
-          "dist": 3.608
-        },
         {
           "id": 2118,
           "dist": 2.0
@@ -59518,7 +60120,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2120,
@@ -59527,14 +60130,6 @@ export const graphData = {
       "y": 9.925,
       "z": 41.406,
       "neighbors": [
-        {
-          "id": 2099,
-          "dist": 3.855
-        },
-        {
-          "id": 2100,
-          "dist": 3.645
-        },
         {
           "id": 2118,
           "dist": 4.0
@@ -59552,7 +60147,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2121,
@@ -59561,14 +60157,6 @@ export const graphData = {
       "y": 9.925,
       "z": 42.736,
       "neighbors": [
-        {
-          "id": 2100,
-          "dist": 3.893
-        },
-        {
-          "id": 2101,
-          "dist": 3.691
-        },
         {
           "id": 2119,
           "dist": 4.0
@@ -59586,7 +60174,8 @@ export const graphData = {
           "dist": 3.053
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2122,
@@ -59595,14 +60184,6 @@ export const graphData = {
       "y": 9.925,
       "z": 44.066,
       "neighbors": [
-        {
-          "id": 2101,
-          "dist": 3.94
-        },
-        {
-          "id": 2102,
-          "dist": 3.744
-        },
         {
           "id": 2120,
           "dist": 4.0
@@ -59620,7 +60201,8 @@ export const graphData = {
           "dist": 3.552
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2123,
@@ -59629,14 +60211,6 @@ export const graphData = {
       "y": 9.925,
       "z": 45.605,
       "neighbors": [
-        {
-          "id": 2102,
-          "dist": 3.511
-        },
-        {
-          "id": 2103,
-          "dist": 3.947
-        },
         {
           "id": 2121,
           "dist": 3.053
@@ -59654,7 +60228,8 @@ export const graphData = {
           "dist": 2.837
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2124,
@@ -59680,7 +60255,8 @@ export const graphData = {
           "dist": 3.562
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2125,
@@ -59706,7 +60282,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2126,
@@ -59732,7 +60309,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2127,
@@ -59758,7 +60336,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2128,
@@ -59784,7 +60363,8 @@ export const graphData = {
           "dist": 2.869
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2129,
@@ -59814,7 +60394,8 @@ export const graphData = {
           "dist": 2.302
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2130,
@@ -59840,7 +60421,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2131,
@@ -59862,7 +60444,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2132,
@@ -59884,7 +60467,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2133,
@@ -59906,7 +60490,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2134,
@@ -59928,7 +60513,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2135,
@@ -59950,7 +60536,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2136,
@@ -59972,7 +60559,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2137,
@@ -59994,7 +60582,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2138,
@@ -60020,7 +60609,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2139,
@@ -60030,14 +60620,6 @@ export const graphData = {
       "z": 57.487,
       "neighbors": [
         {
-          "id": 2046,
-          "dist": 3.509
-        },
-        {
-          "id": 2047,
-          "dist": 3.936
-        },
-        {
           "id": 2138,
           "dist": 2.0
         },
@@ -60046,7 +60628,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2140,
@@ -60056,10 +60639,6 @@ export const graphData = {
       "z": 59.036,
       "neighbors": [
         {
-          "id": 2046,
-          "dist": 3.968
-        },
-        {
           "id": 2138,
           "dist": 4.0
         },
@@ -60068,7 +60647,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2141,
@@ -60106,7 +60686,8 @@ export const graphData = {
           "dist": 3.249
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2142,
@@ -60136,7 +60717,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2143,
@@ -60162,7 +60744,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2144,
@@ -60188,7 +60771,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2145,
@@ -60214,7 +60798,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2146,
@@ -60236,7 +60821,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2147,
@@ -60258,7 +60844,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2148,
@@ -60280,7 +60867,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2149,
@@ -60310,7 +60898,8 @@ export const graphData = {
           "dist": 3.751
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2150,
@@ -60336,7 +60925,8 @@ export const graphData = {
           "dist": 2.466
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2151,
@@ -60354,7 +60944,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2152,
@@ -60376,7 +60967,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2153,
@@ -60398,7 +60990,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2154,
@@ -60420,7 +61013,8 @@ export const graphData = {
           "dist": 3.144
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2155,
@@ -60446,7 +61040,8 @@ export const graphData = {
           "dist": 2.132
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2156,
@@ -60472,7 +61067,8 @@ export const graphData = {
           "dist": 2.54
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2157,
@@ -60498,7 +61094,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2158,
@@ -60516,7 +61113,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2159,
@@ -60538,7 +61136,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2160,
@@ -60560,7 +61159,8 @@ export const graphData = {
           "dist": 3.715
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2161,
@@ -60582,7 +61182,8 @@ export const graphData = {
           "dist": 3.729
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2162,
@@ -60608,7 +61209,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2163,
@@ -60642,7 +61244,8 @@ export const graphData = {
           "dist": 3.028
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2164,
@@ -60676,7 +61279,8 @@ export const graphData = {
           "dist": 2.512
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2165,
@@ -60706,7 +61310,8 @@ export const graphData = {
           "dist": 3.733
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2166,
@@ -60732,7 +61337,8 @@ export const graphData = {
           "dist": 3.733
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2167,
@@ -60766,7 +61372,8 @@ export const graphData = {
           "dist": 3.673
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2168,
@@ -60800,7 +61407,8 @@ export const graphData = {
           "dist": 2.254
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2169,
@@ -60834,7 +61442,8 @@ export const graphData = {
           "dist": 3.771
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2170,
@@ -60860,7 +61469,8 @@ export const graphData = {
           "dist": 3.538
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2171,
@@ -60878,7 +61488,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2172,
@@ -60904,7 +61515,8 @@ export const graphData = {
           "dist": 3.353
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2173,
@@ -60934,7 +61546,8 @@ export const graphData = {
           "dist": 1.793
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2174,
@@ -60964,7 +61577,8 @@ export const graphData = {
           "dist": 1.785
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2175,
@@ -60998,7 +61612,8 @@ export const graphData = {
           "dist": 0.967
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2176,
@@ -61032,7 +61647,8 @@ export const graphData = {
           "dist": 2.487
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2177,
@@ -61062,7 +61678,8 @@ export const graphData = {
           "dist": 3.209
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2178,
@@ -61084,7 +61701,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2179,
@@ -61102,7 +61720,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2180,
@@ -61128,7 +61747,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2181,
@@ -61154,7 +61774,8 @@ export const graphData = {
           "dist": 3.391
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2182,
@@ -61192,7 +61813,8 @@ export const graphData = {
           "dist": 2.571
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2183,
@@ -61222,7 +61844,8 @@ export const graphData = {
           "dist": 1.025
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2184,
@@ -61256,7 +61879,8 @@ export const graphData = {
           "dist": 1.668
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2185,
@@ -61290,7 +61914,8 @@ export const graphData = {
           "dist": 1.88
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2186,
@@ -61324,7 +61949,8 @@ export const graphData = {
           "dist": 3.505
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2187,
@@ -61346,7 +61972,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2188,
@@ -61380,7 +62007,8 @@ export const graphData = {
           "dist": 3.036
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2189,
@@ -61410,7 +62038,8 @@ export const graphData = {
           "dist": 2.497
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2190,
@@ -61444,7 +62073,8 @@ export const graphData = {
           "dist": 2.357
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2191,
@@ -61486,7 +62116,8 @@ export const graphData = {
           "dist": 3.586
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2192,
@@ -61528,7 +62159,8 @@ export const graphData = {
           "dist": 3.882
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2193,
@@ -61558,7 +62190,8 @@ export const graphData = {
           "dist": 2.518
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2194,
@@ -61592,7 +62225,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2195,
@@ -61618,7 +62252,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2196,
@@ -61640,7 +62275,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2197,
@@ -61658,7 +62294,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2198,
@@ -61688,7 +62325,8 @@ export const graphData = {
           "dist": 3.852
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2199,
@@ -61726,7 +62364,8 @@ export const graphData = {
           "dist": 3.938
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2200,
@@ -61764,7 +62403,8 @@ export const graphData = {
           "dist": 2.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2201,
@@ -61806,7 +62446,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2202,
@@ -61844,7 +62485,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2203,
@@ -61878,7 +62520,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2204,
@@ -61916,7 +62559,8 @@ export const graphData = {
           "dist": 3.847
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2205,
@@ -61954,7 +62598,8 @@ export const graphData = {
           "dist": 3.978
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2206,
@@ -61992,7 +62637,8 @@ export const graphData = {
           "dist": 3.076
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2207,
@@ -62022,7 +62668,8 @@ export const graphData = {
           "dist": 3.433
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2208,
@@ -62052,7 +62699,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2209,
@@ -62094,7 +62742,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2210,
@@ -62128,7 +62777,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2211,
@@ -62162,7 +62812,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2212,
@@ -62200,7 +62851,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2213,
@@ -62230,7 +62882,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2214,
@@ -62256,7 +62909,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2215,
@@ -62294,7 +62948,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2216,
@@ -62332,7 +62987,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2217,
@@ -62366,7 +63022,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2218,
@@ -62400,7 +63057,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2219,
@@ -62430,7 +63088,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2220,
@@ -62476,7 +63135,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2221,
@@ -62514,7 +63174,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2222,
@@ -62544,7 +63205,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2223,
@@ -62574,7 +63236,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2224,
@@ -62596,7 +63259,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2225,
@@ -62618,7 +63282,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2226,
@@ -62640,7 +63305,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2227,
@@ -62662,7 +63328,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2228,
@@ -62680,7 +63347,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2229,
@@ -62706,7 +63374,8 @@ export const graphData = {
           "dist": 3.478
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2230,
@@ -62728,7 +63397,8 @@ export const graphData = {
           "dist": 2.38
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2231,
@@ -62750,7 +63420,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2232,
@@ -62780,7 +63451,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2233,
@@ -62798,7 +63470,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2234,
@@ -62824,7 +63497,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2235,
@@ -62874,7 +63548,8 @@ export const graphData = {
           "dist": 1.071
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2236,
@@ -62920,7 +63595,8 @@ export const graphData = {
           "dist": 2.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2237,
@@ -62946,7 +63622,8 @@ export const graphData = {
           "dist": 3.482
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2238,
@@ -62972,7 +63649,8 @@ export const graphData = {
           "dist": 3.9
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2239,
@@ -62994,7 +63672,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2240,
@@ -63024,7 +63703,8 @@ export const graphData = {
           "dist": 3.911
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2241,
@@ -63058,7 +63738,8 @@ export const graphData = {
           "dist": 2.045
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2242,
@@ -63100,7 +63781,8 @@ export const graphData = {
           "dist": 1.065
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2243,
@@ -63142,7 +63824,8 @@ export const graphData = {
           "dist": 2.504
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2244,
@@ -63184,7 +63867,8 @@ export const graphData = {
           "dist": 3.318
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2245,
@@ -63222,7 +63906,8 @@ export const graphData = {
           "dist": 3.204
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2246,
@@ -63256,7 +63941,8 @@ export const graphData = {
           "dist": 3.684
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2247,
@@ -63282,7 +63968,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2248,
@@ -63312,7 +63999,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2249,
@@ -63358,7 +64046,8 @@ export const graphData = {
           "dist": 2.443
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2250,
@@ -63408,7 +64097,8 @@ export const graphData = {
           "dist": 2.124
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2251,
@@ -63442,7 +64132,8 @@ export const graphData = {
           "dist": 3.515
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2252,
@@ -63472,7 +64163,8 @@ export const graphData = {
           "dist": 3.515
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2253,
@@ -63494,7 +64186,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2254,
@@ -63516,7 +64209,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2255,
@@ -63538,7 +64232,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2256,
@@ -63556,7 +64251,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2257,
@@ -63578,7 +64274,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2258,
@@ -63600,7 +64297,8 @@ export const graphData = {
           "dist": 3.83
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2259,
@@ -63630,7 +64328,8 @@ export const graphData = {
           "dist": 3.4
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2260,
@@ -63664,7 +64363,8 @@ export const graphData = {
           "dist": 3.865
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2261,
@@ -63690,7 +64390,8 @@ export const graphData = {
           "dist": 3.271
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2262,
@@ -63716,7 +64417,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2263,
@@ -63742,7 +64444,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2264,
@@ -63768,7 +64471,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2265,
@@ -63794,7 +64498,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2266,
@@ -63816,7 +64521,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2267,
@@ -63842,7 +64548,8 @@ export const graphData = {
           "dist": 3.799
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2268,
@@ -63872,7 +64579,8 @@ export const graphData = {
           "dist": 3.724
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2269,
@@ -63902,7 +64610,8 @@ export const graphData = {
           "dist": 2.382
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2270,
@@ -63932,7 +64641,8 @@ export const graphData = {
           "dist": 2.351
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2271,
@@ -63958,7 +64668,8 @@ export const graphData = {
           "dist": 3.658
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2272,
@@ -63984,7 +64695,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2273,
@@ -64018,7 +64730,8 @@ export const graphData = {
           "dist": 3.61
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2274,
@@ -64052,7 +64765,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2275,
@@ -64078,7 +64792,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2276,
@@ -64096,7 +64811,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2277,
@@ -64118,7 +64834,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2278,
@@ -64140,7 +64857,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2279,
@@ -64162,7 +64880,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2280,
@@ -64184,7 +64903,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2281,
@@ -64214,7 +64934,8 @@ export const graphData = {
           "dist": 3.747
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2282,
@@ -64240,7 +64961,8 @@ export const graphData = {
           "dist": 3.721
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2283,
@@ -64282,7 +65004,8 @@ export const graphData = {
           "dist": 2.52
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2284,
@@ -64324,7 +65047,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2285,
@@ -64378,7 +65102,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2286,
@@ -64428,7 +65153,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2287,
@@ -64474,7 +65200,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2288,
@@ -64508,7 +65235,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2289,
@@ -64538,7 +65266,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2290,
@@ -64564,7 +65293,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2291,
@@ -64590,7 +65320,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2292,
@@ -64616,7 +65347,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2293,
@@ -64646,7 +65378,8 @@ export const graphData = {
           "dist": 2.794
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2294,
@@ -64676,7 +65409,8 @@ export const graphData = {
           "dist": 2.215
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2295,
@@ -64702,7 +65436,8 @@ export const graphData = {
           "dist": 3.199
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2296,
@@ -64724,7 +65459,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2297,
@@ -64742,7 +65478,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2298,
@@ -64764,7 +65501,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2299,
@@ -64786,7 +65524,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2300,
@@ -64812,7 +65551,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2301,
@@ -64838,7 +65578,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2302,
@@ -64860,7 +65601,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2303,
@@ -64886,7 +65628,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2304,
@@ -64908,7 +65651,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2305,
@@ -64934,7 +65678,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2306,
@@ -64960,7 +65705,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2307,
@@ -64982,7 +65728,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2308,
@@ -65008,7 +65755,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2309,
@@ -65026,7 +65774,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2310,
@@ -65048,7 +65797,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2311,
@@ -65070,7 +65820,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2312,
@@ -65088,7 +65839,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2313,
@@ -65114,7 +65866,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2314,
@@ -65132,7 +65885,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2315,
@@ -65154,7 +65908,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2316,
@@ -65176,7 +65931,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2317,
@@ -65194,7 +65950,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2318,
@@ -65216,7 +65973,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2319,
@@ -65238,7 +65996,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2320,
@@ -65256,7 +66015,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2321,
@@ -65278,7 +66038,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2322,
@@ -65296,7 +66057,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2323,
@@ -65314,7 +66076,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2324,
@@ -65336,7 +66099,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2325,
@@ -65354,7 +66118,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2326,
@@ -65376,7 +66141,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2327,
@@ -65394,7 +66160,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2328,
@@ -65412,7 +66179,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2329,
@@ -65430,7 +66198,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2330,
@@ -65448,7 +66217,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2331,
@@ -65470,7 +66240,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2332,
@@ -65492,7 +66263,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2333,
@@ -65518,7 +66290,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2334,
@@ -65540,7 +66313,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2335,
@@ -65566,7 +66340,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2336,
@@ -65588,7 +66363,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2337,
@@ -65610,7 +66386,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2338,
@@ -65632,7 +66409,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2339,
@@ -65654,7 +66432,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2340,
@@ -65676,7 +66455,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2341,
@@ -65702,7 +66482,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2342,
@@ -65728,7 +66509,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2343,
@@ -65754,7 +66536,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2344,
@@ -65776,7 +66559,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2345,
@@ -65798,7 +66582,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2346,
@@ -65816,7 +66601,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2347,
@@ -65834,7 +66620,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2348,
@@ -65856,7 +66643,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2349,
@@ -65878,7 +66666,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2350,
@@ -65904,7 +66693,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2351,
@@ -65930,7 +66720,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2352,
@@ -65956,7 +66747,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2353,
@@ -65982,7 +66774,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2354,
@@ -66008,7 +66801,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2355,
@@ -66034,7 +66828,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2356,
@@ -66060,7 +66855,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2357,
@@ -66086,7 +66882,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2358,
@@ -66112,7 +66909,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2359,
@@ -66142,7 +66940,8 @@ export const graphData = {
           "dist": 3.142
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2360,
@@ -66176,7 +66975,8 @@ export const graphData = {
           "dist": 3.497
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2361,
@@ -66210,7 +67010,8 @@ export const graphData = {
           "dist": 3.472
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2362,
@@ -66240,7 +67041,8 @@ export const graphData = {
           "dist": 3.472
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2363,
@@ -66262,7 +67064,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2364,
@@ -66284,7 +67087,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2365,
@@ -66306,7 +67110,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2366,
@@ -66328,7 +67133,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2367,
@@ -66350,7 +67156,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2368,
@@ -66372,7 +67179,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2369,
@@ -66390,7 +67198,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2370,
@@ -66412,7 +67221,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2371,
@@ -66434,7 +67244,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2372,
@@ -66460,7 +67271,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2373,
@@ -66486,7 +67298,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2374,
@@ -66512,7 +67325,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2375,
@@ -66534,7 +67348,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2376,
@@ -66560,7 +67375,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2377,
@@ -66582,7 +67398,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2378,
@@ -66604,7 +67421,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2379,
@@ -66630,7 +67448,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2380,
@@ -66652,7 +67471,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2381,
@@ -66678,7 +67498,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2382,
@@ -66700,7 +67521,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2383,
@@ -66726,7 +67548,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2384,
@@ -66748,7 +67571,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2385,
@@ -66770,7 +67594,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2386,
@@ -66792,7 +67617,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2387,
@@ -66814,7 +67640,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2388,
@@ -66836,7 +67663,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2389,
@@ -66862,7 +67690,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2390,
@@ -66884,7 +67713,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2391,
@@ -66902,7 +67732,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2392,
@@ -66932,7 +67763,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2393,
@@ -66943,11 +67775,11 @@ export const graphData = {
       "neighbors": [
         {
           "id": 30,
-          "dist": 2.79
+          "dist": 2.91
         },
         {
           "id": 31,
-          "dist": 2.189
+          "dist": 2.95
         },
         {
           "id": 32,
@@ -66966,7 +67798,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2394,
@@ -66996,7 +67829,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2395,
@@ -67030,7 +67864,8 @@ export const graphData = {
           "dist": 3.956
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2396,
@@ -67072,7 +67907,8 @@ export const graphData = {
           "dist": 3.972
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2397,
@@ -67114,7 +67950,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2398,
@@ -67148,7 +67985,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2399,
@@ -67170,7 +68008,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2400,
@@ -67192,7 +68031,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2401,
@@ -67214,7 +68054,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2402,
@@ -67248,7 +68089,8 @@ export const graphData = {
           "dist": 3.938
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2403,
@@ -67290,7 +68132,8 @@ export const graphData = {
           "dist": 3.251
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2404,
@@ -67336,7 +68179,8 @@ export const graphData = {
           "dist": 2.171
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2405,
@@ -67382,7 +68226,8 @@ export const graphData = {
           "dist": 3.954
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2406,
@@ -67420,7 +68265,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2407,
@@ -67438,7 +68284,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2408,
@@ -67460,7 +68307,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2409,
@@ -67482,7 +68330,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2410,
@@ -67508,7 +68357,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2411,
@@ -67530,7 +68380,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2412,
@@ -67552,7 +68403,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2413,
@@ -67570,7 +68422,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2414,
@@ -67592,7 +68445,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2415,
@@ -67610,7 +68464,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2416,
@@ -67632,7 +68487,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2417,
@@ -67650,7 +68506,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2418,
@@ -67672,7 +68529,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2419,
@@ -67694,7 +68552,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2420,
@@ -67716,7 +68575,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2421,
@@ -67742,7 +68602,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2422,
@@ -67760,7 +68621,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2423,
@@ -67782,7 +68644,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2424,
@@ -67804,7 +68667,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2425,
@@ -67822,7 +68686,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2426,
@@ -67848,7 +68713,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2427,
@@ -67870,7 +68736,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2428,
@@ -67896,7 +68763,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2429,
@@ -67922,7 +68790,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2430,
@@ -67944,7 +68813,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2431,
@@ -67966,7 +68836,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2432,
@@ -67988,7 +68859,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2433,
@@ -68010,7 +68882,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2434,
@@ -68036,7 +68909,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2435,
@@ -68062,7 +68936,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2436,
@@ -68084,7 +68959,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2437,
@@ -68106,7 +68982,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2438,
@@ -68128,7 +69005,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2439,
@@ -68150,7 +69028,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2440,
@@ -68176,7 +69055,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2441,
@@ -68202,7 +69082,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2442,
@@ -68224,7 +69105,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2443,
@@ -68246,7 +69128,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2444,
@@ -68268,7 +69151,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2445,
@@ -68290,7 +69174,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2446,
@@ -68316,7 +69201,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2447,
@@ -68342,7 +69228,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2448,
@@ -68364,7 +69251,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2449,
@@ -68386,7 +69274,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2450,
@@ -68408,7 +69297,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2451,
@@ -68430,7 +69320,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2452,
@@ -68456,7 +69347,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2453,
@@ -68482,7 +69374,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2454,
@@ -68504,7 +69397,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2455,
@@ -68538,7 +69432,8 @@ export const graphData = {
           "dist": 3.826
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2456,
@@ -68580,7 +69475,8 @@ export const graphData = {
           "dist": 2.771
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2457,
@@ -68622,7 +69518,8 @@ export const graphData = {
           "dist": 3.799
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2458,
@@ -68660,7 +69557,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2459,
@@ -68706,7 +69604,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2460,
@@ -68740,7 +69639,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2461,
@@ -68749,10 +69649,6 @@ export const graphData = {
       "y": 1.0,
       "z": -0.047,
       "neighbors": [
-        {
-          "id": 1024,
-          "dist": 2.598
-        },
         {
           "id": 2455,
           "dist": 3.826
@@ -68768,13 +69664,10 @@ export const graphData = {
         {
           "id": 2462,
           "dist": 2.0
-        },
-        {
-          "id": 2463,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2462,
@@ -68784,27 +69677,16 @@ export const graphData = {
       "z": 0.467,
       "neighbors": [
         {
-          "id": 1024,
-          "dist": 1.201
-        },
-        {
           "id": 2460,
           "dist": 4.0
         },
         {
           "id": 2461,
           "dist": 2.0
-        },
-        {
-          "id": 2463,
-          "dist": 2.0
-        },
-        {
-          "id": 2464,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2463,
@@ -68812,29 +69694,9 @@ export const graphData = {
       "x": 1.468,
       "y": 1.008,
       "z": 0.981,
-      "neighbors": [
-        {
-          "id": 1024,
-          "dist": 2.033
-        },
-        {
-          "id": 2461,
-          "dist": 4.0
-        },
-        {
-          "id": 2462,
-          "dist": 2.0
-        },
-        {
-          "id": 2464,
-          "dist": 2.0
-        },
-        {
-          "id": 2465,
-          "dist": 4.0
-        }
-      ],
-      "isBifurcation": true
+      "neighbors": [],
+      "isBifurcation": false,
+      "isReachable": false
     },
     {
       "id": 2464,
@@ -68844,18 +69706,6 @@ export const graphData = {
       "z": 1.494,
       "neighbors": [
         {
-          "id": 1024,
-          "dist": 3.85
-        },
-        {
-          "id": 2462,
-          "dist": 4.0
-        },
-        {
-          "id": 2463,
-          "dist": 2.0
-        },
-        {
           "id": 2465,
           "dist": 2.0
         },
@@ -68864,7 +69714,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2465,
@@ -68873,10 +69724,6 @@ export const graphData = {
       "y": 1.017,
       "z": 2.008,
       "neighbors": [
-        {
-          "id": 2463,
-          "dist": 4.0
-        },
         {
           "id": 2464,
           "dist": 2.0
@@ -68890,7 +69737,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2466,
@@ -68916,7 +69764,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2467,
@@ -68942,7 +69791,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2468,
@@ -68964,7 +69814,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2469,
@@ -68990,7 +69841,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2470,
@@ -69008,7 +69860,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2471,
@@ -69034,7 +69887,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2472,
@@ -69056,7 +69910,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2473,
@@ -69078,7 +69933,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2474,
@@ -69104,7 +69960,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2475,
@@ -69126,7 +69983,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2476,
@@ -69152,7 +70010,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2477,
@@ -69178,7 +70037,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2478,
@@ -69200,7 +70060,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2479,
@@ -69222,7 +70083,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2480,
@@ -69244,7 +70106,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2481,
@@ -69262,7 +70125,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2482,
@@ -69284,7 +70148,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2483,
@@ -69302,7 +70167,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2484,
@@ -69324,7 +70190,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2485,
@@ -69346,7 +70213,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2486,
@@ -69368,7 +70236,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2487,
@@ -69390,7 +70259,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2488,
@@ -69412,7 +70282,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2489,
@@ -69434,7 +70305,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2490,
@@ -69460,7 +70332,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2491,
@@ -69482,7 +70355,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2492,
@@ -69504,7 +70378,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2493,
@@ -69526,7 +70401,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2494,
@@ -69544,7 +70420,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2495,
@@ -69566,7 +70443,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2496,
@@ -69588,7 +70466,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2497,
@@ -69606,7 +70485,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2498,
@@ -69628,7 +70508,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2499,
@@ -69646,7 +70527,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2500,
@@ -69664,7 +70546,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2501,
@@ -69690,7 +70573,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2502,
@@ -69732,7 +70616,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2503,
@@ -69750,7 +70635,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2504,
@@ -69772,7 +70658,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2505,
@@ -69794,7 +70681,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2506,
@@ -69816,7 +70704,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2507,
@@ -69838,7 +70727,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2508,
@@ -69860,7 +70750,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2509,
@@ -69878,7 +70769,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2510,
@@ -69900,7 +70792,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2511,
@@ -69918,7 +70811,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2512,
@@ -69940,7 +70834,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2513,
@@ -69962,7 +70857,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2514,
@@ -69984,7 +70880,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2515,
@@ -70006,7 +70903,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2516,
@@ -70028,7 +70926,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2517,
@@ -70050,7 +70949,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2518,
@@ -70072,7 +70972,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2519,
@@ -70098,7 +70999,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2520,
@@ -70120,7 +71022,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2521,
@@ -70142,7 +71045,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2522,
@@ -70164,7 +71068,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2523,
@@ -70182,7 +71087,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2524,
@@ -70204,7 +71110,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2525,
@@ -70226,7 +71133,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2526,
@@ -70248,7 +71156,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2527,
@@ -70270,7 +71179,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2528,
@@ -70292,7 +71202,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2529,
@@ -70310,7 +71221,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2530,
@@ -70332,7 +71244,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2531,
@@ -70350,7 +71263,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2532,
@@ -70372,7 +71286,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2533,
@@ -70394,7 +71309,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2534,
@@ -70412,7 +71328,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2535,
@@ -70438,7 +71355,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2536,
@@ -70460,7 +71378,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2537,
@@ -70482,7 +71401,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2538,
@@ -70508,7 +71428,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2539,
@@ -70526,7 +71447,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2540,
@@ -70548,7 +71470,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2541,
@@ -70570,7 +71493,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2542,
@@ -70588,7 +71512,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2543,
@@ -70614,7 +71539,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2544,
@@ -70636,7 +71562,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2545,
@@ -70658,7 +71585,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2546,
@@ -70684,7 +71612,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2547,
@@ -70706,7 +71635,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2548,
@@ -70728,7 +71658,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2549,
@@ -70746,7 +71677,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2550,
@@ -70780,7 +71712,8 @@ export const graphData = {
           "dist": 2.548
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2551,
@@ -70814,7 +71747,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2552,
@@ -70848,7 +71782,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2553,
@@ -70878,7 +71813,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2554,
@@ -70900,7 +71836,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2555,
@@ -70922,7 +71859,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2556,
@@ -70944,7 +71882,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2557,
@@ -70962,7 +71901,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2558,
@@ -70984,7 +71924,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2559,
@@ -71010,7 +71951,8 @@ export const graphData = {
           "dist": 3.486
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2560,
@@ -71056,7 +71998,8 @@ export const graphData = {
           "dist": 3.281
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2561,
@@ -71110,7 +72053,8 @@ export const graphData = {
           "dist": 1.836
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2562,
@@ -71164,7 +72108,8 @@ export const graphData = {
           "dist": 2.621
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2563,
@@ -71202,7 +72147,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2564,
@@ -71236,7 +72182,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2565,
@@ -71266,7 +72213,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2566,
@@ -71288,7 +72236,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2567,
@@ -71314,7 +72263,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2568,
@@ -71340,7 +72290,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2569,
@@ -71370,7 +72321,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2570,
@@ -71404,7 +72356,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2571,
@@ -71442,7 +72395,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2572,
@@ -71480,7 +72434,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2573,
@@ -71530,7 +72485,8 @@ export const graphData = {
           "dist": 1.181
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2574,
@@ -71580,7 +72536,8 @@ export const graphData = {
           "dist": 2.277
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2575,
@@ -71614,7 +72571,8 @@ export const graphData = {
           "dist": 3.674
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2576,
@@ -71636,7 +72594,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2577,
@@ -71658,7 +72617,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2578,
@@ -71676,7 +72636,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2579,
@@ -71694,7 +72655,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2580,
@@ -71720,7 +72682,8 @@ export const graphData = {
           "dist": 3.794
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2581,
@@ -71746,7 +72709,8 @@ export const graphData = {
           "dist": 2.243
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2582,
@@ -71776,7 +72740,8 @@ export const graphData = {
           "dist": 1.924
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2583,
@@ -71806,7 +72771,8 @@ export const graphData = {
           "dist": 3.229
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2584,
@@ -71828,7 +72794,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2585,
@@ -71854,7 +72821,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2586,
@@ -71876,7 +72844,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2587,
@@ -71898,7 +72867,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2588,
@@ -71916,7 +72886,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2589,
@@ -71942,7 +72913,8 @@ export const graphData = {
           "dist": 3.637
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2590,
@@ -71972,7 +72944,8 @@ export const graphData = {
           "dist": 2.757
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2591,
@@ -72010,7 +72983,8 @@ export const graphData = {
           "dist": 3.561
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2592,
@@ -72040,7 +73014,8 @@ export const graphData = {
           "dist": 2.088
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2593,
@@ -72074,7 +73049,8 @@ export const graphData = {
           "dist": 3.062
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2594,
@@ -72104,7 +73080,8 @@ export const graphData = {
           "dist": 3.175
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2595,
@@ -72122,7 +73099,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2596,
@@ -72144,7 +73122,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2597,
@@ -72162,7 +73141,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2598,
@@ -72180,7 +73160,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2599,
@@ -72202,7 +73183,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2600,
@@ -72220,7 +73202,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2601,
@@ -72250,7 +73233,8 @@ export const graphData = {
           "dist": 3.136
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2602,
@@ -72284,7 +73268,8 @@ export const graphData = {
           "dist": 3.492
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2603,
@@ -72318,7 +73303,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2604,
@@ -72344,7 +73330,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2605,
@@ -72362,7 +73349,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2606,
@@ -72380,7 +73368,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2607,
@@ -72402,7 +73391,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2608,
@@ -72420,7 +73410,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2609,
@@ -72462,7 +73453,8 @@ export const graphData = {
           "dist": 3.771
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2610,
@@ -72508,7 +73500,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2611,
@@ -72558,7 +73551,8 @@ export const graphData = {
           "dist": 3.695
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2612,
@@ -72600,7 +73594,8 @@ export const graphData = {
           "dist": 3.695
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2613,
@@ -72626,7 +73621,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2614,
@@ -72648,7 +73644,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2615,
@@ -72670,7 +73667,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2616,
@@ -72692,7 +73690,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2617,
@@ -72710,7 +73709,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2618,
@@ -72732,7 +73732,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2619,
@@ -72748,13 +73749,10 @@ export const graphData = {
         {
           "id": 2620,
           "dist": 2.0
-        },
-        {
-          "id": 2621,
-          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2620,
@@ -72773,41 +73771,38 @@ export const graphData = {
         },
         {
           "id": 2621,
-          "dist": 2.0
+          "dist": 2.008
         },
         {
           "id": 2622,
-          "dist": 3.183
+          "dist": 3.188
         },
         {
           "id": 2629,
-          "dist": 2.908
+          "dist": 2.913
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2621,
       "name": "POIs.2824",
       "x": -40.167,
-      "y": 1.515,
+      "y": 1.276,
       "z": -107.711,
       "neighbors": [
         {
-          "id": 2619,
-          "dist": 4.0
-        },
-        {
           "id": 2620,
-          "dist": 2.0
+          "dist": 2.008
         },
         {
           "id": 2622,
-          "dist": 1.55
+          "dist": 1.548
         },
         {
           "id": 2623,
-          "dist": 3.442
+          "dist": 3.434
         },
         {
           "id": 2629,
@@ -72818,184 +73813,216 @@ export const graphData = {
           "dist": 3.266
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2622,
       "name": "POIs.2825",
       "x": -40.856,
-      "y": 1.438,
+      "y": 1.276,
       "z": -109.097,
       "neighbors": [
         {
           "id": 2620,
-          "dist": 3.183
+          "dist": 3.188
         },
         {
           "id": 2621,
-          "dist": 1.55
+          "dist": 1.548
         },
         {
           "id": 2623,
-          "dist": 2.0
+          "dist": 1.994
+        },
+        {
+          "id": 2624,
+          "dist": 3.988
         },
         {
           "id": 2629,
-          "dist": 2.5
+          "dist": 2.498
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2623,
       "name": "POIs.2826",
       "x": -40.783,
-      "y": 1.28,
+      "y": 1.276,
       "z": -111.089,
       "neighbors": [
         {
-          "id": 920,
-          "dist": 3.886
-        },
-        {
           "id": 2621,
-          "dist": 3.442
+          "dist": 3.434
         },
         {
           "id": 2622,
-          "dist": 2.0
+          "dist": 1.994
         },
         {
           "id": 2624,
-          "dist": 2.0
+          "dist": 1.994
+        },
+        {
+          "id": 2625,
+          "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2624,
       "name": "POIs.2827",
       "x": -40.709,
-      "y": 1.122,
+      "y": 1.276,
       "z": -113.082,
       "neighbors": [
         {
-          "id": 921,
-          "dist": 3.651
-        },
-        {
-          "id": 922,
-          "dist": 3.816
+          "id": 2622,
+          "dist": 3.988
         },
         {
           "id": 2623,
-          "dist": 2.0
+          "dist": 1.994
         },
         {
           "id": 2625,
-          "dist": 2.0
+          "dist": 1.994
+        },
+        {
+          "id": 2626,
+          "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2625,
       "name": "POIs.2828",
       "x": -40.636,
-      "y": 0.965,
+      "y": 1.276,
       "z": -115.074,
       "neighbors": [
         {
-          "id": 922,
-          "dist": 3.465
+          "id": 2623,
+          "dist": 3.988
         },
         {
           "id": 2624,
-          "dist": 2.0
+          "dist": 1.994
         },
         {
           "id": 2626,
-          "dist": 2.0
+          "dist": 1.994
+        },
+        {
+          "id": 2627,
+          "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2626,
       "name": "POIs.2829",
       "x": -40.562,
-      "y": 0.807,
+      "y": 1.276,
       "z": -117.067,
       "neighbors": [
         {
+          "id": 2624,
+          "dist": 3.988
+        },
+        {
           "id": 2625,
-          "dist": 2.0
+          "dist": 1.994
         },
         {
           "id": 2627,
-          "dist": 2.0
+          "dist": 1.994
+        },
+        {
+          "id": 2628,
+          "dist": 3.988
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2627,
       "name": "POIs.2830",
       "x": -40.489,
-      "y": 0.649,
+      "y": 1.276,
       "z": -119.059,
       "neighbors": [
         {
           "id": 509,
-          "dist": 3.396
+          "dist": 3.491
+        },
+        {
+          "id": 2625,
+          "dist": 3.988
         },
         {
           "id": 2626,
-          "dist": 2.0
+          "dist": 1.994
         },
         {
           "id": 2628,
-          "dist": 2.0
+          "dist": 1.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2628,
       "name": "POIs.2831",
       "x": -40.415,
-      "y": 0.492,
+      "y": 1.276,
       "z": -121.051,
       "neighbors": [
         {
           "id": 508,
-          "dist": 3.279
+          "dist": 3.361
         },
         {
           "id": 509,
-          "dist": 1.637
+          "dist": 1.837
         },
         {
           "id": 510,
-          "dist": 2.18
+          "dist": 2.179
+        },
+        {
+          "id": 2626,
+          "dist": 3.988
         },
         {
           "id": 2627,
-          "dist": 2.0
+          "dist": 1.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2629,
       "name": "POIs.2832",
       "x": -41.016,
-      "y": 1.517,
+      "y": 1.276,
       "z": -106.604,
       "neighbors": [
         {
           "id": 2620,
-          "dist": 2.908
+          "dist": 2.913
         },
         {
           "id": 2621,
@@ -73003,20 +74030,25 @@ export const graphData = {
         },
         {
           "id": 2622,
-          "dist": 2.5
+          "dist": 2.498
         },
         {
           "id": 2630,
           "dist": 2.0
+        },
+        {
+          "id": 2631,
+          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2630,
       "name": "POIs.2833",
       "x": -41.198,
-      "y": 1.486,
+      "y": 1.276,
       "z": -104.612,
       "neighbors": [
         {
@@ -73030,17 +74062,26 @@ export const graphData = {
         {
           "id": 2631,
           "dist": 2.0
+        },
+        {
+          "id": 2632,
+          "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2631,
       "name": "POIs.2834",
       "x": -41.381,
-      "y": 1.455,
+      "y": 1.276,
       "z": -102.621,
       "neighbors": [
+        {
+          "id": 2629,
+          "dist": 4.0
+        },
         {
           "id": 2630,
           "dist": 2.0
@@ -73054,15 +74095,20 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2632,
       "name": "POIs.2835",
       "x": -41.563,
-      "y": 1.424,
+      "y": 1.276,
       "z": -100.629,
       "neighbors": [
+        {
+          "id": 2630,
+          "dist": 4.0
+        },
         {
           "id": 2631,
           "dist": 2.0
@@ -73076,13 +74122,14 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2633,
       "name": "POIs.2836",
       "x": -41.745,
-      "y": 1.393,
+      "y": 1.276,
       "z": -98.638,
       "neighbors": [
         {
@@ -73102,13 +74149,14 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2634,
       "name": "POIs.2837",
       "x": -41.927,
-      "y": 1.362,
+      "y": 1.276,
       "z": -96.647,
       "neighbors": [
         {
@@ -73129,21 +74177,22 @@ export const graphData = {
         },
         {
           "id": 2636,
-          "dist": 3.994
+          "dist": 3.993
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2635,
       "name": "POIs.2838",
       "x": -42.109,
-      "y": 1.33,
+      "y": 1.276,
       "z": -94.655,
       "neighbors": [
         {
           "id": 1417,
-          "dist": 2.852
+          "dist": 2.835
         },
         {
           "id": 1418,
@@ -73163,52 +74212,54 @@ export const graphData = {
         },
         {
           "id": 2636,
-          "dist": 1.995
+          "dist": 1.994
         },
         {
           "id": 2637,
-          "dist": 3.985
+          "dist": 3.982
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2636,
       "name": "POIs.2839",
       "x": -42.222,
-      "y": 1.269,
+      "y": 1.306,
       "z": -92.665,
       "neighbors": [
         {
           "id": 1417,
-          "dist": 2.354
+          "dist": 2.324
         },
         {
           "id": 1418,
-          "dist": 0.526
+          "dist": 0.521
         },
         {
           "id": 1419,
-          "dist": 1.489
+          "dist": 1.49
         },
         {
           "id": 1420,
-          "dist": 3.469
+          "dist": 3.47
         },
         {
           "id": 2634,
-          "dist": 3.994
+          "dist": 3.993
         },
         {
           "id": 2635,
-          "dist": 1.995
+          "dist": 1.994
         },
         {
           "id": 2637,
-          "dist": 2.0
+          "dist": 2.004
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2637,
@@ -73219,11 +74270,11 @@ export const graphData = {
       "neighbors": [
         {
           "id": 1417,
-          "dist": 3.49
+          "dist": 3.451
         },
         {
           "id": 1418,
-          "dist": 2.466
+          "dist": 2.46
         },
         {
           "id": 1419,
@@ -73235,11 +74286,11 @@ export const graphData = {
         },
         {
           "id": 2635,
-          "dist": 3.985
+          "dist": 3.982
         },
         {
           "id": 2636,
-          "dist": 2.0
+          "dist": 2.004
         },
         {
           "id": 2638,
@@ -73258,7 +74309,8 @@ export const graphData = {
           "dist": 3.443
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2638,
@@ -73300,7 +74352,8 @@ export const graphData = {
           "dist": 2.741
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2639,
@@ -73338,7 +74391,8 @@ export const graphData = {
           "dist": 2.682
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2640,
@@ -73376,7 +74430,8 @@ export const graphData = {
           "dist": 2.7
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2641,
@@ -73402,7 +74457,8 @@ export const graphData = {
           "dist": 3.998
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2642,
@@ -73432,7 +74488,8 @@ export const graphData = {
           "dist": 3.754
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2643,
@@ -73478,7 +74535,8 @@ export const graphData = {
           "dist": 3.253
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2644,
@@ -73524,7 +74582,8 @@ export const graphData = {
           "dist": 3.883
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2645,
@@ -73570,7 +74629,8 @@ export const graphData = {
           "dist": 3.307
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2646,
@@ -73608,7 +74668,8 @@ export const graphData = {
           "dist": 3.307
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2647,
@@ -73626,7 +74687,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2648,
@@ -73644,7 +74706,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2649,
@@ -73666,7 +74729,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2650,
@@ -73692,7 +74756,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2651,
@@ -73742,7 +74807,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2652,
@@ -73788,7 +74854,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2653,
@@ -73826,7 +74893,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2654,
@@ -73845,14 +74913,15 @@ export const graphData = {
         },
         {
           "id": 1417,
-          "dist": 3.671
+          "dist": 3.703
         },
         {
           "id": 2653,
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2655,
@@ -73902,7 +74971,8 @@ export const graphData = {
           "dist": 2.285
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2656,
@@ -73948,7 +75018,8 @@ export const graphData = {
           "dist": 3.256
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2657,
@@ -73982,7 +75053,8 @@ export const graphData = {
           "dist": 3.338
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2658,
@@ -74004,7 +75076,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2659,
@@ -74030,7 +75103,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2660,
@@ -74052,7 +75126,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2661,
@@ -74074,7 +75149,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2662,
@@ -74096,7 +75172,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2663,
@@ -74118,7 +75195,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2664,
@@ -74148,7 +75226,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2665,
@@ -74194,7 +75273,8 @@ export const graphData = {
           "dist": 2.941
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2666,
@@ -74236,7 +75316,8 @@ export const graphData = {
           "dist": 3.858
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2667,
@@ -74254,7 +75335,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2668,
@@ -74276,7 +75358,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2669,
@@ -74294,7 +75377,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2670,
@@ -74316,7 +75400,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2671,
@@ -74334,7 +75419,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2672,
@@ -74352,7 +75438,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2673,
@@ -74374,7 +75461,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2674,
@@ -74408,7 +75496,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2675,
@@ -74442,7 +75531,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2676,
@@ -74488,7 +75578,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2677,
@@ -74538,7 +75629,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2678,
@@ -74564,7 +75656,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2679,
@@ -74586,7 +75679,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2680,
@@ -74604,7 +75698,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2681,
@@ -74626,7 +75721,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2682,
@@ -74644,7 +75740,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2683,
@@ -74666,7 +75763,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2684,
@@ -74688,7 +75786,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2685,
@@ -74710,7 +75809,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2686,
@@ -74732,7 +75832,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2687,
@@ -74762,7 +75863,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2688,
@@ -74808,7 +75910,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2689,
@@ -74858,7 +75961,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2690,
@@ -74892,7 +75996,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2691,
@@ -74922,7 +76027,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2692,
@@ -74948,7 +76054,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2693,
@@ -74970,7 +76077,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2694,
@@ -74992,7 +76100,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2695,
@@ -75014,7 +76123,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2696,
@@ -75036,7 +76146,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2697,
@@ -75058,7 +76169,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2698,
@@ -75080,7 +76192,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2699,
@@ -75106,7 +76219,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2700,
@@ -75128,7 +76242,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2701,
@@ -75162,7 +76277,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2702,
@@ -75196,7 +76312,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2703,
@@ -75226,7 +76343,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2704,
@@ -75252,7 +76370,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2705,
@@ -75278,7 +76397,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2706,
@@ -75304,7 +76424,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2707,
@@ -75334,7 +76455,8 @@ export const graphData = {
           "dist": 3.834
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2708,
@@ -75368,7 +76490,8 @@ export const graphData = {
           "dist": 3.813
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2709,
@@ -75402,7 +76525,8 @@ export const graphData = {
           "dist": 3.123
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2710,
@@ -75432,7 +76556,8 @@ export const graphData = {
           "dist": 3.123
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2711,
@@ -75458,7 +76583,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2712,
@@ -75480,7 +76606,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2713,
@@ -75506,7 +76633,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2714,
@@ -75524,7 +76652,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2715,
@@ -75546,7 +76675,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2716,
@@ -75568,7 +76698,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2717,
@@ -75590,7 +76721,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2718,
@@ -75616,7 +76748,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2719,
@@ -75642,7 +76775,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2720,
@@ -75668,7 +76802,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2721,
@@ -75694,7 +76829,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2722,
@@ -75720,7 +76856,8 @@ export const graphData = {
           "dist": 3.673
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2723,
@@ -75742,7 +76879,8 @@ export const graphData = {
           "dist": 1.691
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2724,
@@ -75768,7 +76906,8 @@ export const graphData = {
           "dist": 3.837
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2725,
@@ -75786,7 +76925,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2726,
@@ -75808,7 +76948,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2727,
@@ -75830,7 +76971,8 @@ export const graphData = {
           "dist": 3.898
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2728,
@@ -75856,7 +76998,8 @@ export const graphData = {
           "dist": 2.421
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2729,
@@ -75886,7 +77029,8 @@ export const graphData = {
           "dist": 1.98
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2730,
@@ -75916,7 +77060,8 @@ export const graphData = {
           "dist": 3.359
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2731,
@@ -75934,7 +77079,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2732,
@@ -75964,7 +77110,8 @@ export const graphData = {
           "dist": 3.232
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2733,
@@ -75994,7 +77141,8 @@ export const graphData = {
           "dist": 3.535
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2734,
@@ -76024,7 +77172,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2735,
@@ -76050,7 +77199,8 @@ export const graphData = {
           "dist": 3.74
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2736,
@@ -76072,7 +77222,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2737,
@@ -76098,7 +77249,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2738,
@@ -76128,7 +77280,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2739,
@@ -76162,7 +77315,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2740,
@@ -76192,7 +77346,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2741,
@@ -76218,7 +77373,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2742,
@@ -76240,7 +77396,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2743,
@@ -76266,7 +77423,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2744,
@@ -76288,7 +77446,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2745,
@@ -76310,7 +77469,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2746,
@@ -76332,7 +77492,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2747,
@@ -76358,7 +77519,8 @@ export const graphData = {
           "dist": 2.812
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2748,
@@ -76388,7 +77550,8 @@ export const graphData = {
           "dist": 3.793
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2749,
@@ -76414,7 +77577,8 @@ export const graphData = {
           "dist": 3.585
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2750,
@@ -76436,7 +77600,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2751,
@@ -76458,7 +77623,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2752,
@@ -76488,7 +77654,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2753,
@@ -76522,7 +77689,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2754,
@@ -76548,7 +77716,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2755,
@@ -76570,7 +77739,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2756,
@@ -76588,7 +77758,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2757,
@@ -76610,7 +77781,8 @@ export const graphData = {
           "dist": 2.875
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2758,
@@ -76632,7 +77804,8 @@ export const graphData = {
           "dist": 3.644
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2759,
@@ -76658,7 +77831,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2760,
@@ -76684,7 +77858,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2761,
@@ -76706,7 +77881,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2762,
@@ -76732,7 +77908,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2763,
@@ -76750,7 +77927,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2764,
@@ -76772,7 +77950,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2765,
@@ -76794,7 +77973,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2766,
@@ -76812,7 +77992,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2767,
@@ -76838,7 +78019,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2768,
@@ -76864,7 +78046,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2769,
@@ -76898,7 +78081,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2770,
@@ -76928,7 +78112,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2771,
@@ -76950,7 +78135,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2772,
@@ -76976,7 +78162,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2773,
@@ -76998,7 +78185,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2774,
@@ -77024,7 +78212,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2775,
@@ -77046,7 +78235,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2776,
@@ -77068,7 +78258,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2777,
@@ -77086,7 +78277,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2778,
@@ -77108,7 +78300,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2779,
@@ -77134,7 +78327,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2780,
@@ -77168,7 +78362,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2781,
@@ -77210,7 +78405,8 @@ export const graphData = {
           "dist": 3.968
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2782,
@@ -77241,11 +78437,11 @@ export const graphData = {
         },
         {
           "id": 513,
-          "dist": 3.66
+          "dist": 3.674
         },
         {
           "id": 514,
-          "dist": 3.387
+          "dist": 3.406
         },
         {
           "id": 2781,
@@ -77256,7 +78452,8 @@ export const graphData = {
           "dist": 1.974
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2783,
@@ -77283,19 +78480,19 @@ export const graphData = {
         },
         {
           "id": 512,
-          "dist": 3.933
+          "dist": 3.949
         },
         {
           "id": 513,
-          "dist": 2.179
+          "dist": 2.214
         },
         {
           "id": 514,
-          "dist": 1.421
+          "dist": 1.483
         },
         {
           "id": 515,
-          "dist": 3.295
+          "dist": 3.324
         },
         {
           "id": 2781,
@@ -77306,7 +78503,8 @@ export const graphData = {
           "dist": 1.974
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2784,
@@ -77340,7 +78538,8 @@ export const graphData = {
           "dist": 3.214
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2785,
@@ -77370,7 +78569,8 @@ export const graphData = {
           "dist": 3.827
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2786,
@@ -77392,7 +78592,8 @@ export const graphData = {
           "dist": 3.416
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2787,
@@ -77418,7 +78619,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2788,
@@ -77448,7 +78650,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2789,
@@ -77482,7 +78685,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2790,
@@ -77524,7 +78728,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2791,
@@ -77574,7 +78779,8 @@ export const graphData = {
           "dist": 3.689
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2792,
@@ -77620,7 +78826,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2793,
@@ -77674,7 +78881,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2794,
@@ -77704,7 +78912,8 @@ export const graphData = {
           "dist": 3.57
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2795,
@@ -77726,7 +78935,8 @@ export const graphData = {
           "dist": 3.978
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2796,
@@ -77764,7 +78974,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2797,
@@ -77806,7 +79017,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2798,
@@ -77836,7 +79048,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2799,
@@ -77882,7 +79095,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2800,
@@ -77928,7 +79142,8 @@ export const graphData = {
           "dist": 3.924
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2801,
@@ -77970,7 +79185,8 @@ export const graphData = {
           "dist": 3.29
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2802,
@@ -78016,7 +79232,8 @@ export const graphData = {
           "dist": 3.188
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2803,
@@ -78046,7 +79263,8 @@ export const graphData = {
           "dist": 2.614
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2804,
@@ -78084,7 +79302,8 @@ export const graphData = {
           "dist": 3.819
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2805,
@@ -78122,7 +79341,8 @@ export const graphData = {
           "dist": 3.537
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2806,
@@ -78160,7 +79380,8 @@ export const graphData = {
           "dist": 3.356
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2807,
@@ -78190,7 +79411,8 @@ export const graphData = {
           "dist": 2.602
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2808,
@@ -78216,7 +79438,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2809,
@@ -78250,7 +79473,8 @@ export const graphData = {
           "dist": 3.962
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2810,
@@ -78292,7 +79516,8 @@ export const graphData = {
           "dist": 3.976
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2811,
@@ -78334,7 +79559,8 @@ export const graphData = {
           "dist": 3.702
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2812,
@@ -78376,7 +79602,8 @@ export const graphData = {
           "dist": 2.979
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2813,
@@ -78406,7 +79633,8 @@ export const graphData = {
           "dist": 2.569
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2814,
@@ -78436,7 +79664,8 @@ export const graphData = {
           "dist": 2.569
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2815,
@@ -78458,7 +79687,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2816,
@@ -78484,7 +79714,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2817,
@@ -78510,7 +79741,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2818,
@@ -78532,7 +79764,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2819,
@@ -78558,7 +79791,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2820,
@@ -78580,7 +79814,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2821,
@@ -78618,7 +79853,8 @@ export const graphData = {
           "dist": 3.994
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2822,
@@ -78660,7 +79896,8 @@ export const graphData = {
           "dist": 3.995
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2823,
@@ -78698,7 +79935,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2824,
@@ -78736,7 +79974,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2825,
@@ -78762,7 +80001,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2826,
@@ -78788,7 +80028,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2827,
@@ -78810,7 +80051,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2828,
@@ -78832,7 +80074,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2829,
@@ -78850,7 +80093,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2830,
@@ -78872,7 +80116,8 @@ export const graphData = {
           "dist": 3.916
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2831,
@@ -78894,7 +80139,8 @@ export const graphData = {
           "dist": 3.943
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2832,
@@ -78916,7 +80162,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2833,
@@ -78942,7 +80189,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2834,
@@ -78964,7 +80212,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2835,
@@ -78990,7 +80239,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2836,
@@ -79016,7 +80266,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2837,
@@ -79042,7 +80293,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2838,
@@ -79064,7 +80316,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2839,
@@ -79086,7 +80339,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2840,
@@ -79104,7 +80358,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2841,
@@ -79118,7 +80373,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2842,
@@ -79148,7 +80404,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2843,
@@ -79186,7 +80443,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2844,
@@ -79216,7 +80474,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2845,
@@ -79254,7 +80513,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2846,
@@ -79288,7 +80548,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2847,
@@ -79318,7 +80579,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2848,
@@ -79364,7 +80626,8 @@ export const graphData = {
           "dist": 3.794
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2849,
@@ -79402,7 +80665,8 @@ export const graphData = {
           "dist": 3.794
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2850,
@@ -79448,7 +80712,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2851,
@@ -79490,7 +80755,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2852,
@@ -79528,7 +80794,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2853,
@@ -79566,7 +80833,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2854,
@@ -79596,7 +80864,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2855,
@@ -79622,7 +80891,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2856,
@@ -79656,7 +80926,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2857,
@@ -79690,7 +80961,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2858,
@@ -79724,7 +80996,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2859,
@@ -79758,7 +81031,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2860,
@@ -79788,7 +81062,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2861,
@@ -79814,7 +81089,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2862,
@@ -79836,7 +81112,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2863,
@@ -79870,7 +81147,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2864,
@@ -79900,7 +81178,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2865,
@@ -79930,7 +81209,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2866,
@@ -79948,7 +81228,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2867,
@@ -79970,7 +81251,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2868,
@@ -79996,7 +81278,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2869,
@@ -80022,7 +81305,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2870,
@@ -80052,7 +81336,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2871,
@@ -80082,7 +81367,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2872,
@@ -80104,7 +81390,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2873,
@@ -80126,7 +81413,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2874,
@@ -80152,7 +81440,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2875,
@@ -80174,7 +81463,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2876,
@@ -80196,7 +81486,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2877,
@@ -80222,7 +81513,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2878,
@@ -80244,7 +81536,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2879,
@@ -80270,7 +81563,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2880,
@@ -80292,7 +81586,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2881,
@@ -80318,7 +81613,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2882,
@@ -80340,7 +81636,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2883,
@@ -80366,7 +81663,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2884,
@@ -80392,7 +81690,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2885,
@@ -80418,7 +81717,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2886,
@@ -80444,7 +81744,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2887,
@@ -80466,7 +81767,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2888,
@@ -80492,7 +81794,8 @@ export const graphData = {
           "dist": 2.748
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2889,
@@ -80514,7 +81817,8 @@ export const graphData = {
           "dist": 3.762
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2890,
@@ -80540,7 +81844,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2891,
@@ -80562,7 +81867,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2892,
@@ -80584,7 +81890,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2893,
@@ -80602,7 +81909,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2894,
@@ -80624,7 +81932,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2895,
@@ -80646,7 +81955,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2896,
@@ -80672,7 +81982,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2897,
@@ -80694,7 +82005,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2898,
@@ -80724,7 +82036,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2899,
@@ -80750,7 +82063,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2900,
@@ -80780,7 +82094,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2901,
@@ -80806,7 +82121,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2902,
@@ -80836,7 +82152,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2903,
@@ -80870,7 +82187,8 @@ export const graphData = {
           "dist": 3.954
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2904,
@@ -80896,7 +82214,8 @@ export const graphData = {
           "dist": 3.771
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2905,
@@ -80922,7 +82241,8 @@ export const graphData = {
           "dist": 3.798
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2906,
@@ -80948,7 +82268,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2907,
@@ -80978,7 +82299,8 @@ export const graphData = {
           "dist": 3.847
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2908,
@@ -81012,7 +82334,8 @@ export const graphData = {
           "dist": 2.005
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2909,
@@ -81042,7 +82365,8 @@ export const graphData = {
           "dist": 1.113
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2910,
@@ -81076,7 +82400,8 @@ export const graphData = {
           "dist": 2.541
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2911,
@@ -81110,7 +82435,8 @@ export const graphData = {
           "dist": 2.016
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2912,
@@ -81152,7 +82478,8 @@ export const graphData = {
           "dist": 2.694
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2913,
@@ -81198,7 +82525,8 @@ export const graphData = {
           "dist": 2.843
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2914,
@@ -81248,7 +82576,8 @@ export const graphData = {
           "dist": 3.264
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2915,
@@ -81290,7 +82619,8 @@ export const graphData = {
           "dist": 3.655
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2916,
@@ -81328,7 +82658,8 @@ export const graphData = {
           "dist": 2.949
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2917,
@@ -81374,7 +82705,8 @@ export const graphData = {
           "dist": 3.427
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2918,
@@ -81416,7 +82748,8 @@ export const graphData = {
           "dist": 3.742
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2919,
@@ -81462,7 +82795,8 @@ export const graphData = {
           "dist": 2.97
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2920,
@@ -81500,7 +82834,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2921,
@@ -81538,7 +82873,8 @@ export const graphData = {
           "dist": 3.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2922,
@@ -81578,13 +82914,10 @@ export const graphData = {
         {
           "id": 2927,
           "dist": 3.811
-        },
-        {
-          "id": 2928,
-          "dist": 3.078
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2923,
@@ -81624,13 +82957,10 @@ export const graphData = {
         {
           "id": 2927,
           "dist": 2.197
-        },
-        {
-          "id": 2928,
-          "dist": 2.465
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2924,
@@ -81674,13 +83004,10 @@ export const graphData = {
         {
           "id": 2927,
           "dist": 1.862
-        },
-        {
-          "id": 2928,
-          "dist": 3.37
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2925,
@@ -81722,7 +83049,8 @@ export const graphData = {
           "dist": 3.166
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2926,
@@ -81772,7 +83100,8 @@ export const graphData = {
           "dist": 3.515
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2927,
@@ -81816,13 +83145,10 @@ export const graphData = {
         {
           "id": 2928,
           "dist": 2.0
-        },
-        {
-          "id": 2990,
-          "dist": 3.208
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2928,
@@ -81832,35 +83158,16 @@ export const graphData = {
       "z": -80.727,
       "neighbors": [
         {
-          "id": 2922,
-          "dist": 3.078
-        },
-        {
-          "id": 2923,
-          "dist": 2.465
-        },
-        {
-          "id": 2924,
-          "dist": 3.37
-        },
-        {
           "id": 2926,
           "dist": 3.779
         },
         {
           "id": 2927,
           "dist": 2.0
-        },
-        {
-          "id": 2989,
-          "dist": 3.73
-        },
-        {
-          "id": 2990,
-          "dist": 2.065
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2929,
@@ -81894,7 +83201,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2930,
@@ -81916,7 +83224,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2931,
@@ -81938,7 +83247,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2932,
@@ -81964,7 +83274,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2933,
@@ -81986,7 +83297,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2934,
@@ -82012,7 +83324,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2935,
@@ -82034,7 +83347,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2936,
@@ -82056,7 +83370,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2937,
@@ -82078,7 +83393,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2938,
@@ -82100,7 +83416,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2939,
@@ -82122,7 +83439,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2940,
@@ -82144,7 +83462,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2941,
@@ -82174,7 +83493,8 @@ export const graphData = {
           "dist": 3.707
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2942,
@@ -82196,7 +83516,8 @@ export const graphData = {
           "dist": 2.672
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2943,
@@ -82222,7 +83543,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2944,
@@ -82252,7 +83574,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2945,
@@ -82274,7 +83597,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2946,
@@ -82300,7 +83624,8 @@ export const graphData = {
           "dist": 3.258
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2947,
@@ -82322,7 +83647,8 @@ export const graphData = {
           "dist": 3.01
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2948,
@@ -82344,7 +83670,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2949,
@@ -82370,7 +83697,8 @@ export const graphData = {
           "dist": 3.997
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2950,
@@ -82396,7 +83724,8 @@ export const graphData = {
           "dist": 2.806
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2951,
@@ -82426,7 +83755,8 @@ export const graphData = {
           "dist": 2.36
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2952,
@@ -82456,7 +83786,8 @@ export const graphData = {
           "dist": 3.204
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2953,
@@ -82478,7 +83809,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2954,
@@ -82504,7 +83836,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2955,
@@ -82526,7 +83859,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2956,
@@ -82548,7 +83882,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2957,
@@ -82574,7 +83909,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2958,
@@ -82596,7 +83932,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2959,
@@ -82618,7 +83955,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2960,
@@ -82652,7 +83990,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2961,
@@ -82682,7 +84021,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2962,
@@ -82712,7 +84052,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2963,
@@ -82738,7 +84079,8 @@ export const graphData = {
           "dist": 3.974
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2964,
@@ -82760,18 +84102,6 @@ export const graphData = {
           "dist": 1.628
         },
         {
-          "id": 2966,
-          "dist": 3.587
-        },
-        {
-          "id": 2967,
-          "dist": 3.958
-        },
-        {
-          "id": 2968,
-          "dist": 3.822
-        },
-        {
           "id": 3015,
           "dist": 1.99
         },
@@ -82780,7 +84110,8 @@ export const graphData = {
           "dist": 3.988
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2965,
@@ -82802,14 +84133,6 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 2967,
-          "dist": 2.37
-        },
-        {
-          "id": 2968,
-          "dist": 2.745
-        },
-        {
           "id": 3015,
           "dist": 2.2
         },
@@ -82818,7 +84141,8 @@ export const graphData = {
           "dist": 3.903
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2966,
@@ -82827,10 +84151,6 @@ export const graphData = {
       "y": 4.544,
       "z": -61.266,
       "neighbors": [
-        {
-          "id": 2964,
-          "dist": 3.587
-        },
         {
           "id": 2965,
           "dist": 2.0
@@ -82842,13 +84162,10 @@ export const graphData = {
         {
           "id": 2968,
           "dist": 2.576
-        },
-        {
-          "id": 3015,
-          "dist": 3.903
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2967,
@@ -82858,27 +84175,16 @@ export const graphData = {
       "z": -60.748,
       "neighbors": [
         {
-          "id": 2964,
-          "dist": 3.958
-        },
-        {
-          "id": 2965,
-          "dist": 2.37
-        },
-        {
           "id": 2966,
           "dist": 0.892
         },
         {
           "id": 2968,
           "dist": 1.972
-        },
-        {
-          "id": 2969,
-          "dist": 3.971
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2968,
@@ -82887,14 +84193,6 @@ export const graphData = {
       "y": 6.186,
       "z": -61.009,
       "neighbors": [
-        {
-          "id": 2964,
-          "dist": 3.822
-        },
-        {
-          "id": 2965,
-          "dist": 2.745
-        },
         {
           "id": 2966,
           "dist": 2.576
@@ -82914,13 +84212,10 @@ export const graphData = {
         {
           "id": 2971,
           "dist": 3.887
-        },
-        {
-          "id": 3015,
-          "dist": 3.973
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2969,
@@ -82929,10 +84224,6 @@ export const graphData = {
       "y": 7.207,
       "z": -61.355,
       "neighbors": [
-        {
-          "id": 2967,
-          "dist": 3.971
-        },
         {
           "id": 2968,
           "dist": 2.0
@@ -82946,10 +84237,6 @@ export const graphData = {
           "dist": 3.368
         },
         {
-          "id": 3008,
-          "dist": 3.374
-        },
-        {
           "id": 3009,
           "dist": 2.408
         },
@@ -82958,7 +84245,8 @@ export const graphData = {
           "dist": 2.867
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2970,
@@ -82980,14 +84268,6 @@ export const graphData = {
           "dist": 2.0
         },
         {
-          "id": 3007,
-          "dist": 3.967
-        },
-        {
-          "id": 3008,
-          "dist": 2.775
-        },
-        {
           "id": 3009,
           "dist": 2.769
         },
@@ -82996,7 +84276,8 @@ export const graphData = {
           "dist": 3.954
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2971,
@@ -83024,17 +84305,10 @@ export const graphData = {
         {
           "id": 2973,
           "dist": 4.0
-        },
-        {
-          "id": 3007,
-          "dist": 3.783
-        },
-        {
-          "id": 3008,
-          "dist": 3.641
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2972,
@@ -83060,7 +84334,8 @@ export const graphData = {
           "dist": 2.651
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2973,
@@ -83086,7 +84361,8 @@ export const graphData = {
           "dist": 2.21
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2974,
@@ -83120,7 +84396,8 @@ export const graphData = {
           "dist": 3.277
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2975,
@@ -83146,7 +84423,8 @@ export const graphData = {
           "dist": 3.944
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2976,
@@ -83172,7 +84450,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2977,
@@ -83202,7 +84481,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2978,
@@ -83228,7 +84508,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2979,
@@ -83250,7 +84531,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2980,
@@ -83268,7 +84550,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2981,
@@ -83290,7 +84573,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2982,
@@ -83312,7 +84596,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2983,
@@ -83334,7 +84619,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2984,
@@ -83360,7 +84646,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2985,
@@ -83382,7 +84669,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2986,
@@ -83412,7 +84700,8 @@ export const graphData = {
           "dist": 3.01
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2987,
@@ -83446,7 +84735,8 @@ export const graphData = {
           "dist": 3.755
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2988,
@@ -83476,7 +84766,8 @@ export const graphData = {
           "dist": 3.422
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2989,
@@ -83485,10 +84776,6 @@ export const graphData = {
       "y": 7.245,
       "z": -78.535,
       "neighbors": [
-        {
-          "id": 2928,
-          "dist": 3.73
-        },
         {
           "id": 2987,
           "dist": 3.615
@@ -83502,7 +84789,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2990,
@@ -83512,14 +84800,6 @@ export const graphData = {
       "z": -80.135,
       "neighbors": [
         {
-          "id": 2927,
-          "dist": 3.208
-        },
-        {
-          "id": 2928,
-          "dist": 2.065
-        },
-        {
           "id": 2988,
           "dist": 3.8
         },
@@ -83528,7 +84808,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2991,
@@ -83562,7 +84843,8 @@ export const graphData = {
           "dist": 3.197
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2992,
@@ -83596,7 +84878,8 @@ export const graphData = {
           "dist": 2.952
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2993,
@@ -83630,7 +84913,8 @@ export const graphData = {
           "dist": 3.025
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2994,
@@ -83656,7 +84940,8 @@ export const graphData = {
           "dist": 3.025
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2995,
@@ -83674,7 +84959,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 2996,
@@ -83708,7 +84994,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2997,
@@ -83738,7 +85025,8 @@ export const graphData = {
           "dist": 2.648
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2998,
@@ -83768,7 +85056,8 @@ export const graphData = {
           "dist": 2.001
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 2999,
@@ -83794,7 +85083,8 @@ export const graphData = {
           "dist": 2.999
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3000,
@@ -83816,7 +85106,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3001,
@@ -83842,7 +85133,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3002,
@@ -83868,7 +85160,8 @@ export const graphData = {
           "dist": 3.136
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3003,
@@ -83898,7 +85191,8 @@ export const graphData = {
           "dist": 3.596
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3004,
@@ -83928,7 +85222,8 @@ export const graphData = {
           "dist": 3.526
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3005,
@@ -83958,7 +85253,8 @@ export const graphData = {
           "dist": 3.526
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3006,
@@ -83992,7 +85288,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3007,
@@ -84001,14 +85298,6 @@ export const graphData = {
       "y": 7.5,
       "z": -65.511,
       "neighbors": [
-        {
-          "id": 2970,
-          "dist": 3.967
-        },
-        {
-          "id": 2971,
-          "dist": 3.783
-        },
         {
           "id": 3003,
           "dist": 3.596
@@ -84030,7 +85319,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3008,
@@ -84039,18 +85329,6 @@ export const graphData = {
       "y": 7.5,
       "z": -63.52,
       "neighbors": [
-        {
-          "id": 2969,
-          "dist": 3.374
-        },
-        {
-          "id": 2970,
-          "dist": 2.775
-        },
-        {
-          "id": 2971,
-          "dist": 3.641
-        },
         {
           "id": 3006,
           "dist": 4.0
@@ -84064,7 +85342,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3009,
@@ -84094,7 +85373,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3010,
@@ -84116,7 +85396,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3011,
@@ -84142,7 +85423,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3012,
@@ -84164,7 +85446,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3013,
@@ -84182,7 +85465,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 3014,
@@ -84200,7 +85484,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": false
+      "isBifurcation": false,
+      "isReachable": true
     },
     {
       "id": 3015,
@@ -84222,14 +85507,6 @@ export const graphData = {
           "dist": 2.2
         },
         {
-          "id": 2966,
-          "dist": 3.903
-        },
-        {
-          "id": 2968,
-          "dist": 3.973
-        },
-        {
           "id": 3016,
           "dist": 2.0
         },
@@ -84238,7 +85515,8 @@ export const graphData = {
           "dist": 4.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3016,
@@ -84268,7 +85546,8 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
     },
     {
       "id": 3017,
@@ -84298,7 +85577,185 @@ export const graphData = {
           "dist": 2.0
         }
       ],
-      "isBifurcation": true
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3018,
+      "name": "POIs.3221",
+      "x": -92.453,
+      "y": 1.15,
+      "z": -167.642,
+      "neighbors": [
+        {
+          "id": 578,
+          "dist": 2.047
+        },
+        {
+          "id": 579,
+          "dist": 1.739
+        },
+        {
+          "id": 580,
+          "dist": 2.49
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3019,
+      "name": "POIs.3222",
+      "x": -88.618,
+      "y": 1.15,
+      "z": -158.761,
+      "neighbors": [
+        {
+          "id": 3020,
+          "dist": 2.033
+        },
+        {
+          "id": 3022,
+          "dist": 2.366
+        }
+      ],
+      "isBifurcation": false,
+      "isReachable": true
+    },
+    {
+      "id": 3020,
+      "name": "POIs.3223",
+      "x": -90.649,
+      "y": 1.15,
+      "z": -158.677,
+      "neighbors": [
+        {
+          "id": 583,
+          "dist": 2.257
+        },
+        {
+          "id": 584,
+          "dist": 3.179
+        },
+        {
+          "id": 3019,
+          "dist": 2.033
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3021,
+      "name": "POIs.3224",
+      "x": -84.222,
+      "y": 1.15,
+      "z": -158.922,
+      "neighbors": [
+        {
+          "id": 3022,
+          "dist": 2.033
+        },
+        {
+          "id": 3023,
+          "dist": 3.362
+        },
+        {
+          "id": 3024,
+          "dist": 1.33
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3022,
+      "name": "POIs.3225",
+      "x": -86.253,
+      "y": 1.15,
+      "z": -158.839,
+      "neighbors": [
+        {
+          "id": 3019,
+          "dist": 2.366
+        },
+        {
+          "id": 3021,
+          "dist": 2.033
+        },
+        {
+          "id": 3024,
+          "dist": 3.362
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3023,
+      "name": "POIs.3226",
+      "x": -80.861,
+      "y": 1.15,
+      "z": -158.988,
+      "neighbors": [
+        {
+          "id": 569,
+          "dist": 2.985
+        },
+        {
+          "id": 570,
+          "dist": 1.783
+        },
+        {
+          "id": 571,
+          "dist": 1.958
+        },
+        {
+          "id": 572,
+          "dist": 3.533
+        },
+        {
+          "id": 3021,
+          "dist": 3.362
+        },
+        {
+          "id": 3024,
+          "dist": 2.033
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3024,
+      "name": "POIs.3227",
+      "x": -82.892,
+      "y": 1.15,
+      "z": -158.905,
+      "neighbors": [
+        {
+          "id": 570,
+          "dist": 3.806
+        },
+        {
+          "id": 571,
+          "dist": 3.519
+        },
+        {
+          "id": 3021,
+          "dist": 1.33
+        },
+        {
+          "id": 3022,
+          "dist": 3.362
+        },
+        {
+          "id": 3023,
+          "dist": 2.033
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
     }
   ]
 };

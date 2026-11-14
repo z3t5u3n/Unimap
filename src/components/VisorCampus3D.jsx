@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v7_optimized_webp_instances';
+const SETTINGS_VERSION = 'unimap_v8_camera_collision_mesh_walls';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -110,7 +110,7 @@ export default function VisorCampus3D({
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState(null);
   const [desdeCache, setDesdeCache] = useState(false);
-  const [subtituloCarga, setSubtituloCarga] = useState('Inicializando red de 2.407 POIs y grafos de caminos');
+  const [subtituloCarga, setSubtituloCarga] = useState('Inicializando red de 3.025 POIs y muros de colisión');
 
   // Estados de navegación cinemática y recorrido de grafos
   const [rutaCalculada, setRutaCalculada] = useState(null);
@@ -745,6 +745,103 @@ export default function VisorCampus3D({
       camera.lookAt(lookTarget);
     };
 
+    // ==============================================================
+    // SISTEMA DE COLISIÓN DE CÁMARA (IMPEDIR TRASPASAR MUROS MESH_)
+    // ==============================================================
+    const wallColliders = [];
+    const collisionRaycaster = new THREE.Raycaster();
+    const CAMERA_COLLISION_RADIUS = 0.35; // Distancia mínima de seguridad a los muros en metros
+    const prevCameraPos = new THREE.Vector3();
+    const queryBox = new THREE.Box3();
+    const collisionProbeDirs = [
+      new THREE.Vector3(1, 0, 0),
+      new THREE.Vector3(-1, 0, 0),
+      new THREE.Vector3(0, 0, 1),
+      new THREE.Vector3(0, 0, -1),
+      new THREE.Vector3(0.707, 0, 0.707),
+      new THREE.Vector3(-0.707, 0, 0.707),
+      new THREE.Vector3(0.707, 0, -0.707),
+      new THREE.Vector3(-0.707, 0, -0.707)
+    ];
+
+    const registrarMurosColision = (modelRoot) => {
+      wallColliders.length = 0;
+      modelRoot.traverse((child) => {
+        if (child.isMesh) {
+          const n = child.name || '';
+          // Muros estructurales: inician con Mesh_ y no No_
+          if (n.startsWith('Mesh_') && !n.startsWith('No_')) {
+            if (!child.geometry.boundingBox) {
+              child.geometry.computeBoundingBox();
+            }
+            child.updateMatrixWorld(true);
+            const aabb = new THREE.Box3();
+            aabb.copy(child.geometry.boundingBox).applyMatrix4(child.matrixWorld);
+            wallColliders.push({
+              mesh: child,
+              aabb: aabb
+            });
+          }
+        }
+      });
+      console.log(`🧱 [Colisión 3D] ${wallColliders.length} mallas de muros Mesh_ registradas para impedir traspaso.`);
+    };
+
+    const resolverColisionCamara = (targetPos, prevPos = null) => {
+      if (wallColliders.length === 0) return targetPos;
+
+      // Filtrar únicamente los muros en un radio local de 3.5m alrededor del objetivo
+      queryBox.min.set(targetPos.x - 3.5, targetPos.y - 1.5, targetPos.z - 3.5);
+      queryBox.max.set(targetPos.x + 3.5, targetPos.y + 1.5, targetPos.z + 3.5);
+
+      const nearbyMeshes = [];
+      for (let i = 0; i < wallColliders.length; i++) {
+        if (wallColliders[i].aabb.intersectsBox(queryBox)) {
+          nearbyMeshes.push(wallColliders[i].mesh);
+        }
+      }
+
+      if (nearbyMeshes.length === 0) return targetPos;
+
+      // 1. Raycast de trayectoria entre prevPos y targetPos para evitar tunneling (traspasar muros a alta velocidad)
+      if (prevPos) {
+        const moveVec = new THREE.Vector3().subVectors(targetPos, prevPos);
+        const moveDist = moveVec.length();
+        if (moveDist > 0.001) {
+          const moveDir = moveVec.clone().normalize();
+          collisionRaycaster.set(prevPos, moveDir);
+          collisionRaycaster.near = 0.01;
+          collisionRaycaster.far = moveDist + CAMERA_COLLISION_RADIUS;
+          const hits = collisionRaycaster.intersectObjects(nearbyMeshes, false);
+          if (hits.length > 0) {
+            const hit = hits[0];
+            if (hit.distance < moveDist + CAMERA_COLLISION_RADIUS && hit.face) {
+              targetPos.copy(hit.point).addScaledVector(hit.face.normal, CAMERA_COLLISION_RADIUS);
+            }
+          }
+        }
+      }
+
+      // 2. Sondas radiales de proximidad para empujar la cámara si queda a menos de CAMERA_COLLISION_RADIUS
+      const origin = new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z);
+      for (let i = 0; i < collisionProbeDirs.length; i++) {
+        const dir = collisionProbeDirs[i];
+        collisionRaycaster.set(origin, dir);
+        collisionRaycaster.near = 0.01;
+        collisionRaycaster.far = CAMERA_COLLISION_RADIUS;
+        const hits = collisionRaycaster.intersectObjects(nearbyMeshes, false);
+        if (hits.length > 0) {
+          const hit = hits[0];
+          const overlap = CAMERA_COLLISION_RADIUS - hit.distance;
+          if (overlap > 0.001 && hit.face) {
+            targetPos.addScaledVector(hit.face.normal, overlap);
+          }
+        }
+      }
+
+      return targetPos;
+    };
+
     // AL BUSCAR O PULSAR UN BOTÓN: Calula la ruta A* y mueve la cámara automáticamente
     orientarDestinoRef.current = (dest) => {
       // Detener cualquier navegación o llegada previa
@@ -889,8 +986,10 @@ export default function VisorCampus3D({
       isArriving = false;
       currentDistance = totalPathLength;
 
-      const finalPos = activePath[activePath.length - 1];
+      const finalPos = activePath[activePath.length - 1].clone();
+      resolverColisionCamara(finalPos, prevCameraPos);
       camera.position.set(finalPos.x, finalPos.y, finalPos.z);
+      prevCameraPos.copy(camera.position);
       const nodeFinal = poiGraphService.findNearestNode(finalPos.x, finalPos.y, finalPos.z);
       if (nodeFinal) {
         currentCameraNodeId = nodeFinal.id;
@@ -950,6 +1049,7 @@ export default function VisorCampus3D({
       setDandoPaso(false);
 
       camera.position.set(punto.x, punto.y, punto.z);
+      prevCameraPos.copy(camera.position);
       currentYaw = targetYaw = punto.yaw !== undefined ? punto.yaw : currentYaw;
       currentPitch = targetPitch = punto.pitch !== undefined ? punto.pitch : 0;
       targetFOV = cfg.fovBase || 60;
@@ -1604,6 +1704,9 @@ export default function VisorCampus3D({
           scene.add(model);
           sceneModel = model;
 
+          // Registrar todas las mallas de muros Mesh_ para la detección y resolución de colisión
+          registrarMurosColision(model);
+
           // Ocultar mallas Codiller auxiliares (idéntico a POIGraphManager.HideCodillerObjects en Unity)
           poiGraphService.hideCodillerObjects(model);
 
@@ -1635,6 +1738,7 @@ export default function VisorCampus3D({
           } else {
             camera.position.set(POI_ENTRADA_COORDS.x, POI_ENTRADA_COORDS.y, POI_ENTRADA_COORDS.z);
           }
+          prevCameraPos.copy(camera.position);
 
           actualizarSiguienteNodoFlecha(true);
           setCargando(false);
@@ -1685,7 +1789,9 @@ export default function VisorCampus3D({
         const t = Math.min(1.0, elapsed / stepDuration);
         const smoothT = t * t * (3 - 2 * t); // SmoothStep
 
-        camera.position.lerpVectors(stepStartPos, stepTargetPos, smoothT);
+        const nextPos = new THREE.Vector3().lerpVectors(stepStartPos, stepTargetPos, smoothT);
+        resolverColisionCamara(nextPos, stepStartPos);
+        camera.position.copy(nextPos);
 
         let diffYaw = (stepTargetYaw - stepStartYaw) % 360;
         if (diffYaw > 180) diffYaw -= 360;
@@ -1693,7 +1799,9 @@ export default function VisorCampus3D({
         targetYaw = stepStartYaw + diffYaw * smoothT;
 
         if (t >= 1.0) {
-          camera.position.copy(stepTargetPos);
+          const finalStepPos = stepTargetPos.clone();
+          resolverColisionCamara(finalStepPos, stepStartPos);
+          camera.position.copy(finalStepPos);
           currentYaw = stepTargetYaw;
           targetYaw = stepTargetYaw;
           isStepping = false;
@@ -1758,6 +1866,7 @@ export default function VisorCampus3D({
 
         // Posición actual sobre el camino (a la altura exacta del centro de los POIs)
         const currentPos = poiGraphService.getPointOnPath(activePath, clampedDist);
+        resolverColisionCamara(currentPos, prevCameraPos);
         camera.position.set(currentPos.x, currentPos.y, currentPos.z);
 
         // Punto de anticipación (Look-Ahead) para girar suavemente en las curvas del camino
@@ -1785,7 +1894,8 @@ export default function VisorCampus3D({
           setProgresoRecorrido(100);
 
           // La cámara permanece en el POI más cercano sobre el camino exterior
-          const finalPos = activePath[activePath.length - 1];
+          const finalPos = activePath[activePath.length - 1].clone();
+          resolverColisionCamara(finalPos, prevCameraPos);
           camera.position.set(finalPos.x, finalPos.y, finalPos.z);
 
           // Secuencia de llegada idéntica a Unity ArrivalSequence():
@@ -1945,6 +2055,7 @@ export default function VisorCampus3D({
       } else {
         renderer.render(scene, camera);
       }
+      prevCameraPos.copy(camera.position);
     };
     animate();
 
@@ -2128,7 +2239,7 @@ export default function VisorCampus3D({
               <span className="detallesRuta">
                 {navegando
                   ? `${progresoRecorrido}% completado (${rutaCalculada.distanciaMetros}m totales)`
-                  : 'Red de caminos calibrada a 3.8m'}
+                  : 'Red de caminos con verificación de muros Mesh_'}
               </span>
             </div>
           </div>

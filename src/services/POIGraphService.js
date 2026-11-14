@@ -76,9 +76,10 @@ export class POIGraphService {
 
   /**
    * Encuentra el nodo de la red más cercano a una posición (x, y, z) en el mundo 3D.
-   * Utiliza la cuadrícula espacial (Spatial Hash Grid) para búsqueda rápida sin recorrer los 2407 nodos.
+   * Utiliza la cuadrícula espacial (Spatial Hash Grid) para búsqueda rápida O(1).
+   * Prioriza nodos conectados a la red principal del campus (isReachable !== false).
    */
-  findNearestNode(x, y, z) {
+  findNearestNode(x, y, z, onlyReachable = true) {
     if (this.nodes.length === 0) return null;
 
     const gx = Math.floor(x / this.cellSize);
@@ -96,6 +97,10 @@ export class POIGraphService {
 
         for (let i = 0; i < cell.length; i++) {
           const n = cell[i];
+          if (onlyReachable && (n.isReachable === false || !n.neighbors || n.neighbors.length === 0)) {
+            continue;
+          }
+
           const dx = n.x - x;
           const dy = hasY ? (n.y - y) * 2.5 : 0;
           const dz = n.z - z;
@@ -113,6 +118,10 @@ export class POIGraphService {
     if (!nearest) {
       for (let i = 0; i < this.nodes.length; i++) {
         const n = this.nodes[i];
+        if (onlyReachable && (n.isReachable === false || !n.neighbors || n.neighbors.length === 0)) {
+          continue;
+        }
+
         const dx = n.x - x;
         const dy = hasY ? (n.y - y) * 2.5 : 0;
         const dz = n.z - z;
@@ -124,6 +133,11 @@ export class POIGraphService {
       }
     }
 
+    // Si aún no hay nodo con filtro reachable, hacer fallback sin filtro
+    if (!nearest && onlyReachable) {
+      return this.findNearestNode(x, y, z, false);
+    }
+
     return nearest;
   }
 
@@ -132,7 +146,7 @@ export class POIGraphService {
    * Idéntico a POIGraphManager.FindNearestNodeExcluding() en Unity.
    * Utilizado para encontrar el siguiente nodo alternativo para la flecha 3D.
    */
-  findNearestNodeExcluding(x, y, z, excludeNodeId) {
+  findNearestNodeExcluding(x, y, z, excludeNodeId, onlyReachable = true) {
     if (this.nodes.length === 0) return null;
 
     let nearest = null;
@@ -142,6 +156,9 @@ export class POIGraphService {
     for (let i = 0; i < this.nodes.length; i++) {
       const n = this.nodes[i];
       if (n.id === excludeNodeId) continue;
+      if (onlyReachable && (n.isReachable === false || !n.neighbors || n.neighbors.length === 0)) {
+        continue;
+      }
 
       const dx = n.x - x;
       const dy = hasY ? (n.y - y) * 2.5 : 0;
@@ -152,6 +169,10 @@ export class POIGraphService {
         minSqrDist = sqrDist;
         nearest = n;
       }
+    }
+
+    if (!nearest && onlyReachable) {
+      return this.findNearestNodeExcluding(x, y, z, excludeNodeId, false);
     }
 
     return nearest;
