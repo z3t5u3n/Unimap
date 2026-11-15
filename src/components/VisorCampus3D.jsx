@@ -913,7 +913,7 @@ export default function VisorCampus3D({
           x: camera.position.x,
           y: camera.position.y,
           z: camera.position.z,
-          startNodeId: currentCameraNodeId
+          startNodeId: stepState.currentCameraNodeId
         };
 
         const nearestDestNode = (targetPos.nearestNodeId !== undefined && targetPos.nearestNodeId >= 0)
@@ -951,8 +951,8 @@ export default function VisorCampus3D({
           totalPathLength = poiGraphService.getTotalPathLength(path);
           actualizarLineaRuta3D(path);
 
-          const nearestStartNode = currentCameraNodeId !== null
-            ? poiGraphService.getNode(currentCameraNodeId)
+          const nearestStartNode = stepState.currentCameraNodeId !== null
+            ? poiGraphService.getNode(stepState.currentCameraNodeId)
             : poiGraphService.findNearestNode(currentPos.x, currentPos.y, currentPos.z);
 
           setRutaCalculada({
@@ -1024,7 +1024,7 @@ export default function VisorCampus3D({
       prevCameraPos.copy(camera.position);
       const nodeFinal = poiGraphService.findNearestNode(finalPos.x, finalPos.y, finalPos.z);
       if (nodeFinal) {
-        currentCameraNodeId = nodeFinal.id;
+        stepState.currentCameraNodeId = nodeFinal.id;
         setNodoActualCamara(nodeFinal.name);
       }
 
@@ -1158,7 +1158,7 @@ export default function VisorCampus3D({
       // 3. Posicionar la cámara en el POI hacia el cual iba (NUNCA regresar a la entrada)
       if (targetNode) {
         camera.position.set(targetNode.x, targetNode.y, targetNode.z);
-        currentCameraNodeId = targetNode.id;
+        stepState.currentCameraNodeId = targetNode.id;
         setNodoActualCamara(targetNode.name);
       }
 
