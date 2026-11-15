@@ -1,12 +1,12 @@
-// Archivo generado automaticamente con la red de grafos de 3.025 POIs
-// Conexiones <= 4.0m con verificacion de todas las 144 mallas Mesh_ (muros y obstaculos)
+// Archivo pre-horneado automáticamente con la red de grafos de 3.030 POIs
+// Conexiones verificadas contra muros Mesh_ para cero consumo en tiempo de ejecución
 export const graphData = {
-  "version": "4.0-blender-3025-mesh-walls",
-  "description": "Red de grafos de 3.025 POIs del Campus ITFIP horneada con todas las 144 mallas de muros Mesh_ (max_d = 4.0m)",
+  "version": "5.0-blender-3030-mesh-walls",
+  "description": "Red de grafos de 3.030 POIs del Campus ITFIP pre-horneada con verificaci\u00f3n BVH de muros Mesh_",
   "maxConnectionDistance": 4.0,
-  "totalNodes": 3025,
-  "totalEdges": 6560,
-  "bifurcationsCount": 2715,
+  "totalNodes": 3030,
+  "totalEdges": 6581,
+  "bifurcationsCount": 2720,
   "nodes": [
     {
       "id": 0,
@@ -28719,9 +28719,13 @@ export const graphData = {
         {
           "id": 1033,
           "dist": 2.0
+        },
+        {
+          "id": 3029,
+          "dist": 2.926
         }
       ],
-      "isBifurcation": false,
+      "isBifurcation": true,
       "isReachable": true
     },
     {
@@ -28734,6 +28738,10 @@ export const graphData = {
         {
           "id": 1032,
           "dist": 2.0
+        },
+        {
+          "id": 3029,
+          "dist": 1.079
         }
       ],
       "isBifurcation": false,
@@ -29477,7 +29485,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 3.082
+          "dist": 3.189
         },
         {
           "id": 1060,
@@ -29514,6 +29522,10 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 2.5
+        },
+        {
+          "id": 3025,
+          "dist": 3.729
         }
       ],
       "isBifurcation": true,
@@ -29536,7 +29548,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 1.105
+          "dist": 1.274
         },
         {
           "id": 1060,
@@ -29561,6 +29573,14 @@ export const graphData = {
         {
           "id": 1183,
           "dist": 3.796
+        },
+        {
+          "id": 3025,
+          "dist": 2.23
+        },
+        {
+          "id": 3026,
+          "dist": 3.623
         }
       ],
       "isBifurcation": true,
@@ -29569,33 +29589,45 @@ export const graphData = {
     {
       "id": 1059,
       "name": "POIs.1262",
-      "x": -130.932,
-      "y": 6.776,
-      "z": -141.494,
+      "x": -130.978,
+      "y": 6.97,
+      "z": -141.766,
       "neighbors": [
         {
           "id": 1057,
-          "dist": 3.082
+          "dist": 3.189
         },
         {
           "id": 1058,
-          "dist": 1.105
+          "dist": 1.274
         },
         {
           "id": 1060,
-          "dist": 2.0
+          "dist": 1.936
+        },
+        {
+          "id": 1061,
+          "dist": 3.922
         },
         {
           "id": 1180,
-          "dist": 0.888
+          "dist": 1.15
         },
         {
           "id": 1181,
-          "dist": 1.87
+          "dist": 2.202
         },
         {
           "id": 1182,
-          "dist": 3.099
+          "dist": 3.358
+        },
+        {
+          "id": 3025,
+          "dist": 1.306
+        },
+        {
+          "id": 3026,
+          "dist": 2.855
         }
       ],
       "isBifurcation": true,
@@ -29622,7 +29654,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 2.0
+          "dist": 1.936
         },
         {
           "id": 1061,
@@ -29647,6 +29679,14 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 3.327
+        },
+        {
+          "id": 3025,
+          "dist": 1.908
+        },
+        {
+          "id": 3026,
+          "dist": 2.748
         }
       ],
       "isBifurcation": true,
@@ -29672,6 +29712,10 @@ export const graphData = {
           "dist": 3.358
         },
         {
+          "id": 1059,
+          "dist": 3.922
+        },
+        {
           "id": 1060,
           "dist": 2.0
         },
@@ -29686,6 +29730,14 @@ export const graphData = {
         {
           "id": 1187,
           "dist": 2.037
+        },
+        {
+          "id": 3025,
+          "dist": 3.571
+        },
+        {
+          "id": 3026,
+          "dist": 3.646
         }
       ],
       "isBifurcation": true,
@@ -30034,6 +30086,10 @@ export const graphData = {
         {
           "id": 1079,
           "dist": 4.0
+        },
+        {
+          "id": 3028,
+          "dist": 3.624
         }
       ],
       "isBifurcation": true,
@@ -33064,7 +33120,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 0.888
+          "dist": 1.15
         },
         {
           "id": 1060,
@@ -33077,6 +33133,14 @@ export const graphData = {
         {
           "id": 1182,
           "dist": 3.118
+        },
+        {
+          "id": 3025,
+          "dist": 2.346
+        },
+        {
+          "id": 3026,
+          "dist": 3.87
         }
       ],
       "isBifurcation": true,
@@ -33099,7 +33163,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 1.87
+          "dist": 2.202
         },
         {
           "id": 1060,
@@ -33116,6 +33180,10 @@ export const graphData = {
         {
           "id": 1183,
           "dist": 4.0
+        },
+        {
+          "id": 3025,
+          "dist": 3.416
         }
       ],
       "isBifurcation": true,
@@ -33142,7 +33210,7 @@ export const graphData = {
         },
         {
           "id": 1059,
-          "dist": 3.099
+          "dist": 3.358
         },
         {
           "id": 1060,
@@ -85755,6 +85823,161 @@ export const graphData = {
         }
       ],
       "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3025,
+      "name": "POIs.3228",
+      "x": -130.977,
+      "y": 6.97,
+      "z": -143.072,
+      "neighbors": [
+        {
+          "id": 1057,
+          "dist": 3.729
+        },
+        {
+          "id": 1058,
+          "dist": 2.23
+        },
+        {
+          "id": 1059,
+          "dist": 1.306
+        },
+        {
+          "id": 1060,
+          "dist": 1.908
+        },
+        {
+          "id": 1061,
+          "dist": 3.571
+        },
+        {
+          "id": 1180,
+          "dist": 2.346
+        },
+        {
+          "id": 1181,
+          "dist": 3.416
+        },
+        {
+          "id": 3026,
+          "dist": 1.55
+        },
+        {
+          "id": 3027,
+          "dist": 3.329
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3026,
+      "name": "POIs.3229",
+      "x": -130.869,
+      "y": 6.97,
+      "z": -144.618,
+      "neighbors": [
+        {
+          "id": 1058,
+          "dist": 3.623
+        },
+        {
+          "id": 1059,
+          "dist": 2.855
+        },
+        {
+          "id": 1060,
+          "dist": 2.748
+        },
+        {
+          "id": 1061,
+          "dist": 3.646
+        },
+        {
+          "id": 1180,
+          "dist": 3.87
+        },
+        {
+          "id": 3025,
+          "dist": 1.55
+        },
+        {
+          "id": 3027,
+          "dist": 1.78
+        },
+        {
+          "id": 3028,
+          "dist": 3.848
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3027,
+      "name": "POIs.3230",
+      "x": -130.652,
+      "y": 6.97,
+      "z": -146.385,
+      "neighbors": [
+        {
+          "id": 3025,
+          "dist": 3.329
+        },
+        {
+          "id": 3026,
+          "dist": 1.78
+        },
+        {
+          "id": 3028,
+          "dist": 2.076
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3028,
+      "name": "POIs.3231",
+      "x": -130.663,
+      "y": 6.97,
+      "z": -148.461,
+      "neighbors": [
+        {
+          "id": 1077,
+          "dist": 3.624
+        },
+        {
+          "id": 3026,
+          "dist": 3.848
+        },
+        {
+          "id": 3027,
+          "dist": 2.076
+        }
+      ],
+      "isBifurcation": true,
+      "isReachable": true
+    },
+    {
+      "id": 3029,
+      "name": "POIs.3232",
+      "x": -130.385,
+      "y": 7.359,
+      "z": -101.007,
+      "neighbors": [
+        {
+          "id": 1032,
+          "dist": 2.926
+        },
+        {
+          "id": 1033,
+          "dist": 1.079
+        }
+      ],
+      "isBifurcation": false,
       "isReachable": true
     }
   ]

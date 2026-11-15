@@ -286,6 +286,8 @@ export class POILibraryService {
       place.displayName = item.displayName || place.displayName;
       if (item.categoria) place.category = item.categoria;
       if (item.bloque) place.building = item.bloque;
+      if (item.nearestNodeId !== undefined) place.nearestNodeId = item.nearestNodeId;
+      if (item.piso) place.floor = item.piso;
       list.push(place);
     }
     this.places = list;
