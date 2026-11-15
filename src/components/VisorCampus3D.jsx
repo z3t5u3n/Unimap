@@ -499,6 +499,9 @@ export default function VisorCampus3D({
 
     let lastReportedNodeName = '';
     const lastCamPosChecked = new THREE.Vector3(-9999, -9999, -9999);
+    const _scratchCamFwd = new THREE.Vector3();
+    const _scratchArrowTargetPos = new THREE.Vector3();
+    let lastArrowYaw = -999;
 
     // Actualiza hacia qué POI vecino debe posicionarse la flecha según hacia dónde mira la cámara
     const actualizarSiguienteNodoFlecha = (immediate = false) => {
@@ -527,7 +530,7 @@ export default function VisorCampus3D({
 
       // Vector de dirección horizontal hacia donde mira la cámara
       const rad = THREE.MathUtils.degToRad(currentYaw);
-      const camFwd = new THREE.Vector3(Math.sin(rad), 0, Math.cos(rad)).normalize();
+      _scratchCamFwd.set(Math.sin(rad), 0, Math.cos(rad)).normalize();
 
       let bestDot = -999;
       let bestNeighbor = null;
@@ -550,7 +553,7 @@ export default function VisorCampus3D({
             closestNeighbor = neighbor;
           }
 
-          const dot = (camFwd.x * (dx / dist)) + (camFwd.z * (dz / dist));
+          const dot = (_scratchCamFwd.x * (dx / dist)) + (_scratchCamFwd.z * (dz / dist));
           if (dot > bestDot) {
             bestDot = dot;
             bestNeighbor = neighbor;
@@ -570,12 +573,12 @@ export default function VisorCampus3D({
 
       currentArrowNodeId = chosen.id;
 
-      const targetPos = new THREE.Vector3(chosen.x, chosen.y + arrowYOffset, chosen.z);
+      _scratchArrowTargetPos.set(chosen.x, chosen.y + arrowYOffset, chosen.z);
 
-      if (immediate || arrowGroup.position.distanceTo(targetPos) > 4.5) {
-        arrowGroup.position.copy(targetPos);
+      if (immediate || arrowGroup.position.distanceTo(_scratchArrowTargetPos) > 4.5) {
+        arrowGroup.position.copy(_scratchArrowTargetPos);
       } else {
-        arrowGroup.position.lerp(targetPos, 0.22);
+        arrowGroup.position.lerp(_scratchArrowTargetPos, 0.22);
       }
 
       const dirX = chosen.x - camPos.x;
@@ -714,6 +717,9 @@ export default function VisorCampus3D({
     dom.style.cursor = 'grab';
     dom.style.touchAction = 'none';
 
+    const _scratchLookDir = new THREE.Vector3();
+    const _scratchLookTarget = new THREE.Vector3();
+
     const actualizarOrientacionCamara = (delta) => {
       // Amortiguación inercial ultra-fluida y reactiva: instantánea al arrastrar (36.0) y suave al soltar (22.0)
       const smoothDamping = isPointerDown ? 36.0 : 22.0;
@@ -728,21 +734,23 @@ export default function VisorCampus3D({
       const diffPitch = targetPitch - currentPitch;
       currentPitch += diffPitch * t;
 
-      // Amortiguación suave del campo de visión (FOV zoom)
-      camera.fov += (targetFOV - camera.fov) * t;
-      camera.updateProjectionMatrix();
+      // Amortiguación suave del campo de visión (FOV zoom) solo si está cambiando
+      if (Math.abs(targetFOV - camera.fov) > 0.01) {
+        camera.fov += (targetFOV - camera.fov) * t;
+        camera.updateProjectionMatrix();
+      }
 
       const phi = THREE.MathUtils.degToRad(90 - currentPitch);
       const theta = THREE.MathUtils.degToRad(currentYaw);
 
-      const lookDir = new THREE.Vector3(
+      _scratchLookDir.set(
         Math.sin(phi) * Math.sin(theta),
         Math.cos(phi),
         Math.sin(phi) * Math.cos(theta)
       );
 
-      const lookTarget = new THREE.Vector3().copy(camera.position).add(lookDir);
-      camera.lookAt(lookTarget);
+      _scratchLookTarget.copy(camera.position).add(_scratchLookDir);
+      camera.lookAt(_scratchLookTarget);
     };
 
     // ==============================================================
@@ -753,6 +761,10 @@ export default function VisorCampus3D({
     const CAMERA_COLLISION_RADIUS = 0.35; // Distancia mínima de seguridad a los muros en metros
     const prevCameraPos = new THREE.Vector3();
     const queryBox = new THREE.Box3();
+    const _scratchMoveVec = new THREE.Vector3();
+    const _scratchMoveDir = new THREE.Vector3();
+    const _scratchOrigin = new THREE.Vector3();
+    const _nearbyMeshes = [];
     const collisionProbeDirs = [
       new THREE.Vector3(1, 0, 0),
       new THREE.Vector3(-1, 0, 0),
@@ -794,25 +806,25 @@ export default function VisorCampus3D({
       queryBox.min.set(targetPos.x - 3.5, targetPos.y - 1.5, targetPos.z - 3.5);
       queryBox.max.set(targetPos.x + 3.5, targetPos.y + 1.5, targetPos.z + 3.5);
 
-      const nearbyMeshes = [];
+      _nearbyMeshes.length = 0;
       for (let i = 0; i < wallColliders.length; i++) {
         if (wallColliders[i].aabb.intersectsBox(queryBox)) {
-          nearbyMeshes.push(wallColliders[i].mesh);
+          _nearbyMeshes.push(wallColliders[i].mesh);
         }
       }
 
-      if (nearbyMeshes.length === 0) return targetPos;
+      if (_nearbyMeshes.length === 0) return targetPos;
 
       // 1. Raycast de trayectoria entre prevPos y targetPos para evitar tunneling (traspasar muros a alta velocidad)
       if (prevPos) {
-        const moveVec = new THREE.Vector3().subVectors(targetPos, prevPos);
-        const moveDist = moveVec.length();
+        _scratchMoveVec.subVectors(targetPos, prevPos);
+        const moveDist = _scratchMoveVec.length();
         if (moveDist > 0.001) {
-          const moveDir = moveVec.clone().normalize();
-          collisionRaycaster.set(prevPos, moveDir);
+          _scratchMoveDir.copy(_scratchMoveVec).normalize();
+          collisionRaycaster.set(prevPos, _scratchMoveDir);
           collisionRaycaster.near = 0.01;
           collisionRaycaster.far = moveDist + CAMERA_COLLISION_RADIUS;
-          const hits = collisionRaycaster.intersectObjects(nearbyMeshes, false);
+          const hits = collisionRaycaster.intersectObjects(_nearbyMeshes, false);
           if (hits.length > 0) {
             const hit = hits[0];
             if (hit.distance < moveDist + CAMERA_COLLISION_RADIUS && hit.face) {
@@ -823,13 +835,13 @@ export default function VisorCampus3D({
       }
 
       // 2. Sondas radiales de proximidad para empujar la cámara si queda a menos de CAMERA_COLLISION_RADIUS
-      const origin = new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z);
+      _scratchOrigin.set(targetPos.x, targetPos.y, targetPos.z);
       for (let i = 0; i < collisionProbeDirs.length; i++) {
         const dir = collisionProbeDirs[i];
-        collisionRaycaster.set(origin, dir);
+        collisionRaycaster.set(_scratchOrigin, dir);
         collisionRaycaster.near = 0.01;
         collisionRaycaster.far = CAMERA_COLLISION_RADIUS;
-        const hits = collisionRaycaster.intersectObjects(nearbyMeshes, false);
+        const hits = collisionRaycaster.intersectObjects(_nearbyMeshes, false);
         if (hits.length > 0) {
           const hit = hits[0];
           const overlap = CAMERA_COLLISION_RADIUS - hit.distance;
@@ -1307,8 +1319,8 @@ export default function VisorCampus3D({
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = esMovil ? 450 : 900;
-    const d = esMovil ? 110 : 160;
+    sunLight.shadow.camera.far = esMovil ? 250 : 380;
+    const d = esMovil ? 85 : 125;
     sunLight.shadow.camera.left = -d;
     sunLight.shadow.camera.right = d;
     sunLight.shadow.camera.top = d;
@@ -1654,7 +1666,7 @@ export default function VisorCampus3D({
                 meshList.length
               );
               instancedMesh.name = `Instanced_${firstMesh.name || 'Veg'}_x${meshList.length}`;
-              instancedMesh.castShadow = true;
+              instancedMesh.castShadow = !esMovil;
               instancedMesh.receiveShadow = true;
               instancedMesh.frustumCulled = true;
 
@@ -1778,6 +1790,11 @@ export default function VisorCampus3D({
     // 10. BUCLE DE ANIMACIÓN Y NAVEGACIÓN CINEMÁTICA
     let animationFrameId;
     let lastReportedPct = -1;
+    const _scratchStepPos = new THREE.Vector3();
+    const _scratchForwardDir = new THREE.Vector3();
+    const _scratchFinalPos = new THREE.Vector3();
+    const _zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
+
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
@@ -1789,9 +1806,9 @@ export default function VisorCampus3D({
         const t = Math.min(1.0, elapsed / stepDuration);
         const smoothT = t * t * (3 - 2 * t); // SmoothStep
 
-        const nextPos = new THREE.Vector3().lerpVectors(stepStartPos, stepTargetPos, smoothT);
-        resolverColisionCamara(nextPos, stepStartPos);
-        camera.position.copy(nextPos);
+        _scratchStepPos.lerpVectors(stepStartPos, stepTargetPos, smoothT);
+        resolverColisionCamara(_scratchStepPos, stepStartPos);
+        camera.position.copy(_scratchStepPos);
 
         let diffYaw = (stepTargetYaw - stepStartYaw) % 360;
         if (diffYaw > 180) diffYaw -= 360;
@@ -1799,9 +1816,9 @@ export default function VisorCampus3D({
         targetYaw = stepStartYaw + diffYaw * smoothT;
 
         if (t >= 1.0) {
-          const finalStepPos = stepTargetPos.clone();
-          resolverColisionCamara(finalStepPos, stepStartPos);
-          camera.position.copy(finalStepPos);
+          _scratchStepPos.copy(stepTargetPos);
+          resolverColisionCamara(_scratchStepPos, stepStartPos);
+          camera.position.copy(_scratchStepPos);
           currentYaw = stepTargetYaw;
           targetYaw = stepTargetYaw;
           isStepping = false;
@@ -1814,8 +1831,11 @@ export default function VisorCampus3D({
           actualizarSiguienteNodoFlecha(true);
         }
       } else if (!isNavigating) {
-        // En reposo manual: mantener la flecha alineada según hacia dónde mira la cámara
-        actualizarSiguienteNodoFlecha(false);
+        // En reposo manual: mantener la flecha alineada solo cuando la cámara gira o se desplaza
+        if (Math.abs(currentYaw - lastArrowYaw) > 0.15 || lastCamPosChecked.distanceToSquared(camera.position) > 0.04) {
+          lastArrowYaw = currentYaw;
+          actualizarSiguienteNodoFlecha(false);
+        }
       }
 
       // Animación flotante bobbing de la flecha 3D
@@ -1873,11 +1893,11 @@ export default function VisorCampus3D({
         const lookAheadDist = Math.min(clampedDist + lookAheadDistance, totalPathLength);
         const lookTarget = poiGraphService.getPointOnPath(activePath, lookAheadDist);
 
-        const forwardDir = new THREE.Vector3().subVectors(lookTarget, currentPos);
-        forwardDir.y = 0; // Horizonte nivelado sin cabeceos verticales
+        _scratchForwardDir.subVectors(lookTarget, currentPos);
+        _scratchForwardDir.y = 0; // Horizonte nivelado sin cabeceos verticales
 
-        if (forwardDir.lengthSq() > 0.001) {
-          targetYaw = Math.atan2(forwardDir.x, forwardDir.z) * (180 / Math.PI);
+        if (_scratchForwardDir.lengthSq() > 0.001) {
+          targetYaw = Math.atan2(_scratchForwardDir.x, _scratchForwardDir.z) * (180 / Math.PI);
           targetPitch = 0;
         }
 
@@ -1894,9 +1914,9 @@ export default function VisorCampus3D({
           setProgresoRecorrido(100);
 
           // La cámara permanece en el POI más cercano sobre el camino exterior
-          const finalPos = activePath[activePath.length - 1].clone();
-          resolverColisionCamara(finalPos, prevCameraPos);
-          camera.position.set(finalPos.x, finalPos.y, finalPos.z);
+          _scratchFinalPos.copy(activePath[activePath.length - 1]);
+          resolverColisionCamara(_scratchFinalPos, prevCameraPos);
+          camera.position.set(_scratchFinalPos.x, _scratchFinalPos.y, _scratchFinalPos.z);
 
           // Secuencia de llegada idéntica a Unity ArrivalSequence():
           // Rotación suave con Mathf.SmoothStep durante 1.0s para encarar el Empty / Lugar
@@ -2014,8 +2034,7 @@ export default function VisorCampus3D({
         const camPos = camera.position;
         if (camPos.distanceToSquared(lastCullCamPos) >= 9.0) {
           lastCullCamPos.copy(camPos);
-          const maxTreeDistSq = esMovil ? (170 * 170) : (220 * 220);
-          const zeroMat = new THREE.Matrix4().makeScale(0, 0, 0);
+          const maxTreeDistSq = esMovil ? (140 * 140) : (220 * 220);
 
           for (let g = 0; g < instancedMeshesData.length; g++) {
             const data = instancedMeshesData[g];
@@ -2028,7 +2047,7 @@ export default function VisorCampus3D({
               const isVisible = dSq <= maxTreeDistSq ? 1 : 0;
               if (data.visibleStates[i] !== isVisible) {
                 data.visibleStates[i] = isVisible;
-                data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : zeroMat);
+                data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : _zeroMatrix);
                 needsUpdate = true;
               }
             }
