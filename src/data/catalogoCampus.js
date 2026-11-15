@@ -1,5 +1,5 @@
 // Catálogo Oficial de Edificios y Lugares Recorribles del Campus ITFIP
-// Pre-calculado con los 125 Empties del modelo Unimap.blend para cero costo en runtime
+// Pre-calculado con los 123 Empties del modelo Unimap.blend para cero costo en runtime
 
 export const EDIFICIOS_PRINCIPALES = [
   {
@@ -132,30 +132,6 @@ export const LUGARES_RECORRIBLES = [
     "y": 7.25,
     "z": -153.32,
     "nearestNodeId": 1087
-  },
-  {
-    "id": "empty_c_p3_c_p3",
-    "meshName": "Empty--C_P3-C p3",
-    "displayName": "-C_P3-C p3",
-    "categoria": "General",
-    "bloque": "Bloque C",
-    "piso": "Piso 3",
-    "x": -153.84,
-    "y": 12.25,
-    "z": -154.56,
-    "nearestNodeId": 1090
-  },
-  {
-    "id": "empty_c_p3_c_p3",
-    "meshName": "Empty--C_P3.-C p3",
-    "displayName": "-C_P3.-C p3",
-    "categoria": "General",
-    "bloque": "Bloque C",
-    "piso": "Piso 3",
-    "x": -113.88,
-    "y": 12.25,
-    "z": -150.5,
-    "nearestNodeId": 1179
   },
   {
     "id": "empty_a_aux_a_p2",

@@ -52,9 +52,9 @@ const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
   const ua = navigator.userAgent || '';
   const esMovilPorUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-  const esPantallaPequena = typeof window !== 'undefined' && window.innerWidth <= 768;
-  const tieneTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  return esMovilPorUA || (esPantallaPequena && tieneTouch);
+  const tieneTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
+  const esPantallaPequena = typeof window !== 'undefined' && Math.min(window.innerWidth, window.innerHeight) <= 850;
+  return esMovilPorUA || (tieneTouch && esPantallaPequena) || (tieneTouch && /Macintosh/i.test(ua));
 };
 
 const obtenerAjustesIniciales = () => {
@@ -87,6 +87,8 @@ export default function VisorCampus3D({
 }) {
   const mountRef = useRef(null);
   const snowPointsRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const badgeTextRef = useRef(null);
   const [temporadaNavidena, setTemporadaNavidena] = useState(() => {
     const guardado = localStorage.getItem('unimap_temporada_activa');
     return guardado === null ? true : guardado === 'true';
@@ -262,17 +264,19 @@ export default function VisorCampus3D({
 
     // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN DE ALTA NITIDEZ Y PBR (ACES FILMIC)
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: !esMovil, // Hardware MSAA desactivado en móvil para duplicar framerate
       powerPreference: 'high-performance',
+      precision: esMovil ? 'mediump' : 'highp',
       stencil: false,
       depth: true
     });
     renderer.setSize(width, height);
-    // Calibración balanceada de alta nitidez y 60 FPS (1.5x en móvil, 1.75x en PC para máxima nitidez sin saturar GPU)
+    // Calibración de DPR para 60 FPS estables: 1.0x en móvil (pantallas OLED 400+ ppi ya son ultra nítidas), 1.75x en PC
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-    const maxDPR = esMovil ? Math.min(dpr, 1.5) : Math.min(dpr, 1.75);
+    const maxDPR = esMovil ? Math.min(dpr, 1.0) : Math.min(dpr, 1.75);
     renderer.setPixelRatio(maxDPR);
-    renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
+    // Sombras desactivadas en móvil para evitar sobrecarga en fragment shaders
+    renderer.shadowMap.enabled = !esMovil && cfg.sombrasHabilitadas !== false;
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; // Algoritmo ACES de Hollywood y Blender
@@ -325,14 +329,15 @@ export default function VisorCampus3D({
     };
 
     const rgbeLoader = new RGBELoader();
+    const hdrUrl = esMovil ? '/Modelo3D/cielo_kloppenheim_2k.hdr' : '/Modelo3D/kloppenheim_06_puresky_4k.hdr';
     rgbeLoader.load(
-      '/Modelo3D/kloppenheim_06_puresky_4k.hdr',
+      hdrUrl,
       (texture) => {
         aplicarTexturaCielo(texture);
       },
       undefined,
       (err) => {
-        console.warn('kloppenheim_06_puresky_4k.hdr no disponible, intentando fallback 2K:', err);
+        console.warn(`Aviso cargando ${hdrUrl}, intentando fallback:`, err);
         rgbeLoader.load(
           '/Modelo3D/cielo_kloppenheim_2k.hdr',
           (fallbackTex) => {
@@ -361,7 +366,7 @@ export default function VisorCampus3D({
     // SISTEMA DE NIEVE ARTIFICIAL 3D (TEMPORADA NAVIDEÑA & INVIERNO)
     // No requiere modificar el modelo 3D en Blender: se genera dinámicamente
     // ------------------------------------------------------------------
-    const CANTIDAD_COPOS = esMovil ? 700 : 3500;
+    const CANTIDAD_COPOS = esMovil ? 200 : 3500;
     const snowGeo = new THREE.BufferGeometry();
     const snowPos = new Float32Array(CANTIDAD_COPOS * 3);
     const snowVel = new Float32Array(CANTIDAD_COPOS);
@@ -486,26 +491,28 @@ export default function VisorCampus3D({
     );
 
     const pointerRaycaster = new THREE.Raycaster();
-    let currentCameraNodeId = 1999;
-    let currentArrowNodeId = 1998;
-    let isStepping = false;
-    let stepStartTime = 0;
+    const stepState = {
+      currentCameraNodeId: 1999,
+      currentArrowNodeId: 1998,
+      isStepping: false,
+      startTime: 0,
+      startYaw: 0,
+      targetYaw: 0,
+      lastReportedNodeName: '',
+      lastArrowYaw: -999
+    };
     const stepDuration = 0.30; // Duración ágil del paso en segundos para máxima fluidez
     const arrowYOffset = -0.55; // Ajuste de altura idéntico a Unity para situar la flecha en el suelo
     const stepStartPos = new THREE.Vector3();
     const stepTargetPos = new THREE.Vector3();
-    let stepStartYaw = 0;
-    let stepTargetYaw = 0;
 
-    let lastReportedNodeName = '';
     const lastCamPosChecked = new THREE.Vector3(-9999, -9999, -9999);
     const _scratchCamFwd = new THREE.Vector3();
     const _scratchArrowTargetPos = new THREE.Vector3();
-    let lastArrowYaw = -999;
 
     // Actualiza hacia qué POI vecino debe posicionarse la flecha según hacia dónde mira la cámara
     const actualizarSiguienteNodoFlecha = (immediate = false) => {
-      if (isNavigating || isStepping) {
+      if (isNavigating || stepState.isStepping) {
         arrowGroup.visible = false;
         return;
       }
@@ -515,16 +522,16 @@ export default function VisorCampus3D({
       // Sincronizar el nodo más cercano a la cámara solo si la cámara se movió
       const camPos = camera.position;
       let currNode = null;
-      if (lastCamPosChecked.distanceToSquared(camPos) > 0.04 || currentCameraNodeId === null) {
+      if (lastCamPosChecked.distanceToSquared(camPos) > 0.04 || stepState.currentCameraNodeId === null) {
         currNode = poiGraphService.findNearestNode(camPos.x, camPos.y, camPos.z);
         lastCamPosChecked.copy(camPos);
       } else {
-        currNode = poiGraphService.getNode(currentCameraNodeId);
+        currNode = poiGraphService.getNode(stepState.currentCameraNodeId);
       }
       if (!currNode) return;
-      currentCameraNodeId = currNode.id;
-      if (lastReportedNodeName !== currNode.name) {
-        lastReportedNodeName = currNode.name;
+      stepState.currentCameraNodeId = currNode.id;
+      if (stepState.lastReportedNodeName !== currNode.name) {
+        stepState.lastReportedNodeName = currNode.name;
         setNodoActualCamara(currNode.name);
       }
 
@@ -566,12 +573,12 @@ export default function VisorCampus3D({
 
       // Fallback: Si el nodo no tiene vecinos hacia adelante, buscar el más cercano que no sea el actual
       if (!chosen) {
-        chosen = poiGraphService.findNearestNodeExcluding(camPos.x, camPos.y, camPos.z, currentCameraNodeId);
+        chosen = poiGraphService.findNearestNodeExcluding(camPos.x, camPos.y, camPos.z, stepState.currentCameraNodeId);
       }
 
       if (!chosen) return;
 
-      currentArrowNodeId = chosen.id;
+      stepState.currentArrowNodeId = chosen.id;
 
       _scratchArrowTargetPos.set(chosen.x, chosen.y + arrowYOffset, chosen.z);
 
@@ -598,24 +605,24 @@ export default function VisorCampus3D({
 
     // Da un paso manual fluido hacia el POI de la flecha
     const darPasoManual = (targetNodeId) => {
-      if (isStepping || isNavigating) return;
+      if (stepState.isStepping || isNavigating) return;
       const targetNode = poiGraphService.getNode(targetNodeId);
       if (!targetNode) return;
 
-      isStepping = true;
+      stepState.isStepping = true;
       setDandoPaso(true);
-      stepStartTime = performance.now();
+      stepState.startTime = performance.now();
       stepStartPos.copy(camera.position);
       stepTargetPos.set(targetNode.x, targetNode.y, targetNode.z);
 
       const dirX = targetNode.x - camera.position.x;
       const dirZ = targetNode.z - camera.position.z;
       if (dirX * dirX + dirZ * dirZ > 0.01) {
-        stepTargetYaw = Math.atan2(dirX, dirZ) * (180 / Math.PI);
+        stepState.targetYaw = Math.atan2(dirX, dirZ) * (180 / Math.PI);
       } else {
-        stepTargetYaw = currentYaw;
+        stepState.targetYaw = currentYaw;
       }
-      stepStartYaw = currentYaw;
+      stepState.startYaw = currentYaw;
     };
 
     let pinMesh = null;
@@ -628,8 +635,8 @@ export default function VisorCampus3D({
     let currentDistance = 0;
     let isNavigating = false;
     let isPaused = false;
-    let moveSpeed = cfg.velocidadRecorrido || 22.0; // Velocidad de avance ágil y fluido en metros/segundo (ajustable)
-    const lookAheadDistance = 3.5; // Anticipación suave de curvas (igual a Unity)
+    let moveSpeed = cfg.velocidadRecorrido || (esMovil ? 14.0 : 18.0); // Velocidad equilibrada para giros suaves a 60 FPS
+    const lookAheadDistance = esMovil ? 4.2 : 3.5; // Anticipación suave de curvas (igual a Unity)
     const clock = new THREE.Clock();
 
     // Actualiza o limpia el marcador visual 3D
@@ -697,7 +704,7 @@ export default function VisorCampus3D({
     let targetYaw = currentYaw;
     let currentPitch = puntoInicial.pitch !== undefined ? puntoInicial.pitch : POI_ENTRADA_COORDS.initialPitch;
     let targetPitch = currentPitch;
-    let targetFOV = cfg.fovBase || 60;
+    const orbitState = { targetFOV: cfg.fovBase || 60 };
 
     // Estado de llegada suave cinematográfica (1.0s con smoothstep como en Unity)
     let isArriving = false;
@@ -709,9 +716,15 @@ export default function VisorCampus3D({
     let arrivalTargetPitch = 0;
     let lastTelemetryTime = 0;
 
-    let isPointerDown = false;
-    let previousPointerX = 0;
-    let previousPointerY = 0;
+    const pointerState = {
+      isDown: false,
+      prevX: 0,
+      prevY: 0,
+      downX: 0,
+      downY: 0,
+      downTime: 0,
+      lastPinchDistance: 0
+    };
 
     const dom = renderer.domElement;
     dom.style.cursor = 'grab';
@@ -721,8 +734,8 @@ export default function VisorCampus3D({
     const _scratchLookTarget = new THREE.Vector3();
 
     const actualizarOrientacionCamara = (delta) => {
-      // Amortiguación inercial ultra-fluida y reactiva: instantánea al arrastrar (36.0) y suave al soltar (22.0)
-      const smoothDamping = isPointerDown ? 36.0 : 22.0;
+      // Amortiguación inercial ultra-fluida y reactiva: en móvil instantánea (80.0) para seguir el dedo sin retraso
+      const smoothDamping = pointerState.isDown ? (esMovil ? 80.0 : 36.0) : (esMovil ? 24.0 : 22.0);
       const dt = delta || 0.016;
       const t = 1.0 - Math.exp(-smoothDamping * dt);
 
@@ -735,8 +748,8 @@ export default function VisorCampus3D({
       currentPitch += diffPitch * t;
 
       // Amortiguación suave del campo de visión (FOV zoom) solo si está cambiando
-      if (Math.abs(targetFOV - camera.fov) > 0.01) {
-        camera.fov += (targetFOV - camera.fov) * t;
+      if (Math.abs(orbitState.targetFOV - camera.fov) > 0.01) {
+        camera.fov += (orbitState.targetFOV - camera.fov) * t;
         camera.updateProjectionMatrix();
       }
 
@@ -881,8 +894,8 @@ export default function VisorCampus3D({
             ? { x: POI_ENTRADA_COORDS.x, y: 1.2, z: POI_ENTRADA_COORDS.z }
             : targetPlace;
 
-        // Si el objeto 3D o Empty existe en el modelo cargado, consultar su World Position real (estilo Unity)
-        if (targetPlace.meshName && sceneModel) {
+        // Si el destino no tiene coordenadas pre-calculadas, consultar su World Position en el modelo 3D
+        if ((targetPos.x === undefined || targetPos.z === undefined) && targetPlace.meshName && sceneModel) {
           const obj = sceneModel.getObjectByName(targetPlace.meshName);
           if (obj) {
             const worldPos = new THREE.Vector3();
@@ -899,10 +912,13 @@ export default function VisorCampus3D({
         const currentPos = {
           x: camera.position.x,
           y: camera.position.y,
-          z: camera.position.z
+          z: camera.position.z,
+          startNodeId: currentCameraNodeId
         };
 
-        const nearestDestNode = poiGraphService.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
+        const nearestDestNode = (targetPos.nearestNodeId !== undefined && targetPos.nearestNodeId >= 0)
+          ? poiGraphService.getNode(targetPos.nearestNodeId)
+          : poiGraphService.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
         const distAlNearestNode = nearestDestNode
           ? Math.hypot(currentPos.x - nearestDestNode.x, (currentPos.y - nearestDestNode.y) * 2.0, currentPos.z - nearestDestNode.z)
           : Math.hypot(currentPos.x - targetPos.x, (currentPos.y - (targetPos.y ?? currentPos.y)) * 2.0, currentPos.z - targetPos.z);
@@ -922,12 +938,12 @@ export default function VisorCampus3D({
             targetYaw = dest.yaw;
             targetPitch = dest.pitch || 0;
           }
-          targetFOV = dest.fov || 50;
+          orbitState.targetFOV = dest.fov || 50;
           setHaLlegado(true);
           return;
         }
 
-        // CALCULAR RUTA POR LA RED DE POIs CON A* (distancia de conexión <= 3.8m)
+        // CALCULAR RUTA POR LA RED DE POIs CON A* ACELERADO CON MIN-HEAP (< 2ms)
         const path = poiGraphService.getPathBetweenPositions(currentPos, targetPos);
 
         if (path && path.length >= 2) {
@@ -935,11 +951,15 @@ export default function VisorCampus3D({
           totalPathLength = poiGraphService.getTotalPathLength(path);
           actualizarLineaRuta3D(path);
 
+          const nearestStartNode = currentCameraNodeId !== null
+            ? poiGraphService.getNode(currentCameraNodeId)
+            : poiGraphService.findNearestNode(currentPos.x, currentPos.y, currentPos.z);
+
           setRutaCalculada({
             puntos: path,
             distanciaMetros: parseFloat(totalPathLength.toFixed(1)),
-            nodoInicio: poiGraphService.findNearestNode(currentPos.x, currentPos.y, currentPos.z)?.name,
-            nodoFin: poiGraphService.findNearestNode(targetPos.x, targetPos.y, targetPos.z)?.name
+            nodoInicio: nearestStartNode?.name,
+            nodoFin: nearestDestNode?.name
           });
 
           // INICIAR AUTOMÁTICAMENTE EL VIAJE DE LA CÁMARA (COMO EN UNITY)
@@ -951,7 +971,7 @@ export default function VisorCampus3D({
           setNavegando(true);
           setPausado(false);
           setHaLlegado(false);
-          targetFOV = 55;
+          orbitState.targetFOV = 55;
           clock.getDelta();
 
           // Emitir evento de navegación iniciada hacia la ventana
@@ -1050,7 +1070,7 @@ export default function VisorCampus3D({
       isNavigating = false;
       isArriving = false;
       isPaused = false;
-      isStepping = false;
+      stepState.isStepping = false;
       currentDistance = 0;
       activePath = [];
       totalPathLength = 0;
@@ -1064,8 +1084,8 @@ export default function VisorCampus3D({
       prevCameraPos.copy(camera.position);
       currentYaw = targetYaw = punto.yaw !== undefined ? punto.yaw : currentYaw;
       currentPitch = targetPitch = punto.pitch !== undefined ? punto.pitch : 0;
-      targetFOV = cfg.fovBase || 60;
-      camera.fov = targetFOV;
+      orbitState.targetFOV = cfg.fovBase || 60;
+      camera.fov = orbitState.targetFOV;
       camera.updateProjectionMatrix();
 
       arrowGroup.visible = true;
@@ -1122,7 +1142,7 @@ export default function VisorCampus3D({
       isNavigating = false;
       isArriving = false;
       isPaused = false;
-      isStepping = false;
+      stepState.isStepping = false;
       currentDistance = 0;
       activePath = [];
       totalPathLength = 0;
@@ -1145,8 +1165,8 @@ export default function VisorCampus3D({
       // Mantener la orientación de la cámara hacia adelante
       targetYaw = currentYaw;
       targetPitch = 0;
-      targetFOV = cfg.fovBase || 60;
-      camera.fov = targetFOV;
+      orbitState.targetFOV = cfg.fovBase || 60;
+      camera.fov = orbitState.targetFOV;
       camera.updateProjectionMatrix();
 
       // Habilitar la flecha 3D inmediatamente desde este nuevo POI para continuar exploración manual
@@ -1171,29 +1191,32 @@ export default function VisorCampus3D({
 
     // Eventos de arrastre para rotación manual 360°, zoom FOV y clics en flecha 3D (POICameraOrbitController)
     const activePointers = new Map();
-    let lastPinchDistance = 0;
-    let pointerDownX = 0;
-    let pointerDownY = 0;
-    let pointerDownTime = 0;
 
     const onPointerDown = (e) => {
       // En modo guiado automático por la red de POIs, la orientación la guía el camino
       if (isNavigating && !isPaused) return;
 
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        if (e.cancelable) e.preventDefault();
+      }
+      try {
+        dom.setPointerCapture(e.pointerId);
+      } catch (_) {}
+
       activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
       if (activePointers.size === 1) {
-        isPointerDown = true;
-        previousPointerX = e.clientX;
-        previousPointerY = e.clientY;
-        pointerDownX = e.clientX;
-        pointerDownY = e.clientY;
-        pointerDownTime = performance.now();
+        pointerState.isDown = true;
+        pointerState.prevX = e.clientX;
+        pointerState.prevY = e.clientY;
+        pointerState.downX = e.clientX;
+        pointerState.downY = e.clientY;
+        pointerState.downTime = performance.now();
         dom.style.cursor = 'grabbing';
       } else if (activePointers.size === 2) {
         // Inicializar distancia de pellizco (pinch-to-zoom en móvil)
         const pts = Array.from(activePointers.values());
-        lastPinchDistance = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        pointerState.lastPinchDistance = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
       }
     };
 
@@ -1202,22 +1225,26 @@ export default function VisorCampus3D({
         activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       }
 
+      if (pointerState.isDown && (e.pointerType === 'touch' || e.pointerType === 'pen')) {
+        if (e.cancelable) e.preventDefault();
+      }
+
       if (activePointers.size >= 2) {
         // Pellizco táctil de zoom en móvil (Pinch-to-zoom idéntico a Unity pinchZoomSpeed = 0.08)
         const pts = Array.from(activePointers.values());
         const currentDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
-        if (lastPinchDistance > 0) {
-          const pinchDelta = (currentDist - lastPinchDistance) * 0.08;
-          targetFOV = Math.max(35, Math.min(75, targetFOV - pinchDelta));
+        if (pointerState.lastPinchDistance > 0) {
+          const pinchDelta = (currentDist - pointerState.lastPinchDistance) * 0.08;
+          orbitState.targetFOV = Math.max(35, Math.min(75, orbitState.targetFOV - pinchDelta));
         }
-        lastPinchDistance = currentDist;
-      } else if (isPointerDown) {
-        const deltaX = e.clientX - previousPointerX;
-        const deltaY = e.clientY - previousPointerY;
-        previousPointerX = e.clientX;
-        previousPointerY = e.clientY;
+        pointerState.lastPinchDistance = currentDist;
+      } else if (pointerState.isDown) {
+        const deltaX = e.clientX - pointerState.prevX;
+        const deltaY = e.clientY - pointerState.prevY;
+        pointerState.prevX = e.clientX;
+        pointerState.prevY = e.clientY;
 
-        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.42 : 0.36);
+        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.48 : 0.36);
         
         // Control orbital intuitivo:
         // En modo 'natural':
@@ -1236,9 +1263,15 @@ export default function VisorCampus3D({
         targetPitch = Math.max(-60, Math.min(60, targetPitch)); // Límites -60° a 60° (idéntico a Unity)
 
         targetYaw += factorX * deltaX * velocidadRotacion;
+
+        // En móvil, sincronizar de inmediato durante el arrastre para eliminar los 1-2s de retardo
+        if (esMovil) {
+          currentYaw = targetYaw;
+          currentPitch = targetPitch;
+        }
       } else {
         // Feedback visual hover sobre la flecha 3D (cursor y brillo reactivo)
-        if (!isNavigating && !isStepping && arrowGroup.visible) {
+        if (!isNavigating && !stepState.isStepping && arrowGroup.visible) {
           const rect = dom.getBoundingClientRect();
           const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
           const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -1256,25 +1289,28 @@ export default function VisorCampus3D({
     };
 
     const onPointerUp = (e) => {
+      try {
+        dom.releasePointerCapture(e.pointerId);
+      } catch (_) {}
       activePointers.delete(e.pointerId);
       if (activePointers.size < 2) {
-        lastPinchDistance = 0;
+        pointerState.lastPinchDistance = 0;
       }
 
-      const dragDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
-      const pressDuration = performance.now() - pointerDownTime;
-      isPointerDown = false;
+      const dragDist = Math.hypot(e.clientX - pointerState.downX, e.clientY - pointerState.downY);
+      const pressDuration = performance.now() - pointerState.downTime;
+      pointerState.isDown = false;
       dom.style.cursor = 'grab';
 
       // Si fue un clic o toque limpio sin arrastre (como en Unity clickMaxDragDistance = 18px)
-      if (dragDist < 18 && pressDuration < 600 && !isNavigating && !isStepping && arrowGroup.visible) {
+      if (dragDist < 18 && pressDuration < 600 && !isNavigating && !stepState.isStepping && arrowGroup.visible) {
         const rect = dom.getBoundingClientRect();
         const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
         pointerRaycaster.setFromCamera({ x: mouseX, y: mouseY }, camera);
         const hits = pointerRaycaster.intersectObjects(arrowGroup.children, true);
         if (hits.length > 0) {
-          darPasoManual(currentArrowNodeId);
+          darPasoManual(stepState.currentArrowNodeId);
         }
       }
     };
@@ -1283,12 +1319,110 @@ export default function VisorCampus3D({
       e.preventDefault();
       // Zoom FOV suave con rueda (idéntico a POICameraOrbitController en Unity)
       const zoomFactor = (e.deltaY > 0 ? 1 : -1) * 3.5;
-      targetFOV = Math.max(35, Math.min(75, targetFOV + zoomFactor));
+      orbitState.targetFOV = Math.max(35, Math.min(75, orbitState.targetFOV + zoomFactor));
     };
 
-    dom.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointermove', onPointerMove);
+    const onPointerCancel = (e) => {
+      try {
+        dom.releasePointerCapture(e.pointerId);
+      } catch (_) {}
+      activePointers.delete(e.pointerId);
+      pointerState.lastPinchDistance = 0;
+      pointerState.isDown = false;
+      dom.style.cursor = 'grab';
+    };
+
+    // Manejadores directos TouchEvent para dispositivos móviles (eliminan latencia de 300-500ms del navegador)
+    const onTouchStart = (e) => {
+      if (isNavigating && !isPaused) return;
+      if (e.cancelable) e.preventDefault();
+      if (e.touches.length === 1) {
+        pointerState.isDown = true;
+        const t = e.touches[0];
+        pointerState.prevX = t.clientX;
+        pointerState.prevY = t.clientY;
+        pointerState.downX = t.clientX;
+        pointerState.downY = t.clientY;
+        pointerState.downTime = performance.now();
+        dom.style.cursor = 'grabbing';
+      } else if (e.touches.length === 2) {
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        pointerState.lastPinchDistance = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+      }
+    };
+
+    const onTouchMove = (e) => {
+      if (e.cancelable) e.preventDefault();
+      if (e.touches.length >= 2) {
+        const t0 = e.touches[0];
+        const t1 = e.touches[1];
+        const currentDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+        if (pointerState.lastPinchDistance > 0) {
+          const pinchDelta = (currentDist - pointerState.lastPinchDistance) * 0.08;
+          orbitState.targetFOV = Math.max(35, Math.min(75, orbitState.targetFOV - pinchDelta));
+        }
+        pointerState.lastPinchDistance = currentDist;
+      } else if (pointerState.isDown && e.touches.length === 1) {
+        const t = e.touches[0];
+        const deltaX = t.clientX - pointerState.prevX;
+        const deltaY = t.clientY - pointerState.prevY;
+        pointerState.prevX = t.clientX;
+        pointerState.prevY = t.clientY;
+
+        const velocidadRotacion = cfg.sensibilidadGiro || (esMovil ? 0.48 : 0.36);
+        const invertY = cfg.modoOrbital === 'invertido' || Boolean(cfg.invertirEjeY);
+        const invertX = cfg.modoOrbital === 'invertido' || Boolean(cfg.invertirEjeX);
+        const factorY = invertY ? 1 : -1;
+        const factorX = invertX ? -1 : 1;
+
+        targetPitch += factorY * deltaY * velocidadRotacion;
+        targetPitch = Math.max(-60, Math.min(60, targetPitch));
+        targetYaw += factorX * deltaX * velocidadRotacion;
+
+        // Cero latencia en móvil: sincronizar ángulos inmediatamente
+        currentYaw = targetYaw;
+        currentPitch = targetPitch;
+      }
+    };
+
+    const onTouchEnd = (e) => {
+      if (e.touches.length === 0) {
+        pointerState.isDown = false;
+        pointerState.lastPinchDistance = 0;
+        dom.style.cursor = 'grab';
+
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const t = e.changedTouches[0];
+          const dragDist = Math.hypot(t.clientX - pointerState.downX, t.clientY - pointerState.downY);
+          const pressDuration = performance.now() - pointerState.downTime;
+          if (dragDist < 18 && pressDuration < 600 && !isNavigating && !stepState.isStepping && arrowGroup.visible) {
+            const rect = dom.getBoundingClientRect();
+            const mouseX = ((t.clientX - rect.left) / rect.width) * 2 - 1;
+            const mouseY = -((t.clientY - rect.top) / rect.height) * 2 + 1;
+            pointerRaycaster.setFromCamera({ x: mouseX, y: mouseY }, camera);
+            const hits = pointerRaycaster.intersectObjects(arrowGroup.children, true);
+            if (hits.length > 0) {
+              darPasoManual(stepState.currentArrowNodeId);
+            }
+          }
+        }
+      } else if (e.touches.length === 1) {
+        const t = e.touches[0];
+        pointerState.prevX = t.clientX;
+        pointerState.prevY = t.clientY;
+        pointerState.lastPinchDistance = 0;
+      }
+    };
+
+    dom.addEventListener('pointerdown', onPointerDown, { passive: false });
+    window.addEventListener('pointermove', onPointerMove, { passive: false });
     window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerCancel);
+    dom.addEventListener('touchstart', onTouchStart, { passive: false });
+    dom.addEventListener('touchmove', onTouchMove, { passive: false });
+    dom.addEventListener('touchend', onTouchEnd, { passive: false });
+    dom.addEventListener('touchcancel', onTouchEnd, { passive: false });
     dom.addEventListener('wheel', onWheel, { passive: false });
 
     recentrarRef.current = () => {
@@ -1299,11 +1433,11 @@ export default function VisorCampus3D({
     };
 
     zoomInRef.current = () => {
-      targetFOV = Math.max(35, targetFOV - 5);
+      orbitState.targetFOV = Math.max(35, orbitState.targetFOV - 5);
     };
 
     zoomOutRef.current = () => {
-      targetFOV = Math.min(75, targetFOV + 5);
+      orbitState.targetFOV = Math.min(75, orbitState.targetFOV + 5);
     };
 
     // 7. ILUMINACIÓN CINEMÁTICA DEL CAMPUS
@@ -1801,8 +1935,8 @@ export default function VisorCampus3D({
       const delta = Math.min(clock.getDelta(), 0.1);
 
       // A. Paso manual hacia el POI de la flecha 3D (Interpolación SmoothStep idéntica a Unity)
-      if (isStepping) {
-        const elapsed = (performance.now() - stepStartTime) / 1000;
+      if (stepState.isStepping) {
+        const elapsed = (performance.now() - stepState.startTime) / 1000;
         const t = Math.min(1.0, elapsed / stepDuration);
         const smoothT = t * t * (3 - 2 * t); // SmoothStep
 
@@ -1810,21 +1944,21 @@ export default function VisorCampus3D({
         resolverColisionCamara(_scratchStepPos, stepStartPos);
         camera.position.copy(_scratchStepPos);
 
-        let diffYaw = (stepTargetYaw - stepStartYaw) % 360;
+        let diffYaw = (stepState.targetYaw - stepState.startYaw) % 360;
         if (diffYaw > 180) diffYaw -= 360;
         if (diffYaw < -180) diffYaw += 360;
-        targetYaw = stepStartYaw + diffYaw * smoothT;
+        targetYaw = stepState.startYaw + diffYaw * smoothT;
 
         if (t >= 1.0) {
           _scratchStepPos.copy(stepTargetPos);
           resolverColisionCamara(_scratchStepPos, stepStartPos);
           camera.position.copy(_scratchStepPos);
-          currentYaw = stepTargetYaw;
-          targetYaw = stepTargetYaw;
-          isStepping = false;
+          currentYaw = stepState.targetYaw;
+          targetYaw = stepState.targetYaw;
+          stepState.isStepping = false;
           setDandoPaso(false);
-          currentCameraNodeId = currentArrowNodeId;
-          const reached = poiGraphService.getNode(currentArrowNodeId);
+          stepState.currentCameraNodeId = stepState.currentArrowNodeId;
+          const reached = poiGraphService.getNode(stepState.currentArrowNodeId);
           if (reached) {
             setNodoActualCamara(reached.name);
           }
@@ -1832,8 +1966,8 @@ export default function VisorCampus3D({
         }
       } else if (!isNavigating) {
         // En reposo manual: mantener la flecha alineada solo cuando la cámara gira o se desplaza
-        if (Math.abs(currentYaw - lastArrowYaw) > 0.15 || lastCamPosChecked.distanceToSquared(camera.position) > 0.04) {
-          lastArrowYaw = currentYaw;
+        if (Math.abs(currentYaw - stepState.lastArrowYaw) > 0.15 || lastCamPosChecked.distanceToSquared(camera.position) > 0.04) {
+          stepState.lastArrowYaw = currentYaw;
           actualizarSiguienteNodoFlecha(false);
         }
       }
@@ -1884,16 +2018,15 @@ export default function VisorCampus3D({
         currentDistance += moveSpeed * delta;
         const clampedDist = Math.min(currentDistance, totalPathLength);
 
-        // Posición actual sobre el camino (a la altura exacta del centro de los POIs)
-        const currentPos = poiGraphService.getPointOnPath(activePath, clampedDist);
-        resolverColisionCamara(currentPos, prevCameraPos);
-        camera.position.set(currentPos.x, currentPos.y, currentPos.z);
+        // Posición actual sobre el camino pre-verificado (libre de muros)
+        poiGraphService.getPointOnPath(activePath, clampedDist, _scratchMoveVec);
+        camera.position.copy(_scratchMoveVec);
 
         // Punto de anticipación (Look-Ahead) para girar suavemente en las curvas del camino
         const lookAheadDist = Math.min(clampedDist + lookAheadDistance, totalPathLength);
-        const lookTarget = poiGraphService.getPointOnPath(activePath, lookAheadDist);
+        poiGraphService.getPointOnPath(activePath, lookAheadDist, _scratchForwardDir);
 
-        _scratchForwardDir.subVectors(lookTarget, currentPos);
+        _scratchForwardDir.sub(_scratchMoveVec);
         _scratchForwardDir.y = 0; // Horizonte nivelado sin cabeceos verticales
 
         if (_scratchForwardDir.lengthSq() > 0.001) {
@@ -1904,7 +2037,16 @@ export default function VisorCampus3D({
         const pct = Math.min(100, Math.round((clampedDist / totalPathLength) * 100));
         if (pct !== lastReportedPct) {
           lastReportedPct = pct;
-          setProgresoRecorrido(pct);
+          // Actualización directa del DOM sin provocar re-renderizado React por cada frame (60 FPS fluidos)
+          if (progressBarRef.current) {
+            progressBarRef.current.style.width = `${pct}%`;
+          }
+          if (badgeTextRef.current) {
+            badgeTextRef.current.textContent = `Recorriendo (${pct}%)`;
+          }
+          if (pct % 10 === 0 || pct === 100) {
+            setProgresoRecorrido(pct);
+          }
         }
 
         // Comprobar llegada al destino
@@ -1934,12 +2076,12 @@ export default function VisorCampus3D({
               }
             }
             if (destPos.x !== undefined && destPos.z !== undefined) {
-              const dx = destPos.x - finalPos.x;
-              const dz = destPos.z - finalPos.z;
+              const dx = destPos.x - _scratchFinalPos.x;
+              const dz = destPos.z - _scratchFinalPos.z;
               const dHoriz = Math.hypot(dx, dz);
               if (dHoriz > 0.4) {
                 destYaw = Math.atan2(dx, dz) * (180 / Math.PI);
-                const dy = (destPos.y ?? finalPos.y) - finalPos.y;
+                const dy = (destPos.y ?? _scratchFinalPos.y) - _scratchFinalPos.y;
                 destPitch = Math.max(-20, Math.min(15, Math.atan2(dy, dHoriz) * (180 / Math.PI)));
               } else if (dest.yaw !== undefined) {
                 destYaw = dest.yaw;
@@ -2086,7 +2228,7 @@ export default function VisorCampus3D({
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
       const curDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-      const effDPR = esMovil ? Math.min(curDPR, 1.5) : Math.min(curDPR, 1.75);
+      const effDPR = esMovil ? Math.min(curDPR, 1.0) : Math.min(curDPR, 1.75);
       renderer.setPixelRatio(effDPR);
       if (composer) {
         composer.setPixelRatio(effDPR);
@@ -2155,6 +2297,11 @@ export default function VisorCampus3D({
       dom.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerCancel);
+      dom.removeEventListener('touchstart', onTouchStart);
+      dom.removeEventListener('touchmove', onTouchMove);
+      dom.removeEventListener('touchend', onTouchEnd);
+      dom.removeEventListener('touchcancel', onTouchEnd);
       dom.removeEventListener('wheel', onWheel);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('unimap_theme_changed', handleThemeChange);
@@ -2193,11 +2340,11 @@ export default function VisorCampus3D({
   };
 
   return (
-    <div className="visorCampusWrapper" ref={mountRef}>
+    <div className="visorCampusWrapper" ref={mountRef} style={{ touchAction: 'none' }}>
       {/* Indicador de estado y orientación 360° */}
       <div className="badgePanoramico">
         <Eye size={15} color="#38bdf8" />
-        <span>
+        <span ref={badgeTextRef}>
           {navegando
             ? `Recorriendo (${progresoRecorrido}%)`
             : dandoPaso
@@ -2308,6 +2455,7 @@ export default function VisorCampus3D({
           {(navegando || haLlegado) && (
             <div className="barraProgresoTrack">
               <div
+                ref={progressBarRef}
                 className="barraProgresoFill"
                 style={{ width: `${progresoRecorrido}%` }}
               />

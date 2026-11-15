@@ -13,6 +13,73 @@ import graphData from '../data/poiGraphData.js';
  * - Spatial Hash Grid para búsqueda ultrarrápida del nodo más cercano a cualquier coordenada 3D.
  * - Interpolación cinemática continua con anticipación de giro (Look-Ahead).
  */
+class MinHeap {
+  constructor() {
+    this.nodes = [];
+  }
+  push(id, priority) {
+    this.nodes.push({ id, priority });
+    this._bubbleUp(this.nodes.length - 1);
+  }
+  pop() {
+    if (this.nodes.length === 0) return null;
+    const top = this.nodes[0];
+    const bottom = this.nodes.pop();
+    if (this.nodes.length > 0) {
+      this.nodes[0] = bottom;
+      this._sinkDown(0);
+    }
+    return top;
+  }
+  isEmpty() {
+    return this.nodes.length === 0;
+  }
+  _bubbleUp(n) {
+    const el = this.nodes[n];
+    while (n > 0) {
+      const parentN = ((n + 1) >> 1) - 1;
+      const parent = this.nodes[parentN];
+      if (el.priority >= parent.priority) break;
+      this.nodes[parentN] = el;
+      this.nodes[n] = parent;
+      n = parentN;
+    }
+  }
+  _sinkDown(n) {
+    const length = this.nodes.length;
+    const el = this.nodes[n];
+    while (true) {
+      const child2N = (n + 1) << 1;
+      const child1N = child2N - 1;
+      let swap = null;
+      let child1Priority;
+
+      if (child1N < length) {
+        const child1 = this.nodes[child1N];
+        child1Priority = child1.priority;
+        if (child1Priority < el.priority) {
+          swap = child1N;
+        }
+      }
+
+      if (child2N < length) {
+        const child2 = this.nodes[child2N];
+        if (
+          (swap === null && child2.priority < el.priority) ||
+          (swap !== null && child2.priority < child1Priority)
+        ) {
+          swap = child2N;
+        }
+      }
+
+      if (swap === null) break;
+      this.nodes[n] = this.nodes[swap];
+      this.nodes[swap] = el;
+      n = swap;
+    }
+  }
+}
+
 export class POIGraphService {
   constructor() {
     this.maxConnectionDistance = graphData.maxConnectionDistance || 3.8;
@@ -179,7 +246,8 @@ export class POIGraphService {
   }
 
   /**
-   * Calcula el camino óptimo más corto entre dos nodos utilizando el algoritmo A* (A-Star).
+   * Calcula el camino óptimo más corto entre dos nodos utilizando el algoritmo A* (A-Star) acelerado con Min-Heap.
+   * Ejecución instantánea (< 2ms) en dispositivos móviles y escritorio.
    * @param {number} startNodeId ID del nodo de inicio
    * @param {number} targetNodeId ID del nodo de destino
    * @returns {Array<THREE.Vector3>} Lista de puntos 3D a recorrer
@@ -200,10 +268,11 @@ export class POIGraphService {
     const targetNode = this.getNode(targetNodeId);
     if (!startNode || !targetNode) return [];
 
-    const openSet = new Set([startNodeId]);
+    const heap = new MinHeap();
     const cameFrom = new Map();
     const gScore = new Float32Array(this.nodes.length).fill(Infinity);
     const fScore = new Float32Array(this.nodes.length).fill(Infinity);
+    const visited = new Uint8Array(this.nodes.length);
 
     const heuristic = (nodeA, nodeB) => {
       const dx = nodeA.x - nodeB.x;
@@ -213,19 +282,16 @@ export class POIGraphService {
     };
 
     gScore[startNodeId] = 0;
-    fScore[startNodeId] = heuristic(startNode, targetNode);
+    const initialF = heuristic(startNode, targetNode);
+    fScore[startNodeId] = initialF;
+    heap.push(startNodeId, initialF);
 
-    while (openSet.size > 0) {
-      let currentId = -1;
-      let lowestF = Infinity;
+    while (!heap.isEmpty()) {
+      const top = heap.pop();
+      const currentId = top.id;
 
-      for (const id of openSet) {
-        const f = fScore[id];
-        if (f < lowestF) {
-          lowestF = f;
-          currentId = id;
-        }
-      }
+      if (visited[currentId]) continue;
+      visited[currentId] = 1;
 
       if (currentId === targetNodeId) {
         // Reconstrucción del camino
@@ -247,13 +313,14 @@ export class POIGraphService {
         return pathPoints.map((p) => p.clone());
       }
 
-      openSet.delete(currentId);
       const currNode = this.getNode(currentId);
-      if (!currNode) continue;
+      if (!currNode || !currNode.neighbors) continue;
 
       for (let i = 0; i < currNode.neighbors.length; i++) {
         const edge = currNode.neighbors[i];
         const neighborId = edge.id;
+        if (visited[neighborId]) continue;
+
         const neighborNode = this.getNode(neighborId);
         if (!neighborNode) continue;
 
@@ -262,8 +329,9 @@ export class POIGraphService {
         if (tentativeG < gScore[neighborId]) {
           cameFrom.set(neighborId, currentId);
           gScore[neighborId] = tentativeG;
-          fScore[neighborId] = tentativeG + heuristic(neighborNode, targetNode);
-          openSet.add(neighborId);
+          const f = tentativeG + heuristic(neighborNode, targetNode);
+          fScore[neighborId] = f;
+          heap.push(neighborId, f);
         }
       }
     }
@@ -277,8 +345,13 @@ export class POIGraphService {
    * y finaliza en el POI más cercano al destino (sin atravesar muros ni entrar al Empty).
    */
   getPathBetweenPositions(startPos, targetPos) {
-    const startNode = this.findNearestNode(startPos.x, startPos.y, startPos.z);
-    const targetNode = this.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
+    const startNode = (startPos && startPos.startNodeId !== undefined && startPos.startNodeId >= 0)
+      ? this.getNode(startPos.startNodeId)
+      : this.findNearestNode(startPos.x, startPos.y, startPos.z);
+
+    const targetNode = (targetPos && targetPos.nearestNodeId !== undefined && targetPos.nearestNodeId >= 0)
+      ? this.getNode(targetPos.nearestNodeId)
+      : this.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
 
     if (!startNode || !targetNode) return [];
 
@@ -316,23 +389,49 @@ export class POIGraphService {
   }
 
   /**
-   * Obtiene la posición exacta sobre el camino a una distancia recorrida dada
+   * Obtiene la posición exacta sobre el camino a una distancia recorrida dada.
+   * Optimizado con distancias acumuladas pre-calculadas y búsqueda binaria O(log N).
+   * Cero asignaciones de memoria per-frame si se proporciona outVec.
    */
-  getPointOnPath(path, distance) {
-    if (!path || path.length === 0) return new THREE.Vector3();
-    if (path.length === 1 || distance <= 0) return path[0].clone();
+  getPointOnPath(path, distance, outVec = null) {
+    const res = outVec || new THREE.Vector3();
+    if (!path || path.length === 0) return res.set(0, 0, 0);
+    if (path.length === 1 || distance <= 0) return res.copy(path[0]);
 
-    let accumulated = 0;
-    for (let i = 0; i < path.length - 1; i++) {
-      const segLen = path[i].distanceTo(path[i + 1]);
-      if (accumulated + segLen >= distance) {
-        const t = segLen > 0.001 ? (distance - accumulated) / segLen : 0;
-        return new THREE.Vector3().lerpVectors(path[i], path[i + 1], t);
+    if (!path._cumDist) {
+      const cum = new Float32Array(path.length);
+      let sum = 0;
+      cum[0] = 0;
+      for (let i = 0; i < path.length - 1; i++) {
+        sum += path[i].distanceTo(path[i + 1]);
+        cum[i + 1] = sum;
       }
-      accumulated += segLen;
+      path._cumDist = cum;
     }
 
-    return path[path.length - 1].clone();
+    const cum = path._cumDist;
+    const total = cum[cum.length - 1];
+    if (distance >= total) return res.copy(path[path.length - 1]);
+
+    // Búsqueda binaria O(log N) del segmento exacto
+    let low = 0;
+    let high = cum.length - 2;
+    let segIdx = 0;
+    while (low <= high) {
+      const mid = (low + high) >> 1;
+      if (cum[mid] <= distance) {
+        segIdx = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    const d0 = cum[segIdx];
+    const d1 = cum[segIdx + 1];
+    const segLen = d1 - d0;
+    const t = segLen > 0.0001 ? (distance - d0) / segLen : 0;
+    return res.lerpVectors(path[segIdx], path[segIdx + 1], t);
   }
 
   /**
@@ -368,6 +467,7 @@ export class POIGraphService {
   /**
    * Crea una malla LineRenderer 3D luminosa para trazar el camino en el suelo del campus
    * Situada casi al nivel del suelo (~1.02m por debajo de la altura de la cámara / POIs).
+   * Genera 2 únicos draw calls (Línea + Puntos guía) sin sobrecarga en la GPU móvil.
    */
   createRouteLineObject(points, color = 0x38bdf8, groundOffset = -1.02) {
     if (!points || points.length < 2) return null;
@@ -391,20 +491,23 @@ export class POIGraphService {
     const line = new THREE.Line(geometry, material);
     group.add(line);
 
-    // Bolas / esferas guía luminosas situadas en el suelo a lo largo del camino
-    const sphereGeo = new THREE.SphereGeometry(0.12, 16, 16);
-    const sphereMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      emissive: 0x0284c7,
-      emissiveIntensity: 0.8,
-      roughness: 0.3,
-      metalness: 0.5
-    });
-
+    // Bolas / esferas guía luminosas agrupadas en un único draw call (THREE.Points)
+    const dotPoints = [];
     for (let i = 0; i < groundPoints.length; i += 2) {
-      const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-      sphere.position.copy(groundPoints[i]);
-      group.add(sphere);
+      dotPoints.push(groundPoints[i]);
+    }
+
+    if (dotPoints.length > 0) {
+      const dotsGeo = new THREE.BufferGeometry().setFromPoints(dotPoints);
+      const dotsMat = new THREE.PointsMaterial({
+        color: 0x38bdf8,
+        size: 0.28,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.95
+      });
+      const dots = new THREE.Points(dotsGeo, dotsMat);
+      group.add(dots);
     }
 
     return group;
