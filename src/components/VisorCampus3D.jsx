@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v8_camera_collision_mesh_walls';
+const SETTINGS_VERSION = 'unimap_v9_calibracion_luz_sombras_niebla';
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -132,6 +132,11 @@ export default function VisorCampus3D({
 
   const aplicarAjusteEnEscenaRef = useRef(null);
   const aplicarAjustesMasivosRef = useRef(null);
+  const ajustesGraficosRef = useRef(ajustesGraficos);
+
+  useEffect(() => {
+    ajustesGraficosRef.current = ajustesGraficos;
+  }, [ajustesGraficos]);
 
   // Referencias para invocar acciones desde la UI
   const recentrarRef = useRef(null);
@@ -212,7 +217,7 @@ export default function VisorCampus3D({
     setMostrarRedGrafos(AJUSTES_PREDETERMINADOS.mostrarGizmosGrafos);
     setAjustesGraficos(AJUSTES_PREDETERMINADOS);
     try {
-      localStorage.removeItem('unimap_graphics_settings');
+      localStorage.setItem('unimap_graphics_settings', JSON.stringify(AJUSTES_PREDETERMINADOS));
     } catch (e) {}
     if (aplicarAjustesMasivosRef.current) {
       aplicarAjustesMasivosRef.current(AJUSTES_PREDETERMINADOS);
@@ -251,7 +256,12 @@ export default function VisorCampus3D({
     // Niebla de Distancia Lineal: los objetos lejanos se desvanecen suavemente hacia el color del cielo
     // y la GPU los descarta automáticamente cuando superan la distancia de visión (Zero Overdraw).
     if (cfg.nieblaHabilitada !== false) {
-      scene.fog = new THREE.Fog(fogColorInicial, fogNear, fogFar);
+      const nearBase = esMovil ? 90 : 180;
+      const farBase = distanciaVision;
+      const dens = cfg.densidadNiebla ?? 0.0050;
+      const calcNear = Math.max(40, nearBase * (1 - (dens - 0.001) * 300));
+      const calcFar = Math.max(100, farBase * (1 - (dens - 0.001) * 200));
+      scene.fog = new THREE.Fog(fogColorInicial, calcNear, calcFar);
     } else {
       scene.fog = null;
     }
@@ -280,7 +290,7 @@ export default function VisorCampus3D({
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; // Algoritmo ACES de Hollywood y Blender
-    renderer.toneMappingExposure = cfg.exposicion || 1.05;
+    renderer.toneMappingExposure = cfg.exposicion ?? 0.40;
     currentMount.appendChild(renderer.domElement);
 
     // IBL: Entorno de reflexiones físicas PBR con PMREM (Image-Based Lighting)
@@ -301,8 +311,8 @@ export default function VisorCampus3D({
     const sunDirection = sunPos.clone().normalize();
 
     const skyUniforms = sky.material.uniforms;
-    skyUniforms['turbidity'].value = cfg.turbidezCielo || 8;
-    skyUniforms['rayleigh'].value = cfg.rayleighCielo || (esClaroInicial ? 1.2 : 3.5);
+    skyUniforms['turbidity'].value = cfg.turbidezCielo ?? 20;
+    skyUniforms['rayleigh'].value = cfg.rayleighCielo ?? 4.0;
     skyUniforms['mieCoefficient'].value = 0.005;
     skyUniforms['mieDirectionalG'].value = 0.8;
     skyUniforms['sunPosition'].value.copy(sunDirection);
@@ -312,7 +322,7 @@ export default function VisorCampus3D({
     scene.background = new THREE.Color(col);
     sky.visible = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = cfg.exposicion || 1.05;
+    renderer.toneMappingExposure = cfg.exposicion ?? 0.40;
 
     // Carga de cielo de alta definición Kloppenheim PureSky 4K (.hdr, optimizado para WebGL y Cloudflare <25MiB)
     let hdrCieloTexture = null;
@@ -1443,13 +1453,13 @@ export default function VisorCampus3D({
     // 7. ILUMINACIÓN CINEMÁTICA DEL CAMPUS
     // Luz solar directa con sombras de alta definición y bias anti-acné
     const sunLight = new THREE.DirectionalLight(
-      cfg.luzSolarColor || 0xfff6ea,
-      cfg.luzSolarIntensidad ?? 2.2
+      cfg.luzSolarColor || '#7bb3ff',
+      cfg.luzSolarIntensidad ?? 0.2
     );
     const sunOffset = sunPos.clone();
     sunLight.position.copy(sunOffset);
     sunLight.castShadow = cfg.sombrasHabilitadas !== false;
-    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 2048);
+    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 4096);
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
@@ -1468,7 +1478,7 @@ export default function VisorCampus3D({
     const hemiLight = new THREE.HemisphereLight(
       0xb1e1ff,
       0x3d4a3e,
-      cfg.luzHemisfericaIntensidad ?? 0.75
+      cfg.luzHemisfericaIntensidad ?? 0.0
     );
     hemiLight.position.set(0, 300, 0);
     scene.add(hemiLight);
@@ -1476,7 +1486,7 @@ export default function VisorCampus3D({
     // Luz ambiental suave para levantar negros
     const ambientLight = new THREE.AmbientLight(
       0xffffff,
-      cfg.luzAmbientalIntensidad ?? 0.35
+      cfg.luzAmbientalIntensidad ?? 0.0
     );
     scene.add(ambientLight);
 
@@ -1682,13 +1692,14 @@ export default function VisorCampus3D({
         scene.fog.color.set(col);
       }
       scene.background = new THREE.Color(col);
+      const curr = ajustesGraficosRef.current || cfg;
       if (sky) {
-        skyUniforms['rayleigh'].value = claro ? 1.2 : 3.5;
-        skyUniforms['turbidity'].value = claro ? 8 : 12;
+        skyUniforms['rayleigh'].value = claro ? (curr.rayleighCielo ?? 4.0) : 3.5;
+        skyUniforms['turbidity'].value = claro ? (curr.turbidezCielo ?? 20) : 12;
       }
-      sunLight.intensity = claro ? 2.2 : 0.8;
-      hemiLight.intensity = claro ? 0.75 : 0.35;
-      ambientLight.intensity = claro ? 0.35 : 0.15;
+      sunLight.intensity = claro ? (curr.luzSolarIntensidad ?? 0.2) : 0.8;
+      hemiLight.intensity = claro ? (curr.luzHemisfericaIntensidad ?? 0.0) : 0.35;
+      ambientLight.intensity = claro ? (curr.luzAmbientalIntensidad ?? 0.0) : 0.15;
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
 

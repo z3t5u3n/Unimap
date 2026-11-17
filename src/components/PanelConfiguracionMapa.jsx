@@ -19,23 +19,23 @@ import {
 
 export const AJUSTES_PREDETERMINADOS = {
   // Iluminación
-  luzSolarIntensidad: 2.2,
-  luzSolarColor: '#fff6ea',
-  luzHemisfericaIntensidad: 0.75,
-  luzAmbientalIntensidad: 0.35,
-  exposicion: 1.05,
+  luzSolarIntensidad: 0.2,
+  luzSolarColor: '#7bb3ff',
+  luzHemisfericaIntensidad: 0.0,
+  luzAmbientalIntensidad: 0.0,
+  exposicion: 0.40,
   horaDelDia: 'dia', // 'manana', 'mediodia', 'atardecer', 'noche'
 
-  // Sombras (Calibrado a 1024 y estándar para 60 FPS estables)
+  // Sombras (4096 Ultra 4K y filtrado PCF Soft activado)
   sombrasHabilitadas: true,
-  calidadSombras: 1024, // 1024, 2048, 4096
-  sombrasSuaves: false,
+  calidadSombras: 4096, // 1024, 2048, 4096
+  sombrasSuaves: true,
 
-  // Cielo y Atmósfera
-  turbidezCielo: 8,
-  rayleighCielo: 1.2,
+  // Cielo y Atmósfera (Turbidez 20, Rayleigh 4.0, Niebla On, Densidad 50.0)
+  turbidezCielo: 20,
+  rayleighCielo: 4.0,
   nieblaHabilitada: true,
-  densidadNiebla: 0.0012,
+  densidadNiebla: 0.0050,
 
   // Post-procesamiento (Desactivado por defecto para 60 FPS fluidos en celulares y laptops)
   modoUltra: false,
@@ -174,7 +174,7 @@ export default function PanelConfiguracionMapa({
 
   const esPresetActivo = (presetId) => {
     if (presetId === 'rendimiento') {
-      return !ajustes.modoUltra && !ajustes.gtaoHabilitado && !ajustes.bloomHabilitado;
+      return !ajustes.modoUltra && !ajustes.gtaoHabilitado && !ajustes.bloomHabilitado && ajustes.calidadSombras <= 1024 && !ajustes.sombrasSuaves;
     }
     if (presetId === 'ultra') {
       return Boolean(ajustes.modoUltra && (ajustes.gtaoHabilitado || ajustes.bloomHabilitado));
