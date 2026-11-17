@@ -924,3 +924,114 @@
     min-width: 100%;
   }
 }
+
+/* ==============================================================
+   GESTIÓN Y MANTENIMIENTO DE BASE DE DATOS
+   ============================================================== */
+.gridMetricasDB {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.cardMetricaDB {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cardMetricaDB:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.iconMetricaDB {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.infoMetricaDB {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoMetricaDB span {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.infoMetricaDB b {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.btnBackupTabla {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnBackupTabla:hover {
+  background: rgba(56, 189, 248, 0.22);
+}
+
+.btnTruncateTabla {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnTruncateTabla:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.btnTruncateTabla:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+.badgeCategoriaDB {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+

@@ -47,7 +47,13 @@ import {
   FileDown,
   ChevronDown,
   BarChart3,
-  PieChart
+  PieChart,
+  Database,
+  HardDrive,
+  Download,
+  AlertOctagon,
+  CheckSquare,
+  Square
 } from 'lucide-react';
 
 // Registrar componentes de Chart.js
@@ -175,6 +181,20 @@ export default function Admin() {
   const [descargandoPdf, setDescargandoPdf] = useState(false);
   const [menuPdfAbierto, setMenuPdfAbierto] = useState(false);
 
+  // 5. Estados de Gestión y Mantenimiento de Base de Datos
+  const [tablasDB, setTablasDB] = useState([]);
+  const [resumenDB, setResumenDB] = useState(null);
+  const [cargandoDB, setCargandoDB] = useState(false);
+  const [filtroTablaDB, setFiltroTablaDB] = useState('');
+  const [filtroCategoriaDB, setFiltroCategoriaDB] = useState('TODAS');
+  const [descargandoBackup, setDescargandoBackup] = useState(false);
+  const [tablasSeleccionadasBackup, setTablasSeleccionadasBackup] = useState([]);
+  const [modalFormatearTabla, setModalFormatearTabla] = useState(null);
+  const [confirmacionFormateo, setConfirmacionFormateo] = useState('');
+  const [formateandoTabla, setFormateandoTabla] = useState(false);
+  const [mensajeDB, setMensajeDB] = useState('');
+  const [errorDB, setErrorDB] = useState('');
+
   // Nombre legible de la pestaña activa
   const getNombreTab = (tab) => {
     switch (tab) {
@@ -187,6 +207,7 @@ export default function Admin() {
       case 'admin_sesiones': return 'Sesiones Admin';
       case 'notificaciones': return 'Notificaciones';
       case 'encuestas': return 'Encuestas';
+      case 'base_datos': return 'Base de Datos';
       default: return 'General';
     }
   };
@@ -242,6 +263,136 @@ export default function Admin() {
     }
     localStorage.removeItem('admin_session');
     navigate('/admin-login');
+  };
+
+  // Cargar tablas de base de datos
+  const cargarTablasBaseDatos = useCallback(async () => {
+    setCargandoDB(true);
+    setErrorDB('');
+    try {
+      const res = await axios.get(`${API_BASE_URL}/admin/database/tables`);
+      if (res.data) {
+        setTablasDB(res.data.tablas || []);
+        setResumenDB(res.data.resumen || null);
+      }
+    } catch (err) {
+      console.error('Error al cargar tablas de la base de datos:', err);
+      setErrorDB(err.response?.data?.message || 'Error al conectar con la base de datos.');
+    } finally {
+      setCargandoDB(false);
+    }
+  }, []);
+
+  // Cargar tablas al activar la pestaña de base de datos
+  useEffect(() => {
+    if (tabActiva === 'base_datos') {
+      cargarTablasBaseDatos();
+    }
+  }, [tabActiva, cargarTablasBaseDatos]);
+
+  // Descargar respaldo SQL (completo o por tablas seleccionadas)
+  const handleDescargarBackupSQL = async (tablas = null) => {
+    setDescargandoBackup(true);
+    setMensajeDB('');
+    setErrorDB('');
+    try {
+      const params = {};
+      if (tablas && tablas.length > 0) {
+        params.tables = Array.isArray(tablas) ? tablas.join(',') : tablas;
+      }
+      params.admin_username = adminSesion?.username || 'admin@Unimap';
+
+      const response = await axios.post(`${API_BASE_URL}/admin/database/backup`, params, {
+        responseType: 'blob'
+      });
+
+      let filename = 'unimap_backup_' + (tablas && !Array.isArray(tablas) ? `${tablas}_` : '') + new Date().toISOString().replace(/[:.]/g, '-') + '.sql';
+      const disposition = response.headers['content-disposition'];
+      if (disposition && disposition.indexOf('filename=') !== -1) {
+        const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
+        if (matches != null && matches[1]) {
+          filename = matches[1].replace(/['"]/g, '');
+        }
+      }
+
+      const blob = new Blob([response.data], { type: 'application/sql' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+      setMensajeDB(`✅ Respaldo SQL descargado exitosamente: ${filename}`);
+      setTimeout(() => setMensajeDB(''), 6000);
+    } catch (err) {
+      console.error('Error al descargar respaldo SQL:', err);
+      setErrorDB('No fue posible generar o descargar el respaldo SQL.');
+    } finally {
+      setDescargandoBackup(false);
+    }
+  };
+
+  // Formatear / vaciar tabla de base de datos
+  const handleFormatearTabla = async (e) => {
+    e.preventDefault();
+    if (!modalFormatearTabla) return;
+
+    if (confirmacionFormateo.trim() !== modalFormatearTabla.name) {
+      setErrorDB(`El texto ingresado '${confirmacionFormateo}' no coincide exactamente con '${modalFormatearTabla.name}'.`);
+      return;
+    }
+
+    setFormateandoTabla(true);
+    setErrorDB('');
+    try {
+      const res = await axios.post(`${API_BASE_URL}/admin/database/truncate`, {
+        table: modalFormatearTabla.name,
+        confirm_name: confirmacionFormateo.trim(),
+        admin_username: adminSesion?.username || 'admin@Unimap',
+      });
+
+      setMensajeDB(`✅ ${res.data.message || `Tabla ${modalFormatearTabla.name} formateada con éxito.`}`);
+      setModalFormatearTabla(null);
+      setConfirmacionFormateo('');
+      cargarTablasBaseDatos();
+      cargarDashboard();
+      setTimeout(() => setMensajeDB(''), 6000);
+    } catch (err) {
+      console.error('Error al formatear tabla:', err);
+      setErrorDB(err.response?.data?.message || 'Error al formatear la tabla.');
+    } finally {
+      setFormateandoTabla(false);
+    }
+  };
+
+  // Toggle selección de tabla para backup
+  const toggleSeleccionTabla = (nombreTabla) => {
+    setTablasSeleccionadasBackup((prev) =>
+      prev.includes(nombreTabla)
+        ? prev.filter((t) => t !== nombreTabla)
+        : [...prev, nombreTabla]
+    );
+  };
+
+  // Filtrado de tablas
+  const tablasFiltradasDB = useMemo(() => {
+    return tablasDB.filter((t) => {
+      const coincideNombre = !filtroTablaDB || t.name.toLowerCase().includes(filtroTablaDB.toLowerCase());
+      const coincideCat = filtroCategoriaDB === 'TODAS' || t.categoria === filtroCategoriaDB;
+      return coincideNombre && coincideCat;
+    });
+  }, [tablasDB, filtroTablaDB, filtroCategoriaDB]);
+
+  // Seleccionar o deseleccionar todas las tablas visibles
+  const seleccionarTodasTablas = () => {
+    if (tablasSeleccionadasBackup.length === tablasFiltradasDB.length) {
+      setTablasSeleccionadasBackup([]);
+    } else {
+      setTablasSeleccionadasBackup(tablasFiltradasDB.map((t) => t.name));
+    }
   };
 
   // ==============================================================
@@ -1200,6 +1351,17 @@ export default function Admin() {
               <Star size={16} />
               <span>Encuestas</span>
               <span className="badgeTabCount">{data.encuestas.length}</span>
+            </button>
+
+            {/* 10. Base de Datos */}
+            <button
+              type="button"
+              className={`btnTab ${tabActiva === 'base_datos' ? 'activo' : ''}`}
+              onClick={() => setTabActiva('base_datos')}
+            >
+              <Database size={16} />
+              <span>Base de Datos</span>
+              {resumenDB && <span className="badgeTabCount">{resumenDB.total_tablas}</span>}
             </button>
           </div>
 
@@ -2247,6 +2409,262 @@ export default function Admin() {
               </div>
             </>
           )}
+
+          {/* ==============================================================
+              CONTENIDO DE LA PESTAÑA 10: BASE DE DATOS Y RESPALDOS
+              ============================================================== */}
+          {tabActiva === 'base_datos' && (
+            <>
+              {/* Alertas */}
+              {mensajeDB && (
+                <div className="alertaAdminExito" style={{ marginBottom: '16px' }}>
+                  <CheckCircle2 size={18} />
+                  <span>{mensajeDB}</span>
+                </div>
+              )}
+              {errorDB && (
+                <div className="alertaAdminError" style={{ marginBottom: '16px' }}>
+                  <AlertTriangle size={18} />
+                  <span>{errorDB}</span>
+                </div>
+              )}
+
+              {/* Tarjetas de Métricas de Base de Datos */}
+              <div className="gridMetricasDB">
+                <div className="cardMetricaDB">
+                  <div className="iconMetricaDB" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+                    <Database size={22} />
+                  </div>
+                  <div className="infoMetricaDB">
+                    <span>Total Tablas</span>
+                    <b>{resumenDB ? resumenDB.total_tablas : tablasDB.length}</b>
+                  </div>
+                </div>
+
+                <div className="cardMetricaDB">
+                  <div className="iconMetricaDB" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981' }}>
+                    <FileText size={22} />
+                  </div>
+                  <div className="infoMetricaDB">
+                    <span>Total Registros</span>
+                    <b>{resumenDB ? Number(resumenDB.total_registros).toLocaleString() : 0}</b>
+                  </div>
+                </div>
+
+                <div className="cardMetricaDB">
+                  <div className="iconMetricaDB" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>
+                    <HardDrive size={22} />
+                  </div>
+                  <div className="infoMetricaDB">
+                    <span>Espacio Estimado</span>
+                    <b>{resumenDB ? (resumenDB.total_bytes > 1048576 ? (resumenDB.total_bytes / 1048576).toFixed(2) + ' MB' : (resumenDB.total_bytes / 1024).toFixed(1) + ' KB') : '0 KB'}</b>
+                  </div>
+                </div>
+
+                <div className="cardMetricaDB">
+                  <div className="iconMetricaDB" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7' }}>
+                    <Shield size={22} />
+                  </div>
+                  <div className="infoMetricaDB">
+                    <span>Esquema / Motor</span>
+                    <b>{resumenDB?.database_name || 'TiDB Cloud'}</b>
+                  </div>
+                </div>
+              </div>
+
+              {/* Barra de Acciones y Filtros */}
+              <div className="barraFiltrosAdmin" style={{ flexWrap: 'wrap', gap: '12px', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', flex: 1 }}>
+                  <div className="grupoInputFiltro" style={{ flex: '1 1 220px' }}>
+                    <Search size={15} />
+                    <input
+                      type="text"
+                      className="inputSearchAdmin"
+                      placeholder="Buscar tabla por nombre..."
+                      value={filtroTablaDB}
+                      onChange={(e) => setFiltroTablaDB(e.target.value)}
+                    />
+                  </div>
+
+                  <select
+                    value={filtroCategoriaDB}
+                    onChange={(e) => setFiltroCategoriaDB(e.target.value)}
+                    className="selectFiltroAdmin"
+                    style={{ minWidth: '150px' }}
+                  >
+                    <option value="TODAS">Todas las categorías</option>
+                    <option value="Seguridad">Seguridad</option>
+                    <option value="Maestros">Maestros</option>
+                    <option value="Usuarios">Usuarios</option>
+                    <option value="Actividad">Actividad</option>
+                    <option value="Soporte">Soporte</option>
+                    <option value="Encuestas">Encuestas</option>
+                    <option value="Telemetría">Telemetría</option>
+                    <option value="Registros / Auditoría">Registros / Auditoría</option>
+                  </select>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleDescargarBackupSQL(null)}
+                    disabled={descargandoBackup}
+                    className="btnAdminAccionTop"
+                    style={{ background: 'linear-gradient(135deg, #0284c7, #2563eb)', color: '#fff', border: 'none' }}
+                    title="Exportar archivo .sql con la estructura y todos los datos de la base de datos"
+                  >
+                    <Download size={15} />
+                    <span>{descargandoBackup ? 'Generando Backup...' : 'Descargar Backup Completo (.sql)'}</span>
+                  </button>
+
+                  {tablasSeleccionadasBackup.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => handleDescargarBackupSQL(tablasSeleccionadasBackup)}
+                      disabled={descargandoBackup}
+                      className="btnAdminAccionTop"
+                      style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.3)' }}
+                      title={`Exportar las ${tablasSeleccionadasBackup.length} tablas seleccionadas`}
+                    >
+                      <Download size={15} />
+                      <span>Backup Selección ({tablasSeleccionadasBackup.length})</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={cargarTablasBaseDatos}
+                    disabled={cargandoDB}
+                    className="btnAdminAccionTop"
+                    style={{ background: 'rgba(255, 255, 255, 0.08)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' }}
+                    title="Actualizar estado de tablas"
+                  >
+                    <RefreshCw size={15} className={cargandoDB ? 'animRotate' : ''} />
+                    <span>Actualizar</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Tabla de Listado de Tablas de la Base de Datos */}
+              <div className="tablaResponsiveWrapper">
+                <table className="tablaAdmin">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '40px', textAlign: 'center' }}>
+                        <button
+                          type="button"
+                          onClick={seleccionarTodasTablas}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0 }}
+                          title="Seleccionar todas"
+                        >
+                          {tablasSeleccionadasBackup.length === tablasFiltradasDB.length && tablasFiltradasDB.length > 0 ? (
+                            <CheckSquare size={16} color="#38bdf8" />
+                          ) : (
+                            <Square size={16} />
+                          )}
+                        </button>
+                      </th>
+                      <th>Nombre de la Tabla</th>
+                      <th>Categoría</th>
+                      <th style={{ textAlign: 'right' }}>Registros</th>
+                      <th style={{ textAlign: 'right' }}>Tamaño Estimado</th>
+                      <th>Estado</th>
+                      <th style={{ textAlign: 'center' }}>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cargandoDB && tablasDB.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} style={{ textAlign: 'center', padding: '30px' }}>
+                          <RefreshCw size={24} className="animRotate" style={{ margin: '0 auto 8px auto', display: 'block' }} />
+                          Consultando información de base de datos...
+                        </td>
+                      </tr>
+                    ) : tablasFiltradasDB.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="sinResultadosTabla">
+                          No se encontraron tablas que coincidan con los filtros aplicados.
+                        </td>
+                      </tr>
+                    ) : (
+                      tablasFiltradasDB.map((t) => {
+                        const seleccionada = tablasSeleccionadasBackup.includes(t.name);
+                        return (
+                          <tr key={t.name} style={{ backgroundColor: seleccionada ? 'rgba(56, 189, 248, 0.05)' : undefined }}>
+                            <td style={{ textAlign: 'center' }}>
+                              <button
+                                type="button"
+                                onClick={() => toggleSeleccionTabla(t.name)}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0 }}
+                              >
+                                {seleccionada ? <CheckSquare size={16} color="#38bdf8" /> : <Square size={16} />}
+                              </button>
+                            </td>
+                            <td>
+                              <code style={{ fontSize: '13px', fontWeight: 600, color: '#38bdf8' }}>{t.name}</code>
+                            </td>
+                            <td>
+                              <span className="badgeCategoriaDB" style={{
+                                background: t.is_protected ? 'rgba(239, 68, 68, 0.15)' : 'rgba(148, 163, 184, 0.15)',
+                                color: t.is_protected ? '#f87171' : 'var(--text-secondary)',
+                                border: `1px solid ${t.is_protected ? 'rgba(239, 68, 68, 0.3)' : 'rgba(148, 163, 184, 0.2)'}`
+                              }}>
+                                {t.categoria}
+                              </span>
+                            </td>
+                            <td style={{ textAlign: 'right', fontWeight: 600 }}>
+                              {Number(t.rows).toLocaleString()}
+                            </td>
+                            <td style={{ textAlign: 'right', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                              {t.bytes > 1048576 ? (t.bytes / 1048576).toFixed(2) + ' MB' : (t.bytes / 1024).toFixed(1) + ' KB'}
+                            </td>
+                            <td>
+                              {t.is_protected ? (
+                                <span style={{ fontSize: '11px', color: '#f87171', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                  <Shield size={12} /> Protegida
+                                </span>
+                              ) : (
+                                <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                  <CheckCircle2 size={12} /> Operacional
+                                </span>
+                              )}
+                            </td>
+                            <td>
+                              <div style={{ display: 'flex', gap: '6px', justifyContent: 'center' }}>
+                                <button
+                                  type="button"
+                                  className="btnBackupTabla"
+                                  onClick={() => handleDescargarBackupSQL(t.name)}
+                                  disabled={descargandoBackup}
+                                  title={`Descargar respaldo SQL de ${t.name}`}
+                                >
+                                  <Download size={12} />
+                                  <span>Backup</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btnTruncateTabla"
+                                  onClick={() => {
+                                    setModalFormatearTabla(t);
+                                    setConfirmacionFormateo('');
+                                  }}
+                                  disabled={!t.can_truncate}
+                                  title={t.is_protected ? 'Tabla crítica protegida contra formateo' : `Vaciar y resetear ${t.name}`}
+                                >
+                                  <Trash2 size={12} />
+                                  <span>Formatear</span>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -2534,6 +2952,89 @@ export default function Admin() {
           </div>
         </div>
       )}
+
+      {/* Modal 5: Formatear / Vaciar Tabla */}
+      {modalFormatearTabla && (
+        <div className="modalAdminOverlay">
+          <div className="modalAdminCard" style={{ maxWidth: '480px' }}>
+            <div className="modalAdminHeader" style={{ borderBottomColor: 'rgba(239, 68, 68, 0.3)' }}>
+              <h3 style={{ color: '#ef4444' }}>
+                <AlertOctagon size={20} color="#ef4444" />
+                Formatear Tabla "{modalFormatearTabla.name}"
+              </h3>
+              <button
+                type="button"
+                className="btnCerrarModalAdmin"
+                onClick={() => setModalFormatearTabla(null)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleFormatearTabla}>
+              <div className="modalAdminBody">
+                <div style={{
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.25)',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  marginBottom: '16px',
+                  fontSize: '13px',
+                  color: '#fca5a5',
+                  lineHeight: '1.5'
+                }}>
+                  ⚠️ <strong>¡Acción Destructiva Irreversible!</strong> Se eliminarán permanentemente los <strong>{Number(modalFormatearTabla.rows).toLocaleString()} registros</strong> existentes en la tabla <code>{modalFormatearTabla.name}</code>. Esta operación será registrada en la auditoría del sistema.
+                </div>
+
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '10px' }}>
+                  Para confirmar el vaciado, por favor escribe exactamente <code>{modalFormatearTabla.name}</code> en el siguiente campo:
+                </p>
+
+                <div className="grupoCampoAdmin">
+                  <label>Confirmación requerida:</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder={modalFormatearTabla.name}
+                    value={confirmacionFormateo}
+                    onChange={(e) => setConfirmacionFormateo(e.target.value)}
+                    style={{ borderColor: confirmacionFormateo === modalFormatearTabla.name ? '#10b981' : undefined }}
+                  />
+                </div>
+              </div>
+              <div className="modalAdminFooter">
+                <button
+                  type="button"
+                  className="btnModalCancelar"
+                  onClick={() => setModalFormatearTabla(null)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={confirmacionFormateo.trim() !== modalFormatearTabla.name || formateandoTabla}
+                  style={{
+                    backgroundColor: '#ef4444',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '9px 18px',
+                    fontWeight: 600,
+                    cursor: confirmacionFormateo.trim() === modalFormatearTabla.name ? 'pointer' : 'not-allowed',
+                    opacity: confirmacionFormateo.trim() === modalFormatearTabla.name ? 1 : 0.5,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Trash2 size={15} />
+                  <span>{formateandoTabla ? 'Formateando...' : 'Confirmar y Formatear Tabla'}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

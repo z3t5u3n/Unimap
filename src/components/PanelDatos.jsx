@@ -174,7 +174,12 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
       });
 
       if (res.data) {
-        setMensajeExitoRol(res.data.mensaje || 'Enlace de verificación enviado a tu correo institucional. Tienes 5 minutos para confirmarlo.');
+        setMensajeExitoRol(res.data.mensaje || 'Enlace de verificación enviado a tu correo institucional.');
+        if (res.data.usuario) {
+          setPerfil(res.data.usuario);
+          localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
+          if (onUsuarioActualizado) onUsuarioActualizado(res.data.usuario);
+        }
       }
     } catch (err) {
       console.error('Error al solicitar rol:', err);
@@ -203,7 +208,7 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
             <div>
               <h3>{perfil.nombres} {perfil.apellidos}</h3>
               <span className={`badgeRol ${esEstudiante ? 'estudiante' : 'general'}`}>
-                {esEstudiante ? '🎓 Estudiante ITFIP' : '👤 Usuario General / Visitante'}
+                {esEstudiante ? (perfil.es_provisional_primer_semestre ? '🎓 Estudiante Provisional (1er Sem.)' : '🎓 Estudiante ITFIP') : '👤 Usuario General / Visitante'}
               </span>
             </div>
           </div>
@@ -427,6 +432,21 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
                 }}>
                   ✅ Tienes acceso total a todos los <strong>salones, aulas de clase, laboratorios y bloques</strong> del campus 3D.
                 </div>
+
+                {perfil.es_provisional_primer_semestre && (
+                  <div style={{
+                    marginTop: '12px',
+                    padding: '12px',
+                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                    border: '1px solid rgba(245, 158, 11, 0.35)',
+                    borderRadius: '8px',
+                    fontSize: '0.84rem',
+                    color: '#fde68a',
+                    lineHeight: '1.5'
+                  }}>
+                    ⏳ <strong>Acceso Provisional de 1er Semestre (1 Semana):</strong> Recuerda que debes ingresar a tu correo institucional y activar tu cuenta antes del <strong>{perfil.fecha_limite_primer_semestre ? new Date(perfil.fecha_limite_primer_semestre).toLocaleString() : 'fin del plazo'}</strong>. Si no lo activas, tu rol volverá automáticamente a General y no podrás volver a solicitar este plazo especial.
+                  </div>
+                )}
               </div>
             ) : (
               <div>
@@ -513,6 +533,25 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
                         </option>
                       ))}
                     </select>
+
+                    {parseInt(semestreSeleccionado, 10) === 1 && (
+                      <div style={{
+                        marginTop: '8px',
+                        padding: '10px 12px',
+                        backgroundColor: perfil.primer_semestre_usado ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                        border: `1px solid ${perfil.primer_semestre_usado ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`,
+                        borderRadius: '6px',
+                        fontSize: '0.8rem',
+                        color: perfil.primer_semestre_usado ? '#fca5a5' : '#6ee7b7',
+                        lineHeight: '1.4'
+                      }}>
+                        {perfil.primer_semestre_usado ? (
+                          <span>⚠️ <strong>Aviso:</strong> Ya has utilizado tu oportunidad única de plazo especial de 1 semana para 1er semestre. Deberás verificar con tu correo institucional en el tiempo regular.</span>
+                        ) : (
+                          <span>🎉 <strong>Beneficio de 1er Semestre:</strong> Dispondrás de un plazo especial de <strong>1 semana (7 días)</strong> para activar tu correo institucional y verificar tu cuenta, con <strong>acceso provisional inmediato a salones</strong>. Oportunidad válida por <strong>única vez</strong>.</span>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <div className="inputGroup" style={{ marginBottom: '16px' }}>
@@ -566,7 +605,13 @@ export default function PanelDatos({ usuario, onCerrar, onUsuarioActualizado }) 
                     marginBottom: '18px'
                   }}>
                     <Clock size={13} color="#f59e0b" />
-                    <span>El enlace enviado a tu correo caducará en <strong>5 minutos</strong>.</span>
+                    <span>
+                      {parseInt(semestreSeleccionado, 10) === 1 && !perfil.primer_semestre_usado ? (
+                        <>Plazo especial de 1er semestre: <strong>1 semana (7 días)</strong> para activar y verificar tu correo.</>
+                      ) : (
+                        <>El enlace enviado a tu correo caducará en <strong>5 minutos</strong>.</>
+                      )}
+                    </span>
                   </div>
 
                   <button
