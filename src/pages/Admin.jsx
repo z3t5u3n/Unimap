@@ -217,6 +217,16 @@ export default function Admin() {
     setMenuPdfAbierto(false);
   }, [tabActiva]);
 
+  // Habilitar scroll de página libre y fluido en el panel de administración
+  useEffect(() => {
+    document.documentElement.classList.add('admin-scrollable');
+    document.body.classList.add('admin-scrollable');
+    return () => {
+      document.documentElement.classList.remove('admin-scrollable');
+      document.body.classList.remove('admin-scrollable');
+    };
+  }, []);
+
   // Verificar autenticación
   useEffect(() => {
     if (!adminSesion || !adminSesion.username) {
