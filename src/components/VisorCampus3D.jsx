@@ -46,7 +46,20 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v9_calibracion_luz_sombras_niebla';
+const SETTINGS_VERSION = 'unimap_v10_tree_density_fog_culling_2048_shadows';
+
+// Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
+// A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
+// A medida que el usuario reduce la niebla (75%, 50%, etc.), la distancia de dibujo se expande hasta 650m (260m en móvil).
+const calcularFarPlanePorNiebla = (densidad, nieblaHabilitada, esMovil) => {
+  const maxFar = esMovil ? 260 : 650;
+  if (!nieblaHabilitada) return maxFar;
+  const minFar = esMovil ? 140 : 180;
+  const d = Math.max(0.0004, Math.min(0.0050, densidad ?? 0.0050));
+  const t = (d - 0.0004) / (0.0050 - 0.0004);
+  const farCalculado = maxFar - t * (maxFar - minFar);
+  return Math.round(farCalculado);
+};
 
 const detectarDispositivoMovil = () => {
   if (typeof navigator === 'undefined') return false;
@@ -241,27 +254,20 @@ export default function VisorCampus3D({
     const cfg = ajustesGraficos;
     const esMovil = detectarDispositivoMovil();
 
-    // Distancia máxima de visión según el dispositivo:
-    // En celular se limita a 260m (suficiente para ver bloques cercanos y senderos sin saturar la GPU).
-    // En PC se amplía a 600m (descartando geometría innecesaria más allá de 600m en lugar de los antiguos 3500m).
-    const distanciaVision = esMovil ? 260 : 600;
-    const fogNear = esMovil ? 90 : 180;
+    // Distancia máxima de visión calculada dinámicamente según la niebla:
+    // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
+    // Conforme el usuario reduce la niebla (75%, 50%, etc.), camera.far se expande gradualmente hasta 650m (260m en móvil).
+    const distanciaVision = calcularFarPlanePorNiebla(cfg.densidadNiebla, cfg.nieblaHabilitada !== false, esMovil);
     const fogFar = distanciaVision;
+    const fogNear = Math.max(30, Math.round(fogFar * 0.35));
 
     // 1. ESCENA Y CONFIGURACIÓN ATMOSFÉRICA
     const scene = new THREE.Scene();
     const esClaroInicial = document.documentElement.getAttribute('data-theme') !== 'dark';
     const fogColorInicial = esClaroInicial ? '#dbeafe' : '#0b1329';
 
-    // Niebla de Distancia Lineal: los objetos lejanos se desvanecen suavemente hacia el color del cielo
-    // y la GPU los descarta automáticamente cuando superan la distancia de visión (Zero Overdraw).
     if (cfg.nieblaHabilitada !== false) {
-      const nearBase = esMovil ? 90 : 180;
-      const farBase = distanciaVision;
-      const dens = cfg.densidadNiebla ?? 0.0050;
-      const calcNear = Math.max(40, nearBase * (1 - (dens - 0.001) * 300));
-      const calcFar = Math.max(100, farBase * (1 - (dens - 0.001) * 200));
-      scene.fog = new THREE.Fog(fogColorInicial, calcNear, calcFar);
+      scene.fog = new THREE.Fog(fogColorInicial, fogNear, fogFar);
     } else {
       scene.fog = null;
     }
@@ -363,6 +369,10 @@ export default function VisorCampus3D({
 
     // 4. GRUPOS PARA ELEMENTOS 3D
     let sceneModel = null;
+    let instancedTreesGroup = null;
+    const instancedMeshesData = [];
+    const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
+    const _zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
     const markerGroup = new THREE.Group();
     scene.add(markerGroup);
 
@@ -1459,7 +1469,7 @@ export default function VisorCampus3D({
     const sunOffset = sunPos.clone();
     sunLight.position.copy(sunOffset);
     sunLight.castShadow = cfg.sombrasHabilitadas !== false;
-    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 4096);
+    const shadowRes = esMovil ? Math.min(cfg.calidadSombras || 1024, 1024) : (cfg.calidadSombras || 2048);
     sunLight.shadow.mapSize.width = shadowRes;
     sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 10;
@@ -1551,6 +1561,66 @@ export default function VisorCampus3D({
       }
     };
 
+    // Ajusta dinámicamente la distancia de visión y el Far Plane según la densidad de niebla
+    const actualizarRecorteYDistanciaNiebla = () => {
+      const nuevoFar = calcularFarPlanePorNiebla(
+        cfg.densidadNiebla,
+        cfg.nieblaHabilitada !== false,
+        esMovil
+      );
+      camera.far = nuevoFar;
+      camera.updateProjectionMatrix();
+
+      if (scene.fog && scene.fog.isFog) {
+        scene.fog.far = nuevoFar;
+        scene.fog.near = Math.max(30, Math.round(nuevoFar * 0.35));
+      }
+    };
+
+    // Filtra en tiempo real los árboles visibles según la densidad elegida por el usuario
+    const actualizarVisibilidadVegetacion = (forzar = false) => {
+      if (!instancedTreesGroup || instancedMeshesData.length === 0) return;
+      const modoVeg = cfg.densidadVegetacion || 'cercana';
+
+      if (modoVeg === 'ninguna') {
+        instancedTreesGroup.visible = false;
+        return;
+      }
+
+      instancedTreesGroup.visible = true;
+      let maxTreeDist;
+      if (modoVeg === 'cercana') {
+        maxTreeDist = 45; // Solo los 3 a 5 árboles más próximos en un radio de 45m
+      } else if (modoVeg === 'media') {
+        maxTreeDist = 100; // Radio medio (~100m)
+      } else {
+        maxTreeDist = esMovil ? 140 : 240; // Todos los árboles dentro del alcance del campus
+      }
+
+      const camPos = camera.position;
+      const maxTreeDistSq = maxTreeDist * maxTreeDist;
+
+      for (let g = 0; g < instancedMeshesData.length; g++) {
+        const data = instancedMeshesData[g];
+        let needsUpdate = false;
+        for (let i = 0; i < data.count; i++) {
+          const p = data.positions[i];
+          const dx = camPos.x - p.x;
+          const dz = camPos.z - p.z;
+          const dSq = dx * dx + dz * dz;
+          const isVisible = dSq <= maxTreeDistSq ? 1 : 0;
+          if (forzar || data.visibleStates[i] !== isVisible) {
+            data.visibleStates[i] = isVisible;
+            data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : _zeroMatrix);
+            needsUpdate = true;
+          }
+        }
+        if (needsUpdate) {
+          data.instancedMesh.instanceMatrix.needsUpdate = true;
+        }
+      }
+    };
+
     // Manejador reactivo para actualizar en caliente cualquier propiedad de la escena 3D
     const aplicarAjusteIndividual = (clave, valor, todos) => {
       switch (clave) {
@@ -1611,19 +1681,26 @@ export default function VisorCampus3D({
           skyUniforms['rayleigh'].value = valor;
           break;
         case 'nieblaHabilitada':
+          cfg.nieblaHabilitada = valor;
           if (valor) {
             const esClaro = document.documentElement.getAttribute('data-theme') !== 'dark';
             const col = esClaro ? '#dbeafe' : '#0b1329';
-            scene.fog = new THREE.Fog(col, fogNear, fogFar);
+            if (!scene.fog) {
+              const dFar = calcularFarPlanePorNiebla(cfg.densidadNiebla, true, esMovil);
+              scene.fog = new THREE.Fog(col, Math.max(30, Math.round(dFar * 0.35)), dFar);
+            }
           } else {
             scene.fog = null;
           }
+          actualizarRecorteYDistanciaNiebla();
           break;
         case 'densidadNiebla':
-          if (scene.fog && scene.fog.isFog) {
-            scene.fog.near = Math.max(40, fogNear * (1 - (valor - 0.001) * 300));
-            scene.fog.far = Math.max(100, fogFar * (1 - (valor - 0.001) * 200));
-          }
+          cfg.densidadNiebla = valor;
+          actualizarRecorteYDistanciaNiebla();
+          break;
+        case 'densidadVegetacion':
+          cfg.densidadVegetacion = valor;
+          actualizarVisibilidadVegetacion(true);
           break;
         case 'modoUltra':
           useUltraQuality = valor;
@@ -1702,10 +1779,6 @@ export default function VisorCampus3D({
       ambientLight.intensity = claro ? (curr.luzAmbientalIntensidad ?? 0.0) : 0.15;
     };
     window.addEventListener('unimap_theme_changed', handleThemeChange);
-
-    // Gestión de instancias y renderizado dinámico de vegetación a medida que la cámara se mueve
-    const instancedMeshesData = [];
-    const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
 
     // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
@@ -1796,7 +1869,7 @@ export default function VisorCampus3D({
             }
           });
 
-          const instancedTreesGroup = new THREE.Group();
+          instancedTreesGroup = new THREE.Group();
           instancedTreesGroup.name = 'InstancedVegetationGroup';
 
           let totalVegetacionInstanciada = 0;
@@ -1811,7 +1884,7 @@ export default function VisorCampus3D({
                 meshList.length
               );
               instancedMesh.name = `Instanced_${firstMesh.name || 'Veg'}_x${meshList.length}`;
-              instancedMesh.castShadow = !esMovil;
+              instancedMesh.castShadow = false; // Desactivar sombras en hojas para máxima fluidez y evitar saturar el shadow map
               instancedMesh.receiveShadow = true;
               instancedMesh.frustumCulled = true;
 
@@ -1848,6 +1921,7 @@ export default function VisorCampus3D({
           });
 
           scene.add(instancedTreesGroup);
+          actualizarVisibilidadVegetacion(true);
           console.log(`🌲 InstancedMesh: ${totalVegetacionInstanciada} árboles y elementos de vegetación agrupados en instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
 
           // Asegurar que todos los edificios, aulas y elementos del campus estén 100% visibles.
@@ -1938,7 +2012,6 @@ export default function VisorCampus3D({
     const _scratchStepPos = new THREE.Vector3();
     const _scratchForwardDir = new THREE.Vector3();
     const _scratchFinalPos = new THREE.Vector3();
-    const _zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -2179,35 +2252,12 @@ export default function VisorCampus3D({
         ringMesh.scale.set(scaleRing, scaleRing, 1);
       }
 
-      // Renderizado dinámico de mallas de vegetación a medida que la cámara se mueve
-      // Oculta en GPU instancias de árboles y arbustos lejanos (> 220m en PC, > 170m en móvil)
-      // escalándolas a 0, y las restaura instantáneamente conforme la cámara avanza por el campus.
-      // (Los edificios, aulas y terreno permanecen siempre al 100% visibles).
+      // Renderizado dinámico de mallas de vegetación según distancia y modo seleccionado
       if (instancedMeshesData.length > 0) {
         const camPos = camera.position;
         if (camPos.distanceToSquared(lastCullCamPos) >= 9.0) {
           lastCullCamPos.copy(camPos);
-          const maxTreeDistSq = esMovil ? (140 * 140) : (220 * 220);
-
-          for (let g = 0; g < instancedMeshesData.length; g++) {
-            const data = instancedMeshesData[g];
-            let needsUpdate = false;
-            for (let i = 0; i < data.count; i++) {
-              const p = data.positions[i];
-              const dx = camPos.x - p.x;
-              const dz = camPos.z - p.z;
-              const dSq = dx * dx + dz * dz;
-              const isVisible = dSq <= maxTreeDistSq ? 1 : 0;
-              if (data.visibleStates[i] !== isVisible) {
-                data.visibleStates[i] = isVisible;
-                data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : _zeroMatrix);
-                needsUpdate = true;
-              }
-            }
-            if (needsUpdate) {
-              data.instancedMesh.instanceMatrix.needsUpdate = true;
-            }
-          }
+          actualizarVisibilidadVegetacion(false);
         }
       }
 

@@ -26,16 +26,17 @@ export const AJUSTES_PREDETERMINADOS = {
   exposicion: 0.40,
   horaDelDia: 'dia', // 'manana', 'mediodia', 'atardecer', 'noche'
 
-  // Sombras (4096 Ultra 4K y filtrado PCF Soft activado)
+  // Sombras (2048 HD Nítido y filtrado PCF Soft activado para máxima fluidez)
   sombrasHabilitadas: true,
-  calidadSombras: 4096, // 1024, 2048, 4096
+  calidadSombras: 2048, // 1024, 2048, 4096
   sombrasSuaves: true,
 
-  // Cielo y Atmósfera (Turbidez 20, Rayleigh 4.0, Niebla On, Densidad 50.0)
+  // Cielo, Atmósfera y Vegetación (Turbidez 20, Rayleigh 4.0, Niebla On, Densidad 50.0)
   turbidezCielo: 20,
   rayleighCielo: 4.0,
   nieblaHabilitada: true,
   densidadNiebla: 0.0050,
+  densidadVegetacion: 'cercana', // 'ninguna', 'cercana' (3-5 árboles más próximos), 'media', 'completa'
 
   // Post-procesamiento (Desactivado por defecto para 60 FPS fluidos en celulares y laptops)
   modoUltra: false,
@@ -67,7 +68,8 @@ export const PRESETS_CONFIG = {
       bloomHabilitado: false,
       calidadSombras: 1024,
       sombrasSuaves: false,
-      densidadNiebla: 0.0012
+      densidadNiebla: 0.0012,
+      densidadVegetacion: 'ninguna'
     }
   },
   equilibrado: {
@@ -81,7 +83,8 @@ export const PRESETS_CONFIG = {
       bloomHabilitado: false,
       calidadSombras: 2048,
       sombrasSuaves: true,
-      densidadNiebla: 0.0016
+      densidadNiebla: 0.0016,
+      densidadVegetacion: 'cercana'
     }
   },
   ultra: {
@@ -97,7 +100,8 @@ export const PRESETS_CONFIG = {
       bloomIntensidad: 0.22,
       calidadSombras: 2048,
       sombrasSuaves: true,
-      densidadNiebla: 0.0016
+      densidadNiebla: 0.0016,
+      densidadVegetacion: 'completa'
     }
   },
   mediodia: {
@@ -487,6 +491,37 @@ export default function PanelConfiguracionMapa({
                   />
                 </div>
               )}
+
+              {/* Selector de Árboles y Vegetación Visible */}
+              <div className="controlSliderGroup">
+                <div className="sliderHeader">
+                  <span className="sliderLabel">Árboles y Vegetación en Escena</span>
+                  <span className="sliderValue">
+                    {ajustes.densidadVegetacion === 'ninguna' && '0 (Ninguno)'}
+                    {(!ajustes.densidadVegetacion || ajustes.densidadVegetacion === 'cercana') && '3-5 (Cercanos)'}
+                    {ajustes.densidadVegetacion === 'media' && 'Media (~100m)'}
+                    {ajustes.densidadVegetacion === 'completa' && 'Todos (Campus)'}
+                  </span>
+                </div>
+                <div className="grupoBotonesOpcion">
+                  {[
+                    { valor: 'ninguna', label: '0 (Ninguno)' },
+                    { valor: 'cercana', label: '3-5 (Cercanos)' },
+                    { valor: 'media', label: 'Media (~100m)' },
+                    { valor: 'completa', label: 'Todos' }
+                  ].map((veg) => (
+                    <button
+                      key={veg.valor}
+                      type="button"
+                      className={`btnOpcionPill ${(ajustes.densidadVegetacion || 'cercana') === veg.valor ? 'activa' : ''}`}
+                      onClick={() => onCambiarAjuste('densidadVegetacion', veg.valor)}
+                      title={`Mostrar vegetación: ${veg.label}`}
+                    >
+                      {veg.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
