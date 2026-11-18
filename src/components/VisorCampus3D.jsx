@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v14_vegetacion_dimensiones_blender_submallas';
+const SETTINGS_VERSION = 'unimap_v15_vegetacion_reubicacion_empties_palmas';
 
 // Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
 // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
