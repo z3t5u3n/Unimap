@@ -290,13 +290,13 @@ export default { EDIFICIOS_PRINCIPALES, LUGARES_RECORRIBLES, buscarLugaresRecorr
 """)
 print(f"  ✓ {cat_js_path} actualizado.")
 
-# 4. Actualizar Cache API y Service Worker a v15
-print(">> [4/5] Actualizando versión de caché a v15 en cacheCampus3D.js y sw.js...")
+# 4. Actualizar Cache API y Service Worker a v16
+print(">> [4/5] Actualizando versión de caché a v16 en cacheCampus3D.js y sw.js...")
 cache_js_path = os.path.join(base_dir, "src/services/cacheCampus3D.js")
 with open(cache_js_path, "r", encoding="utf-8") as f:
     cache_code = f.read()
 
-cache_code = re.sub(r"CACHE_NAME = 'unimap-3d-cache-v\d+'", "CACHE_NAME = 'unimap-3d-cache-v15'", cache_code)
+cache_code = re.sub(r"CACHE_NAME = 'unimap-3d-cache-v\d+'", "CACHE_NAME = 'unimap-3d-cache-v16'", cache_code)
 cache_code = re.sub(r"const PESO_PART1_APROX = \d+;", f"const PESO_PART1_APROX = {len1};", cache_code)
 cache_code = re.sub(r"const PESO_PART2_APROX = \d+;", f"const PESO_PART2_APROX = {len2};", cache_code)
 
@@ -307,13 +307,13 @@ sw_path = os.path.join(base_dir, "public/sw.js")
 with open(sw_path, "r", encoding="utf-8") as f:
     sw_code = f.read()
 
-sw_code = re.sub(r"unimap-offline-v\d+", "unimap-offline-v15", sw_code)
-sw_code = re.sub(r"CACHE_NAME = 'unimap-3d-cache-v\d+'", "CACHE_NAME = 'unimap-3d-cache-v15'", sw_code)
+sw_code = re.sub(r"unimap-offline-v\d+", "unimap-offline-v16", sw_code)
+sw_code = re.sub(r"CACHE_NAME = 'unimap-3d-cache-v\d+'", "CACHE_NAME = 'unimap-3d-cache-v16'", sw_code)
 
 with open(sw_path, "w", encoding="utf-8") as f:
     f.write(sw_code)
 
-print("  ✓ Caché actualizada a v15.")
+print("  ✓ Caché actualizada a v16.")
 print("======================================================================")
 print("  PROCESAMIENTO COMPLETADO EXITOSAMENTE                               ")
 print("======================================================================")

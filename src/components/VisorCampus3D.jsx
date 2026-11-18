@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v15_vegetacion_reubicacion_empties_palmas';
+const SETTINGS_VERSION = 'unimap_v16_vegetacion_render_instantaneo_sincronizacion_frustum';
 
 // Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
 // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
@@ -1085,7 +1085,10 @@ export default function VisorCampus3D({
           targetPitch = dest.pitch || 0;
         }
       }
+      actualizarOrientacionCamara(1.0);
+      camera.updateMatrixWorld(true);
       actualizarSiguienteNodoFlecha(true);
+      actualizarVisibilidadVegetacion(true);
     };
 
     // Teletransportar cámara al punto de inicio seleccionado y preparar navegación
@@ -1112,8 +1115,13 @@ export default function VisorCampus3D({
       camera.fov = orbitState.targetFOV;
       camera.updateProjectionMatrix();
 
+      // Sincronizar inmediatamente orientación y matrices de cámara para que el Frustum Culling renderice al instante
+      actualizarOrientacionCamara(1.0);
+      camera.updateMatrixWorld(true);
+
       arrowGroup.visible = true;
       actualizarSiguienteNodoFlecha(true);
+      actualizarVisibilidadVegetacion(true);
 
       // Si hay un destino activo seleccionado, recalcular y reiniciar el recorrido desde este nuevo punto de inicio
       if (destinoActivoRef.current && orientarDestinoRef.current) {
@@ -1194,8 +1202,11 @@ export default function VisorCampus3D({
       camera.updateProjectionMatrix();
 
       // Habilitar la flecha 3D inmediatamente desde este nuevo POI para continuar exploración manual
+      actualizarOrientacionCamara(1.0);
+      camera.updateMatrixWorld(true);
       arrowGroup.visible = true;
       actualizarSiguienteNodoFlecha(true);
+      actualizarVisibilidadVegetacion(true);
 
       // Limpiar destino activo en el estado superior para ocultar el HUD de ruta
       if (onReorientarRef.current) onReorientarRef.current();
@@ -1609,9 +1620,15 @@ export default function VisorCampus3D({
       const camPos = camera.position;
       const maxTreeDistSq = maxTreeDist * maxTreeDist;
 
-      // Calcular el Frustum visual de la cámara en este instante
+      // Sincronizar obligatoriamente la matriz mundial e inversa de la cámara antes de computar el Frustum
+      camera.updateMatrixWorld(true);
       _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       _frustum.setFromProjectionMatrix(_projScreenMatrix);
+
+      if (forzar) {
+        lastCullCamPos.copy(camPos);
+        lastCullCamRot.copy(camera.quaternion);
+      }
 
       for (let g = 0; g < instancedMeshesData.length; g++) {
         const data = instancedMeshesData[g];
@@ -1624,11 +1641,16 @@ export default function VisorCampus3D({
 
           let isVisible = 0;
           if (dSq <= maxTreeDistSq) {
-            // Verificar si el árbol está dentro del campo de visión de la cámara (cono visual)
-            _tempSphere.center.copy(p);
-            _tempSphere.center.y += 10.0; // Centro en el volumen de la copa
-            if (_frustum.intersectsSphere(_tempSphere)) {
+            // Radio ambiental inmediato (22m): siempre visible para evitar pop-in al girar o cambiar de ubicación
+            if (dSq <= 484) { // 22m * 22m = 484
               isVisible = 1;
+            } else {
+              // Verificar si el árbol está dentro del campo de visión de la cámara (cono visual)
+              _tempSphere.center.copy(p);
+              _tempSphere.center.y += 10.0; // Centro en el volumen de la copa
+              if (_frustum.intersectsSphere(_tempSphere)) {
+                isVisible = 1;
+              }
             }
           }
 
@@ -2117,6 +2139,8 @@ export default function VisorCampus3D({
               });
 
               scene.add(instancedTreesGroup);
+              actualizarOrientacionCamara(1.0);
+              camera.updateMatrixWorld(true);
               actualizarVisibilidadVegetacion(true);
               console.log(`🌲 Vegetación Dinámica Activa: ${totalInstanciados} árboles instanciados en 106 Empties con materiales calibrados y Frustum Culling.`);
             },
@@ -2173,7 +2197,10 @@ export default function VisorCampus3D({
           }
           prevCameraPos.copy(camera.position);
 
+          actualizarOrientacionCamara(1.0);
+          camera.updateMatrixWorld(true);
           actualizarSiguienteNodoFlecha(true);
+          actualizarVisibilidadVegetacion(true);
           setCargando(false);
           if (onCargaCompletaRef.current) onCargaCompletaRef.current(model);
         },
