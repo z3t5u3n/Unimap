@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const CACHE_NAME = 'unimap-3d-cache-v17';
+export const CACHE_NAME = 'unimap-3d-cache-v18';
 export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_PART1_URL = '/Modelo3D/Unimap_part1.bin';
 export const BIN_PART2_URL = '/Modelo3D/Unimap_part2.bin';
