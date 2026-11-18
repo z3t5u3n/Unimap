@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v13_vegetacion_materiales_upright_arboles';
+const SETTINGS_VERSION = 'unimap_v14_vegetacion_dimensiones_blender_submallas';
 
 // Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
 // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
@@ -1871,14 +1871,23 @@ export default function VisorCampus3D({
           // ------------------------------------------------------------------
           model.updateMatrixWorld(true);
 
-          // Recolectar todos los Empties de árboles agrupados por tipo
+          // Recolectar todos los Empties de árboles agrupados por tipo exacto
+          const MAPA_MODELOS_ARBOLES = {
+            Empty_Arbol1: 'Arbol1',
+            Empty_Arbol2: 'Arbol2',
+            Empty_Arbol3: 'Arbol3',
+            Empty_Arbol4: 'Arbol4',
+            Empty_Arbol_Pal: 'Arbol_Pal',
+            Empty_Arbol_PalG: 'Arbol_PalG'
+          };
+
           const emptiesPorTipo = {
-            Arbol1001: [],
-            Arbol2: [],
-            Arbol3: [],
-            Arbol4: [],
-            Arbol_Pal: [],
-            Arbol_PalG: []
+            Empty_Arbol1: [],
+            Empty_Arbol2: [],
+            Empty_Arbol3: [],
+            Empty_Arbol4: [],
+            Empty_Arbol_Pal: [],
+            Empty_Arbol_PalG: []
           };
 
           model.traverse((child) => {
@@ -1886,17 +1895,17 @@ export default function VisorCampus3D({
             if (n.startsWith('empty_arbol') || n.includes('empty_arbol')) {
               child.updateMatrixWorld(true);
               if (n.includes('empty_arbol_palg')) {
-                emptiesPorTipo.Arbol_PalG.push(child);
+                emptiesPorTipo.Empty_Arbol_PalG.push(child);
               } else if (n.includes('empty_arbol_pal')) {
-                emptiesPorTipo.Arbol_Pal.push(child);
+                emptiesPorTipo.Empty_Arbol_Pal.push(child);
               } else if (n.includes('empty_arbol1')) {
-                emptiesPorTipo.Arbol1001.push(child);
+                emptiesPorTipo.Empty_Arbol1.push(child);
               } else if (n.includes('empty_arbol2')) {
-                emptiesPorTipo.Arbol2.push(child);
+                emptiesPorTipo.Empty_Arbol2.push(child);
               } else if (n.includes('empty_arbol3')) {
-                emptiesPorTipo.Arbol3.push(child);
+                emptiesPorTipo.Empty_Arbol3.push(child);
               } else if (n.includes('empty_arbol4')) {
-                emptiesPorTipo.Arbol4.push(child);
+                emptiesPorTipo.Empty_Arbol4.push(child);
               }
             }
           });
@@ -1971,32 +1980,38 @@ export default function VisorCampus3D({
                 return matFoliageTree;
               };
 
-              Object.keys(emptiesPorTipo).forEach((tipo) => {
-                const listaEmpties = emptiesPorTipo[tipo];
+              // Localiza el modelo correspondiente en el GLB (coincidencia exacta primero para diferenciar Arbol_Pal vs Arbol_PalG)
+              const encontrarModeloEnScene = (nombreBuscado) => {
+                const norm = nombreBuscado.toLowerCase().replace(/[^a-z0-9]/g, '');
+                // 1. Coincidencia exacta
+                for (const child of sceneArboles.children) {
+                  const cNorm = child.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                  if (cNorm === norm) return child;
+                }
+                // 2. Coincidencia por prefijo (ej. Arbol1 con Arbol1001)
+                for (const child of sceneArboles.children) {
+                  const cNorm = child.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                  if (cNorm.startsWith(norm)) return child;
+                }
+                return null;
+              };
+
+              Object.keys(emptiesPorTipo).forEach((claveEmpty) => {
+                const listaEmpties = emptiesPorTipo[claveEmpty];
                 if (!listaEmpties || listaEmpties.length === 0) return;
 
-                const grupoArbol = sceneArboles.getObjectByName(tipo);
+                const nombreModelo = MAPA_MODELOS_ARBOLES[claveEmpty] || claveEmpty;
+                const grupoArbol = encontrarModeloEnScene(nombreModelo);
                 if (!grupoArbol) {
-                  console.warn(`[Vegetación 3D] No se encontró el modelo para ${tipo} en modelosArboles.glb`);
+                  console.warn(`[Vegetación 3D] No se encontró el modelo para ${nombreModelo} en modelosArboles.glb`);
                   return;
                 }
 
-                // Factores de escala para lograr proporciones realistas y armoniosas con la arquitectura del campus
-                let scaleX = 1, scaleY = 1, scaleZ = 1;
-                if (tipo === 'Arbol1.001') {
-                  // En Blender sub02.015 venía con Y=63.6m. Normalizamos a ~21m de altura y ~15m de copa
-                  scaleY = 21.0 / 63.60;
-                  scaleX = 15.0 / 8.01;
-                  scaleZ = 15.0 / 8.48;
-                } else if (tipo === 'Arbol2' || tipo === 'Arbol3') {
-                  scaleX = 3.0; scaleY = 3.0; scaleZ = 3.0; // Altura final ~19.2m
-                } else if (tipo === 'Arbol4') {
-                  scaleX = 3.0; scaleY = 3.0; scaleZ = 3.0; // Altura final ~23.8m
-                } else if (tipo === 'Arbol_Pal') {
-                  scaleX = 1.0; scaleY = 1.0; scaleZ = 1.0; // Altura final ~21.6m
-                } else if (tipo === 'Arbol_PalG') {
-                  scaleX = 2.2; scaleY = 2.2; scaleZ = 2.2; // Palmera monumental ~47m
-                }
+                // Respetar estrictamente las dimensiones y escalas que cada modelo trae de Blender
+                const scale = grupoArbol.scale || { x: 1, y: 1, z: 1 };
+                const scaleX = scale.x ?? 1;
+                const scaleY = scale.y ?? 1;
+                const scaleZ = scale.z ?? 1;
 
                 const mallasArbol = [];
                 grupoArbol.traverse((c) => {
@@ -2007,7 +2022,7 @@ export default function VisorCampus3D({
 
                 if (mallasArbol.length === 0) return;
 
-                // 1. Clonar geometrías y aplicar la escala calculada
+                // 1. Clonar geometrías y aplicar la escala exacta que traen de Blender
                 const geometriasCentradas = mallasArbol.map((m) => {
                   const geom = m.geometry.clone();
                   geom.scale(scaleX, scaleY, scaleZ);
@@ -2015,7 +2030,7 @@ export default function VisorCampus3D({
                   return geom;
                 });
 
-                // 2. Calcular el bounding box unificado de todo el árbol (tronco + follaje)
+                // 2. Calcular el bounding box unificado de todo el árbol (tronco + follaje simultáneos)
                 const boxUnificado = new THREE.Box3();
                 geometriasCentradas.forEach((geom) => {
                   boxUnificado.union(geom.boundingBox);
@@ -2040,7 +2055,7 @@ export default function VisorCampus3D({
                     getMaterialParaMalla(m),
                     listaEmpties.length
                   );
-                  im.name = `Instanced_${tipo}_part${idx}_x${listaEmpties.length}`;
+                  im.name = `Instanced_${nombreModelo}_part${idx}_x${listaEmpties.length}`;
                   im.castShadow = false;
                   im.receiveShadow = true;
                   im.frustumCulled = false;
@@ -2050,7 +2065,6 @@ export default function VisorCampus3D({
 
                 const origMatrices = [];
                 const positions = [];
-                const visibleStates = new Uint8Array(listaEmpties.length);
                 const dummyObj = new THREE.Object3D();
                 const dummyPos = new THREE.Vector3();
 
@@ -2078,13 +2092,14 @@ export default function VisorCampus3D({
 
                   const mat = dummyObj.matrix.clone();
                   origMatrices.push(mat);
-                  visibleStates[index] = 1;
 
                   instancedMeshesDeEsteArbol.forEach((im) => {
                     im.setMatrixAt(index, mat);
                   });
                 });
 
+                // Registrar cada submalla con su PROPIO estado de visibilidad independiente
+                // para que follaje y tronco siempre se actualicen y muestren en tándem perfecto
                 instancedMeshesDeEsteArbol.forEach((im) => {
                   im.instanceMatrix.needsUpdate = true;
                   im.computeBoundingSphere();
@@ -2093,7 +2108,7 @@ export default function VisorCampus3D({
                     instancedMesh: im,
                     origMatrices,
                     positions,
-                    visibleStates,
+                    visibleStates: new Uint8Array(listaEmpties.length).fill(1),
                     count: listaEmpties.length
                   });
                 });
