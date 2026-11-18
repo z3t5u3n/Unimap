@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v12_empties_vegetacion_frustum_culling';
+const SETTINGS_VERSION = 'unimap_v13_vegetacion_materiales_upright_arboles';
 
 // Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
 // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
@@ -376,7 +376,7 @@ export default function VisorCampus3D({
     const _zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
     const _frustum = new THREE.Frustum();
     const _projScreenMatrix = new THREE.Matrix4();
-    const _tempSphere = new THREE.Sphere(new THREE.Vector3(), 12.0);
+    const _tempSphere = new THREE.Sphere(new THREE.Vector3(), 15.0);
     const markerGroup = new THREE.Group();
     scene.add(markerGroup);
 
@@ -1626,7 +1626,7 @@ export default function VisorCampus3D({
           if (dSq <= maxTreeDistSq) {
             // Verificar si el árbol está dentro del campo de visión de la cámara (cono visual)
             _tempSphere.center.copy(p);
-            _tempSphere.center.y += 6.0; // Centro en el volumen de la copa
+            _tempSphere.center.y += 10.0; // Centro en el volumen de la copa
             if (_frustum.intersectsSphere(_tempSphere)) {
               isVisible = 1;
             }
@@ -1911,6 +1911,66 @@ export default function VisorCampus3D({
               const sceneArboles = gltfArboles.scene;
               let totalInstanciados = 0;
 
+              // Materiales de vegetación de alta definición calibrados
+              const texLoader = new THREE.TextureLoader();
+              const barkTexture = texLoader.load('/Modelo3D/UnimapTexture/bark.webp');
+              barkTexture.wrapS = THREE.RepeatWrapping;
+              barkTexture.wrapT = THREE.RepeatWrapping;
+              barkTexture.repeat.set(1, 3);
+              barkTexture.colorSpace = THREE.SRGBColorSpace;
+
+              const matFoliageTree = new THREE.MeshStandardMaterial({
+                name: 'Mat_Tree_Leaves',
+                color: new THREE.Color(0x2d6e22), // Verde hoja natural frondoso y realista
+                roughness: 0.65,
+                metalness: 0.02,
+                side: THREE.DoubleSide,
+                shadowSide: THREE.DoubleSide,
+              });
+
+              const matBarkTree = new THREE.MeshStandardMaterial({
+                name: 'Mat_Tree_Bark',
+                map: barkTexture,
+                color: new THREE.Color(0x6e5238), // Madera cálida y corteza
+                roughness: 0.88,
+                metalness: 0.0,
+              });
+
+              const matPalmTrunk = new THREE.MeshStandardMaterial({
+                name: 'Mat_Palm_Trunk',
+                color: new THREE.Color(0x735233), // Tronco de palmera
+                roughness: 0.82,
+                metalness: 0.0,
+              });
+
+              const matPalmGreen1 = new THREE.MeshStandardMaterial({
+                name: 'Mat_Palm_Green1',
+                color: new THREE.Color(0x357a1e), // Verde palma frondas
+                roughness: 0.60,
+                metalness: 0.02,
+                side: THREE.DoubleSide,
+                shadowSide: THREE.DoubleSide,
+              });
+
+              const matPalmGreen2 = new THREE.MeshStandardMaterial({
+                name: 'Mat_Palm_Green2',
+                color: new THREE.Color(0x235414), // Verde oscuro palmera
+                roughness: 0.65,
+                metalness: 0.02,
+                side: THREE.DoubleSide,
+                shadowSide: THREE.DoubleSide,
+              });
+
+              const getMaterialParaMalla = (meshOriginal) => {
+                const mName = (meshOriginal.material?.name || '').toLowerCase();
+                if (mName.includes('leaves')) return matFoliageTree;
+                if (mName.includes('bark')) return matBarkTree;
+                if (mName.includes('trunk')) return matPalmTrunk;
+                if (mName.includes('green_2')) return matPalmGreen2;
+                if (mName.includes('green')) return matPalmGreen1;
+                return matFoliageTree;
+              };
+
               Object.keys(emptiesPorTipo).forEach((tipo) => {
                 const listaEmpties = emptiesPorTipo[tipo];
                 if (!listaEmpties || listaEmpties.length === 0) return;
@@ -1921,17 +1981,22 @@ export default function VisorCampus3D({
                   return;
                 }
 
-                // Resetear transformaciones para calcular el bounding box centrado en su base
-                grupoArbol.position.set(0, 0, 0);
-                grupoArbol.rotation.set(0, 0, 0);
-                grupoArbol.updateMatrixWorld(true);
-
-                const box = new THREE.Box3().setFromObject(grupoArbol);
-                const center = new THREE.Vector3();
-                box.getCenter(center);
-                const offsetX = -center.x;
-                const offsetY = -box.min.y; // Elevar el pie del tronco a ras de suelo
-                const offsetZ = -center.z;
+                // Factores de escala para lograr proporciones realistas y armoniosas con la arquitectura del campus
+                let scaleX = 1, scaleY = 1, scaleZ = 1;
+                if (tipo === 'Arbol1.001') {
+                  // En Blender sub02.015 venía con Y=63.6m. Normalizamos a ~21m de altura y ~15m de copa
+                  scaleY = 21.0 / 63.60;
+                  scaleX = 15.0 / 8.01;
+                  scaleZ = 15.0 / 8.48;
+                } else if (tipo === 'Arbol2' || tipo === 'Arbol3') {
+                  scaleX = 3.0; scaleY = 3.0; scaleZ = 3.0; // Altura final ~19.2m
+                } else if (tipo === 'Arbol4') {
+                  scaleX = 3.0; scaleY = 3.0; scaleZ = 3.0; // Altura final ~23.8m
+                } else if (tipo === 'Arbol_Pal') {
+                  scaleX = 1.0; scaleY = 1.0; scaleZ = 1.0; // Altura final ~21.6m
+                } else if (tipo === 'Arbol_PalG') {
+                  scaleX = 2.2; scaleY = 2.2; scaleZ = 2.2; // Palmera monumental ~47m
+                }
 
                 const mallasArbol = [];
                 grupoArbol.traverse((c) => {
@@ -1942,18 +2007,37 @@ export default function VisorCampus3D({
 
                 if (mallasArbol.length === 0) return;
 
+                // 1. Clonar geometrías y aplicar la escala calculada
                 const geometriasCentradas = mallasArbol.map((m) => {
                   const geom = m.geometry.clone();
+                  geom.scale(scaleX, scaleY, scaleZ);
+                  geom.computeBoundingBox();
+                  return geom;
+                });
+
+                // 2. Calcular el bounding box unificado de todo el árbol (tronco + follaje)
+                const boxUnificado = new THREE.Box3();
+                geometriasCentradas.forEach((geom) => {
+                  boxUnificado.union(geom.boundingBox);
+                });
+
+                const center = new THREE.Vector3();
+                boxUnificado.getCenter(center);
+                const offsetX = -center.x;
+                const offsetY = -boxUnificado.min.y; // Base del tronco exactamente a nivel de suelo (Y = 0)
+                const offsetZ = -center.z;
+
+                // 3. Centrar las geometrías en su base
+                geometriasCentradas.forEach((geom) => {
                   geom.translate(offsetX, offsetY, offsetZ);
                   geom.computeBoundingBox();
                   geom.computeBoundingSphere();
-                  return geom;
                 });
 
                 const instancedMeshesDeEsteArbol = mallasArbol.map((m, idx) => {
                   const im = new THREE.InstancedMesh(
                     geometriasCentradas[idx],
-                    m.material,
+                    getMaterialParaMalla(m),
                     listaEmpties.length
                   );
                   im.name = `Instanced_${tipo}_part${idx}_x${listaEmpties.length}`;
@@ -1967,13 +2051,32 @@ export default function VisorCampus3D({
                 const origMatrices = [];
                 const positions = [];
                 const visibleStates = new Uint8Array(listaEmpties.length);
+                const dummyObj = new THREE.Object3D();
                 const dummyPos = new THREE.Vector3();
 
                 listaEmpties.forEach((empty, index) => {
                   empty.updateMatrixWorld(true);
-                  const mat = empty.matrixWorld.clone();
-                  dummyPos.setFromMatrixPosition(mat);
+                  
+                  // Posición del Empty en el mundo
+                  dummyPos.setFromMatrixPosition(empty.matrixWorld);
                   positions.push(dummyPos.clone());
+
+                  // Extraer rotación horizontal sobre el plano XZ (Yaw)
+                  const el = empty.matrixWorld.elements;
+                  const xx = el[0];
+                  const xz = el[2];
+                  let yaw = Math.atan2(-xz, xx);
+                  if (isNaN(yaw) || Math.abs(xx) + Math.abs(xz) < 0.001) {
+                    yaw = (index * 1.37) % (Math.PI * 2);
+                  }
+
+                  // Configurar el árbol para que siempre esté vertical y erguido hacia arriba
+                  dummyObj.position.copy(dummyPos);
+                  dummyObj.rotation.set(0, yaw, 0); // Pitch = 0, Roll = 0 (100% vertical hacia el cielo)
+                  dummyObj.scale.set(1, 1, 1);
+                  dummyObj.updateMatrix();
+
+                  const mat = dummyObj.matrix.clone();
                   origMatrices.push(mat);
                   visibleStates[index] = 1;
 
@@ -2000,7 +2103,7 @@ export default function VisorCampus3D({
 
               scene.add(instancedTreesGroup);
               actualizarVisibilidadVegetacion(true);
-              console.log(`🌲 Vegetación Dinámica Activa: ${totalInstanciados} árboles instanciados en 106 Empties con Frustum Culling.`);
+              console.log(`🌲 Vegetación Dinámica Activa: ${totalInstanciados} árboles instanciados en 106 Empties con materiales calibrados y Frustum Culling.`);
             },
             undefined,
             (err) => {
