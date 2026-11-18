@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
-export const CACHE_NAME = 'unimap-3d-cache-v11';
+export const CACHE_NAME = 'unimap-3d-cache-v12';
 export const GLTF_URL = '/Modelo3D/Unimap.gltf';
 export const BIN_PART1_URL = '/Modelo3D/Unimap_part1.bin';
 export const BIN_PART2_URL = '/Modelo3D/Unimap_part2.bin';
+export const ARBOLES_GLB_URL = '/Modelo3D/modelosArboles.glb';
 
 /**
  * Verifica si el navegador soporta Cache API
@@ -22,7 +23,8 @@ export async function estaModeloEnCache() {
     const hasGltf = await cache.match(GLTF_URL);
     const hasBin1 = await cache.match(BIN_PART1_URL);
     const hasBin2 = await cache.match(BIN_PART2_URL);
-    return Boolean(hasGltf && hasBin1 && hasBin2);
+    const hasArboles = await cache.match(ARBOLES_GLB_URL);
+    return Boolean(hasGltf && hasBin1 && hasBin2 && hasArboles);
   } catch (err) {
     console.warn('Aviso comprobando Cache API:', err.message);
     return false;
@@ -123,24 +125,29 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
     let cachedGltf = await cache.match(GLTF_URL);
     let cachedBin1 = await cache.match(BIN_PART1_URL);
     let cachedBin2 = await cache.match(BIN_PART2_URL);
+    let cachedArboles = await cache.match(ARBOLES_GLB_URL);
 
     // 1. CASO HIT: Los archivos ya están guardados en el disco del usuario
-    if (cachedGltf && cachedBin1 && cachedBin2) {
+    if (cachedGltf && cachedBin1 && cachedBin2 && cachedArboles) {
       if (onProgreso) onProgreso(20, 'Recuperando modelo desde caché local...');
       const gltfText = await cachedGltf.text();
       
-      if (onProgreso) onProgreso(55, 'Cargando geometría binaria (1/2)...');
+      if (onProgreso) onProgreso(45, 'Cargando geometría binaria (1/2)...');
       const bin1Buffer = await cachedBin1.arrayBuffer();
 
-      if (onProgreso) onProgreso(90, 'Cargando geometría binaria (2/2)...');
+      if (onProgreso) onProgreso(70, 'Cargando geometría binaria (2/2)...');
       const bin2Buffer = await cachedBin2.arrayBuffer();
+
+      if (onProgreso) onProgreso(90, 'Cargando modelos de vegetación 3D...');
+      const arbolesBuffer = await cachedArboles.arrayBuffer();
 
       // Inyectar en THREE.Cache bajo todas las claves posibles
       inyectarEnThreeCache(GLTF_URL, gltfText);
       inyectarEnThreeCache(BIN_PART1_URL, bin1Buffer);
       inyectarEnThreeCache(BIN_PART2_URL, bin2Buffer);
+      inyectarEnThreeCache(ARBOLES_GLB_URL, arbolesBuffer);
 
-      if (onProgreso) onProgreso(100, 'Modelo 3D listo en memoria');
+      if (onProgreso) onProgreso(100, 'Modelo 3D y vegetación listos');
       return { desdeCache: true, exito: true };
     }
 
@@ -154,23 +161,34 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
     const bin1Response = await fetchConProgreso(
       BIN_PART1_URL,
       (pct) => {
-        const mappedPct = Math.round(15 + (pct * 0.40));
+        const mappedPct = Math.round(15 + (pct * 0.35));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 1/2 (${pct}%)...`);
       },
-      17172724
+      11240372
     );
     const bin1Buffer = await bin1Response.arrayBuffer();
 
-    if (onProgreso) onProgreso(55, 'Descargando geometría del campus (2/2)...');
+    if (onProgreso) onProgreso(50, 'Descargando geometría del campus (2/2)...');
     const bin2Response = await fetchConProgreso(
       BIN_PART2_URL,
       (pct) => {
-        const mappedPct = Math.round(55 + (pct * 0.40));
+        const mappedPct = Math.round(50 + (pct * 0.30));
         if (onProgreso) onProgreso(mappedPct, `Descargando geometría 2/2 (${pct}%)...`);
       },
-      16409168
+      11148052
     );
     const bin2Buffer = await bin2Response.arrayBuffer();
+
+    if (onProgreso) onProgreso(80, 'Descargando modelos de vegetación optimizados...');
+    const arbolesResponse = await fetchConProgreso(
+      ARBOLES_GLB_URL,
+      (pct) => {
+        const mappedPct = Math.round(80 + (pct * 0.18));
+        if (onProgreso) onProgreso(mappedPct, `Descargando vegetación (${pct}%)...`);
+      },
+      6080000
+    );
+    const arbolesBuffer = await arbolesResponse.arrayBuffer();
 
     // Guardar en la Cache API local del navegador (persistencia en disco)
     try {
@@ -183,7 +201,10 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
       await cache.put(BIN_PART2_URL, new Response(bin2Buffer.slice(0), {
         headers: { 'Content-Type': 'application/octet-stream' }
       }));
-      console.log('⚡ Modelo UniMap (partes 1 y 2) guardado con éxito en Cache API.');
+      await cache.put(ARBOLES_GLB_URL, new Response(arbolesBuffer.slice(0), {
+        headers: { 'Content-Type': 'model/gltf-binary' }
+      }));
+      console.log('⚡ Modelo UniMap y vegetación guardados con éxito en Cache API.');
     } catch (cacheErr) {
       console.warn('Aviso guardando en Cache API:', cacheErr.message);
     }
@@ -192,6 +213,7 @@ export async function prepararCacheThreeJS(onProgreso = () => {}) {
     inyectarEnThreeCache(GLTF_URL, gltfText);
     inyectarEnThreeCache(BIN_PART1_URL, bin1Buffer);
     inyectarEnThreeCache(BIN_PART2_URL, bin2Buffer);
+    inyectarEnThreeCache(ARBOLES_GLB_URL, arbolesBuffer);
 
     if (onProgreso) onProgreso(100, 'Descarga y caché completados');
     return { desdeCache: false, exito: true };

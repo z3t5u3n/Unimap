@@ -46,7 +46,7 @@ const POI_ENTRADA_COORDS = {
   initialPitch: 1.5   // Inclinación visual natural
 };
 
-const SETTINGS_VERSION = 'unimap_v10_tree_density_fog_culling_2048_shadows';
+const SETTINGS_VERSION = 'unimap_v12_empties_vegetacion_frustum_culling';
 
 // Calcula dinámicamente la distancia máxima de corte de la cámara (Far Plane)
 // A niebla máxima (50.0 / 0.0050), camera.far se recorta a 180m (140m en móvil) descartando la geometría oculta.
@@ -372,7 +372,11 @@ export default function VisorCampus3D({
     let instancedTreesGroup = null;
     const instancedMeshesData = [];
     const lastCullCamPos = new THREE.Vector3(-9999, -9999, -9999);
+    const lastCullCamRot = new THREE.Quaternion();
     const _zeroMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
+    const _frustum = new THREE.Frustum();
+    const _projScreenMatrix = new THREE.Matrix4();
+    const _tempSphere = new THREE.Sphere(new THREE.Vector3(), 12.0);
     const markerGroup = new THREE.Group();
     scene.add(markerGroup);
 
@@ -1577,7 +1581,7 @@ export default function VisorCampus3D({
       }
     };
 
-    // Filtra en tiempo real los árboles visibles según la densidad elegida por el usuario
+    // Filtra en tiempo real los árboles visibles según la visión de la cámara (Frustum Culling) y distancia/niebla
     const actualizarVisibilidadVegetacion = (forzar = false) => {
       if (!instancedTreesGroup || instancedMeshesData.length === 0) return;
       const modoVeg = cfg.densidadVegetacion || 'cercana';
@@ -1590,15 +1594,24 @@ export default function VisorCampus3D({
       instancedTreesGroup.visible = true;
       let maxTreeDist;
       if (modoVeg === 'cercana') {
-        maxTreeDist = 45; // Solo los 3 a 5 árboles más próximos en un radio de 45m
+        maxTreeDist = 70; // Radio cercano de visión (~5 a 15 árboles)
       } else if (modoVeg === 'media') {
-        maxTreeDist = 100; // Radio medio (~100m)
+        maxTreeDist = 135; // Radio medio (~135m)
       } else {
-        maxTreeDist = esMovil ? 140 : 240; // Todos los árboles dentro del alcance del campus
+        maxTreeDist = esMovil ? 190 : 360; // Todos los árboles del campus
+      }
+
+      // Si la niebla está activa, limitar maxTreeDist al límite de la niebla
+      if (scene.fog && scene.fog.far) {
+        maxTreeDist = Math.min(maxTreeDist, scene.fog.far + 20);
       }
 
       const camPos = camera.position;
       const maxTreeDistSq = maxTreeDist * maxTreeDist;
+
+      // Calcular el Frustum visual de la cámara en este instante
+      _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      _frustum.setFromProjectionMatrix(_projScreenMatrix);
 
       for (let g = 0; g < instancedMeshesData.length; g++) {
         const data = instancedMeshesData[g];
@@ -1608,7 +1621,17 @@ export default function VisorCampus3D({
           const dx = camPos.x - p.x;
           const dz = camPos.z - p.z;
           const dSq = dx * dx + dz * dz;
-          const isVisible = dSq <= maxTreeDistSq ? 1 : 0;
+
+          let isVisible = 0;
+          if (dSq <= maxTreeDistSq) {
+            // Verificar si el árbol está dentro del campo de visión de la cámara (cono visual)
+            _tempSphere.center.copy(p);
+            _tempSphere.center.y += 6.0; // Centro en el volumen de la copa
+            if (_frustum.intersectsSphere(_tempSphere)) {
+              isVisible = 1;
+            }
+          }
+
           if (forzar || data.visibleStates[i] !== isVisible) {
             data.visibleStates[i] = isVisible;
             data.instancedMesh.setMatrixAt(i, isVisible ? data.origMatrices[i] : _zeroMatrix);
@@ -1844,27 +1867,36 @@ export default function VisorCampus3D({
           });
 
           // ------------------------------------------------------------------
-          // OPTIMIZACIÓN INSTANCED MESH PARA ÁRBOLES Y VEGETACIÓN
-          // Convierte todos los nuevos árboles (No_LowPoly Tree, LowPoly Tree, No_bush, etc.) en InstancedMesh
+          // VEGETACIÓN DINÁMICA POR EMPTIES CON MODELOS ARBOLES GLB
           // ------------------------------------------------------------------
           model.updateMatrixWorld(true);
-          const vegMeshesByGroup = new Map();
+
+          // Recolectar todos los Empties de árboles agrupados por tipo
+          const emptiesPorTipo = {
+            Arbol1001: [],
+            Arbol2: [],
+            Arbol3: [],
+            Arbol4: [],
+            Arbol_Pal: [],
+            Arbol_PalG: []
+          };
 
           model.traverse((child) => {
-            if (child.isMesh) {
-              const name = (child.name || '').toLowerCase();
-              const parentName = child.parent ? (child.parent.name || '').toLowerCase() : '';
-              const isVeg = /(tree|arbol|bush|planta|vegeta|grass|flower|sunflower|rock|palm)/i.test(name) ||
-                            /(tree|arbol|bush|planta|vegeta|grass|flower|sunflower|rock|palm)/i.test(parentName);
-              if (isVeg) {
-                const matKey = Array.isArray(child.material) 
-                  ? child.material.map((m) => m.uuid).join('_') 
-                  : child.material.uuid;
-                const groupKey = `${child.geometry.uuid}_${matKey}`;
-                if (!vegMeshesByGroup.has(groupKey)) {
-                  vegMeshesByGroup.set(groupKey, []);
-                }
-                vegMeshesByGroup.get(groupKey).push(child);
+            const n = (child.name || '').toLowerCase();
+            if (n.startsWith('empty_arbol') || n.includes('empty_arbol')) {
+              child.updateMatrixWorld(true);
+              if (n.includes('empty_arbol_palg')) {
+                emptiesPorTipo.Arbol_PalG.push(child);
+              } else if (n.includes('empty_arbol_pal')) {
+                emptiesPorTipo.Arbol_Pal.push(child);
+              } else if (n.includes('empty_arbol1')) {
+                emptiesPorTipo.Arbol1001.push(child);
+              } else if (n.includes('empty_arbol2')) {
+                emptiesPorTipo.Arbol2.push(child);
+              } else if (n.includes('empty_arbol3')) {
+                emptiesPorTipo.Arbol3.push(child);
+              } else if (n.includes('empty_arbol4')) {
+                emptiesPorTipo.Arbol4.push(child);
               }
             }
           });
@@ -1872,57 +1904,109 @@ export default function VisorCampus3D({
           instancedTreesGroup = new THREE.Group();
           instancedTreesGroup.name = 'InstancedVegetationGroup';
 
-          let totalVegetacionInstanciada = 0;
-          let drawCallsAhorrados = 0;
+          // Cargar el paquete de modelos de árboles optimizados
+          loader.load(
+            '/Modelo3D/modelosArboles.glb',
+            (gltfArboles) => {
+              const sceneArboles = gltfArboles.scene;
+              let totalInstanciados = 0;
 
-          vegMeshesByGroup.forEach((meshList) => {
-            if (meshList.length >= 2) {
-              const firstMesh = meshList[0];
-              const instancedMesh = new THREE.InstancedMesh(
-                firstMesh.geometry,
-                firstMesh.material,
-                meshList.length
-              );
-              instancedMesh.name = `Instanced_${firstMesh.name || 'Veg'}_x${meshList.length}`;
-              instancedMesh.castShadow = false; // Desactivar sombras en hojas para máxima fluidez y evitar saturar el shadow map
-              instancedMesh.receiveShadow = true;
-              instancedMesh.frustumCulled = true;
+              Object.keys(emptiesPorTipo).forEach((tipo) => {
+                const listaEmpties = emptiesPorTipo[tipo];
+                if (!listaEmpties || listaEmpties.length === 0) return;
 
-              const origMatrices = [];
-              const positions = [];
-              const visibleStates = new Uint8Array(meshList.length);
-              const dummyPos = new THREE.Vector3();
+                const grupoArbol = sceneArboles.getObjectByName(tipo);
+                if (!grupoArbol) {
+                  console.warn(`[Vegetación 3D] No se encontró el modelo para ${tipo} en modelosArboles.glb`);
+                  return;
+                }
 
-              meshList.forEach((mesh, index) => {
-                mesh.updateMatrixWorld(true);
-                const mat = mesh.matrixWorld.clone();
-                instancedMesh.setMatrixAt(index, mat);
-                origMatrices.push(mat);
-                dummyPos.setFromMatrixPosition(mat);
-                positions.push(dummyPos.clone());
-                visibleStates[index] = 1;
-                mesh.visible = false;
+                // Resetear transformaciones para calcular el bounding box centrado en su base
+                grupoArbol.position.set(0, 0, 0);
+                grupoArbol.rotation.set(0, 0, 0);
+                grupoArbol.updateMatrixWorld(true);
+
+                const box = new THREE.Box3().setFromObject(grupoArbol);
+                const center = new THREE.Vector3();
+                box.getCenter(center);
+                const offsetX = -center.x;
+                const offsetY = -box.min.y; // Elevar el pie del tronco a ras de suelo
+                const offsetZ = -center.z;
+
+                const mallasArbol = [];
+                grupoArbol.traverse((c) => {
+                  if (c.isMesh) {
+                    mallasArbol.push(c);
+                  }
+                });
+
+                if (mallasArbol.length === 0) return;
+
+                const geometriasCentradas = mallasArbol.map((m) => {
+                  const geom = m.geometry.clone();
+                  geom.translate(offsetX, offsetY, offsetZ);
+                  geom.computeBoundingBox();
+                  geom.computeBoundingSphere();
+                  return geom;
+                });
+
+                const instancedMeshesDeEsteArbol = mallasArbol.map((m, idx) => {
+                  const im = new THREE.InstancedMesh(
+                    geometriasCentradas[idx],
+                    m.material,
+                    listaEmpties.length
+                  );
+                  im.name = `Instanced_${tipo}_part${idx}_x${listaEmpties.length}`;
+                  im.castShadow = false;
+                  im.receiveShadow = true;
+                  im.frustumCulled = false;
+                  instancedTreesGroup.add(im);
+                  return im;
+                });
+
+                const origMatrices = [];
+                const positions = [];
+                const visibleStates = new Uint8Array(listaEmpties.length);
+                const dummyPos = new THREE.Vector3();
+
+                listaEmpties.forEach((empty, index) => {
+                  empty.updateMatrixWorld(true);
+                  const mat = empty.matrixWorld.clone();
+                  dummyPos.setFromMatrixPosition(mat);
+                  positions.push(dummyPos.clone());
+                  origMatrices.push(mat);
+                  visibleStates[index] = 1;
+
+                  instancedMeshesDeEsteArbol.forEach((im) => {
+                    im.setMatrixAt(index, mat);
+                  });
+                });
+
+                instancedMeshesDeEsteArbol.forEach((im) => {
+                  im.instanceMatrix.needsUpdate = true;
+                  im.computeBoundingSphere();
+
+                  instancedMeshesData.push({
+                    instancedMesh: im,
+                    origMatrices,
+                    positions,
+                    visibleStates,
+                    count: listaEmpties.length
+                  });
+                });
+
+                totalInstanciados += listaEmpties.length;
               });
 
-              instancedMesh.instanceMatrix.needsUpdate = true;
-              instancedMesh.computeBoundingSphere();
-              instancedTreesGroup.add(instancedMesh);
-              totalVegetacionInstanciada += meshList.length;
-              drawCallsAhorrados += (meshList.length - 1);
-
-              instancedMeshesData.push({
-                instancedMesh,
-                origMatrices,
-                positions,
-                visibleStates,
-                count: meshList.length
-              });
+              scene.add(instancedTreesGroup);
+              actualizarVisibilidadVegetacion(true);
+              console.log(`🌲 Vegetación Dinámica Activa: ${totalInstanciados} árboles instanciados en 106 Empties con Frustum Culling.`);
+            },
+            undefined,
+            (err) => {
+              console.error('Error cargando modelosArboles.glb:', err);
             }
-          });
-
-          scene.add(instancedTreesGroup);
-          actualizarVisibilidadVegetacion(true);
-          console.log(`🌲 InstancedMesh: ${totalVegetacionInstanciada} árboles y elementos de vegetación agrupados en instancias. ¡Ahorrados ${drawCallsAhorrados} draw calls!`);
+          );
 
           // Asegurar que todos los edificios, aulas y elementos del campus estén 100% visibles.
           // Three.js aplica Frustum Culling automático en GPU sin ocultar edificios enteros.
@@ -2252,11 +2336,13 @@ export default function VisorCampus3D({
         ringMesh.scale.set(scaleRing, scaleRing, 1);
       }
 
-      // Renderizado dinámico de mallas de vegetación según distancia y modo seleccionado
+      // Renderizado dinámico de mallas de vegetación según visión de la cámara (Frustum Culling) y distancia
       if (instancedMeshesData.length > 0) {
         const camPos = camera.position;
-        if (camPos.distanceToSquared(lastCullCamPos) >= 9.0) {
+        const camRot = camera.quaternion;
+        if (camPos.distanceToSquared(lastCullCamPos) >= 2.25 || camRot.angleTo(lastCullCamRot) >= 0.05) {
           lastCullCamPos.copy(camPos);
+          lastCullCamRot.copy(camRot);
           actualizarVisibilidadVegetacion(false);
         }
       }
