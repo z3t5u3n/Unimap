@@ -287,9 +287,9 @@ export default function VisorCampus3D({
       depth: true
     });
     renderer.setSize(width, height);
-    // Calibración de DPR para nitidez Retina/AMOLED a 60 FPS: 1.5x en móvil, 1.75x en PC
+    // Calibración de DPR optimizada para 60 FPS fluidos: 1.15x en móvil, 1.75x en PC
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-    const maxDPR = esMovil ? Math.min(dpr, 1.5) : Math.min(dpr, 1.75);
+    const maxDPR = esMovil ? Math.min(dpr, 1.15) : Math.min(dpr, 1.75);
     renderer.setPixelRatio(maxDPR);
     // Sombras dinámicas calibradas según configuración
     renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
@@ -1864,14 +1864,15 @@ export default function VisorCampus3D({
                 mats.forEach((mat) => {
                   const matName = (mat.name || '').toLowerCase();
 
-                  // Calibración de cristales y vidrios: evitar cuadros negros y artefactos de z-buffer
+                  // Paso 3: Vidrio translúcido de alta velocidad PBR (elimina el pase de renderizado pesado de transmisión)
                   if (matName.includes('vidrio') || matName.includes('cristal') || matName.includes('glass') || (mat.transmission !== undefined && mat.transmission > 0)) {
-                    mat.depthWrite = false;
+                    mat.transmission = 0; // Desactiva la copia del buffer de pantalla completo (ahorro masivo de GPU)
                     mat.transparent = true;
+                    mat.opacity = 0.40; // Transparencia cristalina limpia
+                    mat.depthWrite = false;
+                    mat.roughness = 0.08;
+                    mat.metalness = 0.15;
                     child.castShadow = false;
-                    if (mat.roughness !== undefined && mat.roughness < 0.04) {
-                      mat.roughness = 0.04;
-                    }
                   }
 
                   // Corrección de materiales de palmeras y rocas si vienen en blanco del glTF
@@ -2558,7 +2559,7 @@ export default function VisorCampus3D({
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
       const curDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-      const effDPR = esMovil ? Math.min(curDPR, 1.5) : Math.min(curDPR, 1.75);
+      const effDPR = esMovil ? Math.min(curDPR, 1.15) : Math.min(curDPR, 1.75);
       renderer.setPixelRatio(effDPR);
       if (composer) {
         composer.setPixelRatio(effDPR);
