@@ -918,18 +918,24 @@ export default function VisorCampus3D({
             ? { x: POI_ENTRADA_COORDS.x, y: 1.2, z: POI_ENTRADA_COORDS.z }
             : targetPlace;
 
-        // Si el destino no tiene coordenadas pre-calculadas, consultar su World Position en el modelo 3D
-        if ((targetPos.x === undefined || targetPos.z === undefined) && targetPlace.meshName && sceneModel) {
+        // Si el destino no tiene coordenadas pre-calculadas o difieren del modelo 3D, consultar su World Position en el modelo 3D
+        if (targetPlace.meshName && sceneModel) {
           const obj = sceneModel.getObjectByName(targetPlace.meshName);
           if (obj) {
             const worldPos = new THREE.Vector3();
             obj.getWorldPosition(worldPos);
-            targetPos = {
-              ...targetPlace,
-              x: worldPos.x,
-              y: worldPos.y,
-              z: worldPos.z
-            };
+            if (
+              targetPos.x === undefined ||
+              targetPos.z === undefined ||
+              Math.hypot(targetPos.x - worldPos.x, targetPos.z - worldPos.z) > 10.0
+            ) {
+              targetPos = {
+                ...targetPlace,
+                x: worldPos.x,
+                y: worldPos.y,
+                z: worldPos.z
+              };
+            }
           }
         }
 
@@ -1109,6 +1115,17 @@ export default function VisorCampus3D({
 
       camera.position.set(punto.x, punto.y, punto.z);
       prevCameraPos.copy(camera.position);
+
+      const resolvedNodeId = punto.nodeId !== undefined
+        ? punto.nodeId
+        : (poiGraphService.findNearestNode(punto.x, punto.y, punto.z)?.id ?? null);
+      stepState.currentCameraNodeId = resolvedNodeId;
+      stepState.currentArrowNodeId = null;
+      if (resolvedNodeId !== null) {
+        const nodeObj = poiGraphService.getNode(resolvedNodeId);
+        if (nodeObj) setNodoActualCamara(nodeObj.name);
+      }
+
       currentYaw = targetYaw = punto.yaw !== undefined ? punto.yaw : currentYaw;
       currentPitch = targetPitch = punto.pitch !== undefined ? punto.pitch : 0;
       orbitState.targetFOV = cfg.fovBase || 60;
@@ -2196,6 +2213,14 @@ export default function VisorCampus3D({
             camera.position.set(POI_ENTRADA_COORDS.x, POI_ENTRADA_COORDS.y, POI_ENTRADA_COORDS.z);
           }
           prevCameraPos.copy(camera.position);
+
+          const initNode = puntoAct?.nodeId !== undefined
+            ? poiGraphService.getNode(puntoAct.nodeId)
+            : poiGraphService.findNearestNode(camera.position.x, camera.position.y, camera.position.z);
+          if (initNode) {
+            stepState.currentCameraNodeId = initNode.id;
+            setNodoActualCamara(initNode.name);
+          }
 
           actualizarOrientacionCamara(1.0);
           camera.updateMatrixWorld(true);

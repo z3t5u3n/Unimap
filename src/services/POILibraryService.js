@@ -274,6 +274,7 @@ export class POILibraryService {
       place.displayName = item.nombre;
       place.category = 'Edificio Principal';
       place.building = item.nombre;
+      if (item.nearestNodeId !== undefined) place.nearestNodeId = item.nearestNodeId;
       list.push(place);
     }
     for (const item of LUGARES_RECORRIBLES) {

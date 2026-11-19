@@ -345,13 +345,21 @@ export class POIGraphService {
    * y finaliza en el POI más cercano al destino (sin atravesar muros ni entrar al Empty).
    */
   getPathBetweenPositions(startPos, targetPos) {
-    const startNode = (startPos && startPos.startNodeId !== undefined && startPos.startNodeId >= 0)
+    let startNode = (startPos && startPos.startNodeId !== undefined && startPos.startNodeId >= 0)
       ? this.getNode(startPos.startNodeId)
-      : this.findNearestNode(startPos.x, startPos.y, startPos.z);
+      : null;
 
-    const targetNode = (targetPos && targetPos.nearestNodeId !== undefined && targetPos.nearestNodeId >= 0)
+    if (!startNode || (startPos.x !== undefined && Math.hypot(startNode.x - startPos.x, startNode.z - startPos.z) > 4.5)) {
+      startNode = this.findNearestNode(startPos.x, startPos.y, startPos.z);
+    }
+
+    let targetNode = (targetPos && targetPos.nearestNodeId !== undefined && targetPos.nearestNodeId >= 0)
       ? this.getNode(targetPos.nearestNodeId)
-      : this.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
+      : null;
+
+    if (!targetNode || (targetPos.x !== undefined && Math.hypot(targetNode.x - targetPos.x, targetNode.z - targetPos.z) > 4.5)) {
+      targetNode = this.findNearestNode(targetPos.x, targetPos.y, targetPos.z);
+    }
 
     if (!startNode || !targetNode) return [];
 

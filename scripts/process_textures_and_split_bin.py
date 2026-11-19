@@ -242,12 +242,13 @@ edificios_principales = [
         "nombre": "Cafetería Nueva",
         "icono": "☕",
         "meshName": "Empty-Cafeteria Nueva",
-        "x": -109.11,
-        "y": 1.5,
-        "z": -134.78,
-        "yaw": 12.0,
-        "pitch": -0.2,
+        "x": -31.1,
+        "y": 2.5,
+        "z": -73.03,
+        "yaw": 0.0,
+        "pitch": 0.0,
         "fov": 48,
+        "nearestNodeId": 2932,
         "descripcion": "Cafetería y Zona de Alimentación"
     }
 ]
