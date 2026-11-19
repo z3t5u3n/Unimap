@@ -5,7 +5,7 @@ export const EDIFICIOS_PRINCIPALES = [
   {
     "id": "bloque_abc",
     "nombre": "Bloque A - B - C",
-    "icono": "🏢",
+    "icono": "\ud83c\udfe2",
     "meshName": "Empty-Bloque-A-B-C",
     "x": -58.16,
     "y": 1.2,
@@ -13,13 +13,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": 157.8,
     "pitch": -0.3,
     "fov": 52,
-    "nearestNodeId": 1892,
-    "descripcion": "Capilla, Biblioteca, Sala Directores, Administración y Salones A, B, C"
+    "descripcion": "Capilla, Biblioteca, Sala Directores, Administraci\u00f3n y Salones A, B, C"
   },
   {
     "id": "bloque_d",
     "nombre": "Bloque D",
-    "icono": "🏢",
+    "icono": "\ud83c\udfe2",
     "meshName": "Empty-Bloque-D",
     "x": -50.86,
     "y": 1.2,
@@ -27,13 +26,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": -141.9,
     "pitch": -0.3,
     "fov": 52,
-    "nearestNodeId": 192,
     "descripcion": "Salones D101 a D111 y D201 a D206"
   },
   {
     "id": "bloque_e",
     "nombre": "Bloque E",
-    "icono": "🏢",
+    "icono": "\ud83c\udfe2",
     "meshName": "Empty-Bloque-E",
     "x": -19.83,
     "y": 0.7,
@@ -41,13 +39,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": 141.4,
     "pitch": -0.4,
     "fov": 50,
-    "nearestNodeId": 1748,
     "descripcion": "Auditorio, Decanatura y Salones E1 a E8"
   },
   {
     "id": "biblioteca",
     "nombre": "Biblioteca Central",
-    "icono": "📚",
+    "icono": "\ud83d\udcda",
     "meshName": "Empty-Biblioteca-C p1",
     "x": -124.31,
     "y": 2.5,
@@ -55,13 +52,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": -100.9,
     "pitch": -0.6,
     "fov": 48,
-    "nearestNodeId": 1240,
     "descripcion": "Biblioteca General - Bloque C Piso 1"
   },
   {
     "id": "coliseo",
     "nombre": "Coliseo ITFIP",
-    "icono": "🏟️",
+    "icono": "\ud83c\udfdf\ufe0f",
     "meshName": "Empty-Coliseo",
     "x": -37.4,
     "y": 1.2,
@@ -69,13 +65,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": 164.4,
     "pitch": -0.2,
     "fov": 48,
-    "nearestNodeId": 486,
     "descripcion": "Coliseo Cubierto y Escenarios Deportivos"
   },
   {
     "id": "gym",
     "nombre": "Gimnasio (GYM)",
-    "icono": "🏋️",
+    "icono": "\ud83c\udfcb\ufe0f",
     "meshName": "Empty-GYM",
     "x": -53.5,
     "y": 1.2,
@@ -83,13 +78,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": 154.4,
     "pitch": -0.2,
     "fov": 48,
-    "nearestNodeId": 527,
     "descripcion": "Gimnasio Universitario ITFIP"
   },
   {
     "id": "canchas",
     "nombre": "Canchas Deportivas",
-    "icono": "⚽",
+    "icono": "\u26bd",
     "meshName": "Mesh_Canchas-1",
     "x": -17.87,
     "y": 1.43,
@@ -97,13 +91,12 @@ export const EDIFICIOS_PRINCIPALES = [
     "yaw": 52.2,
     "pitch": -0.4,
     "fov": 50,
-    "nearestNodeId": 2655,
-    "descripcion": "Canchas Múltiples de Fútbol y Baloncesto"
+    "descripcion": "Canchas M\u00faltiples de F\u00fatbol y Baloncesto"
   },
   {
     "id": "cafeteria_nueva",
-    "nombre": "Cafetería Nueva",
-    "icono": "☕",
+    "nombre": "Cafeter\u00eda Nueva",
+    "icono": "\u2615",
     "meshName": "Empty-Cafeteria Nueva",
     "x": -31.1,
     "y": 2.5,
@@ -112,7 +105,7 @@ export const EDIFICIOS_PRINCIPALES = [
     "pitch": 0.0,
     "fov": 48,
     "nearestNodeId": 2932,
-    "descripcion": "Cafetería y Zona de Alimentación"
+    "descripcion": "Cafeter\u00eda y Zona de Alimentaci\u00f3n"
   }
 ];
 
