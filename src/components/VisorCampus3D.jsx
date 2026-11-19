@@ -280,19 +280,19 @@ export default function VisorCampus3D({
 
     // 3. RENDERIZADOR WebGL CON CONFIGURACIÓN DE ALTA NITIDEZ Y PBR (ACES FILMIC)
     const renderer = new THREE.WebGLRenderer({
-      antialias: !esMovil, // Hardware MSAA desactivado en móvil para duplicar framerate
+      antialias: true, // Hardware MSAA activado universalmente (suaviza bordes en palmeras, árboles y edificios)
       powerPreference: 'high-performance',
-      precision: esMovil ? 'mediump' : 'highp',
+      precision: 'highp', // 32 bits de alta precisión en todas las plataformas (elimina cuadros negros en Android)
       stencil: false,
       depth: true
     });
     renderer.setSize(width, height);
-    // Calibración de DPR para 60 FPS estables: 1.0x en móvil (pantallas OLED 400+ ppi ya son ultra nítidas), 1.75x en PC
+    // Calibración de DPR para nitidez Retina/AMOLED a 60 FPS: 1.5x en móvil, 1.75x en PC
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-    const maxDPR = esMovil ? Math.min(dpr, 1.0) : Math.min(dpr, 1.75);
+    const maxDPR = esMovil ? Math.min(dpr, 1.5) : Math.min(dpr, 1.75);
     renderer.setPixelRatio(maxDPR);
-    // Sombras desactivadas en móvil para evitar sobrecarga en fragment shaders
-    renderer.shadowMap.enabled = !esMovil && cfg.sombrasHabilitadas !== false;
+    // Sombras dinámicas calibradas según configuración
+    renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; // Algoritmo ACES de Hollywood y Blender
@@ -1719,7 +1719,9 @@ export default function VisorCampus3D({
           renderer.shadowMap.enabled = valor;
           scene.traverse((c) => {
             if (c.isMesh) {
-              c.castShadow = valor;
+              const mName = (c.material?.name || '').toLowerCase();
+              const esVidrio = mName.includes('vidrio') || mName.includes('cristal') || mName.includes('glass') || (c.material?.transmission > 0);
+              c.castShadow = esVidrio ? false : valor;
               c.receiveShadow = valor;
             }
           });
@@ -1854,13 +1856,24 @@ export default function VisorCampus3D({
           model.traverse((child) => {
             if (child.isMesh) {
               child.frustumCulled = true;
-              child.castShadow = !esMovil;
+              child.castShadow = cfg.sombrasHabilitadas !== false;
               child.receiveShadow = true;
 
               if (child.material) {
                 const mats = Array.isArray(child.material) ? child.material : [child.material];
                 mats.forEach((mat) => {
                   const matName = (mat.name || '').toLowerCase();
+
+                  // Calibración de cristales y vidrios: evitar cuadros negros y artefactos de z-buffer
+                  if (matName.includes('vidrio') || matName.includes('cristal') || matName.includes('glass') || (mat.transmission !== undefined && mat.transmission > 0)) {
+                    mat.depthWrite = false;
+                    mat.transparent = true;
+                    child.castShadow = false;
+                    if (mat.roughness !== undefined && mat.roughness < 0.04) {
+                      mat.roughness = 0.04;
+                    }
+                  }
+
                   // Corrección de materiales de palmeras y rocas si vienen en blanco del glTF
                   if (matName.includes('trunk.001')) {
                     if (mat.color && mat.color.r > 0.85 && mat.color.g > 0.85 && mat.color.b > 0.85) {
@@ -2545,7 +2558,7 @@ export default function VisorCampus3D({
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
       const curDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
-      const effDPR = esMovil ? Math.min(curDPR, 1.0) : Math.min(curDPR, 1.75);
+      const effDPR = esMovil ? Math.min(curDPR, 1.5) : Math.min(curDPR, 1.75);
       renderer.setPixelRatio(effDPR);
       if (composer) {
         composer.setPixelRatio(effDPR);
