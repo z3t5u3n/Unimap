@@ -10,6 +10,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {
   Compass,
   Loader2,
@@ -291,9 +292,11 @@ export default function VisorCampus3D({
     const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
     const maxDPR = esMovil ? Math.min(dpr, 1.15) : Math.min(dpr, 1.75);
     renderer.setPixelRatio(maxDPR);
-    // Sombras dinámicas calibradas según configuración
+    // Sombras dinámicas congeladas (Paso 1 alternativo: se calculan una sola vez al cargar o al mover el sol)
     renderer.shadowMap.enabled = cfg.sombrasHabilitadas !== false;
     renderer.shadowMap.type = (cfg.sombrasSuaves && !esMovil) ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
+    renderer.shadowMap.autoUpdate = false;
+    renderer.shadowMap.needsUpdate = true;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; // Algoritmo ACES de Hollywood y Blender
     renderer.toneMappingExposure = cfg.exposicion ?? 0.40;
@@ -1713,6 +1716,7 @@ export default function VisorCampus3D({
           }
           sunLight.position.set(camera.position.x + sunOffset.x, sunOffset.y, camera.position.z + sunOffset.z);
           skyUniforms['sunPosition'].value.copy(sunOffset).normalize();
+          renderer.shadowMap.needsUpdate = true;
           break;
         case 'sombrasHabilitadas':
           sunLight.castShadow = valor;
@@ -1725,6 +1729,7 @@ export default function VisorCampus3D({
               c.receiveShadow = valor;
             }
           });
+          renderer.shadowMap.needsUpdate = true;
           break;
         case 'calidadSombras':
           sunLight.shadow.mapSize.set(valor, valor);
@@ -1842,9 +1847,104 @@ export default function VisorCampus3D({
       hemiLight.intensity = claro ? (curr.luzHemisfericaIntensidad ?? 0.0) : 0.35;
       ambientLight.intensity = claro ? (curr.luzAmbientalIntensidad ?? 0.0) : 0.15;
     };
-    window.addEventListener('unimap_theme_changed', handleThemeChange);
+    // 9. FUSIÓN AUTOMÁTICA DE MALLAS ESTÁTICAS EN MEMORIA (BATCHING)
+    // Agrupa mallas que comparten material y las fusiona para reducir Draw Calls de 160+ a ~20 sin tocar Blender
+    const fusionarMallasPorMaterial = (modelRoot) => {
+      modelRoot.updateMatrixWorld(true);
 
-    // 9. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
+      const gruposPorMaterial = new Map();
+      const mallasOriginales = [];
+
+      modelRoot.traverse((child) => {
+        if (child.isMesh && child.geometry) {
+          const mat = child.material;
+          if (!mat) return;
+
+          // No fusionar mallas transparentes para respetar orden de renderizado
+          if (mat.transparent || (mat.opacity !== undefined && mat.opacity < 0.99)) return;
+
+          // Excluir mallas de sistema, rutas o colisionadores auxiliares
+          const n = (child.name || '').toLowerCase();
+          if (n.startsWith('no_') || n.includes('arrow') || n.includes('hitbox') || n.includes('tree') || n.includes('arbol') || n.includes('codiller') || n.includes('collider')) {
+            return;
+          }
+
+          mallasOriginales.push(child);
+
+          const claveMat = mat.uuid || mat.name || 'default';
+          if (!gruposPorMaterial.has(claveMat)) {
+            gruposPorMaterial.set(claveMat, {
+              material: mat,
+              geometrias: [],
+              castShadow: child.castShadow,
+              receiveShadow: child.receiveShadow
+            });
+          }
+
+          // Clonar geometría y hornear su transformación en coordenadas mundiales
+          child.updateMatrixWorld(true);
+          const geom = child.geometry.clone();
+          geom.applyMatrix4(child.matrixWorld);
+
+          // Normalizar atributos para evitar que mergeGeometries rechace geometrías con uv2/colors dispares
+          if (geom.attributes.uv2) geom.deleteAttribute('uv2');
+          if (geom.attributes.color) geom.deleteAttribute('color');
+
+          gruposPorMaterial.get(claveMat).geometrias.push(geom);
+        }
+      });
+
+      const mergedGroup = new THREE.Group();
+      mergedGroup.name = 'MergedCampusStaticGroup';
+      let totalFusionadas = 0;
+
+      gruposPorMaterial.forEach((grupo) => {
+        if (grupo.geometrias.length > 1) {
+          try {
+            const mergedGeom = BufferGeometryUtils.mergeGeometries(grupo.geometrias, false);
+            if (mergedGeom) {
+              mergedGeom.computeBoundingBox();
+              mergedGeom.computeBoundingSphere();
+
+              const mergedMesh = new THREE.Mesh(mergedGeom, grupo.material);
+              mergedMesh.name = `Batch_${grupo.material.name || 'Mat'}_x${grupo.geometrias.length}`;
+              mergedMesh.castShadow = grupo.castShadow;
+              mergedMesh.receiveShadow = grupo.receiveShadow;
+              mergedMesh.frustumCulled = true;
+
+              mergedGroup.add(mergedMesh);
+              totalFusionadas += grupo.geometrias.length;
+            } else {
+              grupo.fallo = true;
+            }
+          } catch (err) {
+            console.warn('[Batch 3D] Excepción al fusionar mallas:', err);
+            grupo.fallo = true;
+          }
+        } else {
+          grupo.fallo = true;
+        }
+      });
+
+      if (totalFusionadas > 0) {
+        // Ocultar del renderizador únicamente las mallas originales que se fusionaron
+        mallasOriginales.forEach((m) => {
+          const mat = m.material;
+          const clave = mat ? (mat.uuid || mat.name || 'default') : null;
+          const g = clave ? gruposPorMaterial.get(clave) : null;
+          if (g && !g.fallo) {
+            m.visible = false;
+            m.castShadow = false;
+            m.receiveShadow = false;
+          }
+        });
+
+        modelRoot.add(mergedGroup);
+        console.log(`⚡ [Batch 3D] ${totalFusionadas} mallas estáticas fusionadas en ${mergedGroup.children.length} llamadas de dibujo.`);
+      }
+    };
+
+    // 10. CARGA DEL MODELO 3D (ACELERADA CON CACHE API)
     const loader = new GLTFLoader();
 
     const ejecutarCargaGLTF = () => {
@@ -2173,6 +2273,7 @@ export default function VisorCampus3D({
               actualizarOrientacionCamara(1.0);
               camera.updateMatrixWorld(true);
               actualizarVisibilidadVegetacion(true);
+              renderer.shadowMap.needsUpdate = true;
               console.log(`🌲 Vegetación Dinámica Activa: ${totalInstanciados} árboles instanciados en 106 Empties con materiales calibrados y Frustum Culling.`);
             },
             undefined,
@@ -2200,6 +2301,10 @@ export default function VisorCampus3D({
 
           // Escanear y registrar todos los Empties de destino (idéntico a POILibrary.ScanAndRegisterPlaces en Unity)
           poiLibraryService.scanAndRegisterPlaces(model, poiGraphService);
+
+          // Paso 2 Alternativo: Fusión de mallas estáticas opacas en memoria (Batching automático)
+          fusionarMallasPorMaterial(model);
+          renderer.shadowMap.needsUpdate = true;
 
           let emptyPOI = null;
           model.traverse((child) => {
@@ -2535,10 +2640,11 @@ export default function VisorCampus3D({
       if (sunLight.castShadow) {
         const camX = camera.position.x;
         const camZ = camera.position.z;
-        if (Math.hypot(camX - sunLight.target.position.x, camZ - sunLight.target.position.z) > 8) {
+        if (Math.hypot(camX - sunLight.target.position.x, camZ - sunLight.target.position.z) > 10) {
           sunLight.target.position.set(camX, 0, camZ);
           sunLight.position.set(camX + sunOffset.x, sunOffset.y, camZ + sunOffset.z);
           sunLight.target.updateMatrixWorld();
+          renderer.shadowMap.needsUpdate = true;
         }
       }
 
